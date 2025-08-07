@@ -1,7 +1,7 @@
-import { preset } from '@fyrst/ui/preset';
-// import { Button } from '@fyrst/ui/components';
+import * as preset from '@fyrst/ui/preset';
+import * as components from '@fyrst/ui/components';
 
 export {
     preset,
-    // Button
+    components
 }
