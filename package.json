@@ -1,0 +1,30 @@
+{
+  "name": "@fyrst/ui",
+  "private": true,
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "exports": {
+    "./preset": {
+      "types": "./packages/preset/dist/index.d.ts",
+      "import": "./packages/preset/dist/index.js",
+      "require": "./packages/preset/dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "bun run --filter='packages/*' build",
+    "build:preset": "bun run --filter='@fyrst/design-preset' build",
+    "dev": "bun run --filter='packages/*' dev",
+    "dev:preset": "bun run --filter='@fyrst/design-preset' dev",
+    "test": "bun run --filter='packages/*' test",
+    "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "@fyrst/design-preset",
+    "version": "0.1.5",
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+        "dev": "tsup src/index.ts --format esm,cjs --dts --watch"
+    },
+    "devDependencies": {
+        "@pandacss/dev": "^1.0.1",
+        "@types/bun": "latest",
+        "tsup": "^8.5.0",
+        "typescript": "^5.9.2"
+    },
+    "peerDependencies": {
+        "typescript": "^5.9.2",
+        "@pandacss/dev": "^1.0.1"
+    }
+}
