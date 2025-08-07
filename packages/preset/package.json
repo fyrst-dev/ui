@@ -10,7 +10,7 @@
     ],
     "scripts": {
         "build": "tsup src/index.ts --format esm,cjs --dts --clean",
-        "dev": "tsup src/index.ts --format esm,cjs --dts --watch"
+        "watch": "tsup src/index.ts --format esm,cjs --dts --watch"
     },
     "devDependencies": {
         "@pandacss/dev": "^1.0.1",

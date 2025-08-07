@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@fyrst/design-preset": ["../preset/src/index.ts"]
+    },
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "emitDeclarationOnly": true
+  },
+  "include": [
+    "src/**/*",
+    "styled-system",
+    "styled-system/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ]
+}

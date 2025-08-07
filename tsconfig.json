@@ -10,7 +10,8 @@
     // To be able to import the preset as @fyrst/ui/preset
     "paths": {
       "@fyrst/ui/*": ["./packages/*/src/index.ts"],
-      "@fyrst/design-preset": ["./packages/preset/src/index.ts"]
+      "@fyrst/design-preset": ["./packages/preset/src/index.ts"],
+      "@fyrst/ui-components": ["./packages/components/src/index.ts"]
     },
     // Bundler mode
     "moduleResolution": "bundler",

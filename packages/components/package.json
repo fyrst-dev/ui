@@ -1,0 +1,43 @@
+{
+    "name": "@fyrst/ui-components",
+    "version": "0.1.0",
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        },
+        "./style.css": "./dist/style.css"
+    },
+    "scripts": {
+        "prepare": "panda codegen",
+        "panda:ship": "panda ship --outfile dist/panda.buildinfo.json",
+        "build": "vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
+        "dev": "vite dev",
+        "clean": "rm -rf dist"
+    },
+    "dependencies": {
+        "@fyrst/design-preset": "workspace:*"
+    },
+    "devDependencies": {
+        "@pandacss/dev": "^1.0.1",
+        "@types/bun": "latest",
+        "@vitejs/plugin-vue": "^5.2.0",
+        "typescript": "^5.9.2",
+        "vite": "^6.0.1",
+        "vite-plugin-dts": "^4.5.0",
+        "vue": "^3.5.12",
+        "vue-tsc": "^2.1.10"
+    },
+    "peerDependencies": {
+        "vue": "^3.5.12",
+        "@pandacss/dev": "^1.0.1"
+    }
+}

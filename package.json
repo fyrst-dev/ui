@@ -11,13 +11,19 @@
       "types": "./packages/preset/dist/index.d.ts",
       "import": "./packages/preset/dist/index.js",
       "require": "./packages/preset/dist/index.cjs"
+    },
+    "./components": {
+      "types": "./packages/components/dist/index.d.ts",
+      "import": "./packages/components/dist/index.js",
+      "require": "./packages/components/dist/index.cjs"
     }
   },
   "scripts": {
-    "build": "bun run --filter='packages/*' build",
+    "build": "bun run build:preset && bun run build:components",
     "build:preset": "bun run --filter='@fyrst/design-preset' build",
-    "dev": "bun run --filter='packages/*' dev",
-    "dev:preset": "bun run --filter='@fyrst/design-preset' dev",
+    "build:components": "bun run --filter='@fyrst/ui-components' build",
+    "watch:preset": "bun run --filter='@fyrst/design-preset' watch",
+    "dev:components": "bun run --filter='@fyrst/ui-components' dev",
     "test": "bun run --filter='packages/*' test",
     "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist"
   },
