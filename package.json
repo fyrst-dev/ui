@@ -16,14 +16,21 @@
       "types": "./packages/components/dist/index.d.ts",
       "import": "./packages/components/dist/index.js",
       "require": "./packages/components/dist/index.cjs"
+    },
+    "./nuxt": {
+      "types": "./packages/nuxt/dist/types.d.mts",
+      "import": "./packages/nuxt/dist/module.mjs"
     }
   },
   "scripts": {
-    "build": "bun run build:preset && bun run build:components",
+    "build": "bun run build:preset && bun run build:components && bun run build:nuxt",
     "build:preset": "bun run --filter='@fyrst/design-preset' build",
     "build:components": "bun run --filter='@fyrst/ui-components' build",
+    "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' prepack",
     "watch:preset": "bun run --filter='@fyrst/design-preset' watch",
     "dev:components": "bun run --filter='@fyrst/ui-components' dev",
+    "dev:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev",
+    "dev:nuxt:prepare": "bun run --filter='@fyrst/ui-nuxt' dev:prepare",
     "test": "bun run --filter='packages/*' test",
     "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist"
   },
