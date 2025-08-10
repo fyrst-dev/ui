@@ -53,5 +53,6 @@ const preset = definePreset({
 })
 
 export {
-    preset
+    preset,
+    breakpoints
 } 

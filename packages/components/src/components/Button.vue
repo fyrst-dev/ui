@@ -213,7 +213,7 @@ const buttonClass = computed(() => css(
 <template>
     <component 
         :is="tag" 
-        :class="buttonClass"
+        :class="['btn', buttonClass]"
         :type="type"
         :href="props.to"
         :title="props.label"
