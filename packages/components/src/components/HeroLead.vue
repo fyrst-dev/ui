@@ -67,17 +67,20 @@
             alignItems: {
                 start: { 
                     root: { 
-                        alignItems: 'start' 
+                        alignItems: 'start',
+                        textAlign: 'start' 
                     }
                 },
                 center: { 
                     root: { 
-                        alignItems: 'center' 
+                        alignItems: 'center',
+                        textAlign: 'center' 
                     }
                 },
                 end: { 
                     root: { 
-                        alignItems: 'end' 
+                        alignItems: 'end',
+                        textAlign: 'end'
                     }
                 }
             },
