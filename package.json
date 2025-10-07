@@ -26,7 +26,7 @@
     "build": "bun run build:preset && bun run build:components && bun run build:nuxt",
     "build:preset": "bun run --filter='@fyrst/design-preset' build",
     "build:components": "bun run --filter='@fyrst/ui-components' build",
-    "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' prepack",
+    "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev:prepare && bun run --filter='@fyrst/ui-nuxt' dev:build && bun run --filter='@fyrst/ui-nuxt' prepack",
     "watch:preset": "bun run --filter='@fyrst/design-preset' watch",
     "dev:components": "bun run --filter='@fyrst/ui-components' dev",
     "dev:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev",
@@ -35,9 +35,23 @@
     "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@nuxt/devtools": "^2.6.5",
+    "@nuxt/eslint-config": "^1.9.0",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "^4.1.3",
+    "@nuxt/test-utils": "^3.19.2",
+    "@types/node": "latest",
+    "changelogen": "^0.6.2",
+    "eslint": "^9.37.0",
+    "nuxt": "^4.1.3",
+    "vitest": "^3.2.4",
+    "@types/bun": "latest",
+    "@pandacss/dev": "^1.4.1",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.22",
+    "vue-tsc": "^3.1.1"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^5.9.2"
   }
 }
