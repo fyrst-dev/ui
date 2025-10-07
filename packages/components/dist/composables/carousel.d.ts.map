@@ -1,0 +1,1 @@
+{"version":3,"file":"carousel.d.ts","sourceRoot":"","sources":["../../src/composables/carousel.ts"],"names":[],"mappings":"AAAA,OAAO,EAAgD,KAAK,KAAK,EAAE,KAAK,GAAG,EAAE,MAAM,KAAK,CAAA;AAExF;;;;;;;;;;GAUG;AACH,wBAAgB,WAAW,CAAC,KAAK,EAAE;IAAE,UAAU,EAAE,MAAM,GAAG,UAAU,CAAA;CAAE,EAAE,QAAQ,EAAE,GAAG,CAAC,WAAW,GAAG,IAAI,CAAC,EAAE,KAAK,EAAE,KAAK;;;yBA4G1F,UAAU;;;;;;;;;;;;;;;;;;EA+CtC"}
