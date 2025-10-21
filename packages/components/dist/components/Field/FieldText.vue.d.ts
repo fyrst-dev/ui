@@ -15,11 +15,11 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {
 }>, {
     label: string | null;
     disabled: boolean;
+    required: boolean;
     placeholder: string | null;
     modelValue: string | null;
     name: string;
     id: string;
-    required: boolean;
     autocomplete: string | null;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 export default _default;

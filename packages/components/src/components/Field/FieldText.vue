@@ -18,6 +18,7 @@
  * <FieldText label="Username" name="username" required />
  */
 import { sva } from '../../../styled-system/css'
+import FieldLabel from './FieldLabel.vue'
 
 const props = withDefaults(defineProps<{
     label?: string | null
@@ -54,40 +55,33 @@ const fieldStyle = sva({
         root: {
             display: 'flex',
             flexDirection: 'column',
-            gap: 'xs',
-            width: 'full',
-        },
-        label: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: 'xs',
-            paddingX: 'xs',
-            fontSize: 'sm',
-            fontWeight: 'medium',
-            lineHeight: 'none',
-            color: 'neutral',
+            gap: 'xs'
         },
         input: {
             display: 'flex',
             alignItems: 'start',
-            width: 'full',
             minWidth: '200px',
             paddingX: 'lg',
             paddingY: 'sm',
             backgroundColor: 'grey.black',
-            border: '1px solid',
-            borderColor: 'primary',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: 'grey.dusk',
             borderRadius: 'lg',
+            outlineWidth: '3px',
+            outlineColor: 'transparent',
+            outlineOffset: '0px',
+            outlineStyle: 'solid',
             fontSize: 'md',
-            fontWeight: 'medium',
+            fontWeight: '450',
             lineHeight: '1.5',
             color: 'neutral',
-            outline: 'none',
             transition: 'all 300ms',
             _placeholder: {
                 color: 'lucid.600',
             },
             _focus: {
+                outlineColor: 'primary/50',
                 borderColor: 'primary',
             },
             _disabled: {
@@ -96,11 +90,8 @@ const fieldStyle = sva({
             },
             _light: {
                 backgroundColor: 'white',
-                borderColor: 'green.day',
+                borderColor: 'grey.200',
                 color: 'grey.night',
-                _focus: {
-                    borderColor: 'green.day',
-                },
             }
         }
     }
@@ -111,13 +102,18 @@ const classes = fieldStyle()
 
 <template>
     <div :class="classes.root">
-        <label 
+        <FieldLabel 
+            v-if="label" 
+            :label="label"
+            :for="id" 
+            size="sm" />
+        <!-- <label 
             v-if="label" 
             :for="id"
             :class="classes.label"
         >
             {{ label }}
-        </label>
+        </label> -->
         <input
             :id="id"
             :name="name"

@@ -2,5 +2,5 @@
 </script>
 
 <template>
-    This should be the field base
+    Field base
 </template>
