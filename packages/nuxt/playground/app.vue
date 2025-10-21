@@ -1,7 +1,7 @@
 <template>
   <div>
     Nuxt module playground!
-    <FyrstButton>Click me!</FyrstButton>
+    <FyrstField.Text />
   </div>
 </template>
 
