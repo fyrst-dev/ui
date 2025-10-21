@@ -1,7 +1,7 @@
 import Button from "./components/Button.vue"
 import Card from "./components/Card.vue"
 import Carousel from "./components/Carousel.vue"
-import * as Field from "./components/Field"
+import Field from "./components/Field"
 
 export { 
     Button,

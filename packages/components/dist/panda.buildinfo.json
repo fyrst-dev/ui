@@ -136,7 +136,23 @@
       "animationDuration]___[value:1000ms",
       "animationTimingFunction]___[value:linear",
       "animationIterationCount]___[value:infinite",
-      "animationName]___[value:spin"
+      "animationName]___[value:spin",
+      "gap]___[value:xs",
+      "width]___[value:full",
+      "paddingInline]___[value:xs",
+      "fontWeight]___[value:medium",
+      "lineHeight]___[value:none",
+      "minWidth]___[value:200px",
+      "backgroundColor]___[value:grey.black",
+      "border]___[value:1px solid",
+      "borderRadius]___[value:lg",
+      "outline]___[value:none",
+      "color]___[value:lucid.600]___[cond:_placeholder",
+      "borderColor]___[value:primary]___[cond:_focus",
+      "cursor]___[value:not-allowed]___[cond:_disabled",
+      "backgroundColor]___[value:white]___[cond:_light",
+      "borderColor]___[value:green.day]___[cond:_light",
+      "borderColor]___[value:green.day]___[cond:_light<___>_focus"
     ],
     "recipes": {}
   }
