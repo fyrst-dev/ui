@@ -1,4 +1,4 @@
-import * as _pandacss_dev from '@pandacss/dev';
+import * as _pandacss_types from '@pandacss/types';
 
 declare const breakpoints: {
     '3xs': string;
@@ -13,6 +13,6 @@ declare const breakpoints: {
     '4xl': string;
 };
 
-declare const preset: _pandacss_dev.Preset;
+declare const preset: _pandacss_types.Preset;
 
 export { breakpoints, preset };

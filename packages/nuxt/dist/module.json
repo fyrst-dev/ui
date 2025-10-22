@@ -4,6 +4,6 @@
   "version": "1.0.0",
   "builder": {
     "@nuxt/module-builder": "1.0.2",
-    "unbuild": "unknown"
+    "unbuild": "3.6.0"
   }
 }
