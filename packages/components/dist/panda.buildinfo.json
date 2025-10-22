@@ -158,16 +158,12 @@
       "outlineStyle]___[value:solid",
       "fontWeight]___[value:450",
       "color]___[value:lucid.600]___[cond:_placeholder",
+      "borderColor]___[value:grey.400]___[cond:_hover",
       "outlineColor]___[value:primary/50]___[cond:_focus",
-      "borderColor]___[value:primary]___[cond:_focus",
+      "borderColor]___[value:primary !important]___[cond:_focus",
       "backgroundColor]___[value:white]___[cond:_light",
       "borderColor]___[value:grey.200]___[cond:_light",
-      "borderColor]___[value:grey.200]___[cond:_hover",
-      "borderColor]___[value:grey.300]___[cond:_hover",
-      "borderColor]___[value:grey.400]___[cond:_hover",
-      "borderColor]___[value:grey.300]___[cond:_light<___>_hover",
-      "borderColor]___[value:primary]___[cond:_focus<___>_hover",
-      "borderColor]___[value:primary !important]___[cond:_focus"
+      "borderColor]___[value:grey.300]___[cond:_light<___>_hover"
     ],
     "recipes": {}
   }
