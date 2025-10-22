@@ -51,10 +51,10 @@ This is a **Bun-based monorepo** with three core packages:
 
 #### **Semantic Tokens** (`packages/preset/src/tokens/semantic-tokens.ts`)
 - **Theme-aware tokens** with light/dark mode support:
-  - `primary`: pale green (dark) / day green (light)
+  - `primary`: pale brand (dark) / day brand (light)
   - `neutral`: white (dark) / night grey (light)
   - `lucid`: Transparent overlays with opacity variants (50-600)
-- **Named color aliases**: `green.pale`, `green.brand`, `grey.night`, `grey.black`
+- **Named color aliases**: `brand.pale`, `brand.brand`, `grey.night`, `grey.black`
 
 #### **Conditions**
 - Custom `light` condition: `.light &, .light&` (supports both descendant and self-targeting)
@@ -183,7 +183,7 @@ The Nuxt module auto-registers all components with `fyrst` prefix:
 
 ### Styling
 - **Never use inline CSS/SCSS** - always PandaCSS
-- **Use semantic tokens** over raw tokens (prefer `primary` over `green.100`)
+- **Use semantic tokens** over raw tokens (prefer `primary` over `brand.100`)
 - **Leverage conditions** for interactivity and theming: `_hover`, `_active`, `_light`, `_disabled`
 - **Responsive design** with breakpoint objects (base, md, lg, xl, etc.)
 - Reference existing components for token usage patterns

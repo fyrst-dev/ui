@@ -16,7 +16,9 @@
  * <FieldLabel label="Username" for="username" size="lg" />
  * <FieldLabel label="Disabled Field" for="disabled" disabled />
  */
-import { cva } from '../../../styled-system/css'
+import { css } from 'styled-system/css';
+import { cva } from 'styled-system/css';
+import FieldRequired from './FieldRequired.vue'
 
 const props = withDefaults(defineProps<{
     label: string
@@ -85,20 +87,6 @@ const labelStyles = cva({
         :aria-disabled="props.disabled"
     >
         {{ props.label }}
-        <span 
-            v-if="props.required" 
-            class="required-indicator"
-            aria-label="required"
-        >
-            *
-        </span>
+        <FieldRequired v-if="props.required" />
     </label>
 </template>
-
-<style scoped>
-.required-indicator {
-    color: #dc2626; /* Red color for required indicator */
-    margin-left: 2px;
-    font-weight: 600;
-}
-</style>

@@ -4,7 +4,7 @@
       padding: '3xl',
       bgColor: 'grey.black'
     })">
-      <FyrstField.Text />
+      <FyrstField.Text label="E-Mail Adresse"/>
     </div>
     <div :class="['light', css({
       padding: '3xl',

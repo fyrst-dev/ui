@@ -111,8 +111,8 @@ const buttonStyle = cva({
                     backgroundColor: 'grey.black',
                 },
                 _light: {
-                    bg: 'green.pale',
-                    borderColor: 'green.pale',
+                    bg: 'brand.pale',
+                    borderColor: 'brand.pale',
                     color: 'grey.night',
                     '& .btn-icon': {
                         color: 'grey.night',

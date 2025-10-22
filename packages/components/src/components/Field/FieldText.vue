@@ -106,14 +106,8 @@ const classes = fieldStyle()
             v-if="label" 
             :label="label"
             :for="id" 
+            required
             size="sm" />
-        <!-- <label 
-            v-if="label" 
-            :for="id"
-            :class="classes.label"
-        >
-            {{ label }}
-        </label> -->
         <input
             :id="id"
             :name="name"

@@ -19,6 +19,7 @@
     "scripts": {
         "prepare": "panda codegen",
         "panda:ship": "panda ship --outfile dist/panda.buildinfo.json",
+        "panda:ship:watch": "panda ship -w --outfile dist/panda.buildinfo.json",
         "build": "bun run clean && bun run prepare && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
         "dev": "vite dev",
         "clean": "rm -rf dist"

@@ -22,7 +22,7 @@
     ],
     "scripts": {
         "prepack": "nuxt-module-build build",
-        "dev": "bun run dev:prepare && nuxi dev playground",
+        "dev": "bun run dev:prepare && cd playground && bun run dev",
         "dev:build": "cd playground && bun run prepare && nuxi build",
         "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
         "release": "bun run lint && bun run test && bun run prepack && changelogen --release && npm publish && git push --follow-tags",
