@@ -9,22 +9,57 @@ export const colors = defineTokens.colors({
         value: '#000000',
         description: 'This is the primary black color used in our design system'
     },
-    green: {
+    brand: {
         100: {
             value: '#A3EFAC',
-            description: 'This is a light, pale green color and is references as pale-green'
+            description: 'This is a light, pale brand color and is references as pale-brand'
         },
         300: {
             value: '#19bf56',
-            description: 'This is the fyrst brand green color and is referenced as brand-green'
+            description: 'This is the fyrst brand color and is referenced as brand'
         },
         400: {
             value: '#05C260',
-            description: 'This is the fyrst brand green color and is referenced as brand-green'
+            description: 'This is the fyrst brand color and is referenced as brand'
         },
         600: {
             value: '#0E8543',
-            description: 'This is a darker, bolder green color and is referenced as dawn-green'
+            description: 'This is a darker, bolder brand color and is referenced as dawn-brand'
+        }
+    },
+    red: {
+        50: {
+            value: '#fef2f2',
+        },
+        100: {
+            value: '#fee2e2',
+        },
+        200: {
+            value: '#fecaca',
+        },
+        300: {
+            value: '#fca5a5',
+        },
+        400: {
+            value: '#f87171',
+        },
+        500: {
+            value: '#ef4444',
+        },
+        600: {
+            value: '#dc2626',
+        },
+        700: {
+            value: '#b91c1c',
+        },
+        800: {
+            value: '#991b1b',
+        },
+        900: {
+            value: '#7f1d1d',
+        },
+        950: {
+            value: '#450a0a',
         }
     },
     grey: {

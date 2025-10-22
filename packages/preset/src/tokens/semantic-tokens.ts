@@ -1,11 +1,11 @@
 import { defineSemanticTokens } from '@pandacss/dev'
 
 export const colors = defineSemanticTokens.colors({
-    green: {
-        pale: { value: '{colors.green.100}'},
-        day: { value: '{colors.green.300}'},
-        brand: { value: '{colors.green.400}'},
-        dawn: { value: '{colors.green.600}'},
+    brand: {
+        pale: { value: '{colors.brand.100}'},
+        day: { value: '{colors.brand.300}'},
+        brand: { value: '{colors.brand.400}'},
+        dawn: { value: '{colors.brand.600}'},
     },
     grey: {
         dawn: { value: '{colors.grey.300}'},
@@ -14,7 +14,10 @@ export const colors = defineSemanticTokens.colors({
         black: { value: '{colors.grey.900}'}
     },
     primary: {
-        value: { base: '{colors.green.pale}', _light: '{colors.green.day}' }
+        value: { base: '{colors.brand.pale}', _light: '{colors.brand.day}' }
+    },
+    danger: {
+        value: { base: '{colors.red.400}', _light: '{colors.red.600}' }
     },
     neutral: {
         value: { base: '{colors.white}', _light: '{colors.grey.night}' }
