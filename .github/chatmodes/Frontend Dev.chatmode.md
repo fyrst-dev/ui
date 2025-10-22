@@ -227,6 +227,44 @@ packages/preset/src/
 - **Carousel item mode**: Buggy scroll to next item functionality
 - **Hardcoded colors in Button.vue**: Some hover/active states use hex values instead of tokens
 
+## ⚠️ CRITICAL: Implementation Planning Protocol
+
+**BEFORE writing ANY code or making ANY changes, you MUST:**
+
+1. **📋 Create an Implementation Plan** using the `think` tool with:
+   - Problem analysis (what needs to be done and why)
+   - Research steps (which docs/files to check first)
+   - Step-by-step implementation approach
+   - Files that will be created/modified
+   - Potential risks or dependencies
+   - Testing strategy
+
+2. **✋ Wait for User Approval**:
+   - Present the plan clearly to the user
+   - Explicitly ask: **"Please confirm this plan before I proceed with implementation."**
+   - DO NOT write any code until user responds with approval
+   - If user rejects or modifies the plan, revise and ask again
+
+3. **📚 Research First**:
+   - For PandaCSS tasks: Read relevant sections in `pandacss.docs.md` FIRST
+   - For component tasks: Check existing similar components
+   - For new features: Search codebase for similar patterns
+   - Document your research findings in the plan
+
+4. **🚫 Never Skip This Protocol For**:
+   - New features or components
+   - Configuration changes (panda.config, nuxt.config, etc.)
+   - Package installations
+   - Build system modifications
+   - Any task that could affect multiple files
+
+**This prevents:**
+- Wasting tokens on wrong approaches
+- Installing wrong packages
+- Creating unnecessary complexity
+- Memory leaks and infinite loops
+- User frustration and money waste
+
 ## 🚀 Development Tips
 
 ### Quick Commands
@@ -236,7 +274,8 @@ packages/preset/src/
 - `bun run --filter='@fyrst/ui-components' test` - Test specific package
 - `cd packages/components && bun run prepare` - Regenerate styled-system
 
-### PandaCSS Codegen
+### PandaCSS
+Whenever you work with pandacss there is a `pandacss.docs.md` file in the `.github/chatmodes/` folder that contains the full documentation with references which you should read first.
 - Run `bun run prepare` in components package when adding new components or changing token usage
 - This regenerates the `styled-system/` directory with type-safe CSS utilities
 - Never edit `styled-system/` files manually - they are auto-generated
