@@ -1,7 +1,18 @@
 <script setup lang="ts">
 /**
  * @component FieldText
+ * @todo Use this component as a full wrapper around Input.Text with Field.Base, Field.Label, Field.Error, and Field.Message. Implement the missing Field components.
  * @description A text input field component with label support. Provides a styled input with customizable placeholder, label, and value.
+ * 
+ * This component is deprecated in favor of the composition pattern:
+ * ```vue
+ * <Field.Base :error="error" :helper="helper">
+ *   <Field.Label>{{ label }}</Field.Label>
+ *   <Input.Text v-model="value" />
+ *   <Field.Error />
+ *   <Field.Message />
+ * </Field.Base>
+ * ```
  * 
  * @prop {string|null} [label=null] - The label text to display above the input field.
  * @prop {string|null} [placeholder=null] - Placeholder text shown when the input is empty.
@@ -17,8 +28,10 @@
  * <FieldText placeholder="Search..." />
  * <FieldText label="Username" name="username" required />
  */
-import { sva } from '../../../styled-system/css'
+import { onMounted } from 'vue'
+import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
+import InputText from '../Input/InputText.vue'
 
 const props = withDefaults(defineProps<{
     label?: string | null
@@ -44,87 +57,43 @@ const emit = defineEmits<{
     (e: 'update:modelValue', value: string): void
 }>()
 
-const handleInput = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    emit('update:modelValue', target.value)
-}
-
-const fieldStyle = sva({
-    slots: ['root', 'label', 'input'],
-    base: {
-        root: {
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'xs'
-        },
-        input: {
-            display: 'flex',
-            alignItems: 'start',
-            minWidth: '200px',
-            paddingX: 'lg',
-            paddingY: 'sm',
-            backgroundColor: 'grey.black',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderColor: 'grey.dusk',
-            borderRadius: 'lg',
-            outlineWidth: '3px',
-            outlineColor: 'transparent',
-            outlineOffset: '0px',
-            outlineStyle: 'solid',
-            fontSize: 'md',
-            fontWeight: '450',
-            lineHeight: '1.5',
-            color: 'neutral',
-            transition: 'all 300ms',
-            _placeholder: {
-                color: 'lucid.600',
-            },
-            _hover: {
-                borderColor: 'grey.400',
-            },
-            _focus: {
-                outlineColor: 'primary/50',
-                borderColor: 'primary !important',
-            },
-            _disabled: {
-                opacity: '0.5',
-                cursor: 'not-allowed',
-            },
-            _light: {
-                backgroundColor: 'white',
-                borderColor: 'grey.200',
-                color: 'grey.night',
-                _hover: {
-                    borderColor: 'grey.300',
-                },
-            }
-        }
+// Emit deprecation warning in development
+onMounted(() => {
+    if (import.meta.env.DEV) {
+        console.warn(
+            '[FieldText] This component is deprecated. Use Input.Text with Field.Base composition instead:\n' +
+            '<Field.Base>\n' +
+            '  <Field.Label>{{ label }}</Field.Label>\n' +
+            '  <Input.Text v-model="value" />\n' +
+            '</Field.Base>'
+        )
     }
 })
 
-const classes = fieldStyle()
+const handleInput = (value: string) => {
+    emit('update:modelValue', value)
+}
 </script>
 
 <template>
-    <div :class="classes.root">
+    <FieldBase>
         <FieldLabel 
             v-if="label" 
             :label="label"
             :for="id" 
             :required="required"
-            size="sm" />
-        <input
+            size="sm" 
+        />
+        <InputText
             :id="id"
             :name="name"
-            :class="classes.input"
             type="text"
-            :placeholder="placeholder || undefined"
-            :value="modelValue || ''"
+            :placeholder="placeholder"
+            :model-value="modelValue"
             :disabled="disabled"
             :required="required"
-            :autocomplete="autocomplete || undefined"
-            @input="handleInput"
+            :autocomplete="autocomplete"
+            @update:model-value="handleInput"
         />
-    </div>
+    </FieldBase>
 </template>

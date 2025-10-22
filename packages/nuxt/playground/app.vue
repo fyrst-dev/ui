@@ -17,7 +17,6 @@
     })]">
       <FyrstField.Text label="E-Mail Adresse" />
     </div>
-    <FyrstField />
   </div>
 </template>
 

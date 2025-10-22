@@ -2,9 +2,10 @@
 /**
  * @component FieldLabel
  * @description A label component for form fields with theme-aware styling and size variants.
+ * Automatically integrates with Field.Base context for linking to inputs.
  * 
  * @prop {string} label - The text content of the label.
- * @prop {string} [for] - The ID of the associated form control. Links the label to its input element.
+ * @prop {string} [for] - The ID of the associated form control. Auto-linked from Field.Base context if not provided.
  * @prop {'sm'|'md'|'lg'} [size='md'] - The size variant of the label affecting font size and spacing.
  * @prop {boolean} [required=false] - When true, displays a visual indicator (asterisk) that the field is required.
  * @prop {boolean} [disabled=false] - When true, applies disabled styling to indicate the associated field is disabled.
@@ -16,6 +17,7 @@
  * <FieldLabel label="Username" for="username" size="lg" />
  * <FieldLabel label="Disabled Field" for="disabled" disabled />
  */
+import { inject, computed } from 'vue';
 import { css } from 'styled-system/css';
 import { cva } from 'styled-system/css';
 import FieldRequired from './FieldRequired.vue'
@@ -33,6 +35,19 @@ const props = withDefaults(defineProps<{
     required: false,
     disabled: false,
     class: undefined,
+})
+
+// Inject field context if available (optional)
+const fieldContext = inject<{
+    fieldId: string
+    errorId: string | null
+    helperId: string | null
+    hasError: boolean
+} | null>('fieldContext', null)
+
+// Use prop 'for' or context fieldId
+const htmlFor = computed(() => {
+    return props.for || fieldContext?.fieldId || undefined
 })
 
 const labelStyles = cva({
@@ -76,7 +91,7 @@ const labelStyles = cva({
 
 <template>
     <label 
-        :for="props.for" 
+        :for="htmlFor" 
         :class="[
             labelStyles({ 
                 size: props.size, 
