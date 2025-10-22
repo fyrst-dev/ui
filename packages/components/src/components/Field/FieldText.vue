@@ -80,9 +80,12 @@ const fieldStyle = sva({
             _placeholder: {
                 color: 'lucid.600',
             },
+            _hover: {
+                borderColor: 'grey.400',
+            },
             _focus: {
                 outlineColor: 'primary/50',
-                borderColor: 'primary',
+                borderColor: 'primary !important',
             },
             _disabled: {
                 opacity: '0.5',
@@ -92,6 +95,9 @@ const fieldStyle = sva({
                 backgroundColor: 'white',
                 borderColor: 'grey.200',
                 color: 'grey.night',
+                _hover: {
+                    borderColor: 'grey.300',
+                },
             }
         }
     }
@@ -106,7 +112,7 @@ const classes = fieldStyle()
             v-if="label" 
             :label="label"
             :for="id" 
-            required
+            :required="required"
             size="sm" />
         <input
             :id="id"

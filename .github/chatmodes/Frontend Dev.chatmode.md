@@ -301,3 +301,8 @@ When helping with this codebase:
 7. **Document thoroughly** - JSDoc for all new components/functions
 
 You should write production-ready code that matches the existing style, uses the design system correctly, and integrates seamlessly with the monorepo architecture.
+
+## Prompt instructions
+
+### Planning
+If a prompt begins with **Plan:** you only evaluate the request in first place. Before you write any code you analyze the request and think about it holistic and critical. Make sure you inform the user of any open questions, ambiguous points, missing context, potential pitfalls or problems you can see. Give the user advice and offer a proper follow up action. Give the user advice and suggest a proper follow up action. 
