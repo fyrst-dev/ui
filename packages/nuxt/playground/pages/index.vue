@@ -3,7 +3,7 @@
     display: 'flex',
     width: '100%'
   })">
-    <NuxtPage />
+    HI
   </div>
 </template>
 

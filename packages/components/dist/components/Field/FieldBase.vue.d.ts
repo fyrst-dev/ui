@@ -1,7 +1,7 @@
 type __VLS_Props = {
     id?: string;
     error?: string | null;
-    helper?: string | null;
+    message?: string | null;
     class?: any;
 };
 declare function __VLS_template(): {
@@ -17,7 +17,7 @@ declare const __VLS_component: import('vue').DefineComponent<__VLS_Props, {}, {}
     class: any;
     id: string;
     error: string | null;
-    helper: string | null;
+    message: string | null;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

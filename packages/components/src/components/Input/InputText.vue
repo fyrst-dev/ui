@@ -14,7 +14,7 @@
  * @prop {boolean} [required=false] - When true, marks the field as required for form validation.
  * @prop {string|null} [autocomplete=null] - The autocomplete attribute for browser autofill behavior.
  * @prop {'sm'|'md'|'lg'} [size='md'] - Size variant affecting padding and font size.
- * @prop {boolean} [invalid=false] - When true, applies error styling and sets aria-invalid.
+ * @prop {boolean|'none'} [valid='none'] - Validation state: true (valid), false (invalid), or 'none' (no status).
  * @prop {any} [class] - Additional CSS classes to apply to the input element.
  * 
  * @example
@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<{
     required?: boolean
     autocomplete?: string | null
     size?: 'sm' | 'md' | 'lg'
-    invalid?: boolean
+    valid?: true | false | 'none'
     class?: any
 }>(), {
     type: 'text',
@@ -57,7 +57,7 @@ const props = withDefaults(defineProps<{
     required: false,
     autocomplete: null,
     size: 'md',
-    invalid: false,
+    valid: 'none',
     class: undefined,
 })
 
@@ -84,9 +84,14 @@ const ariaDescribedBy = computed(() => {
     return ids.length > 0 ? ids.join(' ') : undefined
 })
 
-// Use context error state or prop
+// Use context error state or explicit valid prop
 const isInvalid = computed(() => {
-    return props.invalid || (fieldContext?.hasError ?? false)
+    // If valid is explicitly set to true or false, use that
+    if (props.valid === true) return false
+    if (props.valid === false) return true
+    
+    // Otherwise, fall back to fieldContext error state
+    return fieldContext?.hasError ?? false
 })
 
 const handleInput = (event: Event) => {
@@ -154,19 +159,27 @@ const inputStyles = cva({
                 fontSize: 'lg',
             }
         },
-        invalid: {
+        valid: {
             true: {
-                borderColor: 'danger !important',
+                borderColor: 'success !important',
                 _focus: {
-                    outlineColor: 'danger/30',
+                    borderColor: 'success !important',
+                    outlineColor: 'success/50 !important',
                 }
             },
-            false: {}
+            false: {
+                borderColor: 'danger !important',
+                _focus: {
+                    borderColor: 'danger !important',
+                    outlineColor: 'danger/50 !important',
+                }
+            },
+            none: {}
         }
     },
     defaultVariants: {
         size: 'md',
-        invalid: false,
+        valid: 'none',
     }
 })
 </script>
@@ -175,7 +188,7 @@ const inputStyles = cva({
     <input
         :id="id"
         :name="name"
-        :class="[inputStyles({ size, invalid: isInvalid }), props.class]"
+        :class="[inputStyles({ size, valid: props.valid }), props.class]"
         :type="type"
         :placeholder="placeholder || undefined"
         :value="modelValue || ''"

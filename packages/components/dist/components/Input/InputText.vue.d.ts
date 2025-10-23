@@ -8,7 +8,7 @@ type __VLS_Props = {
     required?: boolean;
     autocomplete?: string | null;
     size?: 'sm' | 'md' | 'lg';
-    invalid?: boolean;
+    valid?: true | false | 'none';
     class?: any;
 };
 declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
@@ -26,7 +26,7 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {
     name: string;
     placeholder: string | null;
     autocomplete: string | null;
-    invalid: boolean;
+    valid: true | false | "none";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLInputElement>;
 export default _default;
 //# sourceMappingURL=InputText.vue.d.ts.map

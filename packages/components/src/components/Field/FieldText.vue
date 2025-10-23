@@ -28,47 +28,49 @@
  * <FieldText placeholder="Search..." />
  * <FieldText label="Username" name="username" required />
  */
-import { onMounted } from 'vue'
+import { computed } from 'vue'
+import { css } from 'styled-system/css'
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
+import FieldMessage from './FieldMessage.vue'
+import FieldError from './FieldError.vue'
 import InputText from '../Input/InputText.vue'
 
 const props = withDefaults(defineProps<{
+    name: string | undefined
+    type: 'text' | 'email' | 'tel'
     label?: string | null
     placeholder?: string | null
     modelValue?: string | null
-    name?: string
     id?: string
     disabled?: boolean
     required?: boolean
     autocomplete?: string | null
+    message?: string | null
+    error?: string | null
+
 }>(), {
+    name: undefined,
+    type: 'text',
     label: null,
     placeholder: null,
     modelValue: null,
-    name: '',
     id: '',
     disabled: false,
     required: false,
     autocomplete: null,
+    message: null,
+    error: null,
+})
+
+const isValid = computed(() => {
+    if (props.error) return false
+    return 'none'
 })
 
 const emit = defineEmits<{
     (e: 'update:modelValue', value: string): void
 }>()
-
-// Emit deprecation warning in development
-onMounted(() => {
-    if (import.meta.env.DEV) {
-        console.warn(
-            '[FieldText] This component is deprecated. Use Input.Text with Field.Base composition instead:\n' +
-            '<Field.Base>\n' +
-            '  <Field.Label>{{ label }}</Field.Label>\n' +
-            '  <Input.Text v-model="value" />\n' +
-            '</Field.Base>'
-        )
-    }
-})
 
 const handleInput = (value: string) => {
     emit('update:modelValue', value)
@@ -77,6 +79,7 @@ const handleInput = (value: string) => {
 
 <template>
     <FieldBase>
+
         <FieldLabel 
             v-if="label" 
             :label="label"
@@ -84,16 +87,39 @@ const handleInput = (value: string) => {
             :required="required"
             size="sm" 
         />
+
         <InputText
             :id="id"
             :name="name"
-            type="text"
+            :type="type"
             :placeholder="placeholder"
             :model-value="modelValue"
             :disabled="disabled"
             :required="required"
             :autocomplete="autocomplete"
+            :valid="isValid"
             @update:model-value="handleInput"
         />
+
+        <div
+            v-if="message || error"
+            :class="css({
+                display: 'flex',
+                flexWrap: 'wrap',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                columnGap: 'md',
+            })">
+
+            <FieldMessage 
+                v-if="message"
+                :message="message"
+            />
+    
+            <FieldError 
+                v-if="error"
+                :message="error"
+            />
+        </div>
     </FieldBase>
 </template>

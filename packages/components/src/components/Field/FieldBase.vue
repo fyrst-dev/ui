@@ -18,15 +18,15 @@
  * </Field.Base>
  * 
  * @example
- * <!-- With error and helper -->
+ * <!-- With error and message -->
  * <Field.Base 
  *   :error="emailError" 
- *   helper="We'll never share your email"
+ *   message="We'll never share your email"
  * >
  *   <Field.Label for="email">Email</Field.Label>
  *   <Input.Text id="email" type="email" v-model="email" />
  *   <Field.Error />
- *   <Field.Helper />
+ *   <Field.Message />
  * </Field.Base>
  * 
  * @example
@@ -38,43 +38,38 @@
  * </Field.Base>
  */
 import { provide, computed } from 'vue'
-import { css } from '../../../styled-system/css'
+// @ts-ignore - useId is available in Vue 3.3+
+import { useId } from 'vue'
+import { css } from 'styled-system/css'
 
 const props = withDefaults(defineProps<{
     id?: string
     error?: string | null
-    helper?: string | null
+    message?: string | null
     class?: any
 }>(), {
     id: undefined,
     error: null,
-    helper: null,
+    message: null,
     class: undefined,
 })
 
-// Generate unique IDs for ARIA relationships
-const generateId = () => {
-    // Use crypto.randomUUID if available, otherwise fallback
-    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-        return `field-${crypto.randomUUID()}`
-    }
-    // Fallback for environments without crypto.randomUUID
-    return `field-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-}
-
-const fieldId = computed(() => props.id || generateId())
+// Use Vue's useId() for SSR-safe ID generation
+// This ensures consistent IDs across server rendering and client hydration
+const autoId = useId()
+const fieldId = computed(() => props.id || `field-${autoId}`)
 const errorId = computed(() => props.error ? `${fieldId.value}-error` : null)
-const helperId = computed(() => props.helper ? `${fieldId.value}-helper` : null)
+const messageId = computed(() => props.message ? `${fieldId.value}-message` : null)
 const hasError = computed(() => !!props.error)
 
 // Provide field context for child components
 provide('fieldContext', {
     fieldId: fieldId.value,
     errorId: errorId.value,
-    helperId: helperId.value,
+    messageId: messageId.value,
     hasError: hasError.value,
     errorMessage: props.error,
-    helperMessage: props.helper,
+    message: props.message,
 })
 
 const baseStyles = css({

@@ -26,7 +26,7 @@
  * <Field.Error v-if="validationError" :message="validationError" />
  */
 import { inject, computed } from 'vue'
-import { css } from '../../../styled-system/css'
+import { css } from 'styled-system/css'
 
 const props = withDefaults(defineProps<{
     message?: string | null
@@ -63,8 +63,7 @@ const errorStyles = css({
     fontSize: 'sm',
     fontWeight: '500',
     color: 'danger',
-    lineHeight: '1.4',
-    marginTop: '2xs',
+    wordBreak: 'break-word'
 })
 </script>
 
@@ -75,7 +74,6 @@ const errorStyles = css({
         :class="[errorStyles, props.class]"
         role="alert"
         aria-live="polite"
-    >
-        {{ displayMessage }}
-    </span>
+        v-html="displayMessage"
+    />
 </template>

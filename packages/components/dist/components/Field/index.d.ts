@@ -6,34 +6,43 @@ import { default as FieldMessage } from './FieldMessage.vue';
 export { FieldText, FieldBase, FieldLabel, FieldError, FieldMessage };
 declare const _default: {
     Text: import('vue').DefineComponent<{
+        name: string | undefined;
+        type: "text" | "email" | "tel";
         label?: string | null;
         placeholder?: string | null;
         modelValue?: string | null;
-        name?: string;
         id?: string;
         disabled?: boolean;
         required?: boolean;
         autocomplete?: string | null;
+        message?: string | null;
+        error?: string | null;
     }, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
         "update:modelValue": (value: string) => any;
     }, string, import('vue').PublicProps, Readonly<{
+        name: string | undefined;
+        type: "text" | "email" | "tel";
         label?: string | null;
         placeholder?: string | null;
         modelValue?: string | null;
-        name?: string;
         id?: string;
         disabled?: boolean;
         required?: boolean;
         autocomplete?: string | null;
+        message?: string | null;
+        error?: string | null;
     }> & Readonly<{
         "onUpdate:modelValue"?: ((value: string) => any) | undefined;
     }>, {
         label: string | null;
+        type: "text" | "email" | "tel";
         disabled: boolean;
         id: string;
+        error: string | null;
+        message: string | null;
         required: boolean;
         modelValue: string | null;
-        name: string;
+        name: string | undefined;
         placeholder: string | null;
         autocomplete: string | null;
     }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
@@ -41,13 +50,13 @@ declare const _default: {
         new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<{
             id?: string;
             error?: string | null;
-            helper?: string | null;
+            message?: string | null;
             class?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
             class: any;
             id: string;
             error: string | null;
-            helper: string | null;
+            message: string | null;
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLDivElement, import('vue').ComponentProvideOptions, {
             P: {};
             B: {};
@@ -58,13 +67,13 @@ declare const _default: {
         }, Readonly<{
             id?: string;
             error?: string | null;
-            helper?: string | null;
+            message?: string | null;
             class?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, {
             class: any;
             id: string;
             error: string | null;
-            helper: string | null;
+            message: string | null;
         }>;
         __isFragment?: never;
         __isTeleport?: never;
@@ -72,13 +81,13 @@ declare const _default: {
     } & import('vue').ComponentOptionsBase<Readonly<{
         id?: string;
         error?: string | null;
-        helper?: string | null;
+        message?: string | null;
         class?: any;
     }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
         class: any;
         id: string;
         error: string | null;
-        helper: string | null;
+        message: string | null;
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
             default?(_: {}): any;

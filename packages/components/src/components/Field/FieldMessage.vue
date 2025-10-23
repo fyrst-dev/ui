@@ -26,7 +26,7 @@
  * <Field.Message v-if="showHint" :message="hintText" />
  */
 import { inject, computed } from 'vue'
-import { css } from '../../../styled-system/css'
+import { css } from 'styled-system/css'
 
 const props = withDefaults(defineProps<{
     message?: string | null
@@ -42,29 +42,28 @@ const props = withDefaults(defineProps<{
 const fieldContext = inject<{
     fieldId: string
     errorId: string | null
-    helperId: string | null
+    messageId: string | null
     hasError: boolean
-    helperMessage?: string | null
+    message?: string | null
 } | null>('fieldContext', null)
 
-// Use context helper message or prop
+// Use context message or prop
 const displayMessage = computed(() => {
-    return props.message || fieldContext?.helperMessage || null
+    return props.message || fieldContext?.message || null
 })
 
-// Use context helperId or prop id
-const helperId = computed(() => {
-    return props.id || fieldContext?.helperId || undefined
+// Use context messageId or prop id
+const messageId = computed(() => {
+    return props.id || fieldContext?.messageId || undefined
 })
 
-const helperStyles = css({
+const messageStyles = css({
     display: 'block',
     paddingX: 'xs',
     fontSize: 'sm',
     fontWeight: '400',
-    color: 'lucid.600',
-    lineHeight: '1.4',
-    marginTop: '2xs',
+    color: 'grey.300',
+    wordBreak: 'break-word',
     _light: {
         color: 'grey.500',
     }
@@ -74,9 +73,8 @@ const helperStyles = css({
 <template>
     <span 
         v-if="displayMessage"
-        :id="helperId"
-        :class="[helperStyles, props.class]"
-    >
-        {{ displayMessage }}
-    </span>
+        :id="messageId"
+        :class="[messageStyles, props.class]"
+        v-html="displayMessage"
+    />
 </template>

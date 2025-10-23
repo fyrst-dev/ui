@@ -11,7 +11,7 @@ declare const _default: {
         required?: boolean;
         autocomplete?: string | null;
         size?: "sm" | "md" | "lg";
-        invalid?: boolean;
+        valid?: true | false | "none";
         class?: any;
     }, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
         "update:modelValue": (value: string) => any;
@@ -25,7 +25,7 @@ declare const _default: {
         required?: boolean;
         autocomplete?: string | null;
         size?: "sm" | "md" | "lg";
-        invalid?: boolean;
+        valid?: true | false | "none";
         class?: any;
     }> & Readonly<{
         "onUpdate:modelValue"?: ((value: string) => any) | undefined;
@@ -40,7 +40,7 @@ declare const _default: {
         name: string;
         placeholder: string | null;
         autocomplete: string | null;
-        invalid: boolean;
+        valid: true | false | "none";
     }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLInputElement>;
 };
 export default _default;
