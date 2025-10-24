@@ -18,7 +18,6 @@
  * <FieldLabel label="Disabled Field" for="disabled" disabled />
  */
 import { inject, computed } from 'vue';
-import { css } from 'styled-system/css';
 import { cva } from 'styled-system/css';
 import FieldRequired from './FieldRequired.vue'
 

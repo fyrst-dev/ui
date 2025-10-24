@@ -13,7 +13,7 @@
  * <!-- Within Field composition -->
  * <Field.Base helper="We'll never share your email">
  *   <Field.Label>Email</Field.Label>
- *   <Input.Text type="email" v-model="email" />
+ *   <Form.Input type="email" v-model="email" />
  *   <Field.Message />
  * </Field.Base>
  * 

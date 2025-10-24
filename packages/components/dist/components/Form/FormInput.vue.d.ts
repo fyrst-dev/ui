@@ -29,4 +29,4 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {
     valid: true | false | "none";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLInputElement>;
 export default _default;
-//# sourceMappingURL=InputText.vue.d.ts.map
+//# sourceMappingURL=FormInput.vue.d.ts.map

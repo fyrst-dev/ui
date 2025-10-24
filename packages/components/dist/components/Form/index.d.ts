@@ -1,7 +1,7 @@
-import { default as InputText } from './InputText.vue';
-export { InputText };
+import { default as FormInput } from './FormInput.vue';
+export { FormInput };
 declare const _default: {
-    Text: import('vue').DefineComponent<{
+    Input: import('vue').DefineComponent<{
         type?: "text" | "email" | "tel";
         modelValue?: string | null;
         id?: string;

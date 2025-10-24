@@ -13,7 +13,7 @@
  * <!-- Within Field composition -->
  * <Field.Base error="Email is required">
  *   <Field.Label>Email</Field.Label>
- *   <Input.Text type="email" v-model="email" />
+ *   <Form.Input type="email" v-model="email" />
  *   <Field.Error />
  * </Field.Base>
  * 

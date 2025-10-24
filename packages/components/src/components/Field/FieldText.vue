@@ -34,7 +34,7 @@ import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
-import InputText from '../Input/InputText.vue'
+import FormInput from '../Form/FormInput.vue'
 
 const props = withDefaults(defineProps<{
     name: string | undefined
@@ -88,7 +88,7 @@ const handleInput = (value: string) => {
             size="sm" 
         />
 
-        <InputText
+        <FormInput
             :id="id"
             :name="name"
             :type="type"

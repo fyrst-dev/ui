@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * @component InputText
+ * @component FormInput
  * @description A standalone text input component supporting text, email, and tel input types. 
  * Can be used independently or within a Field.Base composition for automatic ARIA linking.
  * Provides full v-model support with customizable styling and size variants.
@@ -19,21 +19,21 @@
  * 
  * @example
  * <!-- Standalone usage -->
- * <Input.Text type="email" v-model="email" placeholder="Enter email" />
+ * <Form.Input type="email" v-model="email" placeholder="Enter email" />
  * 
  * @example
  * <!-- Within Field composition -->
  * <Field.Base>
  *   <Field.Label for="phone">Phone Number</Field.Label>
- *   <Input.Text id="phone" type="tel" v-model="phone" />
+ *   <Form.Input id="phone" type="tel" v-model="phone" />
  * </Field.Base>
  * 
  * @example
  * <!-- With size variant -->
- * <Input.Text type="text" size="lg" v-model="search" placeholder="Search..." />
+ * <Form.Input type="text" size="lg" v-model="search" placeholder="Search..." />
  */
 import { computed, inject } from 'vue'
-import { cva } from '../../../styled-system/css'
+import { cva } from 'styled-system/css'
 
 const props = withDefaults(defineProps<{
     type?: 'text' | 'email' | 'tel'

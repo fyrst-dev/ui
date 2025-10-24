@@ -9,7 +9,7 @@ export { FieldText, FieldBase, FieldLabel, FieldError, FieldMessage }
 
 // Default export for namespaced usage: <Field.Base />, <Field.Label />, etc.
 export default {
-    Text: FieldText, // DEPRECATED: Use Input.Text instead
+    Text: FieldText,
     Base: FieldBase,
     Label: FieldLabel,
     Error: FieldError,

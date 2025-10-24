@@ -14,7 +14,7 @@
  * <!-- Basic composition -->
  * <Field.Base>
  *   <Field.Label>Email Address</Field.Label>
- *   <Input.Text type="email" v-model="email" />
+ *   <Form.Input type="email" v-model="email" />
  * </Field.Base>
  * 
  * @example
@@ -24,7 +24,7 @@
  *   message="We'll never share your email"
  * >
  *   <Field.Label for="email">Email</Field.Label>
- *   <Input.Text id="email" type="email" v-model="email" />
+ *   <Form.Input id="email" type="email" v-model="email" />
  *   <Field.Error />
  *   <Field.Message />
  * </Field.Base>
@@ -33,7 +33,7 @@
  * <!-- Full composition with all elements -->
  * <Field.Base id="phone-field" error="Invalid phone number">
  *   <Field.Label for="phone">Phone Number</Field.Label>
- *   <Input.Text id="phone" type="tel" v-model="phone" />
+ *   <Form.Input id="phone" type="tel" v-model="phone" />
  *   <Field.Error />
  * </Field.Base>
  */
