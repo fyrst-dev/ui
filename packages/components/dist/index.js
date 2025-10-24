@@ -1008,7 +1008,7 @@ const sr = /* @__PURE__ */ I({
     }, null, 42, tr));
   }
 }), or = /* @__PURE__ */ I({
-  __name: "FieldText",
+  __name: "FieldInput",
   props: {
     name: { default: void 0 },
     type: { default: "text" },
@@ -1072,7 +1072,7 @@ const sr = /* @__PURE__ */ I({
     }));
   }
 }), ir = {
-  Text: or,
+  Input: or,
   Base: re,
   Label: te,
   Error: ne,

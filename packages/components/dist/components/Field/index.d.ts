@@ -1,11 +1,11 @@
-import { default as FieldText } from './FieldText.vue';
+import { default as FieldInput } from './FieldInput.vue';
 import { default as FieldBase } from './FieldBase.vue';
 import { default as FieldLabel } from './FieldLabel.vue';
 import { default as FieldError } from './FieldError.vue';
 import { default as FieldMessage } from './FieldMessage.vue';
-export { FieldText, FieldBase, FieldLabel, FieldError, FieldMessage };
+export { FieldInput, FieldBase, FieldLabel, FieldError, FieldMessage };
 declare const _default: {
-    Text: import('vue').DefineComponent<{
+    Input: import('vue').DefineComponent<{
         name: string | undefined;
         type: "text" | "email" | "tel";
         label?: string | null;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * @component FieldText
+ * @component FieldInput
  * @todo Use this component as a full wrapper around Input.Text with Field.Base, Field.Label, Field.Error, and Field.Message. Implement the missing Field components.
  * @description A text input field component with label support. Provides a styled input with customizable placeholder, label, and value.
  * 
@@ -24,9 +24,9 @@
  * @prop {string|null} [autocomplete=null] - The autocomplete attribute for the input.
  * 
  * @example
- * <FieldText label="Email" placeholder="Enter your email" v-model="email" />
- * <FieldText placeholder="Search..." />
- * <FieldText label="Username" name="username" required />
+ * <FieldInput label="Email" placeholder="Enter your email" v-model="email" />
+ * <FieldInput placeholder="Search..." />
+ * <FieldInput label="Username" name="username" required />
  */
 import { computed } from 'vue'
 import { css } from 'styled-system/css'

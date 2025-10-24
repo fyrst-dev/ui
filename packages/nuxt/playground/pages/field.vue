@@ -1,6 +1,6 @@
 <template>
     <ShowcaseContainer>
-        <FyrstFieldText 
+        <FyrstFieldInput 
             name="emailAddress"
             label="E-Mail Adresse" 
             placeholder="Gib deine E-Mail Adresse ein"
