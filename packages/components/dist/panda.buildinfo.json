@@ -7,7 +7,7 @@
       "justifyContent]___[value:center",
       "fontWeight]___[value:600",
       "lineHeight]___[value:1.5",
-      "borderRadius]___[value:md",
+      "borderRadius]___[value:lg",
       "borderStyle]___[value:solid",
       "borderWidth]___[value:1px",
       "userSelect]___[value:none",
@@ -158,7 +158,6 @@
       "minWidth]___[value:200px",
       "backgroundColor]___[value:grey.black",
       "borderColor]___[value:grey.dusk",
-      "borderRadius]___[value:lg",
       "outlineWidth]___[value:3px",
       "outlineColor]___[value:transparent",
       "outlineOffset]___[value:0px",
@@ -177,7 +176,18 @@
       "outlineColor]___[value:success/50 !important]___[cond:_focus",
       "borderColor]___[value:danger !important",
       "borderColor]___[value:danger !important]___[cond:_focus",
-      "outlineColor]___[value:danger/50 !important]___[cond:_focus"
+      "outlineColor]___[value:danger/50 !important]___[cond:_focus",
+      "containerType]___[value:inline-size",
+      "backgroundColor]___[value:grey.night",
+      "padding]___[value:xs",
+      "resize]___[value:none",
+      "fieldSizing]___[value:content",
+      "outline]___[value:none]___[cond:_focus",
+      "flex]___[value:1",
+      "flexBasis]___[value:100%",
+      "flexBasis]___[value:0%]___[cond:@container (min-width: 600px)",
+      "flex]___[value:0",
+      "flexBasis]___[value:auto]___[cond:@container (min-width: 600px)"
     ],
     "recipes": {}
   }

@@ -15,6 +15,9 @@
             :key="theme"
             :class="[theme,
                 css({
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: { base: '2xl', xl: '4xl' },
                     backgroundColor: theme === 'dark' ? 'grey.black' : 'white',
                     padding: { base: '2xl', xl: '4xl' },
                     minHeight: '100%',
