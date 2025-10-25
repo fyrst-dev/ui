@@ -1,13 +1,19 @@
 import Button from "./components/Button.vue"
-import Card from "./components/Card.vue"
-import Carousel from "./components/Carousel.vue"
+import Loader from "./components/Loader.vue"
+import Card from "./components/Card"
+import Carousel from "./components/Carousel"
+import Flyout from "./components/Flyout"
+import Hero from "./components/Hero"
 import Field from "./components/Field"
 import Form from "./components/Form"
 
 export { 
     Button,
+    Loader,
     Card,
     Carousel,
+    Flyout,
+    Hero,
     Field,
     Form
 }

@@ -100,6 +100,7 @@ const buttonStyle = cva({
             },
             secondary: {
                 bg: 'grey.night',
+                color: 'neutral',
                 borderColor: 'grey.600',
                 '& .btn-icon': {
                     color: 'primary',
@@ -147,11 +148,10 @@ const buttonStyle = cva({
                 },
                 _light: {
                     _hover: {
-                        backgroundColor: 'grey.50',
-                        borderColor: 'grey.100',
+                        backgroundColor: 'brand.pale/25',
                     },
                     _active: {
-                        backgroundColor: 'grey.100',
+                        backgroundColor: 'brand.pale/40',
                     },
                 }
             }

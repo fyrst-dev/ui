@@ -73,7 +73,7 @@ const classes = card({ borderColor: 'primary' })
 </div>
 ```
 
-**Example:** `Card.vue`
+**Example:** `CardRoot.vue`
 
 ---
 
@@ -162,7 +162,7 @@ export function useExample(props: Props, element: Ref<HTMLElement | null>) {
 ### Available Composables
 - **`carousel.ts`** - Scroll logic, visibility tracking, navigation
 - **`flyout.ts`** - Hover state management for overlays
-- **`form.ts`** - Form data extraction (`useFormData` returns FormData + JSON)
+- **`form.ts`** - Form data extraction (`useFormData` returns readonly refs to FormData and JSON object)
 
 ---
 
@@ -190,7 +190,7 @@ export function useExample(props: Props, element: Ref<HTMLElement | null>) {
 </template>
 ```
 
-**Reference:** `Card.vue`
+**Reference:** `CardRoot.vue`
 
 ---
 
@@ -244,6 +244,7 @@ components/
 ### Component Families
 Subdirectory with namespace export pattern:
 
+**Field Family (Composition Pattern):**
 ```
 components/
 └── Field/
@@ -254,22 +255,48 @@ components/
     └── index.ts
 ```
 
-**index.ts:**
+**Card Family (Container Pattern with Root):**
+```
+components/
+└── Card/
+    ├── CardRoot.vue    ← Main container uses "Root" suffix
+    ├── CardBody.vue
+    └── index.ts
+```
+
+**index.ts (Field example):**
 ```typescript
 import FieldBase from './FieldBase.vue'
 import FieldInput from './FieldInput.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldError from './FieldError.vue'
+import FieldMessage from './FieldMessage.vue'
 
 // Named exports for direct imports
-export { FieldBase, FieldInput, FieldLabel, FieldError }
+export { FieldBase, FieldInput, FieldLabel, FieldError, FieldMessage }
 
 // Default export for namespaced usage
 export default {
-  Base: FieldBase,
   Input: FieldInput,
+  Base: FieldBase,
   Label: FieldLabel,
-  Error: FieldError
+  Error: FieldError,
+  Message: FieldMessage
+}
+```
+
+**index.ts (Card example):**
+```typescript
+import CardRoot from './CardRoot.vue'
+import CardBody from './CardBody.vue'
+
+// Named exports for direct imports
+export { CardRoot, CardBody }
+
+// Default export for namespaced usage
+export default {
+  Root: CardRoot,
+  Body: CardBody
 }
 ```
 
@@ -283,18 +310,39 @@ import { FieldInput } from '@fyrst/ui-components'
   <FieldInput />
 </template>
 
-<!-- Namespace import -->
+<!-- Namespace import (Field) -->
 <script setup>
 import Field from '@fyrst/ui-components'
 </script>
 <template>
   <Field.Input />
 </template>
+
+<!-- Namespace import (Card) -->
+<script setup>
+import Card from '@fyrst/ui-components'
+</script>
+<template>
+  <Card.Root>
+    <Card.Body>
+      Content here
+    </Card.Body>
+  </Card.Root>
+</template>
+
+<!-- Nuxt auto-import (flat tags) -->
+<template>
+  <FyrstFieldInput />
+  <FyrstCardRoot>
+    <FyrstCardBody>Content</FyrstCardBody>
+  </FyrstCardRoot>
+</template>
 ```
 
 ### Context Sharing
 Use `provide/inject` for parent-child communication:
 
+**Example with Field family:**
 ```typescript
 // FieldBase.vue (parent)
 provide('fieldContext', {
@@ -307,11 +355,45 @@ provide('fieldContext', {
 const context = inject('fieldContext')
 ```
 
-**Example:** Field family components
+**Example with Carousel family:**
+```typescript
+// CarouselRoot.vue (parent)
+const { handleNext, handlePrev, carouselItems } = useCarousel(props, carousel, slots)
+
+provide('handleNext', handleNext)
+provide('handlePrev', handlePrev)
+provide('carouselItems', carouselItems)
+
+// CarouselNavigation.vue (child)
+const handlePrev = inject<(() => void)>('handlePrev')
+const handleNext = inject<(() => void)>('handleNext')
+const carouselItems = inject<Ref<NodeListOf<HTMLElement> | null>>('carouselItems')
+```
 
 ---
 
 ## 🏗️ Component Families
+
+### Naming Convention for Main Components
+
+For component families with a main container component, use the `Root` suffix to avoid folder/file name conflicts:
+
+```
+Card/
+├── CardRoot.vue     ← Main container (avoids conflict with Card/ folder)
+├── CardBody.vue
+└── index.ts
+```
+
+For families without a main container (composition-only), use descriptive names:
+
+```
+Field/
+├── FieldBase.vue    ← Wrapper/context provider (not the main visual component)
+├── FieldInput.vue
+├── FieldLabel.vue
+└── index.ts
+```
 
 ### Field/* (Form Field Composition)
 Namespace: `Field.*`
@@ -320,10 +402,31 @@ Namespace: `Field.*`
 - **FieldLabel** - Accessible label with required indicator
 - **FieldError** - Error message display
 - **FieldMessage** - Helper text display
-- **FieldRequired** - Required field indicator
+- **FieldRequired** - Required field indicator (note: exists as component but not exported in index.ts)
 
 ### Form/* (Form Inputs)
 Namespace: `Form.*`
 - **FormInput** - Base text input with styling
 - **FormPrompt** - Form container with textarea
 - **FormPromptFooter** - Footer section for FormPrompt
+
+### Card/* (Card Container System)
+Namespace: `Card.*`
+- **CardRoot** - Main container with border variants and slot composition
+- **CardBody** - Content wrapper with padding
+
+### Carousel/* (Horizontal Scrolling System)
+Namespace: `Carousel.*`
+- **CarouselRoot** - Main scrollable container with composable logic
+- **CarouselItem** - Individual carousel slide
+- **CarouselNavigation** - Navigation controls with prev/next buttons
+
+### Flyout/* (Overlay System)
+Namespace: `Flyout.*`
+- **FlyoutRoot** - Hover-triggered overlay container
+- **FlyoutDropdown** - Positioned dropdown variant
+
+### Hero/* (Hero Section System)
+Namespace: `Hero.*`
+- **HeroLead** - Hero section with headline, description, and actions
+

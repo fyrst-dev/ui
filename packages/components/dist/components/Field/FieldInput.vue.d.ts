@@ -19,13 +19,13 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {
     label: string | null;
     type: "text" | "email" | "tel";
     disabled: boolean;
-    id: string;
     error: string | null;
+    name: string | undefined;
+    placeholder: string | null;
+    id: string;
     message: string | null;
     required: boolean;
     modelValue: string | null;
-    name: string | undefined;
-    placeholder: string | null;
     autocomplete: string | null;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 export default _default;

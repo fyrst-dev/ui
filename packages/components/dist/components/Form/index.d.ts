@@ -35,11 +35,11 @@ declare const _default: {
         size: "sm" | "md" | "lg";
         disabled: boolean;
         class: any;
+        name: string;
+        placeholder: string | null;
         id: string;
         required: boolean;
         modelValue: string | null;
-        name: string;
-        placeholder: string | null;
         autocomplete: string | null;
         valid: true | false | "none";
     }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLInputElement>;
@@ -49,9 +49,9 @@ declare const _default: {
         }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
             submit: (form: HTMLFormElement | null) => any;
         }, import('vue').PublicProps, {
+            ariaLabel: string;
             placeholder: string;
             method: "get" | "post";
-            ariaLabel: string;
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {
             promptForm: HTMLFormElement;
         }, HTMLFormElement, import('vue').ComponentProvideOptions, {
@@ -64,9 +64,9 @@ declare const _default: {
         }, Readonly<import('./FormPrompt.vue').FormPromptProps> & Readonly<{
             onSubmit?: ((form: HTMLFormElement | null) => any) | undefined;
         }>, {}, {}, {}, {}, {
+            ariaLabel: string;
             placeholder: string;
             method: "get" | "post";
-            ariaLabel: string;
         }>;
         __isFragment?: never;
         __isTeleport?: never;
@@ -76,9 +76,9 @@ declare const _default: {
     }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
         submit: (form: HTMLFormElement | null) => any;
     }, string, {
+        ariaLabel: string;
         placeholder: string;
         method: "get" | "post";
-        ariaLabel: string;
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
             parameter?(_: {}): any;
