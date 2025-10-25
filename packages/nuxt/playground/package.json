@@ -3,11 +3,17 @@
   "name": "my-module-playground",
   "type": "module",
   "scripts": {
+    "prepare": "panda codegen",
     "dev": "nuxi dev",
     "build": "nuxi build",
     "generate": "nuxi generate"
   },
   "dependencies": {
     "nuxt": "^4.0.1"
+  },
+  "devDependencies": {
+    "@fyrst/design-preset": "file:../../preset",
+    "@pandacss/dev": "^1.4.3",
+    "@pandacss/studio": "^1.4.3"
   }
 }

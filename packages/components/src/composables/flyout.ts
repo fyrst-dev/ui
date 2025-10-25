@@ -1,10 +1,8 @@
 import { onMounted, onUnmounted, readonly, type Ref, ref } from 'vue'
 
-interface FlyoutOptions {
+export interface FlyoutOptions {
     el: Ref<HTMLElement | undefined>
 }
-
-export const focusedElement = ref<HTMLElement>()
 
 export function useFlyout(options: FlyoutOptions) {
     const open = ref(false)

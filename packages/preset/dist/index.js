@@ -12,22 +12,57 @@ var colors = defineTokens.colors({
     value: "#000000",
     description: "This is the primary black color used in our design system"
   },
-  green: {
+  brand: {
     100: {
       value: "#A3EFAC",
-      description: "This is a light, pale green color and is references as pale-green"
+      description: "This is a light, pale brand color and is references as pale-brand"
     },
     300: {
       value: "#19bf56",
-      description: "This is the fyrst brand green color and is referenced as brand-green"
+      description: "This is the fyrst brand color and is referenced as brand"
     },
     400: {
       value: "#05C260",
-      description: "This is the fyrst brand green color and is referenced as brand-green"
+      description: "This is the fyrst brand color and is referenced as brand"
     },
     600: {
       value: "#0E8543",
-      description: "This is a darker, bolder green color and is referenced as dawn-green"
+      description: "This is a darker, bolder brand color and is referenced as dawn-brand"
+    }
+  },
+  red: {
+    50: {
+      value: "#fef2f2"
+    },
+    100: {
+      value: "#fee2e2"
+    },
+    200: {
+      value: "#fecaca"
+    },
+    300: {
+      value: "#fca5a5"
+    },
+    400: {
+      value: "#f87171"
+    },
+    500: {
+      value: "#ef4444"
+    },
+    600: {
+      value: "#dc2626"
+    },
+    700: {
+      value: "#b91c1c"
+    },
+    800: {
+      value: "#991b1b"
+    },
+    900: {
+      value: "#7f1d1d"
+    },
+    950: {
+      value: "#450a0a"
     }
   },
   grey: {
@@ -121,11 +156,11 @@ var breakpoints = {
 // src/tokens/semantic-tokens.ts
 import { defineSemanticTokens } from "@pandacss/dev";
 var colors2 = defineSemanticTokens.colors({
-  green: {
-    pale: { value: "{colors.green.100}" },
-    day: { value: "{colors.green.300}" },
-    brand: { value: "{colors.green.400}" },
-    dawn: { value: "{colors.green.600}" }
+  brand: {
+    pale: { value: "{colors.brand.100}" },
+    day: { value: "{colors.brand.300}" },
+    brand: { value: "{colors.brand.400}" },
+    dawn: { value: "{colors.brand.600}" }
   },
   grey: {
     dawn: { value: "{colors.grey.300}" },
@@ -134,7 +169,10 @@ var colors2 = defineSemanticTokens.colors({
     black: { value: "{colors.grey.900}" }
   },
   primary: {
-    value: { base: "{colors.green.pale}", _light: "{colors.green.day}" }
+    value: { base: "{colors.brand.pale}", _light: "{colors.brand.day}" }
+  },
+  danger: {
+    value: { base: "{colors.red.400}", _light: "{colors.red.600}" }
   },
   neutral: {
     value: { base: "{colors.white}", _light: "{colors.grey.night}" }
@@ -162,7 +200,21 @@ var preset = definePreset({
       colors: colors2
     },
     extend: {
-      breakpoints
+      breakpoints,
+      containerSizes: {
+        xs: "320px",
+        sm: "384px",
+        md: "448px",
+        lg: "512px",
+        xl: "576px",
+        "2xl": "672px",
+        "3xl": "768px",
+        "4xl": "896px",
+        "5xl": "1024px",
+        "6xl": "1152px",
+        "7xl": "1280px",
+        "8xl": "1440px"
+      }
     }
   },
   conditions: {

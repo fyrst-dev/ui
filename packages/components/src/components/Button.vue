@@ -20,7 +20,7 @@
  * <Button color="primary" size="lg" label="Large Primary Button" />
  */
 import { computed } from 'vue'
-import { cva, css } from '../../styled-system/css';
+import { cva, css } from 'styled-system/css';
 
 const props = withDefaults(defineProps<{
     label?: string | null
@@ -71,7 +71,7 @@ const buttonStyle = cva({
         justifyContent: 'center',
         fontWeight: '600',
         lineHeight: '1.5',
-        borderRadius: 'md',
+        borderRadius: 'lg',
         borderStyle: 'solid',
         borderWidth: '1px',
         userSelect: 'none',
@@ -111,8 +111,8 @@ const buttonStyle = cva({
                     backgroundColor: 'grey.black',
                 },
                 _light: {
-                    bg: 'green.pale',
-                    borderColor: 'green.pale',
+                    bg: 'brand.pale',
+                    borderColor: 'brand.pale',
                     color: 'grey.night',
                     '& .btn-icon': {
                         color: 'grey.night',
