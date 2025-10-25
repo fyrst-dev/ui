@@ -64,7 +64,7 @@ const { open, toggle } = useFlyout({ el });
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .flyout-enter-active,
 .flyout-leave-active {
   transition: all 200ms;

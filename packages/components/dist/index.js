@@ -348,6 +348,7 @@ const rt = ["innerHTML"], $t = /* @__PURE__ */ S({
           },
           secondary: {
             bg: "grey.night",
+            color: "neutral",
             borderColor: "grey.600",
             "& .btn-icon": {
               color: "primary"
@@ -398,11 +399,10 @@ const rt = ["innerHTML"], $t = /* @__PURE__ */ S({
             },
             _light: {
               _hover: {
-                backgroundColor: "grey.50",
-                borderColor: "grey.100"
+                backgroundColor: "brand.pale/25"
               },
               _active: {
-                backgroundColor: "grey.100"
+                backgroundColor: "brand.pale/40"
               }
             }
           }
@@ -938,7 +938,7 @@ const ce = /* @__PURE__ */ S({
   for (const [o, n] of t)
     r[o] = n;
   return r;
-}, vt = /* @__PURE__ */ ft(pt, [["__scopeId", "data-v-d1f7d06d"]]), jt = {
+}, vt = /* @__PURE__ */ ft(pt, [["__scopeId", "data-v-909bf7be"]]), jt = {
   Root: vt,
   Dropdown: ce
 }, ht = ["innerHTML"], xt = ["innerHTML"], yt = /* @__PURE__ */ S({
