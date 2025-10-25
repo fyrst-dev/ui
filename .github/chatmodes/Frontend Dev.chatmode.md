@@ -38,90 +38,22 @@ This is a **Bun-based monorepo** with three core packages:
   - `bun run dev:nuxt` - Nuxt module playground
   - `bun run watch:preset` - Watch mode for preset changes
 
-## 🎨 Design System Patterns
+## 📚 Reference Documentation
 
-### Token Architecture
+When working on specific domains, refer to these specialized docs:
 
-#### **Base Tokens** (`packages/preset/src/tokens/tokens.ts`)
-- **Colors**: White, black, green shades (100-600), grey scale (50-900)
-- **Spacing**: 3xs to 12xl (2px to 160px)
-- **Radii**: sm to 5xl (4px to 40px)
-- **Font Sizes**: xs to 3xl
-- **Breakpoints**: 3xs, 2xs, xs, sm, md, lg, xl, 2xl, 3xl
+- **`design-system.docs.md`** - Token architecture, semantic tokens, styling patterns, container pattern
+- **`component-patterns.docs.md`** - CVA/SVA/CSS patterns, component organization, composables, slots, prop patterns
+- **`pandacss.docs.md`** - Complete PandaCSS API reference
 
-#### **Semantic Tokens** (`packages/preset/src/tokens/semantic-tokens.ts`)
-- **Theme-aware tokens** with light/dark mode support:
-  - `primary`: pale brand (dark) / day brand (light)
-  - `neutral`: white (dark) / night grey (light)
-  - `lucid`: Transparent overlays with opacity variants (50-600)
-- **Named color aliases**: `brand.pale`, `brand.brand`, `grey.night`, `grey.black`
+**Read these files as needed** - they contain deep-dive information for specialized topics.
 
-#### **Conditions**
-- Custom `light` condition: `.light &, .light&` (supports both descendant and self-targeting)
-- Usage: `_light: { bg: 'white' }` in component styles
+---
 
-### Component Patterns
-
-#### **1. Styling Approaches**
-
-**CVA (Class Variance Authority)** - For single-element components with variants:
-- Import from `styled-system/css`
-- Define `base` styles and `variants` object
-- Set `defaultVariants` for fallback values
-- Apply to element with `:class="styleName({ variant1, variant2 })"`
-- See: `Button.vue` for comprehensive example
-
-**SVA (Slot Variance Authority)** - For multi-element components:
-- Define multiple `slots` (e.g., 'root', 'container', 'header')
-- Each slot has its own base and variant styles
-- Call sva function to generate classes object
-- Apply with `:class="classes.slotName"`
-- See: `Card.vue` for pattern
-
-**Inline CSS** - For dynamic or one-off styles:
-- Use `css()` function for style objects
-- Use `css.raw()` to merge with props-based classes
-- Combine multiple style sources with `css(css.raw({...}), props.customClass)`
-- See: `Carousel.vue` for usage
-
-#### **2. Component Props Patterns**
-
-- Use TypeScript `interface` for prop definitions
-- Always provide defaults with `withDefaults(defineProps<Interface>(), {...})`
-- Nullable props use `| null` type and `null` default
-- Variant props use union types: `'sm' | 'md' | 'lg'`
-- Custom class props accept `any` type for PandaCSS Styles compatibility
-- Dynamic tag rendering with computed properties (see `Button.vue`)
-
-#### **3. Composables Pattern**
-
-- Located in `packages/components/src/composables/`
-- Return reactive state as `readonly()` refs when consumed externally
-- Use `provide/inject` for parent-child component communication
-- Clean up side effects in `onUnmounted`
-- Use IntersectionObserver for visibility tracking (carousel pattern)
-- Document all parameters and return values
-
-#### **4. Slot Patterns**
-
-- Prefer named slots over default slot for flexibility
-- Use `wrapper-before` / `wrapper-after` pattern for decorator slots
-- Provide fallback default slot with nested named slots
-- Allow slot composition for maximum flexibility
-- See: `Card.vue` for slot composition pattern
-
-#### **5. Component Documentation**
-
-- JSDoc block above `<script setup>` is **required**
-- Include: `@component`, `@description`, all `@prop` definitions, `@example` usage
-- Document prop types, optional status, and defaults
-- Provide multiple usage examples
-- See: `Button.vue` for comprehensive documentation pattern
-
-### Component Inventory
+## 🧩 Component Inventory
 
 Current components (`packages/components/src/components/`):
-- **Button.vue** - Multi-variant button/link (primary/secondary/transparent, sm/md/lg)
+- **Button.vue** - Multi-variant button/link (primary/secondary/transparent, sm/md/lg, regular/inverse order)
 - **Card.vue** - Container with border variants and slot composition
 - **CardBody.vue** - Card content wrapper
 - **Carousel.vue** - Horizontal scrollable container with composable logic
@@ -132,21 +64,35 @@ Current components (`packages/components/src/components/`):
 - **HeroLead.vue** - Hero section component
 - **Loader.vue** - Loading indicator
 
+**Field/** - Form field composition system (namespace: `Field.*`):
+- **FieldBase.vue** - Wrapper with context (ID generation, ARIA, error/message state)
+- **FieldInput.vue** - Complete field with label, input, error, message
+- **FieldLabel.vue** - Accessible label with required indicator support
+- **FieldError.vue** - Error message display
+- **FieldMessage.vue** - Helper text display
+- **FieldRequired.vue** - Required field indicator
+
+**Form/** - Form input components (namespace: `Form.*`):
+- **FormInput.vue** - Base text input with styling
+- **FormPrompt.vue** - Styled form container with textarea
+- **FormPromptFooter.vue** - Footer section for FormPrompt
+
 ## 🔧 Development Workflows
 
 ### Adding a New Component
 
 1. **Create component file** in `packages/components/src/components/ComponentName.vue`
-2. **Use PandaCSS styling** (cva/sva/css based on complexity)
+2. **Use PandaCSS styling** - See `component-patterns.docs.md` for CVA/SVA/CSS patterns
 3. **Add TypeScript props** with defaults
 4. **Document with JSDoc** (component description, all props, examples)
 5. **Export in** `packages/components/src/index.ts`
-6. **Test in playground** (`packages/components/playground/App.vue`)
-7. **Build**: `bun run build:components`
+6. **For component families:** Create subdirectory with `index.ts` using namespace export pattern (see `component-patterns.docs.md`)
+7. **Test in playground** (`packages/components/playground/App.vue`)
+8. **Build**: `bun run build:components`
 
 ### Modifying Design Tokens
 
-1. **Edit tokens** in `packages/preset/src/tokens/tokens.ts` or `semantic-tokens.ts`
+1. **Edit tokens** in `packages/preset/src/tokens/tokens.ts` or `semantic-tokens.ts` (see `design-system.docs.md`)
 2. **Rebuild preset**: `bun run build:preset` (or `watch:preset`)
 3. **Regenerate styled-system** in components: `bun run --filter='@fyrst/ui-components' prepare`
 4. **Rebuild components**: `bun run build:components`
@@ -154,7 +100,7 @@ Current components (`packages/components/src/components/`):
 ### Adding a Composable
 
 1. **Create file** in `packages/components/src/composables/name.ts`
-2. **Follow Vue Composition API patterns** (reactive state, computed, lifecycle hooks)
+2. **Follow patterns** in `component-patterns.docs.md` (reactive state, computed, lifecycle hooks)
 3. **Return readonly refs** for external state when appropriate
 4. **Use inject/provide** for parent-child communication
 5. **Document parameters and return values**
@@ -163,7 +109,9 @@ Current components (`packages/components/src/components/`):
 
 The Nuxt module auto-registers all components with `fyrst` prefix:
 - Components path: `packages/nuxt/src/module.ts` → `addComponentsDir()`
-- Usage: `<FyrstButton>`, `<FyrstCard>`, `<FyrstCarousel>`, etc.
+- Composables: Auto-imported via `addImportsDir()`
+- Usage: `<FyrstButton>`, `<FyrstCard>`, `<FyrstField.Input>`, etc.
+- Composables: `useCarousel()`, `useFlyout()`, `useFormData()` (no imports needed)
 - No manual imports needed in Nuxt apps
 - Automatically tree-shakeable
 
@@ -200,7 +148,8 @@ When completing work on a **feature branch, fix branch or if you get a according
 
 ### Styling
 - **Never use inline CSS/SCSS** - always PandaCSS
-- **Use semantic tokens** over raw tokens (prefer `primary` over `brand.100`)
+- **Use semantic tokens** over raw tokens (prefer `primary` over `brand.100`) - see `design-system.docs.md`
+- **Styling patterns**: CVA/SVA/css - see `component-patterns.docs.md`
 - **Leverage conditions** for interactivity and theming: `_hover`, `_active`, `_light`, `_disabled`
 - **Responsive design** with breakpoint objects (base, md, lg, xl, etc.)
 - Reference existing components for token usage patterns
@@ -228,7 +177,7 @@ packages/preset/src/
 ## ⚠️ Important Constraints
 
 ### Design System Rules
-1. **Always use design tokens** - never hardcoded colors/spacing (except TODOs)
+1. **Always use design tokens** - never hardcoded colors/spacing (see `design-system.docs.md`)
 2. **Theme compatibility** - test both light and dark modes
 3. **Responsive by default** - use breakpoint objects
 4. **Accessibility** - semantic HTML, ARIA when needed
@@ -243,6 +192,7 @@ packages/preset/src/
 - **Carousel viewport scroll bug**: Elements don't get visible flag when viewport is too small (see carousel.ts comments)
 - **Carousel item mode**: Buggy scroll to next item functionality
 - **Hardcoded colors in Button.vue**: Some hover/active states use hex values instead of tokens
+- **FieldMessage JSDoc**: Labeled as `@component FieldHelper` (naming inconsistency)
 
 ## ⚠️ CRITICAL: Implementation Planning Protocol
 
@@ -263,8 +213,10 @@ packages/preset/src/
    - If user rejects or modifies the plan, revise and ask again
 
 3. **📚 Research First**:
-   - For PandaCSS tasks: Read relevant sections in `pandacss.docs.md` FIRST
-   - For component tasks: Check existing similar components
+   - For PandaCSS tasks: Read `pandacss.docs.md` FIRST
+   - For design system tasks: Read `design-system.docs.md`
+   - For component patterns: Read `component-patterns.docs.md`
+   - For existing components: Check similar implementations
    - For new features: Search codebase for similar patterns
    - Document your research findings in the plan
 
@@ -296,6 +248,8 @@ Whenever you work with pandacss there is a `pandacss.docs.md` file in the `.gith
 - Run `bun run prepare` in components package when adding new components or changing token usage
 - This regenerates the `styled-system/` directory with type-safe CSS utilities
 - Never edit `styled-system/` files manually - they are auto-generated
+- For design tokens: See `design-system.docs.md`
+- For styling patterns: See `component-patterns.docs.md`
 
 ### Debugging
 - **Component playground**: `packages/components/playground/App.vue` - test components in isolation
@@ -310,12 +264,13 @@ The Figma Fyrst UI kit is available [here](https://www.figma.com/design/4PK5foXc
 When helping with this codebase:
 
 1. **Reference existing patterns** - point to similar components
-2. **Use design tokens** - always suggest semantic tokens first
+2. **Use design tokens** - always suggest semantic tokens first (see `design-system.docs.md`)
 3. **Consider theme modes** - remind about light/dark compatibility
 4. **TypeScript first** - always type props and return values
 5. **Think monorepo** - consider impact on all three packages
 6. **Build context** - remind about build order when needed
-7. **Document thoroughly** - JSDoc for all new components/functions
+7. **Document thoroughly** - JSDoc for all new components/functions (see `component-patterns.docs.md`)
+8. **Read reference docs** - consult specialized docs for deep-dive information
 
 You should write production-ready code that matches the existing style, uses the design system correctly, and integrates seamlessly with the monorepo architecture.
 
