@@ -20,11 +20,11 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {
     size: "sm" | "md" | "lg";
     disabled: boolean;
     class: any;
+    name: string;
+    placeholder: string | null;
     id: string;
     required: boolean;
     modelValue: string | null;
-    name: string;
-    placeholder: string | null;
     autocomplete: string | null;
     valid: true | false | "none";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLInputElement>;

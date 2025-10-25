@@ -1,5 +1,5 @@
 type BorderColor = 'default' | 'primary' | 'none';
-interface Props {
+export interface Props {
     borderColor?: BorderColor;
     classWrapper?: any;
     classContainer?: any;
@@ -30,4 +30,4 @@ type __VLS_WithTemplateSlots<T, S> = T & {
         $slots: S;
     };
 };
-//# sourceMappingURL=Card.vue.d.ts.map
+//# sourceMappingURL=CardRoot.vue.d.ts.map

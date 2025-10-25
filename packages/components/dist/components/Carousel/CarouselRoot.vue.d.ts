@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import { Styles } from '../../styled-system/css';
+import { Styles } from '../../../styled-system/css';
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
@@ -55,4 +55,4 @@ type __VLS_WithTemplateSlots<T, S> = T & {
         $slots: S;
     };
 };
-//# sourceMappingURL=Carousel.vue.d.ts.map
+//# sourceMappingURL=CarouselRoot.vue.d.ts.map

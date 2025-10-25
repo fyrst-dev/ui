@@ -244,6 +244,7 @@ components/
 ### Component Families
 Subdirectory with namespace export pattern:
 
+**Field Family (Composition Pattern):**
 ```
 components/
 └── Field/
@@ -254,7 +255,16 @@ components/
     └── index.ts
 ```
 
-**index.ts:**
+**Card Family (Container Pattern with Root):**
+```
+components/
+└── Card/
+    ├── CardRoot.vue    ← Main container uses "Root" suffix
+    ├── CardBody.vue
+    └── index.ts
+```
+
+**index.ts (Field example):**
 ```typescript
 import FieldBase from './FieldBase.vue'
 import FieldInput from './FieldInput.vue'
@@ -273,6 +283,21 @@ export default {
 }
 ```
 
+**index.ts (Card example):**
+```typescript
+import CardRoot from './CardRoot.vue'
+import CardBody from './CardBody.vue'
+
+// Named exports for direct imports
+export { CardRoot, CardBody }
+
+// Default export for namespaced usage
+export default {
+  Root: CardRoot,
+  Body: CardBody
+}
+```
+
 ### Usage Patterns
 ```vue
 <!-- Named import -->
@@ -283,12 +308,32 @@ import { FieldInput } from '@fyrst/ui-components'
   <FieldInput />
 </template>
 
-<!-- Namespace import -->
+<!-- Namespace import (Field) -->
 <script setup>
 import Field from '@fyrst/ui-components'
 </script>
 <template>
   <Field.Input />
+</template>
+
+<!-- Namespace import (Card) -->
+<script setup>
+import Card from '@fyrst/ui-components'
+</script>
+<template>
+  <Card.Root>
+    <Card.Body>
+      Content here
+    </Card.Body>
+  </Card.Root>
+</template>
+
+<!-- Nuxt auto-import (flat tags) -->
+<template>
+  <FyrstFieldInput />
+  <FyrstCardRoot>
+    <FyrstCardBody>Content</FyrstCardBody>
+  </FyrstCardRoot>
 </template>
 ```
 
@@ -307,11 +352,49 @@ provide('fieldContext', {
 const context = inject('fieldContext')
 ```
 
+**Example with inject/provide for Carousel:**
+```typescript
+// CarouselRoot.vue (parent)
+const { handleNext, handlePrev, carouselItems } = useCarousel(props, carousel, slots)
+
+provide('handleNext', handleNext)
+provide('handlePrev', handlePrev)
+provide('carouselItems', carouselItems)
+
+// CarouselNavigation.vue (child)
+const handlePrev = inject<(() => void)>('handlePrev')
+const handleNext = inject<(() => void)>('handleNext')
+const carouselItems = inject<Ref<NodeListOf<HTMLElement> | null>>('carouselItems')
+// FieldError.vue (child)
+const context = inject('fieldContext')
+```
+
 **Example:** Field family components
 
 ---
 
 ## 🏗️ Component Families
+
+### Naming Convention for Main Components
+
+For component families with a main container component, use the `Root` suffix to avoid folder/file name conflicts:
+
+```
+Card/
+├── CardRoot.vue     ← Main container (avoids conflict with Card/ folder)
+├── CardBody.vue
+└── index.ts
+```
+
+For families without a main container (composition-only), use descriptive names:
+
+```
+Field/
+├── FieldBase.vue    ← Wrapper/context provider (not the main visual component)
+├── FieldInput.vue
+├── FieldLabel.vue
+└── index.ts
+```
 
 ### Field/* (Form Field Composition)
 Namespace: `Field.*`
@@ -327,3 +410,24 @@ Namespace: `Form.*`
 - **FormInput** - Base text input with styling
 - **FormPrompt** - Form container with textarea
 - **FormPromptFooter** - Footer section for FormPrompt
+
+### Card/* (Card Container System)
+Namespace: `Card.*`
+- **CardRoot** - Main container with border variants and slot composition
+- **CardBody** - Content wrapper with padding
+
+### Carousel/* (Horizontal Scrolling System)
+Namespace: `Carousel.*`
+- **CarouselRoot** - Main scrollable container with composable logic
+- **CarouselItem** - Individual carousel slide
+- **CarouselNavigation** - Navigation controls with prev/next buttons
+
+### Flyout/* (Overlay System)
+Namespace: `Flyout.*`
+- **FlyoutRoot** - Hover-triggered overlay container
+- **FlyoutDropdown** - Positioned dropdown variant
+
+### Hero/* (Hero Section System)
+Namespace: `Hero.*`
+- **HeroLead** - Hero section with headline, description, and actions
+

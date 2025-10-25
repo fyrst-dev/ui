@@ -1,9 +1,6 @@
-type __VLS_Props = {
-    id?: string;
-    error?: string | null;
-    message?: string | null;
-    class?: any;
-};
+export interface Props {
+    direction?: 'left' | 'right';
+}
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
@@ -13,11 +10,8 @@ declare function __VLS_template(): {
     rootEl: HTMLDivElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<__VLS_Props> & Readonly<{}>, {
-    class: any;
-    error: string | null;
-    id: string;
-    message: string | null;
+declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
+    direction: "left" | "right";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;
@@ -26,4 +20,4 @@ type __VLS_WithTemplateSlots<T, S> = T & {
         $slots: S;
     };
 };
-//# sourceMappingURL=FieldBase.vue.d.ts.map
+//# sourceMappingURL=FlyoutDropdown.vue.d.ts.map

@@ -37,13 +37,13 @@ declare const _default: {
         label: string | null;
         type: "text" | "email" | "tel";
         disabled: boolean;
-        id: string;
         error: string | null;
+        name: string | undefined;
+        placeholder: string | null;
+        id: string;
         message: string | null;
         required: boolean;
         modelValue: string | null;
-        name: string | undefined;
-        placeholder: string | null;
         autocomplete: string | null;
     }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
     Base: {
@@ -54,8 +54,8 @@ declare const _default: {
             class?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
             class: any;
-            id: string;
             error: string | null;
+            id: string;
             message: string | null;
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLDivElement, import('vue').ComponentProvideOptions, {
             P: {};
@@ -71,8 +71,8 @@ declare const _default: {
             class?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, {
             class: any;
-            id: string;
             error: string | null;
+            id: string;
             message: string | null;
         }>;
         __isFragment?: never;
@@ -85,8 +85,8 @@ declare const _default: {
         class?: any;
     }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
         class: any;
-        id: string;
         error: string | null;
+        id: string;
         message: string | null;
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {

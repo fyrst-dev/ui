@@ -30,9 +30,9 @@ declare const __VLS_component: import('vue').DefineComponent<FormPromptProps, {}
 }, string, import('vue').PublicProps, Readonly<FormPromptProps> & Readonly<{
     onSubmit?: ((form: HTMLFormElement | null) => any) | undefined;
 }>, {
+    ariaLabel: string;
     placeholder: string;
     method: "get" | "post";
-    ariaLabel: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     promptForm: HTMLFormElement;
 }, HTMLFormElement>;

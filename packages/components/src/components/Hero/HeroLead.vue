@@ -17,23 +17,22 @@
 </template>
 
 <script setup lang="ts">
-import { sva } from "styled-system/css";
+import { sva } from "../../../styled-system/css";
 import { computed } from "vue";
 
-const props = withDefaults(
-  defineProps<{
-    headline?: string;
-    headlineTag?: string;
-    description?: string;
-    alignItems?: "start" | "center" | "end";
-    size?: "sm" | "md" | "lg";
-  }>(),
-  {
-    headlineTag: "h1",
-    alignItems: "start",
-    size: "md",
-  }
-);
+export interface Props {
+  headline?: string;
+  headlineTag?: string;
+  description?: string;
+  alignItems?: "start" | "center" | "end";
+  size?: "sm" | "md" | "lg";
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  headlineTag: "h1",
+  alignItems: "start",
+  size: "md",
+});
 
 const heroLeadStyle = sva({
   slots: ["root", "headline", "description", "actions"],

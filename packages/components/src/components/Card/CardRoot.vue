@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { sva } from '../../styled-system/css'
+import { sva } from '../../../styled-system/css'
 
 type BorderColor = 'default' | 'primary' | 'none'
 
-interface Props {
+export interface Props {
   borderColor?: BorderColor
   classWrapper?: any
   classContainer?: any

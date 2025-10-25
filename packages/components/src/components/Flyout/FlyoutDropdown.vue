@@ -1,8 +1,11 @@
 <script lang="ts" setup>
-    import { css } from '../../styled-system/css'
-    const props = withDefaults(defineProps<{
+    import { css } from '../../../styled-system/css'
+    
+    export interface Props {
         direction?: 'left' | 'right'
-    }>(), {
+    }
+    
+    const props = withDefaults(defineProps<Props>(), {
         direction: 'left'
     })
 </script>
