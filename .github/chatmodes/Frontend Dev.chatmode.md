@@ -167,6 +167,23 @@ The Nuxt module auto-registers all components with `fyrst` prefix:
 - No manual imports needed in Nuxt apps
 - Automatically tree-shakeable
 
+### Writing partial Changelog Files
+
+When completing work on a **feature branch, fix branch or if you get a according prompt** create a partial changelog file in the `/changelog` directory:
+
+1. **File naming**: Use pattern `YYYY-MM-DD-short-description.md` (e.g., `2025-10-25-field-form-components.md`)
+2. **Format structure**: Use conventional changelog format with additional context sections
+3. **Required sections**:
+   - Header with branch name and date
+   - **What's New** or **What's Changed**: Quick overview of changes
+   - **Changelog**: Conventional format with Added/Changed/Removed/Fixed subsections
+   - **Breaking Changes**: Document any breaking changes (if applicable)
+4. **Content style**:
+   - Be concise but comprehensive
+   - Focus on user-facing changes (components, APIs, exports)
+   - Clearly document component renames or removals
+   - Include migration guidance for breaking changes
+
 ## 🎯 Code Style & Conventions
 
 ### TypeScript
