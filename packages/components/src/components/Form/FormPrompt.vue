@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { css } from 'styled-system/css';
 
 export interface FormPromptProps {
@@ -21,6 +22,18 @@ withDefaults(defineProps<FormPromptProps>(), {
     ariaLabel: undefined,
     placeholder: undefined,
 });
+
+const emit = defineEmits<{
+    /** Emitted when form is submitted with the form element for full control */
+    submit: [form: HTMLFormElement | null];
+}>();
+
+const promptForm = ref<HTMLFormElement | null>(null);
+
+const handleSubmit = (event: Event) => {
+    event.preventDefault();
+    emit('submit', promptForm.value);
+};
 </script>
 
 <template>
@@ -31,6 +44,7 @@ withDefaults(defineProps<FormPromptProps>(), {
         :id="id"
         :name="name"
         :aria-label="ariaLabel"
+        @submit="handleSubmit"
         :class="css({
             containerType: 'inline-size',
             display: 'flex',

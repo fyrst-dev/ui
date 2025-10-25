@@ -25,7 +25,11 @@ declare function __VLS_template(): {
     rootEl: HTMLFormElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<FormPromptProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<FormPromptProps> & Readonly<{}>, {
+declare const __VLS_component: import('vue').DefineComponent<FormPromptProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    submit: (form: HTMLFormElement | null) => any;
+}, string, import('vue').PublicProps, Readonly<FormPromptProps> & Readonly<{
+    onSubmit?: ((form: HTMLFormElement | null) => any) | undefined;
+}>, {
     placeholder: string;
     method: "get" | "post";
     ariaLabel: string;

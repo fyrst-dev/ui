@@ -10,7 +10,8 @@
             :required="true"
         />
 
-        <FyrstFormPrompt 
+        <FyrstFormPrompt
+            @submit="onSubmit" 
             action="/submit"
             method="post"
             id="formPrompt"
@@ -69,5 +70,12 @@
 </template>
 
 <script setup lang="ts">
-import { css } from '~/styled-system/css';
+import { css } from 'styled-system/css';
+
+const onSubmit = (form: HTMLFormElement | null) => {
+    console.log('Form submitted:', form);
+    if (form) {
+        console.log(useFormData(form));
+    }
+};
 </script>

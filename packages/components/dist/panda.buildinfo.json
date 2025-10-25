@@ -180,14 +180,16 @@
       "containerType]___[value:inline-size",
       "backgroundColor]___[value:grey.night",
       "padding]___[value:xs",
-      "resize]___[value:none",
-      "fieldSizing]___[value:content",
       "outline]___[value:none]___[cond:_focus",
       "flex]___[value:1",
       "flexBasis]___[value:100%",
-      "flexBasis]___[value:0%]___[cond:@container (min-width: 600px)",
+      "flexBasis]___[value:auto]___[cond:@container (min-width: 800px)",
       "flex]___[value:0",
-      "flexBasis]___[value:auto]___[cond:@container (min-width: 600px)"
+      "flexBasis]___[value:0%]___[cond:@container (min-width: 600px)",
+      "flexBasis]___[value:auto]___[cond:@container (min-width: 600px)",
+      "resize]___[value:none",
+      "maxHeight]___[value:300px",
+      "fieldSizing]___[value:content"
     ],
     "recipes": {}
   }

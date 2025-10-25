@@ -44,7 +44,11 @@ declare const _default: {
         valid: true | false | "none";
     }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLInputElement>;
     Prompt: {
-        new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./FormPrompt.vue').FormPromptProps> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
+        new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./FormPrompt.vue').FormPromptProps> & Readonly<{
+            onSubmit?: ((form: HTMLFormElement | null) => any) | undefined;
+        }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+            submit: (form: HTMLFormElement | null) => any;
+        }, import('vue').PublicProps, {
             placeholder: string;
             method: "get" | "post";
             ariaLabel: string;
@@ -57,7 +61,9 @@ declare const _default: {
             C: {};
             M: {};
             Defaults: {};
-        }, Readonly<import('./FormPrompt.vue').FormPromptProps> & Readonly<{}>, {}, {}, {}, {}, {
+        }, Readonly<import('./FormPrompt.vue').FormPromptProps> & Readonly<{
+            onSubmit?: ((form: HTMLFormElement | null) => any) | undefined;
+        }>, {}, {}, {}, {}, {
             placeholder: string;
             method: "get" | "post";
             ariaLabel: string;
@@ -65,7 +71,11 @@ declare const _default: {
         __isFragment?: never;
         __isTeleport?: never;
         __isSuspense?: never;
-    } & import('vue').ComponentOptionsBase<Readonly<import('./FormPrompt.vue').FormPromptProps> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
+    } & import('vue').ComponentOptionsBase<Readonly<import('./FormPrompt.vue').FormPromptProps> & Readonly<{
+        onSubmit?: ((form: HTMLFormElement | null) => any) | undefined;
+    }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+        submit: (form: HTMLFormElement | null) => any;
+    }, string, {
         placeholder: string;
         method: "get" | "post";
         ariaLabel: string;

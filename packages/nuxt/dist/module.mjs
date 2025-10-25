@@ -1,4 +1,4 @@
-import { defineNuxtModule, createResolver, addPlugin, addComponentsDir } from '@nuxt/kit';
+import { defineNuxtModule, createResolver, addPlugin, addComponentsDir, addImportsDir } from '@nuxt/kit';
 
 const module = defineNuxtModule({
   meta: {
@@ -15,6 +15,7 @@ const module = defineNuxtModule({
       prefix: "fyrst"
       // Optional: Components will be <FyrstButton>, <FyrstCard>, etc.      
     });
+    addImportsDir(resolver.resolve("./../../components/src/composables"));
   }
 });
 
