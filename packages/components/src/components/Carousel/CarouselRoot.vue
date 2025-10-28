@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, useSlots, type PropType, provide } from 'vue'
-import { css, type Styles } from '../../../styled-system/css'
+import { css, type Styles } from 'styled-system/css'
 import { useCarousel } from '../../composables/carousel'
 
 /** Props */

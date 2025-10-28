@@ -1,22 +1,64 @@
 {
     "name": "@fyrst/design-preset",
-    "version": "0.1.5",
+    "version": "0.2.0",
     "type": "module",
     "main": "./dist/index.cjs",
     "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "files": [
-        "dist"
+        "dist",
+        "css",
+        "tokens",
+        "types",
+        "patterns",
+        "recipes",
+        "jsx"
     ],
     "scripts": {
-        "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+        "prepare": "panda codegen",
+        "build": "bun run prepare && tsup src/index.ts --format esm,cjs --dts --clean && panda emit-pkg",
         "watch": "tsup src/index.ts --format esm,cjs --dts --watch"
     },
     "devDependencies": {
+        "@pandacss/dev": "^1.4.1",
         "tsup": "^8.5.0"
     },
     "peerDependencies": {
         "@pandacss/dev": "^1.0.1",
-        "typescript": "^5.9.2"
+        "typescript": "^5.9.2",
+        "vue": "^3.5.12"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "require": "./dist/index.cjs",
+            "import": "./dist/index.js"
+        },
+        "./css": {
+            "types": "./css/index.d.ts",
+            "require": "./css/index.mjs",
+            "import": "./css/index.mjs"
+        },
+        "./tokens": {
+            "types": "./tokens/index.d.ts",
+            "require": "./tokens/index.mjs",
+            "import": "./tokens/index.mjs"
+        },
+        "./types": {
+            "types": "./types/index.d.ts",
+            "require": "./types/index.mjs",
+            "import": "./types/index.mjs"
+        },
+        "./patterns": {
+            "types": "./patterns/index.d.ts",
+            "require": "./patterns/index.mjs",
+            "import": "./patterns/index.mjs"
+        },
+        "./jsx": {
+            "types": "./jsx/index.d.ts",
+            "require": "./jsx/index.mjs",
+            "import": "./jsx/index.mjs"
+        },
+        "./styles.css": "./styles.css"
     }
 }

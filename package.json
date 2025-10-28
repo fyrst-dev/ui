@@ -7,6 +7,11 @@
     "packages/*"
   ],
   "exports": {
+    "./styled-system": {
+      "types": "./packages/preset/dist/index.d.ts",
+      "import": "./packages/preset/dist/index.js",
+      "require": "./packages/preset/dist/index.cjs"
+    },
     "./preset": {
       "types": "./packages/preset/dist/index.d.ts",
       "import": "./packages/preset/dist/index.js",
@@ -24,10 +29,12 @@
   },
   "scripts": {
     "build": "bun run build:preset && bun run build:components && bun run build:nuxt",
-    "build:preset": "bun run --filter='@fyrst/design-preset' build",
+    "build:styled-system": "bun run --filter='@fyrst/design-preset' build",
+    "build:preset": "bun run build:styled-system",
     "build:components": "bun run --filter='@fyrst/ui-components' build",
     "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev:prepare && bun run --filter='@fyrst/ui-nuxt' dev:build && bun run --filter='@fyrst/ui-nuxt' prepack",
-    "watch:preset": "bun run --filter='@fyrst/design-preset' watch",
+    "watch:styled-system": "bun run --filter='@fyrst/design-preset' watch",
+    "watch:preset": "bun run watch:styled-system",
     "dev:components": "bun run --filter='@fyrst/ui-components' dev",
     "dev:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev",
     "dev:nuxt:prepare": "bun run --filter='@fyrst/ui-nuxt' dev:prepare",

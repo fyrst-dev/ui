@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useFlyout } from "../../composables/flyout";
-import { css } from "../../../styled-system/css";
+import { css } from "styled-system/css";
 import FlyoutDropdown from "./FlyoutDropdown.vue";
 const el = ref<HTMLElement>();
 

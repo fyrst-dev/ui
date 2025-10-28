@@ -28,7 +28,7 @@
       "name": "@fyrst/ui-components",
       "version": "0.1.0",
       "dependencies": {
-        "@fyrst/design-preset": "workspace:*",
+        "@fyrst/styled-system": "workspace:*",
       },
       "devDependencies": {
         "@pandacss/studio": "^1.4.3",
@@ -53,14 +53,16 @@
       },
     },
     "packages/preset": {
-      "name": "@fyrst/design-preset",
-      "version": "0.1.5",
+      "name": "@fyrst/styled-system",
+      "version": "0.2.0",
       "devDependencies": {
+        "@pandacss/dev": "^1.4.1",
         "tsup": "^8.5.0",
       },
       "peerDependencies": {
         "@pandacss/dev": "^1.0.1",
         "typescript": "^5.9.2",
+        "vue": "^3.5.12",
       },
     },
   },
@@ -227,7 +229,7 @@
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.4.0", "", { "dependencies": { "@eslint/core": "^0.16.0", "levn": "^0.4.1" } }, "sha512-sB5uyeq+dwCWyPi31B2gQlVlo+j5brPlWx4yZBrEaRo/nhdDE8Xke1gsGgtiBdaBTxuTkceLVuVt/pclrasb0A=="],
 
-    "@fyrst/design-preset": ["@fyrst/design-preset@workspace:packages/preset"],
+    "@fyrst/styled-system": ["@fyrst/styled-system@workspace:packages/preset"],
 
     "@fyrst/ui-components": ["@fyrst/ui-components@workspace:packages/components"],
 

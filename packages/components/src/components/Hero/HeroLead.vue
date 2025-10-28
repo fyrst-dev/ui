@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { sva } from "../../../styled-system/css";
+import { sva } from "styled-system/css";
 import { computed } from "vue";
 
 export interface Props {

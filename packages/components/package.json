@@ -14,7 +14,8 @@
             "import": "./dist/index.js",
             "require": "./dist/index.cjs"
         },
-        "./style.css": "./dist/style.css"
+        "./style.css": "./dist/style.css",
+        "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
     },
     "scripts": {
         "prepare": "panda codegen",

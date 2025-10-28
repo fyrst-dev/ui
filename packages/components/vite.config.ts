@@ -33,7 +33,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
-      'styled-system': resolve(__dirname, 'styled-system'),
+      'styled-system': resolve(__dirname, 'styled-system')
     }
   }
 })

@@ -30,7 +30,7 @@
     </div>
 </template>
 
-<script setup>
-import { css, cx } from "styled-system/css";
+<script setup lang="ts">
 import { grid } from 'styled-system/patterns';
+import { css, cx } from 'styled-system/css';
 </script>

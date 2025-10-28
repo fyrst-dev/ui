@@ -938,7 +938,7 @@ const ce = /* @__PURE__ */ S({
   for (const [o, n] of t)
     r[o] = n;
   return r;
-}, vt = /* @__PURE__ */ ft(pt, [["__scopeId", "data-v-909bf7be"]]), jt = {
+}, vt = /* @__PURE__ */ ft(pt, [["__scopeId", "data-v-a1ce9f68"]]), jt = {
   Root: vt,
   Dropdown: ce
 }, ht = ["innerHTML"], xt = ["innerHTML"], yt = /* @__PURE__ */ S({
