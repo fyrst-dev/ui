@@ -21,7 +21,7 @@ export default defineConfig({
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
     },
     rollupOptions: {
-      external: ['vue', '@pandacss/dev'],
+      external: ['vue', '@pandacss/dev', '@ark-ui/vue'],
       output: {
         globals: {
           vue: 'Vue'
@@ -33,7 +33,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
-      'styled-system': resolve(__dirname, 'styled-system'),
+      'styled-system': resolve(__dirname, 'styled-system')
     }
   }
 })

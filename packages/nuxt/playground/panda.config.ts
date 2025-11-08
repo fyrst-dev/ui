@@ -7,6 +7,7 @@ export default defineConfig({
   presets: [
     preset
   ],
+  // hash: true,
   // Where to look for your css declarations
   include: [
     '../../components/dist/panda.buildinfo.json',

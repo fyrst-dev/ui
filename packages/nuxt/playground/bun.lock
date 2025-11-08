@@ -7,7 +7,7 @@
         "nuxt": "^4.0.1",
       },
       "devDependencies": {
-        "@fyrst/design-preset": "file:../../preset",
+        "@fyrst/styled-system": "file:../../preset",
         "@pandacss/dev": "^1.4.3",
         "@pandacss/studio": "^1.4.3",
       },
@@ -150,7 +150,7 @@
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.25.11", "", { "os": "win32", "cpu": "x64" }, "sha512-D7Hpz6A2L4hzsRpPaCYkQnGOotdUpDzSGRIv9I+1ITdHROSFUWW95ZPZWQmGka1Fg7W3zFJowyn9WGwMJ0+KPA=="],
 
-    "@fyrst/design-preset": ["@fyrst/design-preset@file:../../preset", { "devDependencies": { "tsup": "^8.5.0" }, "peerDependencies": { "@pandacss/dev": "^1.0.1", "typescript": "^5.9.2" } }],
+    "@fyrst/styled-system": ["@fyrst/styled-system@file:../../preset", { "devDependencies": { "@pandacss/dev": "^1.4.1", "tsup": "^8.5.0" }, "peerDependencies": { "@pandacss/dev": "^1.0.1", "typescript": "^5.9.2", "vue": "^3.5.12" } }],
 
     "@img/sharp-darwin-arm64": ["@img/sharp-darwin-arm64@0.33.5", "", { "optionalDependencies": { "@img/sharp-libvips-darwin-arm64": "1.0.4" }, "os": "darwin", "cpu": "arm64" }, "sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ=="],
 
