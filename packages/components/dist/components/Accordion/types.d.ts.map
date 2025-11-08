@@ -1,0 +1,1 @@
+{"version":3,"file":"types.d.ts","sourceRoot":"","sources":["../../../src/components/Accordion/types.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,WAAW,aAAa;IAC1B,+CAA+C;IAC/C,EAAE,EAAE,MAAM,CAAA;IACV,+DAA+D;IAC/D,KAAK,EAAE,MAAM,CAAA;IACb,0DAA0D;IAC1D,OAAO,EAAE,MAAM,CAAA;IACf,sDAAsD;IACtD,IAAI,CAAC,EAAE,MAAM,CAAA;CAChB"}

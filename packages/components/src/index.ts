@@ -6,6 +6,7 @@ import Flyout from "./components/Flyout"
 import Hero from "./components/Hero"
 import Field from "./components/Field"
 import Form from "./components/Form"
+import Accordion from "./components/Accordion"
 
 export { 
     Button,
@@ -15,8 +16,12 @@ export {
     Flyout,
     Hero,
     Field,
-    Form
+    Form,
+    Accordion
 }
+
+// Export types
+export type { AccordionItem } from "./components/Accordion"
 
 // Export composables
 export * from './composables/carousel'
