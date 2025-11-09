@@ -12,7 +12,6 @@
     "nuxt": "^4.0.1"
   },
   "devDependencies": {
-    "@fyrst/styled-system": "file:../../preset",
     "@pandacss/dev": "^1.4.3",
     "@pandacss/studio": "^1.4.3"
   }

@@ -1,4 +1,4 @@
-import { createJiti } from "/home/robjke/Projects/fyrst/ui/node_modules/.bun/jiti@2.5.1/node_modules/jiti/lib/jiti.mjs";
+import { createJiti } from "file:///home/robjke/Projects/fyrst/ui/node_modules/.bun/jiti@2.6.1/node_modules/jiti/lib/jiti.mjs";
 
 const jiti = createJiti(import.meta.url, {
   "interopDefault": true,

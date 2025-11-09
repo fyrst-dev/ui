@@ -60,10 +60,9 @@
 
 <script setup lang="ts">
 import { css } from 'styled-system/css'
-import type { AccordionItem } from '@fyrst/ui-components'
 
 // Basic accordion items
-const basicItems: AccordionItem[] = [
+const basicItems = [
     {
         id: 'item-1',
         title: 'What is Vue.js?',
@@ -82,7 +81,7 @@ const basicItems: AccordionItem[] = [
 ]
 
 // Rich content items with HTML
-const richContentItems: AccordionItem[] = [
+const richContentItems = [
     {
         id: 'rich-1',
         title: '<strong>Bold Title</strong> with formatting',
@@ -111,7 +110,7 @@ console.log(greeting)</code></pre>
 ]
 
 // FAQ style items
-const faqItems: AccordionItem[] = [
+const faqItems = [
     {
         id: 'faq-1',
         title: 'How do I get started?',
@@ -135,7 +134,7 @@ const faqItems: AccordionItem[] = [
 ]
 
 // Multiple items for scalability demonstration
-const multipleItems: AccordionItem[] = [
+const multipleItems = [
     {
         id: 'multi-1',
         title: 'Section 1: Introduction',

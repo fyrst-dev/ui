@@ -1,25 +1,24 @@
 <script setup lang="ts">
-import { Accordion } from '@ark-ui/vue/accordion'
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot, AccordionTrigger } from 'reka-ui'
 import { css } from 'styled-system/css'
-import type { AccordionItem } from './types'
+import type { AccordionItem as AccordionItemProps } from './types'
 
 const props = defineProps<{
-  items: AccordionItem[]
+  items: AccordionItemProps[]
 }>()
 </script>
 
 <template>
-  <Accordion.Root :collapsible="true" :multiple="true">
-    <Accordion.Item v-for="item in items" :key="item.id" :value="item.id">
-      <Accordion.ItemTrigger>
-        <div v-html="item.title" />
-        <Accordion.ItemIndicator>
-          >
-        </Accordion.ItemIndicator>
-      </Accordion.ItemTrigger>
-      <Accordion.ItemContent>
+  <AccordionRoot type="multiple">
+    <AccordionItem v-for="item in items" :key="item.id" :value="item.id">
+      <AccordionHeader>
+        <AccordionTrigger>
+          {{ item.title }}
+          </AccordionTrigger>
+      </AccordionHeader>
+      <AccordionContent>
         <div v-html="item.content" />
-      </Accordion.ItemContent>
-    </Accordion.Item>
-  </Accordion.Root>
+        </AccordionContent>
+    </AccordionItem>
+  </AccordionRoot>
 </template>

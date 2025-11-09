@@ -34,6 +34,9 @@
     "dependencies": {
         "@nuxt/kit": "^4.0.1"
     },
+    "devDependencies": {
+        "@fyrst/design-preset": "workspace:*"
+    },
     "peerDependencies": {
         "nuxt": "^4.0.1"
     }
