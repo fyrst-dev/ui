@@ -3,22 +3,30 @@ import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot, Accord
 import { css } from 'styled-system/css'
 import type { AccordionItem as AccordionItemProps } from './types'
 
-const props = defineProps<{
-  items: AccordionItemProps[]
-}>()
+const props = withDefaults(defineProps<{
+	type?: 'single' | 'multiple'
+	items: AccordionItemProps[]
+}>(), {
+	type: 'multiple'
+})
 </script>
 
 <template>
-  <AccordionRoot type="multiple">
-    <AccordionItem v-for="item in items" :key="item.id" :value="item.id">
-      <AccordionHeader>
-        <AccordionTrigger>
-          {{ item.title }}
-          </AccordionTrigger>
-      </AccordionHeader>
-      <AccordionContent>
-        <div v-html="item.content" />
-        </AccordionContent>
-    </AccordionItem>
-  </AccordionRoot>
+	<AccordionRoot 
+		:type="type">
+
+		<AccordionItem 
+			v-for="item in items" 
+			:key="item.id" 
+			:value="item.id">
+
+			<AccordionHeader>
+				<AccordionTrigger
+					v-html="item.title" />
+			</AccordionHeader>
+
+			<AccordionContent
+				v-html="item.content" />
+		</AccordionItem>
+	</AccordionRoot>
 </template>

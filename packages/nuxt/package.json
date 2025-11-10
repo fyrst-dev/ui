@@ -38,6 +38,10 @@
         "@fyrst/design-preset": "workspace:*"
     },
     "peerDependencies": {
-        "nuxt": "^4.0.1"
+        "nuxt": "^4.0.1",
+        "vue": "^3.5.12",
+        "@pandacss/dev": "^1.0.1",
+        "@ark-ui/vue": "^5.0.0",
+        "reka-ui": "^2.6.0"
     }
 }

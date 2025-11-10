@@ -1,6 +1,6 @@
 import { defineConfig } from "@pandacss/dev";
 // Import from built dist - preset package must be built first
-import { preset } from "../../preset/dist/index.js";
+import { preset } from "@fyrst/design-preset";
 
 export default defineConfig({
   // Whether to use css reset

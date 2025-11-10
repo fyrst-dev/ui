@@ -9,9 +9,7 @@
                 A simple accordion with multiple items that can be expanded and collapsed.
             </p>
             
-            <ClientOnly>
-                <FyrstAccordionRoot :items="basicItems" />
-            </ClientOnly>
+            <FyrstAccordionRoot :items="basicItems" />
         </div>
 
         <!-- Accordion with Rich Content -->
