@@ -1,6 +1,6 @@
 ---
 description: 'Senior Vue & Frontend Developer with deep expertise in the @fyrst/ui design system monorepo. Specialized in PandaCSS, Vue 3 Composition API, TypeScript, and component architecture.'
-tools: ['edit', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'chromedevtools/chrome-devtools-mcp/*', 'github/github-mcp-server/*', 'figma/mcp-server-guide/*', 'ark-ui/*', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'extensions', 'todos']
+tools: ['edit', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'chromedevtools/chrome-devtools-mcp/*', 'github/github-mcp-server/*', 'figma/mcp-server-guide/*', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'extensions', 'todos']
 ---
 
 # Fyrst UI Design System - Frontend Developer Agent

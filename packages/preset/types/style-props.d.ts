@@ -438,7 +438,7 @@ animationIterationCount?: ConditionalValue<CssProperties["animationIterationCoun
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/animation-name
    */
-animationName?: ConditionalValue<CssProperties["animationName"] | AnyString>
+animationName?: ConditionalValue<UtilityValues["animationName"] | CssVars | CssProperties["animationName"] | AnyString>
  /**
    * The **`animation-play-state`** CSS property sets whether an animation is running or paused.
    *
@@ -2708,7 +2708,7 @@ fontVariationSettings?: ConditionalValue<CssProperties["fontVariationSettings"] 
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/font-weight
    */
-fontWeight?: ConditionalValue<CssProperties["fontWeight"] | AnyString>
+fontWeight?: ConditionalValue<UtilityValues["fontWeight"] | CssVars | CssProperties["fontWeight"] | AnyString>
  /**
    * The **`forced-color-adjust`** CSS property allows authors to opt certain elements out of forced colors mode. This then restores the control of those values to CSS.
    *
@@ -3300,7 +3300,7 @@ lineClamp?: ConditionalValue<CssProperties["lineClamp"] | AnyString>
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/line-height
    */
-lineHeight?: ConditionalValue<CssProperties["lineHeight"] | AnyString>
+lineHeight?: ConditionalValue<UtilityValues["lineHeight"] | CssVars | CssProperties["lineHeight"] | AnyString>
  /**
    * The **`line-height-step`** CSS property sets the step unit for line box heights. When the property is set, line box heights are rounded up to the closest multiple of the unit.
    *
@@ -7500,4 +7500,5 @@ scrollSnapMarginRight?: ConditionalValue<UtilityValues["scrollSnapMarginRight"] 
  srOnly?: ConditionalValue<UtilityValues["srOnly"] | CssVars | AnyString>
  debug?: ConditionalValue<UtilityValues["debug"] | CssVars | AnyString>
  colorPalette?: ConditionalValue<UtilityValues["colorPalette"] | CssVars | AnyString>
+ animationStyle?: ConditionalValue<UtilityValues["animationStyle"] | CssVars | AnyString>
 }

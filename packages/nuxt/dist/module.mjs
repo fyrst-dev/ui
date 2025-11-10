@@ -1,18 +1,23 @@
-import { createJiti } from "file:///home/robjke/Projects/fyrst/ui/node_modules/.bun/jiti@2.6.1/node_modules/jiti/lib/jiti.mjs";
+import { defineNuxtModule, createResolver, addPlugin, addComponentsDir, addImportsDir } from '@nuxt/kit';
 
-const jiti = createJiti(import.meta.url, {
-  "interopDefault": true,
-  "alias": {
-    "@fyrst/ui-nuxt": "/home/robjke/Projects/fyrst/ui/packages/nuxt"
+const module$1 = defineNuxtModule({
+  meta: {
+    name: "fyrst-ui",
+    configKey: "fyrstUi"
   },
-  "transformOptions": {
-    "babel": {
-      "plugins": []
-    }
+  defaults: {},
+  setup(_options, _nuxt) {
+    const resolver = createResolver(import.meta.url);
+    addPlugin(resolver.resolve("./runtime/plugin"));
+    _nuxt.options.css.push("@fyrst/ui-components/style.css");
+    addComponentsDir({
+      path: resolver.resolve("./../../components/src/components"),
+      // Path relative to this file
+      prefix: "fyrst"
+      // Optional: Components will be <FyrstButton>, <FyrstCard>, etc.      
+    });
+    addImportsDir(resolver.resolve("./../../components/src/composables"));
   }
-})
+});
 
-/** @type {import("/home/robjke/Projects/fyrst/ui/packages/nuxt/src/module.js")} */
-const _module = await jiti.import("/home/robjke/Projects/fyrst/ui/packages/nuxt/src/module.ts");
-
-export default _module?.default ?? _module;
+export { module$1 as default };

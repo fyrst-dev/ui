@@ -9,7 +9,9 @@
                 A simple accordion with multiple items that can be expanded and collapsed.
             </p>
             
-            <FyrstAccordionRoot :items="basicItems" />
+            <FyrstAccordionRoot :items="basicItems" :classes="{
+                    icon: css({ color: 'primary' })
+                }"/>
         </div>
 
         <!-- Accordion with Rich Content -->
@@ -21,9 +23,10 @@
                 Accordion items can contain HTML content for more complex layouts.
             </p>
             
-            <ClientOnly>
-                <FyrstAccordionRoot :items="richContentItems" />
-            </ClientOnly>
+            <FyrstAccordionRoot 
+                orientation="horizontal"
+                :items="richContentItems" 
+                 />
         </div>
 
         <!-- FAQ Style Accordion -->
@@ -35,9 +38,7 @@
                 A typical FAQ implementation using the accordion component.
             </p>
             
-            <ClientOnly>
-                <FyrstAccordionRoot :items="faqItems" />
-            </ClientOnly>
+            <FyrstAccordionRoot type="single" :items="faqItems" />
         </div>
 
         <!-- Multiple Items Accordion -->
@@ -49,9 +50,7 @@
                 Accordion with several items demonstrating scalability.
             </p>
             
-            <ClientOnly>
-                <FyrstAccordionRoot :items="multipleItems" />
-            </ClientOnly>
+            <FyrstAccordionRoot :items="multipleItems" />
         </div>
     </ShowcaseContainer>
 </template>
@@ -62,6 +61,7 @@ import { css } from 'styled-system/css'
 // Basic accordion items
 const basicItems = [
     {
+        icon: 'arrow-left',
         id: 'item-1',
         title: 'What is Vue.js?',
         content: 'Vue.js is a progressive JavaScript framework for building user interfaces. It is designed to be incrementally adoptable.'
@@ -81,6 +81,7 @@ const basicItems = [
 // Rich content items with HTML
 const richContentItems = [
     {
+        icon: 'star',
         id: 'rich-1',
         title: '<strong>Bold Title</strong> with formatting',
         content: `
@@ -95,6 +96,7 @@ const richContentItems = [
         `
     },
     {
+        icon: 'code',
         id: 'rich-2',
         title: 'Item with <code>code</code> example',
         content: `

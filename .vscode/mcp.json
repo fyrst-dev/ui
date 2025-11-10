@@ -1,8 +1,3 @@
 {
-  "servers": {
-    "ark-ui": {
-      "command": "npx",
-      "args": ["-y", "@ark-ui/mcp"]
-    }
-  }
+  "servers": {}
 }

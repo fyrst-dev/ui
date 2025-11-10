@@ -21,7 +21,7 @@ export default defineConfig({
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
     },
     rollupOptions: {
-      external: ['vue', '@pandacss/dev', '@ark-ui/vue', 'reka-ui'],
+      external: ['vue', '@pandacss/dev', 'reka-ui'],
       output: {
         globals: {
           vue: 'Vue'

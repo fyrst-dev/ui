@@ -1,5 +1,5 @@
 /* eslint-disable */
-export type Token = `colors.${ColorToken}` | `spacing.${SpacingToken}` | `radii.${RadiusToken}` | `fontSizes.${FontSizeToken}` | `breakpoints.${BreakpointToken}` | `sizes.${SizeToken}`
+export type Token = `colors.${ColorToken}` | `spacing.${SpacingToken}` | `radii.${RadiusToken}` | `fontSizes.${FontSizeToken}` | `fontWeights.${FontWeightToken}` | `lineHeights.${LineHeightToken}` | `breakpoints.${BreakpointToken}` | `sizes.${SizeToken}`
 
 export type ColorPalette = "white" | "black" | "brand" | "red" | "grey" | "primary" | "danger" | "neutral" | "lucid"
 
@@ -11,6 +11,10 @@ export type RadiusToken = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5
 
 export type FontSizeToken = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl"
 
+export type FontWeightToken = "normal" | "medium" | "semibold" | "bold"
+
+export type LineHeightToken = "normal"
+
 export type BreakpointToken = "3xs" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl"
 
 export type SizeToken = "breakpoint-3xs" | "breakpoint-2xs" | "breakpoint-xs" | "breakpoint-sm" | "breakpoint-md" | "breakpoint-lg" | "breakpoint-xl" | "breakpoint-2xl" | "breakpoint-3xl" | "breakpoint-4xl"
@@ -20,6 +24,8 @@ export type Tokens = {
 		spacing: SpacingToken
 		radii: RadiusToken
 		fontSizes: FontSizeToken
+		fontWeights: FontWeightToken
+		lineHeights: LineHeightToken
 		breakpoints: BreakpointToken
 		sizes: SizeToken
 } & { [token: string]: never }

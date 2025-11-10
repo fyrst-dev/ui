@@ -77,7 +77,9 @@ export interface UtilityValues {
 	boxSize: "auto" | Tokens["sizes"] | "1/2" | "1/3" | "2/3" | "1/4" | "2/4" | "3/4" | "1/5" | "2/5" | "3/5" | "4/5" | "1/6" | "2/6" | "3/6" | "4/6" | "5/6" | "1/12" | "2/12" | "3/12" | "4/12" | "5/12" | "6/12" | "7/12" | "8/12" | "9/12" | "10/12" | "11/12" | "screen";
 	color: Tokens["colors"];
 	fontSize: Tokens["fontSizes"];
+	fontWeight: Tokens["fontWeights"];
 	fontSmoothing: "antialiased" | "subpixel-antialiased";
+	lineHeight: Tokens["lineHeights"];
 	textDecorationColor: Tokens["colors"];
 	textEmphasisColor: Tokens["colors"];
 	textIndent: Tokens["spacing"];
@@ -126,6 +128,7 @@ export interface UtilityValues {
 	borderSpacingY: Tokens["spacing"];
 	transitionProperty: "common" | "colors" | "size" | "position" | "background";
 	transition: "all" | "common" | "size" | "position" | "background" | "colors" | "opacity" | "shadow" | "transform";
+	animationName: "slideDown" | "slideUp";
 	rotate: "auto" | "auto-3d" | CssProperties["rotate"];
 	rotateX: CssProperties["rotate"];
 	rotateY: CssProperties["rotate"];
@@ -175,6 +178,7 @@ export interface UtilityValues {
 	debug: boolean;
 	containerName: CssProperties["containerName"];
 	colorPalette: "white" | "black" | "brand" | "red" | "grey" | "primary" | "danger" | "neutral" | "lucid";
+	animationStyle: "slideDown" | "slideUp";
 }
 
 
