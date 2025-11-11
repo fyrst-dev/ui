@@ -166,7 +166,10 @@ const accordionClasses = accordion({
 
 			<AccordionContent
 				:class="accordionClasses.content">
-				<div v-html="item.content" />
+
+				<slot name="content" :item="item">
+					<div v-html="item.content" />
+				</slot>
 			</AccordionContent>
 		</AccordionItem>
 	</AccordionRoot>
