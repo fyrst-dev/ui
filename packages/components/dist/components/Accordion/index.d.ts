@@ -41,9 +41,22 @@ declare const _default: {
         orientation?: "vertical" | "horizontal";
         size?: "md";
         items: import('./types').AccordionItem[];
-    }, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<{
-        items: import('./types').AccordionItem[];
-    }> & Readonly<{}>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
+        classes?: any;
+    }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
+        type: "single" | "multiple";
+        size: "md";
+        classes: any;
+        orientation: "vertical" | "horizontal";
+    }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
+        $slots: {
+            icon?(_: {
+                item: import('./types').AccordionItem;
+            }): any;
+            content?(_: {
+                item: import('./types').AccordionItem;
+            }): any;
+        };
+    });
 };
 export default _default;
 //# sourceMappingURL=index.d.ts.map
