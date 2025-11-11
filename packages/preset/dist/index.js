@@ -186,6 +186,45 @@ var colors2 = defineSemanticTokens.colors({
   }
 });
 
+// src/animation.ts
+import { defineAnimationStyles, defineKeyframes } from "@pandacss/dev";
+var animationStyles = defineAnimationStyles({
+  "slideDown": {
+    value: {
+      animationName: "slideDown",
+      animationDuration: "300ms"
+    }
+  },
+  "slideUp": {
+    value: {
+      animationName: "slideUp",
+      animationDuration: "300ms"
+    }
+  }
+});
+var keyframes = defineKeyframes({
+  slideDown: {
+    "0%": {
+      height: "0",
+      visibility: "hidden"
+    },
+    "100%": {
+      height: "auto",
+      visibility: "visible"
+    }
+  },
+  slideUp: {
+    "0%": {
+      height: "auto",
+      visibility: "visible"
+    },
+    "100%": {
+      height: "0",
+      visibility: "hidden"
+    }
+  }
+});
+
 // src/index.ts
 var preset = definePreset({
   name: "fyrst-design-preset",
@@ -194,7 +233,16 @@ var preset = definePreset({
       colors,
       spacing,
       radii,
-      fontSizes
+      fontSizes,
+      fontWeights: {
+        normal: { value: "400" },
+        medium: { value: "500" },
+        semibold: { value: "600" },
+        bold: { value: "700" }
+      },
+      lineHeights: {
+        normal: { value: "1.5" }
+      }
     },
     semanticTokens: {
       colors: colors2
@@ -214,7 +262,9 @@ var preset = definePreset({
         "6xl": "1152px",
         "7xl": "1280px",
         "8xl": "1440px"
-      }
+      },
+      keyframes,
+      animationStyles
     }
   },
   conditions: {

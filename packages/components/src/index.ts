@@ -1,3 +1,6 @@
+// Import global styles
+import "./styles/icons.css"
+
 import Button from "./components/Button.vue"
 import Loader from "./components/Loader.vue"
 import Card from "./components/Card"

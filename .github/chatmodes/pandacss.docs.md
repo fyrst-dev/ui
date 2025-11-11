@@ -6504,11 +6504,9 @@ Creates the root component that provides the style context. Use this when the ro
 underlying DOM element**.
 
 ```tsx
-import { Dialog } from '@ark-ui/react'
-
 //...
 
-const DialogRoot = withRootProvider(Dialog.Root)
+const DialogRoot = withRootProvider(SomeDialog.Root)
 ```
 
 ### withProvider
@@ -6519,11 +6517,9 @@ Creates a component that both provides context and applies the root slot styles.
 > **Note:** It requires the root `slot` parameter to be passed.
 
 ```tsx
-import { Avatar } from '@ark-ui/react'
-
 //...
 
-const AvatarRoot = withProvider(Avatar.Root, 'root')
+const AvatarRoot = withProvider(SomeAvatar.Root, 'root')
 ```
 
 ### withContext
@@ -6532,12 +6528,10 @@ Creates a component that consumes the style context and applies slot styles. It 
 but gets them from context.
 
 ```tsx
-import { Avatar } from '@ark-ui/react'
-
 //...
 
-const AvatarImage = withContext(Avatar.Image, 'image')
-const AvatarFallback = withContext(Avatar.Fallback, 'fallback')
+const AvatarImage = withContext(SomeAvatar.Image, 'image')
+const AvatarFallback = withContext(SomeAvatar.Fallback, 'fallback')
 ```
 
 ### unstyled prop
@@ -8878,10 +8872,6 @@ export const createStyleContext = recipe => {
 }
 ```
 
-> Note: For the TypeScript version of this file, refer to
-> [create-style-context.tsx](https://github.com/cschroeter/park-ui/blob/main/website/src/lib/create-style-context.tsx)
-> in Park UI
-
 Then, use the context to create compound components connected to the recipe
 
 ```jsx filename="Checkbox.tsx"
@@ -9059,7 +9049,7 @@ type CheckboxProps = CheckboxVariants & {
 It can be useful when you want to have the equivalent of a slot recipe without needing to split the class names bindings
 and instead just having a className that handles children on 1 DOM element.
 
-It pairs well with [ZagJs](https://zagjs.com/) and [Ark-UI](https://ark-ui.com/)
+It pairs well with [ZagJs](https://zagjs.com/)
 
 Let's refactor the previous example to use parts instead of slots:
 
@@ -13790,7 +13780,7 @@ export const checkboxRecipe = defineSlotRecipe({
 It can be useful when you want to have the equivalent of a slot recipe without needing to split the class names bindings
 and instead just having a className that handles children on 1 DOM element.
 
-It pairs well with [ZagJs](https://zagjs.com/) and [Ark-UI](https://ark-ui.com/)
+It pairs well with [ZagJs](https://zagjs.com/)
 
 Let's refactor the previous example to use parts instead of slots:
 

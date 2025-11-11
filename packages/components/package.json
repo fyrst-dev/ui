@@ -14,14 +14,15 @@
             "import": "./dist/index.js",
             "require": "./dist/index.cjs"
         },
-        "./style.css": "./dist/style.css",
+        "./style.css": "./dist/ui-components.css",
         "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
     },
     "scripts": {
         "prepare": "panda codegen",
         "panda:ship": "panda ship --outfile dist/panda.buildinfo.json",
         "panda:ship:watch": "panda ship -w --outfile dist/panda.buildinfo.json",
-        "build": "bun run clean && bun run prepare && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
+        "build": "bun run clean && bun run prepare && bun run build:icons && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
+        "build:icons": "bun run build.icons",
         "dev": "vite dev",
         "clean": "rm -rf dist"
     },
@@ -29,6 +30,8 @@
         "@fyrst/design-preset": "workspace:*"
     },
     "devDependencies": {
+        "@iconify/json": "^2.2.405",
+        "@iconify/utils": "^3.0.2",
         "@pandacss/studio": "^1.4.3",
         "@vitejs/plugin-vue": "^5.2.0",
         "sass-embedded": "^1.93.2",
@@ -38,6 +41,6 @@
     "peerDependencies": {
         "vue": "^3.5.12",
         "@pandacss/dev": "^1.0.1",
-        "@ark-ui/vue": "^5.0.0"
+        "reka-ui": "^2.6.0"
     }
 }

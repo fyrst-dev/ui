@@ -1,6 +1,7 @@
 import { definePreset } from '@pandacss/dev'
 import { colors, spacing, radii, fontSizes, breakpoints } from './tokens/tokens'
 import { colors as semanticColors } from './tokens/semantic-tokens'
+import { keyframes, animationStyles } from './animation'
 
 const preset = definePreset({
     name: 'fyrst-design-preset',
@@ -9,7 +10,16 @@ const preset = definePreset({
             colors: colors,
             spacing: spacing,
             radii: radii,
-            fontSizes: fontSizes
+            fontSizes: fontSizes,
+            fontWeights: {
+                normal: { value: '400' },
+                medium: { value: '500' },
+                semibold: { value: '600' },
+                bold: { value: '700' }
+            },
+            lineHeights: {
+                normal: { value: '1.5' }
+            }
         },
         semanticTokens: {
             colors: semanticColors
@@ -29,7 +39,9 @@ const preset = definePreset({
                 '6xl': '1152px',
                 '7xl': '1280px',
                 '8xl': '1440px'
-            }
+            },
+            keyframes,
+            animationStyles
         }
     },
     conditions: {

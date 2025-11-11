@@ -9,9 +9,9 @@
                 A simple accordion with multiple items that can be expanded and collapsed.
             </p>
             
-            <ClientOnly>
-                <FyrstAccordionRoot :items="basicItems" />
-            </ClientOnly>
+            <FyrstAccordionRoot :items="basicItems" :classes="{
+                    icon: css({ color: 'primary' })
+                }"/>
         </div>
 
         <!-- Accordion with Rich Content -->
@@ -23,9 +23,10 @@
                 Accordion items can contain HTML content for more complex layouts.
             </p>
             
-            <ClientOnly>
-                <FyrstAccordionRoot :items="richContentItems" />
-            </ClientOnly>
+            <FyrstAccordionRoot 
+                orientation="horizontal"
+                :items="richContentItems" 
+                 />
         </div>
 
         <!-- FAQ Style Accordion -->
@@ -37,9 +38,7 @@
                 A typical FAQ implementation using the accordion component.
             </p>
             
-            <ClientOnly>
-                <FyrstAccordionRoot :items="faqItems" />
-            </ClientOnly>
+            <FyrstAccordionRoot type="single" :items="faqItems" />
         </div>
 
         <!-- Multiple Items Accordion -->
@@ -51,20 +50,18 @@
                 Accordion with several items demonstrating scalability.
             </p>
             
-            <ClientOnly>
-                <FyrstAccordionRoot :items="multipleItems" />
-            </ClientOnly>
+            <FyrstAccordionRoot :items="multipleItems" />
         </div>
     </ShowcaseContainer>
 </template>
 
 <script setup lang="ts">
 import { css } from 'styled-system/css'
-import type { AccordionItem } from '@fyrst/ui-components'
 
 // Basic accordion items
-const basicItems: AccordionItem[] = [
+const basicItems = [
     {
+        icon: 'arrow-left',
         id: 'item-1',
         title: 'What is Vue.js?',
         content: 'Vue.js is a progressive JavaScript framework for building user interfaces. It is designed to be incrementally adoptable.'
@@ -82,8 +79,9 @@ const basicItems: AccordionItem[] = [
 ]
 
 // Rich content items with HTML
-const richContentItems: AccordionItem[] = [
+const richContentItems = [
     {
+        icon: 'star',
         id: 'rich-1',
         title: '<strong>Bold Title</strong> with formatting',
         content: `
@@ -98,6 +96,7 @@ const richContentItems: AccordionItem[] = [
         `
     },
     {
+        icon: 'code',
         id: 'rich-2',
         title: 'Item with <code>code</code> example',
         content: `
@@ -111,7 +110,7 @@ console.log(greeting)</code></pre>
 ]
 
 // FAQ style items
-const faqItems: AccordionItem[] = [
+const faqItems = [
     {
         id: 'faq-1',
         title: 'How do I get started?',
@@ -135,7 +134,7 @@ const faqItems: AccordionItem[] = [
 ]
 
 // Multiple items for scalability demonstration
-const multipleItems: AccordionItem[] = [
+const multipleItems = [
     {
         id: 'multi-1',
         title: 'Section 1: Introduction',

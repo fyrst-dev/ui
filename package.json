@@ -42,7 +42,6 @@
     "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist"
   },
   "devDependencies": {
-    "@ark-ui/vue": "^5.27.1",
     "@nuxt/devtools": "^2.6.5",
     "@nuxt/eslint-config": "^1.9.0",
     "@nuxt/module-builder": "^1.0.2",
@@ -54,6 +53,7 @@
     "changelogen": "^0.6.2",
     "eslint": "^9.37.0",
     "nuxt": "^4.1.3",
+    "reka-ui": "^2.6.0",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4",
     "vue": "^3.5.22",

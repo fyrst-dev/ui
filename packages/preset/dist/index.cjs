@@ -24,7 +24,7 @@ __export(index_exports, {
   preset: () => preset
 });
 module.exports = __toCommonJS(index_exports);
-var import_dev3 = require("@pandacss/dev");
+var import_dev4 = require("@pandacss/dev");
 
 // src/tokens/tokens.ts
 var import_dev = require("@pandacss/dev");
@@ -211,15 +211,63 @@ var colors2 = import_dev2.defineSemanticTokens.colors({
   }
 });
 
+// src/animation.ts
+var import_dev3 = require("@pandacss/dev");
+var animationStyles = (0, import_dev3.defineAnimationStyles)({
+  "slideDown": {
+    value: {
+      animationName: "slideDown",
+      animationDuration: "300ms"
+    }
+  },
+  "slideUp": {
+    value: {
+      animationName: "slideUp",
+      animationDuration: "300ms"
+    }
+  }
+});
+var keyframes = (0, import_dev3.defineKeyframes)({
+  slideDown: {
+    "0%": {
+      height: "0",
+      visibility: "hidden"
+    },
+    "100%": {
+      height: "auto",
+      visibility: "visible"
+    }
+  },
+  slideUp: {
+    "0%": {
+      height: "auto",
+      visibility: "visible"
+    },
+    "100%": {
+      height: "0",
+      visibility: "hidden"
+    }
+  }
+});
+
 // src/index.ts
-var preset = (0, import_dev3.definePreset)({
+var preset = (0, import_dev4.definePreset)({
   name: "fyrst-design-preset",
   theme: {
     tokens: {
       colors,
       spacing,
       radii,
-      fontSizes
+      fontSizes,
+      fontWeights: {
+        normal: { value: "400" },
+        medium: { value: "500" },
+        semibold: { value: "600" },
+        bold: { value: "700" }
+      },
+      lineHeights: {
+        normal: { value: "1.5" }
+      }
     },
     semanticTokens: {
       colors: colors2
@@ -239,7 +287,9 @@ var preset = (0, import_dev3.definePreset)({
         "6xl": "1152px",
         "7xl": "1280px",
         "8xl": "1440px"
-      }
+      },
+      keyframes,
+      animationStyles
     }
   },
   conditions: {

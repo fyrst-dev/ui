@@ -247,6 +247,26 @@ const tokens = {
     "value": "64px",
     "variable": "var(--font-sizes-5xl)"
   },
+  "fontWeights.normal": {
+    "value": "400",
+    "variable": "var(--font-weights-normal)"
+  },
+  "fontWeights.medium": {
+    "value": "500",
+    "variable": "var(--font-weights-medium)"
+  },
+  "fontWeights.semibold": {
+    "value": "600",
+    "variable": "var(--font-weights-semibold)"
+  },
+  "fontWeights.bold": {
+    "value": "700",
+    "variable": "var(--font-weights-bold)"
+  },
+  "lineHeights.normal": {
+    "value": "1.5",
+    "variable": "var(--line-heights-normal)"
+  },
   "breakpoints.3xs": {
     "value": "360px",
     "variable": "var(--breakpoints-3xs)"
