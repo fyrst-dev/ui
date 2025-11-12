@@ -8,20 +8,27 @@ export declare function useFormData(form: HTMLFormElement | null): {
             (name: string, value: string | Blob): void;
             (name: string, value: string): void;
             (name: string, blobValue: Blob, filename?: string): void;
+            (name: string, value: string | Blob): void;
+            (name: string, value: string): void;
+            (name: string, blobValue: Blob, filename?: string): void;
         };
         readonly delete: {
+            (name: string): void;
             (name: string): void;
             (name: string): void;
         };
         readonly get: {
             (name: string): FormDataEntryValue | null;
             (name: string): Bun.FormDataEntryValue | null;
+            (name: string): Bun.FormDataEntryValue | null;
         };
         readonly getAll: {
             (name: string): FormDataEntryValue[];
             (name: string): Bun.FormDataEntryValue[];
+            (name: string): Bun.FormDataEntryValue[];
         };
         readonly has: {
+            (name: string): boolean;
             (name: string): boolean;
             (name: string): boolean;
         };
@@ -32,14 +39,27 @@ export declare function useFormData(form: HTMLFormElement | null): {
             (name: string, value: string | Blob): void;
             (name: string, value: string): void;
             (name: string, blobValue: Blob, filename?: string): void;
+            (name: string, value: string | Blob): void;
+            (name: string, value: string): void;
+            (name: string, blobValue: Blob, filename?: string): void;
         };
         readonly forEach: {
             (callbackfn: (value: FormDataEntryValue, key: string, parent: FormData) => void, thisArg?: any): void;
             (callbackfn: (value: Bun.FormDataEntryValue, key: string, parent: FormData) => void, thisArg?: any): void;
+            (callbackfn: (value: Bun.FormDataEntryValue, key: string, parent: FormData) => void, thisArg?: any): void;
         };
-        readonly keys: () => IterableIterator<string>;
-        readonly values: () => IterableIterator<string>;
-        readonly entries: () => IterableIterator<[string, string]>;
+        readonly keys: {
+            (): IterableIterator<string>;
+            (): IterableIterator<string>;
+        };
+        readonly values: {
+            (): IterableIterator<string>;
+            (): IterableIterator<string>;
+        };
+        readonly entries: {
+            (): IterableIterator<[string, string]>;
+            (): IterableIterator<[string, string]>;
+        };
     } | null, {
         readonly append: {
             (name: string, value: string | Blob): void;
@@ -48,20 +68,27 @@ export declare function useFormData(form: HTMLFormElement | null): {
             (name: string, value: string | Blob): void;
             (name: string, value: string): void;
             (name: string, blobValue: Blob, filename?: string): void;
+            (name: string, value: string | Blob): void;
+            (name: string, value: string): void;
+            (name: string, blobValue: Blob, filename?: string): void;
         };
         readonly delete: {
+            (name: string): void;
             (name: string): void;
             (name: string): void;
         };
         readonly get: {
             (name: string): FormDataEntryValue | null;
             (name: string): Bun.FormDataEntryValue | null;
+            (name: string): Bun.FormDataEntryValue | null;
         };
         readonly getAll: {
             (name: string): FormDataEntryValue[];
             (name: string): Bun.FormDataEntryValue[];
+            (name: string): Bun.FormDataEntryValue[];
         };
         readonly has: {
+            (name: string): boolean;
             (name: string): boolean;
             (name: string): boolean;
         };
@@ -72,14 +99,27 @@ export declare function useFormData(form: HTMLFormElement | null): {
             (name: string, value: string | Blob): void;
             (name: string, value: string): void;
             (name: string, blobValue: Blob, filename?: string): void;
+            (name: string, value: string | Blob): void;
+            (name: string, value: string): void;
+            (name: string, blobValue: Blob, filename?: string): void;
         };
         readonly forEach: {
             (callbackfn: (value: FormDataEntryValue, key: string, parent: FormData) => void, thisArg?: any): void;
             (callbackfn: (value: Bun.FormDataEntryValue, key: string, parent: FormData) => void, thisArg?: any): void;
+            (callbackfn: (value: Bun.FormDataEntryValue, key: string, parent: FormData) => void, thisArg?: any): void;
         };
-        readonly keys: () => IterableIterator<string>;
-        readonly values: () => IterableIterator<string>;
-        readonly entries: () => IterableIterator<[string, string]>;
+        readonly keys: {
+            (): IterableIterator<string>;
+            (): IterableIterator<string>;
+        };
+        readonly values: {
+            (): IterableIterator<string>;
+            (): IterableIterator<string>;
+        };
+        readonly entries: {
+            (): IterableIterator<[string, string]>;
+            (): IterableIterator<[string, string]>;
+        };
     } | null>>;
     jsonData: Readonly<Ref<{
         readonly [x: string]: string;

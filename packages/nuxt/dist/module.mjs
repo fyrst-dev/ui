@@ -9,7 +9,8 @@ const module$1 = defineNuxtModule({
   setup(_options, _nuxt) {
     const resolver = createResolver(import.meta.url);
     addPlugin(resolver.resolve("./runtime/plugin"));
-    _nuxt.options.css.push("@fyrst/ui-components/style.css");
+    const cssPath = resolver.resolve("./../../components/dist/ui-components.css");
+    _nuxt.options.css.push(cssPath);
     addComponentsDir({
       path: resolver.resolve("./../../components/src/components"),
       // Path relative to this file

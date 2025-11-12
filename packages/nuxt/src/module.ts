@@ -13,8 +13,8 @@ export default defineNuxtModule<ModuleOptions>({
 		const resolver = createResolver(import.meta.url)
 		addPlugin(resolver.resolve('./runtime/plugin'))
 		
-		// Auto-inject component styles
-		_nuxt.options.css.push('@fyrst/ui-components/style.css')
+		const cssPath = resolver.resolve('./../../components/dist/ui-components.css')
+		_nuxt.options.css.push(cssPath)
 		
 		// Register components
 		addComponentsDir({
