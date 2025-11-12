@@ -11,6 +11,9 @@ const module$1 = defineNuxtModule({
     addPlugin(resolver.resolve("./runtime/plugin"));
     const cssPath = resolver.resolve("./../../components/dist/ui-components.css");
     _nuxt.options.css.push(cssPath);
+    _nuxt.options.vite.server?.fs?.allow?.push(
+      resolver.resolve("./../../components")
+    );
     addComponentsDir({
       path: resolver.resolve("./../../components/src/components"),
       // Path relative to this file
