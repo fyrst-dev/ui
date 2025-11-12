@@ -4,7 +4,7 @@ function H(e) {
   return typeof e == "object" && e != null && !Array.isArray(e);
 }
 var Re = (e) => typeof e == "object" && e !== null;
-function X(e) {
+function N(e) {
   return Object.fromEntries(Object.entries(e ?? {}).filter(([t, r]) => r !== void 0));
 }
 var $e = (e) => e === "base";
@@ -47,11 +47,11 @@ var D = (e) => {
     return t.set(n, a), a;
   };
 }, De = /* @__PURE__ */ new Set(["__proto__", "constructor", "prototype"]);
-function N(...e) {
+function X(...e) {
   return e.reduce((t, r) => (r && Object.keys(r).forEach((o) => {
     if (De.has(o)) return;
     const n = t[o], a = r[o];
-    H(n) && H(a) ? t[o] = N(n, a) : t[o] = a;
+    H(n) && H(a) ? t[o] = X(n, a) : t[o] = a;
   }), t), {});
 }
 var We = (e) => e != null;
@@ -118,16 +118,16 @@ function He(e) {
     }), Array.from(x).join(" ");
   });
 }
-function Xe(...e) {
-  return e.flat().filter((t) => H(t) && Object.keys(X(t)).length > 0);
+function Ne(...e) {
+  return e.flat().filter((t) => H(t) && Object.keys(N(t)).length > 0);
 }
-function Ne(e) {
+function Xe(e) {
   function t(n) {
-    const a = Xe(...n);
+    const a = Ne(...n);
     return a.length === 1 ? a : a.map((l) => ne(l, e));
   }
   function r(...n) {
-    return N(...t(n));
+    return X(...t(n));
   }
   function o(...n) {
     return Object.assign({}, ...t(n));
@@ -208,7 +208,7 @@ const K = (e) => ie.get(e) || e, de = {
   }
 }, lt = He(de), h = (...e) => lt(M(...e));
 h.raw = (...e) => M(...e);
-const { mergeCss: M } = Ne(de);
+const { mergeCss: M } = Xe(de);
 function st() {
   let e = "", t = 0, r;
   for (; t < arguments.length; )
@@ -223,7 +223,7 @@ const U = (e) => ({
   ...e
 });
 function W(e) {
-  const { base: t, variants: r, defaultVariants: o, compoundVariants: n } = U(e), a = (g) => ({ ...o, ...X(g) });
+  const { base: t, variants: r, defaultVariants: o, compoundVariants: n } = U(e), a = (g) => ({ ...o, ...N(g) });
   function l(g = {}) {
     var E;
     const f = a(g);
@@ -240,7 +240,7 @@ function W(e) {
       variants: Object.fromEntries(
         C.map((B) => [B, M(r[B], f.variants[B])])
       ),
-      defaultVariants: N(o, f.defaultVariants),
+      defaultVariants: X(o, f.defaultVariants),
       compoundVariants: [...n, ...f.compoundVariants]
     });
   }
@@ -283,7 +283,7 @@ function q(e) {
   function c(v) {
     return ae(v, i);
   }
-  const d = (v) => ({ ...r, ...X(v) }), x = Object.fromEntries(
+  const d = (v) => ({ ...r, ...N(v) }), x = Object.fromEntries(
     Object.entries(l).map(([v, g]) => [v, Object.keys(g)])
   );
   return Object.assign(D(n), {
@@ -485,7 +485,7 @@ const dt = ["innerHTML"], Ht = /* @__PURE__ */ S({
       _: 1
     }, 8, ["class", "type", "href", "title", "target", "rel", "disabled"]));
   }
-}), ct = ["aria-label"], Xt = /* @__PURE__ */ S({
+}), ct = ["aria-label"], Nt = /* @__PURE__ */ S({
   __name: "Loader",
   props: {
     size: { default: 40 },
@@ -629,7 +629,7 @@ const dt = ["innerHTML"], Ht = /* @__PURE__ */ S({
       p(t.$slots, "default")
     ], 2));
   }
-}), Nt = {
+}), Xt = {
   Root: ut,
   Body: mt
 };
@@ -1571,8 +1571,14 @@ const ce = /* @__PURE__ */ S({
           borderStyle: "solid",
           borderColor: "grey.dusk",
           transition: "all 300ms",
+          overflow: "clip",
           _open: {
-            bg: "grey.night"
+            // bg: 'grey.night'
+          },
+          _closed: {
+            _hover: {
+              borderColor: "grey.400"
+            }
           }
         },
         trigger: {
@@ -1585,6 +1591,7 @@ const ce = /* @__PURE__ */ S({
           lineHeight: "normal",
           alignItems: "center",
           _open: {
+            backgroundColor: "grey.night",
             '& [data-trigger="icon"]': {
               transform: "rotate(180deg)"
             }
@@ -1607,9 +1614,6 @@ const ce = /* @__PURE__ */ S({
           },
           _closed: {
             animationStyle: "slideUp"
-          },
-          "& > div": {
-            paddingTop: "0"
           }
         }
       },
@@ -1639,8 +1643,8 @@ const ce = /* @__PURE__ */ S({
               paddingX: "lg",
               gap: "md",
               fontSize: {
-                base: "md",
-                md: "lg"
+                base: "md"
+                //md: 'lg'
               },
               '& [data-trigger="icon"]': {
                 fontSize: {
@@ -1651,8 +1655,7 @@ const ce = /* @__PURE__ */ S({
             },
             content: {
               "& > div": {
-                paddingBottom: "lg",
-                paddingX: "lg"
+                padding: "lg"
               }
             }
           }
@@ -1743,13 +1746,13 @@ function Jt(e) {
 export {
   Zt as Accordion,
   Ht as Button,
-  Nt as Card,
+  Xt as Card,
   qt as Carousel,
   Kt as Field,
   Yt as Flyout,
   Ut as Form,
   Gt as Hero,
-  Xt as Loader,
+  Nt as Loader,
   gt as useCarousel,
   xt as useFlyout,
   Jt as useFormData

@@ -31,8 +31,14 @@ const accordion = sva({
 			borderStyle: 'solid',
 			borderColor: 'grey.dusk',
 			transition: 'all 300ms',
+			overflow: 'clip',
 			_open: {
-				bg: 'grey.night'
+				// bg: 'grey.night'
+			},
+			_closed: {
+				_hover: {
+					borderColor: 'grey.400',
+				}
 			}
 		},
 		trigger: {
@@ -45,6 +51,7 @@ const accordion = sva({
 			lineHeight: 'normal',
 			alignItems: 'center',
 			_open: {
+				backgroundColor: 'grey.night',
 				'& [data-trigger="icon"]': {
 					transform: 'rotate(180deg)',
 				}
@@ -67,9 +74,6 @@ const accordion = sva({
 			},
 			_closed: {
 				animationStyle: 'slideUp',
-			},
-			'& > div': {
-				paddingTop: '0'
 			}
 		}
 	},
@@ -100,7 +104,7 @@ const accordion = sva({
 					gap: 'md',
 					fontSize: {
 						base: 'md',
-						md: 'lg'
+						//md: 'lg'
 					},
 					'& [data-trigger="icon"]': {
 						fontSize: {
@@ -111,8 +115,7 @@ const accordion = sva({
 				},
 				content: {
 					'& > div': {
-						paddingBottom: 'lg',
-						paddingX: 'lg',
+						padding: 'lg',
 					}
 				}
 			}
