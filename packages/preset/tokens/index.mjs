@@ -71,6 +71,10 @@ const tokens = {
     "value": "#fafafa",
     "variable": "var(--colors-grey-50)"
   },
+  "colors.grey.75": {
+    "value": "#f4f4f4",
+    "variable": "var(--colors-grey-75)"
+  },
   "colors.grey.100": {
     "value": "#e5e5e5",
     "variable": "var(--colors-grey-100)"
@@ -391,6 +395,10 @@ const tokens = {
     "value": "var(--colors-neutral)",
     "variable": "var(--colors-neutral)"
   },
+  "colors.neutral.light": {
+    "value": "var(--colors-neutral-light)",
+    "variable": "var(--colors-neutral-light)"
+  },
   "colors.lucid.50": {
     "value": "var(--colors-lucid-50)",
     "variable": "var(--colors-lucid-50)"
@@ -531,6 +539,10 @@ const tokens = {
     "value": "var(--colors-color-palette-950)",
     "variable": "var(--colors-color-palette-950)"
   },
+  "colors.colorPalette.75": {
+    "value": "var(--colors-color-palette-75)",
+    "variable": "var(--colors-color-palette-75)"
+  },
   "colors.colorPalette.pale": {
     "value": "var(--colors-color-palette-pale)",
     "variable": "var(--colors-color-palette-pale)"
@@ -558,6 +570,10 @@ const tokens = {
   "colors.colorPalette.black": {
     "value": "var(--colors-color-palette-black)",
     "variable": "var(--colors-color-palette-black)"
+  },
+  "colors.colorPalette.light": {
+    "value": "var(--colors-color-palette-light)",
+    "variable": "var(--colors-color-palette-light)"
   }
 }
 

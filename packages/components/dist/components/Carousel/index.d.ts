@@ -19,8 +19,8 @@ declare const _default: {
                 default: null;
             };
         }>> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
-            classWrapper: import('../../../styled-system/css').Styles;
             scrollMode: "item" | "viewport";
+            classWrapper: import('../../../styled-system/css').Styles;
             classCarousel: import('../../../styled-system/css').Styles;
         }, true, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {
             carousel: HTMLUListElement;
@@ -46,8 +46,8 @@ declare const _default: {
                 default: null;
             };
         }>> & Readonly<{}>, {}, {}, {}, {}, {
-            classWrapper: import('../../../styled-system/css').Styles;
             scrollMode: "item" | "viewport";
+            classWrapper: import('../../../styled-system/css').Styles;
             classCarousel: import('../../../styled-system/css').Styles;
         }>;
         __isFragment?: never;
@@ -68,8 +68,8 @@ declare const _default: {
             default: null;
         };
     }>> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
-        classWrapper: import('../../../styled-system/css').Styles;
         scrollMode: "item" | "viewport";
+        classWrapper: import('../../../styled-system/css').Styles;
         classCarousel: import('../../../styled-system/css').Styles;
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {

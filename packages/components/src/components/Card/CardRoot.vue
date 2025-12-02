@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { sva } from 'styled-system/css'
+import { sva, cx } from 'styled-system/css'
 
 type BorderColor = 'default' | 'primary' | 'none'
+type BorderRadius = 'md' | 'lg' | 'xl'
 
 export interface Props {
   borderColor?: BorderColor
-  classWrapper?: any
+  borderRadius?: BorderRadius
+  classRoot?: any
   classContainer?: any
 }
 
 const props = withDefaults(defineProps<Props>(), {
   borderColor: 'default',
-  classWrapper: null,
+  borderRadius: 'md',
+  classRoot: null,
   classContainer: null,
 })
 
@@ -91,21 +94,21 @@ const card = sva({
 
 const classes = card({
     borderColor: props.borderColor,
-    borderRadius: 'xl',
+    borderRadius: props.borderRadius,
 })
 
 </script>
 
 <template>
-    <div :class="classes.root">
-        <slot name="wrapper-before" />
-        <div :class="classes.container">
+    <div :class="cx(classes.root, props.classRoot)">
+        <slot name="container-before" />
+        <div :class="[cx(classes.container, props.classContainer), 'CardContainer']">
             <slot>
                 <slot name="header" />
                 <slot name="body" />
                 <slot name="footer" />
             </slot>
         </div>
-        <slot name="wrapper-after" />
+        <slot name="container-after" />
     </div>
 </template>

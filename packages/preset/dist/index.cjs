@@ -94,6 +94,9 @@ var colors = import_dev.defineTokens.colors({
     50: {
       value: "#fafafa"
     },
+    75: {
+      value: "#f4f4f4"
+    },
     100: {
       value: "#e5e5e5"
     },
@@ -200,7 +203,8 @@ var colors2 = import_dev2.defineSemanticTokens.colors({
     value: { base: "{colors.red.400}", _light: "{colors.red.600}" }
   },
   neutral: {
-    value: { base: "{colors.white}", _light: "{colors.grey.night}" }
+    DEFAULT: { value: { base: "{colors.white}", _light: "{colors.grey.night}" } },
+    light: { value: { base: "{colors.grey.300}", _light: "{colors.grey.400}" } }
   },
   lucid: {
     50: { value: { base: "rgba(255, 255, 255, 0.1)", _light: "rgba(0, 0, 0, 0.1)" } },

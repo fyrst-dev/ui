@@ -25,12 +25,14 @@ export interface Props {
   headlineTag?: string;
   description?: string;
   alignItems?: "start" | "center" | "end";
+  alignSelf?: "start" | "center" | "end";
   size?: "sm" | "md" | "lg";
 }
 
 const props = withDefaults(defineProps<Props>(), {
   headlineTag: "h1",
   alignItems: "start",
+  alignSelf: "start",
   size: "md",
 });
 
@@ -81,6 +83,23 @@ const heroLeadStyle = sva({
         root: {
           alignItems: "end",
           textAlign: "end",
+        },
+      },
+    },
+    alignSelf: {
+      start: {
+        root: {
+          alignSelf: "start",
+        },
+      },
+      center: {
+        root: {
+          alignSelf: "center",
+        },
+      },
+      end: {
+        root: {
+          alignSelf: "end",
         },
       },
     },
@@ -143,6 +162,7 @@ const heroLeadStyle = sva({
 const cssClasses = computed(() => {
   return heroLeadStyle({
     alignItems: props.alignItems || "start",
+    alignSelf: props.alignSelf || "start",
     size: props.size || "md",
   });
 });

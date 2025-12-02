@@ -5,7 +5,8 @@ declare const _default: {
     Root: {
         new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
             borderColor: "primary" | "none" | "default";
-            classWrapper: any;
+            borderRadius: "md" | "lg" | "xl";
+            classRoot: any;
             classContainer: any;
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLDivElement, import('vue').ComponentProvideOptions, {
             P: {};
@@ -16,7 +17,8 @@ declare const _default: {
             Defaults: {};
         }, Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, {
             borderColor: "primary" | "none" | "default";
-            classWrapper: any;
+            borderRadius: "md" | "lg" | "xl";
+            classRoot: any;
             classContainer: any;
         }>;
         __isFragment?: never;
@@ -24,16 +26,17 @@ declare const _default: {
         __isSuspense?: never;
     } & import('vue').ComponentOptionsBase<Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
         borderColor: "primary" | "none" | "default";
-        classWrapper: any;
+        borderRadius: "md" | "lg" | "xl";
+        classRoot: any;
         classContainer: any;
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
-            'wrapper-before'?(_: {}): any;
+            'container-before'?(_: {}): any;
             default?(_: {}): any;
             header?(_: {}): any;
             body?(_: {}): any;
             footer?(_: {}): any;
-            'wrapper-after'?(_: {}): any;
+            'container-after'?(_: {}): any;
         };
     });
     Body: {

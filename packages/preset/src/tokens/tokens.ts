@@ -66,6 +66,9 @@ export const colors = defineTokens.colors({
         50: {
             value: '#fafafa',
         },
+        75: {
+            value: '#f4f4f4',
+        },
         100: {
             value: '#e5e5e5',
         },

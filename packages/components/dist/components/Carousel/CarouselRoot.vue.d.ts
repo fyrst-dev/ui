@@ -42,8 +42,8 @@ declare const __VLS_component: import('vue').DefineComponent<import('vue').Extra
         default: null;
     };
 }>> & Readonly<{}>, {
-    classWrapper: Styles;
     scrollMode: "item" | "viewport";
+    classWrapper: Styles;
     classCarousel: Styles;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {
     carousel: HTMLUListElement;
