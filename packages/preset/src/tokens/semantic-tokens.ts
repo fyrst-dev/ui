@@ -19,6 +19,15 @@ export const colors = defineSemanticTokens.colors({
     danger: {
         value: { base: '{colors.red.400}', _light: '{colors.red.600}' }
     },
+    success: {
+        value: { base: '{colors.green.400}', _light: '{colors.green.600}' }
+    },
+    warning: {
+        value: { base: '{colors.yellow.400}', _light: '{colors.yellow.600}' }
+    },
+    info: {
+        value: { base: '{colors.blue.400}', _light: '{colors.blue.600}' }
+    },
     neutral: {
         DEFAULT: { value: { base: '{colors.white}', _light: '{colors.grey.night}' } },
         light: { value: { base: '{colors.grey.300}', _light: '{colors.grey.400}' } }
