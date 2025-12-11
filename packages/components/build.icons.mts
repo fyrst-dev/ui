@@ -26,10 +26,20 @@ const icons: Record<string, string[]> = {
       'caret-left-bold',
       'caret-right',
       'caret-right-bold',
+      'check-circle',
+      'check-circle-bold',
+      'circle-wavy-warning',
+      'circle-wavy-warning-bold',
+      'info',
+      'info-bold',
+      'warning',
+      'warning-bold',
+      'x',
+      'x-bold',
    ]
 };
 
-const customIcons = []
+const customIcons: Record<string, string[]> = []
 
 // Parse each icon set
 let code = '';

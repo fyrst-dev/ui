@@ -1,6 +1,7 @@
 // Import global styles
 import "./styles/icons.css"
 
+import Alert from "./components/Alert"
 import Button from "./components/Button.vue"
 import Loader from "./components/Loader.vue"
 import Card from "./components/Card"
@@ -12,6 +13,7 @@ import Form from "./components/Form"
 import Accordion from "./components/Accordion"
 
 export { 
+    Alert,
     Button,
     Loader,
     Card,
@@ -25,6 +27,7 @@ export {
 
 // Export types
 export type { AccordionItem } from "./components/Accordion"
+export type { AlertMessage } from "./components/Alert"
 
 // Export composables
 export * from './composables/carousel'

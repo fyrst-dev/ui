@@ -31,10 +31,10 @@ declare const _default: {
     }> & Readonly<{
         "onUpdate:modelValue"?: ((value: string) => any) | undefined;
     }>, {
-        type: "text" | "email" | "tel";
         size: "sm" | "md" | "lg";
-        disabled: boolean;
+        type: "text" | "email" | "tel";
         class: any;
+        disabled: boolean;
         name: string;
         placeholder: string | null;
         id: string;
@@ -54,7 +54,7 @@ declare const _default: {
             method: "get" | "post";
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {
             promptForm: HTMLFormElement;
-        }, HTMLFormElement, import('vue').ComponentProvideOptions, {
+        }, HTMLDivElement, import('vue').ComponentProvideOptions, {
             P: {};
             B: {};
             D: {};
@@ -81,6 +81,7 @@ declare const _default: {
         method: "get" | "post";
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
+            alert?(_: {}): any;
             parameter?(_: {}): any;
             textarea?(_: {}): any;
             footer?(_: {}): any;

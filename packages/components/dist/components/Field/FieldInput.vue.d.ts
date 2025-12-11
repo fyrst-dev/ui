@@ -16,14 +16,14 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {
 }, string, import('vue').PublicProps, Readonly<__VLS_Props> & Readonly<{
     "onUpdate:modelValue"?: ((value: string) => any) | undefined;
 }>, {
-    label: string | null;
+    message: string | null;
     type: "text" | "email" | "tel";
+    label: string | null;
     disabled: boolean;
     error: string | null;
     name: string | undefined;
     placeholder: string | null;
     id: string;
-    message: string | null;
     required: boolean;
     modelValue: string | null;
     autocomplete: string | null;

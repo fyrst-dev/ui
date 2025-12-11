@@ -34,14 +34,14 @@ declare const _default: {
     }> & Readonly<{
         "onUpdate:modelValue"?: ((value: string) => any) | undefined;
     }>, {
-        label: string | null;
+        message: string | null;
         type: "text" | "email" | "tel";
+        label: string | null;
         disabled: boolean;
         error: string | null;
         name: string | undefined;
         placeholder: string | null;
         id: string;
-        message: string | null;
         required: boolean;
         modelValue: string | null;
         autocomplete: string | null;
@@ -53,10 +53,10 @@ declare const _default: {
             message?: string | null;
             class?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
+            message: string | null;
             class: any;
             error: string | null;
             id: string;
-            message: string | null;
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLDivElement, import('vue').ComponentProvideOptions, {
             P: {};
             B: {};
@@ -70,10 +70,10 @@ declare const _default: {
             message?: string | null;
             class?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, {
+            message: string | null;
             class: any;
             error: string | null;
             id: string;
-            message: string | null;
         }>;
         __isFragment?: never;
         __isTeleport?: never;
@@ -84,10 +84,10 @@ declare const _default: {
         message?: string | null;
         class?: any;
     }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
+        message: string | null;
         class: any;
         error: string | null;
         id: string;
-        message: string | null;
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
             default?(_: {}): any;
@@ -109,8 +109,8 @@ declare const _default: {
         class?: any;
     }> & Readonly<{}>, {
         size: "sm" | "md" | "lg";
-        disabled: boolean;
         class: any;
+        disabled: boolean;
         for: string;
         required: boolean;
     }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLLabelElement>;
@@ -123,9 +123,9 @@ declare const _default: {
         id?: string;
         class?: any;
     }> & Readonly<{}>, {
+        message: string | null;
         class: any;
         id: string;
-        message: string | null;
     }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
     Message: import('vue').DefineComponent<{
         message?: string | null;
@@ -136,9 +136,9 @@ declare const _default: {
         id?: string;
         class?: any;
     }> & Readonly<{}>, {
+        message: string | null;
         class: any;
         id: string;
-        message: string | null;
     }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
 };
 export default _default;

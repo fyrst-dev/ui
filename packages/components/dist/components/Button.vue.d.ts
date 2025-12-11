@@ -10,13 +10,13 @@ type __VLS_Props = {
     disabled?: boolean;
 };
 declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<__VLS_Props> & Readonly<{}>, {
-    label: string | null;
     icon: string | null;
-    to: string | null;
-    type: "button" | "submit" | "reset" | null;
     color: "secondary" | "primary" | "transparent";
-    size: "sm" | "md" | "lg";
     order: "regular" | "inverse";
+    size: "sm" | "md" | "lg";
+    type: "button" | "submit" | "reset" | null;
+    label: string | null;
+    to: string | null;
     external: boolean;
     disabled: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;

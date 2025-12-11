@@ -10,8 +10,8 @@ declare const _default: {
             items: import('./types').AccordionItem[];
             classes?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
-            type: "single" | "multiple";
             size: "md";
+            type: "single" | "multiple";
             classes: any;
             orientation: "vertical" | "horizontal";
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, any, import('vue').ComponentProvideOptions, {
@@ -28,8 +28,8 @@ declare const _default: {
             items: import('./types').AccordionItem[];
             classes?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, {
-            type: "single" | "multiple";
             size: "md";
+            type: "single" | "multiple";
             classes: any;
             orientation: "vertical" | "horizontal";
         }>;
@@ -43,8 +43,8 @@ declare const _default: {
         items: import('./types').AccordionItem[];
         classes?: any;
     }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
-        type: "single" | "multiple";
         size: "md";
+        type: "single" | "multiple";
         classes: any;
         orientation: "vertical" | "horizontal";
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {

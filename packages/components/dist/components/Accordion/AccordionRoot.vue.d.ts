@@ -21,8 +21,8 @@ declare function __VLS_template(): {
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<__VLS_Props> & Readonly<{}>, {
-    type: "single" | "multiple";
     size: "md";
+    type: "single" | "multiple";
     classes: any;
     orientation: "vertical" | "horizontal";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;

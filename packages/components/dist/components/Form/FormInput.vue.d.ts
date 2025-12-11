@@ -16,10 +16,10 @@ declare const _default: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {
 }, string, import('vue').PublicProps, Readonly<__VLS_Props> & Readonly<{
     "onUpdate:modelValue"?: ((value: string) => any) | undefined;
 }>, {
-    type: "text" | "email" | "tel";
     size: "sm" | "md" | "lg";
-    disabled: boolean;
+    type: "text" | "email" | "tel";
     class: any;
+    disabled: boolean;
     name: string;
     placeholder: string | null;
     id: string;
