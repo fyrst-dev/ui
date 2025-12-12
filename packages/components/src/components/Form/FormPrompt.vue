@@ -52,6 +52,7 @@ const handleSubmit = (event: Event) => {
             :aria-label="ariaLabel"
             @submit="handleSubmit"
             :class="css({
+                flexGrow: '1',
                 containerType: 'inline-size',
                 display: 'flex',
                 flexDirection: 'column',
@@ -78,6 +79,7 @@ const handleSubmit = (event: Event) => {
                 <textarea 
                     name="message"
                     :class="css({
+                        flexGrow: '1',
                         color: 'neutral',
                         padding: 'xs',
                         resize: 'none',
