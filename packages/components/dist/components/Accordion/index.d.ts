@@ -6,11 +6,11 @@ declare const _default: {
         new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<{
             type?: "single" | "multiple";
             orientation?: "vertical" | "horizontal";
-            size?: "md";
+            size?: "md" | "lg";
             items: import('./types').AccordionItem[];
             classes?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
-            size: "md";
+            size: "md" | "lg";
             type: "single" | "multiple";
             classes: any;
             orientation: "vertical" | "horizontal";
@@ -24,11 +24,11 @@ declare const _default: {
         }, Readonly<{
             type?: "single" | "multiple";
             orientation?: "vertical" | "horizontal";
-            size?: "md";
+            size?: "md" | "lg";
             items: import('./types').AccordionItem[];
             classes?: any;
         }> & Readonly<{}>, {}, {}, {}, {}, {
-            size: "md";
+            size: "md" | "lg";
             type: "single" | "multiple";
             classes: any;
             orientation: "vertical" | "horizontal";
@@ -39,11 +39,11 @@ declare const _default: {
     } & import('vue').ComponentOptionsBase<Readonly<{
         type?: "single" | "multiple";
         orientation?: "vertical" | "horizontal";
-        size?: "md";
+        size?: "md" | "lg";
         items: import('./types').AccordionItem[];
         classes?: any;
     }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
-        size: "md";
+        size: "md" | "lg";
         type: "single" | "multiple";
         classes: any;
         orientation: "vertical" | "horizontal";

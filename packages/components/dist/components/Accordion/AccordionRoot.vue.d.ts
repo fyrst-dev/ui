@@ -2,7 +2,7 @@ import { AccordionItem as AccordionItemProps } from './types';
 type __VLS_Props = {
     type?: 'single' | 'multiple';
     orientation?: 'vertical' | 'horizontal';
-    size?: 'md';
+    size?: 'md' | 'lg';
     items: AccordionItemProps[];
     classes?: any;
 };
@@ -21,7 +21,7 @@ declare function __VLS_template(): {
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<__VLS_Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<__VLS_Props> & Readonly<{}>, {
-    size: "md";
+    size: "md" | "lg";
     type: "single" | "multiple";
     classes: any;
     orientation: "vertical" | "horizontal";
