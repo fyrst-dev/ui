@@ -231,6 +231,7 @@
       "flex]___[value:0",
       "flexBasis]___[value:auto]___[cond:@container (min-width: 600px)",
       "justifyContent]___[value:start",
+      "marginInline]___[value:auto",
       "alignItems]___[value:start",
       "textAlign]___[value:center",
       "textAlign]___[value:end",
