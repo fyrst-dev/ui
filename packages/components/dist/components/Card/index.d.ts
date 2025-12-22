@@ -4,10 +4,11 @@ export { CardRoot, CardBody };
 declare const _default: {
     Root: {
         new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
-            borderColor: "primary" | "none" | "default";
-            borderRadius: "md" | "lg" | "xl";
+            borderRadius: "sm" | "md" | "lg" | "xl";
+            color: "default" | "danger" | "success" | "warning" | "info" | "none";
+            borderSize: number;
             classRoot: any;
-            classContainer: any;
+            colorStrategy: "default" | "image";
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLDivElement, import('vue').ComponentProvideOptions, {
             P: {};
             B: {};
@@ -16,27 +17,26 @@ declare const _default: {
             M: {};
             Defaults: {};
         }, Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, {
-            borderColor: "primary" | "none" | "default";
-            borderRadius: "md" | "lg" | "xl";
+            borderRadius: "sm" | "md" | "lg" | "xl";
+            color: "default" | "danger" | "success" | "warning" | "info" | "none";
+            borderSize: number;
             classRoot: any;
-            classContainer: any;
+            colorStrategy: "default" | "image";
         }>;
         __isFragment?: never;
         __isTeleport?: never;
         __isSuspense?: never;
     } & import('vue').ComponentOptionsBase<Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
-        borderColor: "primary" | "none" | "default";
-        borderRadius: "md" | "lg" | "xl";
+        borderRadius: "sm" | "md" | "lg" | "xl";
+        color: "default" | "danger" | "success" | "warning" | "info" | "none";
+        borderSize: number;
         classRoot: any;
-        classContainer: any;
+        colorStrategy: "default" | "image";
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
-            'container-before'?(_: {}): any;
+            before?(_: {}): any;
             default?(_: {}): any;
-            header?(_: {}): any;
-            body?(_: {}): any;
-            footer?(_: {}): any;
-            'container-after'?(_: {}): any;
+            after?(_: {}): any;
         };
     });
     Body: {

@@ -2,7 +2,10 @@ import { defineSemanticTokens } from '@pandacss/dev'
 
 export const colors = defineSemanticTokens.colors({
     brand: {
-        pale: { value: '{colors.brand.100}'},
+        pale: {
+            DEFAULT: { value: '{colors.brand.100}' },
+            lucid: { value: '{colors.brand.100/25}' }
+        },
         day: { value: '{colors.brand.300}'},
         brand: { value: '{colors.brand.400}'},
         dawn: { value: '{colors.brand.600}'},
@@ -11,22 +14,40 @@ export const colors = defineSemanticTokens.colors({
         dawn: { value: '{colors.grey.300}'},
         dusk: { value: '{colors.grey.600}'},
         night: { value: '{colors.grey.800}'},
-        black: { value: '{colors.grey.900}'}
+        deep: { value: '{colors.grey.900}'},
+        black: { value: '{colors.grey.950}'}
     },
     primary: {
-        value: { base: '{colors.brand.pale}', _light: '{colors.brand.day}' }
+        DEFAULT: { value: { base:'{colors.brand.pale}', _light: '{colors.brand.day}'} },
+        lucid: { value: { base: '{colors.brand.pale/25}', _light: '{colors.brand.day/25}' } }
     },
     danger: {
-        value: { base: '{colors.red.400}', _light: '{colors.red.600}' }
+        DEFAULT: { value: { base: '{colors.red.400}', _light: '{colors.red.600}' } },
+        lucid: { 
+            700: { value: { base: '{colors.red.400/25}', _light: '{colors.red.600/40}' } },
+            900: { value: { base: '{colors.red.400/10}', _light: '{colors.red.600/25}' } }
+        },
     },
     success: {
-        value: { base: '{colors.green.400}', _light: '{colors.green.600}' }
+        DEFAULT: { value: { base: '{colors.green.400}', _light: '{colors.green.600}' } },
+        lucid: { 
+            700: { value: { base: '{colors.green.400/25}', _light: '{colors.green.600/40}' } },
+            900: { value: { base: '{colors.green.400/10}', _light: '{colors.green.600/25}' } }
+        },
     },
     warning: {
-        value: { base: '{colors.yellow.400}', _light: '{colors.yellow.600}' }
+        DEFAULT: { value: { base: '{colors.yellow.400}', _light: '{colors.yellow.600}' } },
+        lucid: { 
+            700: { value: { base: '{colors.yellow.400/25}', _light: '{colors.yellow.600/40}' } },
+            900: { value: { base: '{colors.yellow.400/10}', _light: '{colors.yellow.600/25}' } }
+        },
     },
     info: {
-        value: { base: '{colors.blue.400}', _light: '{colors.blue.600}' }
+        DEFAULT: { value: { base: '{colors.blue.400}', _light: '{colors.blue.600}' } },
+        lucid: { 
+            700: { value: { base: '{colors.blue.400/25}', _light: '{colors.blue.600/40}' } },
+            900: { value: { base: '{colors.blue.400/10}', _light: '{colors.blue.600/25}' } }
+        },
     },
     neutral: {
         DEFAULT: { value: { base: '{colors.white}', _light: '{colors.grey.night}' } },

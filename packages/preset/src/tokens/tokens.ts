@@ -9,6 +9,10 @@ export const colors = defineTokens.colors({
         value: '#000000',
         description: 'This is the primary black color used in our design system'
     },
+    transparent: {
+        value: 'transparent',
+        description: 'This is the transparent color used in our design system'
+    },
     brand: {
         100: {
             value: '#A3EFAC',
@@ -199,6 +203,9 @@ export const colors = defineTokens.colors({
             value: '#262626',
         },
         900: {
+            value: '#1d1d1d',
+        },
+        950: {
             value: '#171717',
             description: 'This is the darkest grey color in our design system and replaces black'
         },
