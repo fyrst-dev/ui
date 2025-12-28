@@ -535,9 +535,13 @@ const tokens = {
     "value": "var(--colors-primary)",
     "variable": "var(--colors-primary)"
   },
-  "colors.primary.lucid": {
-    "value": "var(--colors-primary-lucid)",
-    "variable": "var(--colors-primary-lucid)"
+  "colors.primary.lucid.700": {
+    "value": "var(--colors-primary-lucid-700)",
+    "variable": "var(--colors-primary-lucid-700)"
+  },
+  "colors.primary.lucid.900": {
+    "value": "var(--colors-primary-lucid-900)",
+    "variable": "var(--colors-primary-lucid-900)"
   },
   "colors.danger": {
     "value": "var(--colors-danger)",

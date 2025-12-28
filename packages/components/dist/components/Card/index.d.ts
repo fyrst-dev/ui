@@ -5,11 +5,11 @@ declare const _default: {
     Root: {
         new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
             borderRadius: "sm" | "md" | "lg" | "xl";
-            color: "default" | "danger" | "success" | "warning" | "info" | "none";
+            color: "default" | "primary" | "danger" | "success" | "warning" | "info" | "none" | "lucid-deep";
             borderSize: number;
-            classRoot: any;
             colorStrategy: "default" | "image";
-        }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLDivElement, import('vue').ComponentProvideOptions, {
+            as: "div" | "li";
+        }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, any, import('vue').ComponentProvideOptions, {
             P: {};
             B: {};
             D: {};
@@ -18,20 +18,20 @@ declare const _default: {
             Defaults: {};
         }, Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, {
             borderRadius: "sm" | "md" | "lg" | "xl";
-            color: "default" | "danger" | "success" | "warning" | "info" | "none";
+            color: "default" | "primary" | "danger" | "success" | "warning" | "info" | "none" | "lucid-deep";
             borderSize: number;
-            classRoot: any;
             colorStrategy: "default" | "image";
+            as: "div" | "li";
         }>;
         __isFragment?: never;
         __isTeleport?: never;
         __isSuspense?: never;
     } & import('vue').ComponentOptionsBase<Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {
         borderRadius: "sm" | "md" | "lg" | "xl";
-        color: "default" | "danger" | "success" | "warning" | "info" | "none";
+        color: "default" | "primary" | "danger" | "success" | "warning" | "info" | "none" | "lucid-deep";
         borderSize: number;
-        classRoot: any;
         colorStrategy: "default" | "image";
+        as: "div" | "li";
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
             before?(_: {}): any;

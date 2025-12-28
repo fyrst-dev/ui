@@ -1,91 +1,111 @@
-import { sva } from 'styled-system/css'
+import { sva } from "styled-system/css";
 
 export const cardStyles = sva({
-    slots: ['root'],
-    base: {
+  slots: ["root"],
+  base: {
+    root: {
+      display: "block",
+      borderWidth: "var(--card-border-size)",
+      borderStyle: "solid",
+      borderColor: "transparent",
+      position: "relative",
+      zIndex: "1",
+      maxWidth: "100%",
+      backdropBlur: "8px",
+      backdropFilter: "auto",
+      boxShadow: "var(--card-shadow)",
+      "--card-bg-overlay": "linear-gradient(transparent)",
+    },
+  },
+  variants: {
+    colorStrategy: {
+      default: {
         root: {
-            display: 'block',
-            borderWidth: 'var(--card-border-size)',
-            borderStyle: 'solid',
-            borderColor: 'transparent',
-            position: 'relative',
-            zIndex: '1',
-            maxWidth: '100%',
+          background: "var(--card-bg-overlay) padding-box, var(--card-bg) padding-box",
+          borderColor: "var(--card-border-color)",
         },
+      },
+      image: {
+        root: {
+          background:
+            "var(--card-bg-overlay) padding-box, var(--card-bg) padding-box, var(--card-border-color) border-box",
+        },
+      },
     },
-    variants: {
-        colorStrategy: {
-            default: {
-                root: {
-                    backgroundImage: 'var(--card-bg)',
-                    borderColor: 'var(--card-border-color)'
-                }
-            },
-            image: {
-                root: {
-                    background: 'var(--card-bg) padding-box, var(--card-border-color) border-box'
-                }
-            }
+    color: {
+      none: {
+        root: {
+          "--card-bg": "transparent",
+          "--card-border-color": "transparent",
         },
-        color: {
-            none: {
-                root: {
-                    '--card-bg': 'transparent',
-                    '--card-border-color': 'transparent',
-                }
-            },
-            default: {
-                root: {
-                    '--card-bg': 'linear-gradient(var(--colors-grey-deep))',
-                }
-            },
-            danger: {
-                root: {
-                    '--card-bg': 'linear-gradient(var(--colors-danger-lucid-900))',
-                }
-            },
-            success: {
-                root: {
-                    '--card-bg': 'linear-gradient(var(--colors-success-lucid-900))',
-                }
-            },
-            warning: {
-                root: {
-                    '--card-bg': 'linear-gradient(var(--colors-warning-lucid-900))',
-                }
-            },
-            info: {
-                root: {
-                    '--card-bg': 'linear-gradient(var(--colors-info-lucid-900))',
-                }
-            },
+      },
+      default: {
+        root: {
+          "--card-bg": "linear-gradient(token(colors.grey.deep))",
+          "--card-border-color": "token(colors.grey.700)",
+          _light: {
+            "--card-bg": "linear-gradient(token(colors.grey.50))",
+            "--card-border-color": "token(colors.grey.100)",
+          }
         },
-        borderRadius: {
-            sm: {
-                root: {
-                    borderRadius: 'lg',
-                },
-            },
-            md: {
-                root: {
-                    borderRadius: 'xl',
-                },
-            },
-            lg: {
-                root: {
-                    borderRadius: '2xl',
-                },
-            },
-            xl: {
-                root: {
-                    borderRadius: '4xl',
-                },
-            },
-        }
+      },
+      primary: {
+        root: {
+          "--card-bg": "linear-gradient(var(--colors-primary-lucid-900))",
+        },
+      },
+      danger: {
+        root: {
+          "--card-bg": "linear-gradient(var(--colors-danger-lucid-900))",
+        },
+      },
+      success: {
+        root: {
+          "--card-bg": "linear-gradient(var(--colors-success-lucid-900))",
+        },
+      },
+      warning: {
+        root: {
+          "--card-bg": "linear-gradient(var(--colors-warning-lucid-900))",
+        },
+      },
+      info: {
+        root: {
+          "--card-bg": "linear-gradient(var(--colors-info-lucid-900))",
+        },
+      },
+      'lucid-deep': {
+        root: {
+          "--card-bg": "linear-gradient(rgb(from token(colors.black) r g b / 10%))",
+        },
+      }
     },
-    defaultVariants: {
-        borderRadius: 'md',
-        color: 'default',
-        colorStrategy: 'default'
-    }
-})
+    borderRadius: {
+      sm: {
+        root: {
+          borderRadius: "lg",
+        },
+      },
+      md: {
+        root: {
+          borderRadius: "xl",
+        },
+      },
+      lg: {
+        root: {
+          borderRadius: "2xl",
+        },
+      },
+      xl: {
+        root: {
+          borderRadius: "4xl",
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    borderRadius: "md",
+    color: "default",
+    colorStrategy: "default",
+  },
+});

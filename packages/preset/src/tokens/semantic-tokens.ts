@@ -19,7 +19,10 @@ export const colors = defineSemanticTokens.colors({
     },
     primary: {
         DEFAULT: { value: { base:'{colors.brand.pale}', _light: '{colors.brand.day}'} },
-        lucid: { value: { base: '{colors.brand.pale/25}', _light: '{colors.brand.day/25}' } }
+        lucid: { 
+            700: { value: { base: '{colors.brand.pale/25}', _light: '{colors.brand.pale/40}' } },
+            900: { value: { base: '{colors.brand.pale/10}', _light: '{colors.brand.pale/25}' } }
+        },
     },
     danger: {
         DEFAULT: { value: { base: '{colors.red.400}', _light: '{colors.red.600}' } },

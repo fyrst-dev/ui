@@ -177,7 +177,7 @@ export interface UtilityValues {
 	srOnly: boolean;
 	debug: boolean;
 	containerName: CssProperties["containerName"];
-	colorPalette: "white" | "black" | "transparent" | "brand" | "red" | "green" | "blue" | "yellow" | "grey" | "brand.pale" | "primary" | "danger" | "danger.lucid" | "success" | "success.lucid" | "warning" | "warning.lucid" | "info" | "info.lucid" | "neutral" | "lucid";
+	colorPalette: "white" | "black" | "transparent" | "brand" | "red" | "green" | "blue" | "yellow" | "grey" | "brand.pale" | "primary" | "primary.lucid" | "danger" | "danger.lucid" | "success" | "success.lucid" | "warning" | "warning.lucid" | "info" | "info.lucid" | "neutral" | "lucid";
 	animationStyle: "slideDown" | "slideUp";
 }
 

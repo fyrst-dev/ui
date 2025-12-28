@@ -30,7 +30,7 @@ export declare function useCarousel(props: {
     carouselItem: import('vue').ComputedRef<HTMLElement | null | undefined>;
     currentCarouselItemIndex: Ref<number, number>;
     visibleCarouselItems: Ref<HTMLElement[], HTMLElement[]>;
-    scrollDirection: Ref<"prev" | "next" | null, "prev" | "next" | null>;
+    scrollDirection: Ref<"next" | "prev" | null, "next" | "prev" | null>;
     allItemsVisible: import('vue').ComputedRef<boolean>;
     pages: import('vue').ComputedRef<number>;
 };
