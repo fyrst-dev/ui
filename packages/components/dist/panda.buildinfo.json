@@ -176,6 +176,7 @@
       "--card-bg]___[value:linear-gradient(var(--colors-info-lucid-900))",
       "--card-bg]___[value:linear-gradient(rgb(from token(colors.black) r g b / 10%))",
       "borderRadius]___[value:4xl",
+      "padding]___[value:lg",
       "scrollSnapAlign]___[value:start",
       "overflowX]___[value:scroll",
       "scrollSnapType]___[value:x mandatory",
@@ -263,7 +264,10 @@
       "color]___[value:grey.400]___[cond:_light",
       "fontSize]___[value:md]___[cond:md",
       "fontSize]___[value:lg]___[cond:md",
-      "fontSize]___[value:xl]___[cond:2xl"
+      "fontSize]___[value:xl]___[cond:2xl",
+      "borderBottomWidth]___[value:1px",
+      "borderColor]___[value:grey.700",
+      "borderBottomWidth]___[value:var(--card-border-size)"
     ],
     "recipes": {}
   }

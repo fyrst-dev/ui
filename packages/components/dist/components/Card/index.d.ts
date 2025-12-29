@@ -1,6 +1,7 @@
 import { default as CardRoot } from './CardRoot.vue';
 import { default as CardBody } from './CardBody.vue';
-export { CardRoot, CardBody };
+import { default as CardHeader } from './CardHeader.vue';
+export { CardRoot, CardBody, CardHeader };
 declare const _default: {
     Root: {
         new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./CardRoot.vue').Props> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {
@@ -36,6 +37,9 @@ declare const _default: {
         $slots: {
             before?(_: {}): any;
             default?(_: {}): any;
+            header?(_: {}): any;
+            body?(_: {}): any;
+            footer?(_: {}): any;
             after?(_: {}): any;
         };
     });
@@ -54,6 +58,35 @@ declare const _default: {
     } & import('vue').ComponentOptionsBase<Readonly<{}> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {}, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
             default?(_: {}): any;
+        };
+    });
+    Header: {
+        new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<{
+            title?: string;
+            subtitle?: string;
+        }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {}, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLElement, import('vue').ComponentProvideOptions, {
+            P: {};
+            B: {};
+            D: {};
+            C: {};
+            M: {};
+            Defaults: {};
+        }, Readonly<{
+            title?: string;
+            subtitle?: string;
+        }> & Readonly<{}>, {}, {}, {}, {}, {}>;
+        __isFragment?: never;
+        __isTeleport?: never;
+        __isSuspense?: never;
+    } & import('vue').ComponentOptionsBase<Readonly<{
+        title?: string;
+        subtitle?: string;
+    }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {}, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
+        $slots: {
+            icon?(_: {}): any;
+            default?(_: {}): any;
+            title?(_: {}): any;
+            subtitle?(_: {}): any;
         };
     });
 };

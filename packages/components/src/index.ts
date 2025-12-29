@@ -10,6 +10,7 @@ import Flyout from "./components/Flyout"
 import Hero from "./components/Hero"
 import Field from "./components/Field"
 import Form from "./components/Form"
+import List from "./components/List"
 import Accordion from "./components/Accordion"
 
 export { 
@@ -22,6 +23,7 @@ export {
     Hero,
     Field,
     Form,
+    List,
     Accordion
 }
 

@@ -1,4 +1,7 @@
-export declare const cardStyles: import('../../../styled-system/types').SlotRecipeRuntimeFn<"root", {
+import { InjectionKey, ComputedRef } from 'vue';
+export type CardStyles = ReturnType<typeof cardStyles.raw>;
+export declare const CardStylesKey: InjectionKey<ComputedRef<CardStyles>>;
+export declare const cardStyles: import('../../../styled-system/types').SlotRecipeRuntimeFn<"root" | "body" | "footer" | "header" | "headerBody" | "headerTitle" | "headerSubtitle", {
     colorStrategy: {
         default: {
             root: {
@@ -57,6 +60,17 @@ export declare const cardStyles: import('../../../styled-system/types').SlotReci
         'lucid-deep': {
             root: {
                 "--card-bg": "linear-gradient(rgb(from token(colors.black) r g b / 10%))";
+            };
+        };
+    };
+    padding: {
+        md: {
+            header: {
+                padding: "xl";
+                gap: "md";
+            };
+            body: {
+                padding: "xl";
             };
         };
     };

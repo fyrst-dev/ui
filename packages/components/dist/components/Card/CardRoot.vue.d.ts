@@ -15,6 +15,9 @@ declare function __VLS_template(): {
     slots: {
         before?(_: {}): any;
         default?(_: {}): any;
+        header?(_: {}): any;
+        body?(_: {}): any;
+        footer?(_: {}): any;
         after?(_: {}): any;
     };
     refs: {};

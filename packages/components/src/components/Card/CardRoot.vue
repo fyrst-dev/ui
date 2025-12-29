@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { css, cx, type Styles } from "styled-system/css";
-import { cardStyles } from "./styles";
-import { computed } from "vue";
+import { css, type Styles } from "styled-system/css";
+import { cardStyles, CardStylesKey } from "./styles";
+import { computed, provide } from "vue";
 import type { SystemStyleObject } from "@pandacss/dev";
 
 type BorderRadius = "sm" | "md" | "lg" | "xl";
@@ -32,25 +32,11 @@ const props = withDefaults(defineProps<Props>(), {
   borderSize: 1,
 });
 
-const { root } = cardStyles.raw({
+const styles = computed(() => cardStyles.raw({
   borderRadius: props.borderRadius,
   colorStrategy: props.colorStrategy,
   color: props.color,
-});
-
-// const classes = css(root)
-
-const styleMap = {
-  "border-color": {
-    default: "grey-700",
-    primary: "primary-lucid-700",
-    danger: "danger-lucid-700",
-    success: "success-lucid-700",
-    warning: "warning-lucid-700",
-    info: "info-lucid-700",
-    none: "transparent",
-  },
-} as const;
+}));
 
 const inlineStyles = computed(() => {
   const styles: any = {
@@ -61,31 +47,25 @@ const inlineStyles = computed(() => {
     styles["--card-border-color"] = props.borderColor;
   }
 
-  // Object.entries(styleMap).forEach(([key, config]) => {
-  //   const colorToken = (config as any)[props.color];
-  //   const colorValue = `var(--colors-${colorToken})`;
-
-  //   if (key === "border-color" && typeof props.borderColor === "string") {
-  //     styles[`--card-${key}`] = props.borderColor;
-  //   } else if (key === "border-color" && props.colorStrategy === "image") {
-  //     styles[`--card-${key}`] = "transparent";
-  //   } else {
-  //     styles[`--card-${key}`] = colorValue;
-  //   }
-  // });
-
   return styles;
 });
+
+provide(CardStylesKey, styles);
+
 </script>
 
 <template>
   <component
     :is="props.as"
-    :class="css(root, props.classRoot)"
+    :class="css(styles.root, props.classRoot)"
     :style="inlineStyles"
   >
     <slot name="before" />
-    <slot />
+    <slot>
+      <slot name="header" />
+      <slot name="body" />
+      <slot name="footer" />
+    </slot>
     <slot name="after" />
   </component>
 </template>

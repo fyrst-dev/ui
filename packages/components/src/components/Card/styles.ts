@@ -1,9 +1,14 @@
 import { sva } from "styled-system/css";
+import type { InjectionKey, ComputedRef } from "vue";
+
+export type CardStyles = ReturnType<typeof cardStyles.raw>;
+export const CardStylesKey: InjectionKey<ComputedRef<CardStyles>> = Symbol("CardStyles");
 
 export const cardStyles = sva({
-  slots: ["root"],
+  slots: ["root", "header", "headerBody", "headerTitle", "headerSubtitle", "body", "footer"],
   base: {
     root: {
+      color: "neutral",
       display: "block",
       borderWidth: "var(--card-border-size)",
       borderStyle: "solid",
@@ -16,6 +21,28 @@ export const cardStyles = sva({
       boxShadow: "var(--card-shadow)",
       "--card-bg-overlay": "linear-gradient(transparent)",
     },
+    header: {
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row",
+      borderBottomWidth: "var(--card-border-size)",
+      borderStyle: "solid",
+      borderColor: "grey.700"
+    },
+    headerBody: {
+      display: "flex",
+      flexDirection: "column",
+      flexGrow: 1,
+    },
+    headerTitle: {
+      fontWeight: "700",
+      fontSize: "lg",
+      lineHeight: "1.25"
+    },
+    headerSubtitle: {
+      color: "grey.dawn",
+      fontSize: "md",
+    }
   },
   variants: {
     colorStrategy: {
@@ -80,6 +107,17 @@ export const cardStyles = sva({
         },
       }
     },
+    padding: {
+      md: {
+        header: {
+          padding: "xl",
+          gap: "md",
+        },
+        body: {
+          padding: "xl",
+        }
+      }
+    },
     borderRadius: {
       sm: {
         root: {
@@ -106,6 +144,7 @@ export const cardStyles = sva({
   defaultVariants: {
     borderRadius: "md",
     color: "default",
+    padding: "md",
     colorStrategy: "default",
   },
 });
