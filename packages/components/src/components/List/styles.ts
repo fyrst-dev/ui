@@ -1,13 +1,18 @@
 import { sva } from 'styled-system/css'
+import type { InjectionKey, ComputedRef } from "vue";
 
-export default sva({
+export type ListStyles = ReturnType<typeof listStyles.raw>;
+export const ListStylesKey: InjectionKey<ComputedRef<ListStyles>> = Symbol("ListStyles");
+
+export const listStyles = sva({
     slots: ['list', 'item'],
     base: {
         list: {
             display: 'flex',
             flexDirection: 'column',
             flexWrap: 'wrap', 
-            alignItems: 'center',
+        },
+        item: {
             _before: {
                 content: '"',
                 display: 'block',

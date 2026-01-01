@@ -176,7 +176,9 @@
       "--card-bg]___[value:linear-gradient(var(--colors-info-lucid-900))",
       "--card-bg]___[value:linear-gradient(rgb(from token(colors.black) r g b / 10%))",
       "borderRadius]___[value:4xl",
-      "padding]___[value:lg",
+      "borderBottomWidth]___[value:var(--card-border-size)",
+      "borderColor]___[value:grey.700",
+      "color]___[value:grey.dawn",
       "scrollSnapAlign]___[value:start",
       "overflowX]___[value:scroll",
       "scrollSnapType]___[value:x mandatory",
@@ -259,15 +261,18 @@
       "fontSize]___[value:4xl]___[cond:md",
       "fontSize]___[value:5xl]___[cond:2xl",
       "lineHeight]___[value:1.1",
-      "color]___[value:grey.dawn",
       "color]___[value:neutral]___[cond:& mark, & strong, & a",
       "color]___[value:grey.400]___[cond:_light",
       "fontSize]___[value:md]___[cond:md",
       "fontSize]___[value:lg]___[cond:md",
       "fontSize]___[value:xl]___[cond:2xl",
-      "borderBottomWidth]___[value:1px",
-      "borderColor]___[value:grey.700",
-      "borderBottomWidth]___[value:var(--card-border-size)"
+      "content]___[value:\"]___[cond:_before",
+      "display]___[value:block]___[cond:_before",
+      "borderRadius]___[value:5xl]___[cond:_before",
+      "flexBasis]___[value:auto]___[cond:_before",
+      "flexGrow]___[value:0]___[cond:_before",
+      "flexGrow]___[value:1]___[cond:& [data-list-item]",
+      "flexBasis]___[value:0%]___[cond:& [data-list-item]"
     ],
     "recipes": {}
   }
