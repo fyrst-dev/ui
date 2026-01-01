@@ -1,6 +1,6 @@
 import { default as Alert } from './AlertRoot.vue';
 export { Alert };
-export type { AlertMessage } from './AlertRoot.vue';
+export type { AlertMessage } from './types';
 declare const _default: {
     Root: {
         new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./AlertRoot.vue').Props> & Readonly<{
@@ -13,7 +13,7 @@ declare const _default: {
             borderSize: "md" | "lg" | "xl";
             iconSize: "md" | "lg" | "xl";
             textSize: "md" | "lg";
-            messages: import('./AlertRoot.vue').AlertMessage[];
+            messages: import('./types').AlertMessage[];
             dismissible: boolean;
             role: "alert" | "status";
             classRoot: any;
@@ -35,7 +35,7 @@ declare const _default: {
             borderSize: "md" | "lg" | "xl";
             iconSize: "md" | "lg" | "xl";
             textSize: "md" | "lg";
-            messages: import('./AlertRoot.vue').AlertMessage[];
+            messages: import('./types').AlertMessage[];
             dismissible: boolean;
             role: "alert" | "status";
             classRoot: any;
@@ -56,7 +56,7 @@ declare const _default: {
         borderSize: "md" | "lg" | "xl";
         iconSize: "md" | "lg" | "xl";
         textSize: "md" | "lg";
-        messages: import('./AlertRoot.vue').AlertMessage[];
+        messages: import('./types').AlertMessage[];
         dismissible: boolean;
         role: "alert" | "status";
         classRoot: any;

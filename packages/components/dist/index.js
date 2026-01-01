@@ -2014,8 +2014,7 @@ const he = /* @__PURE__ */ _({
     list: {
       display: "flex",
       flexDirection: "column",
-      flexWrap: "wrap",
-      alignItems: "center"
+      flexWrap: "wrap"
     },
     item: {
       _before: {

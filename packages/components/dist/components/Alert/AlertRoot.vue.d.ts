@@ -1,8 +1,5 @@
+import { AlertMessage } from './types';
 type Variant = 'danger' | 'success' | 'info' | 'warning';
-export interface AlertMessage {
-    title?: string | null;
-    description: string;
-}
 export interface Props {
     variant?: Variant;
     spacing?: 'md' | 'lg';

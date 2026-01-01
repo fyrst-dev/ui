@@ -39,13 +39,9 @@
 import { computed, useSlots } from 'vue'
 import { cx } from 'styled-system/css'
 import { alertStyles } from './styles'
+import type { AlertMessage } from './types'
 
 type Variant = 'danger' | 'success' | 'info' | 'warning'
-
-export interface AlertMessage {
-    title?: string | null
-    description: string
-}
 
 export interface Props {
     variant?: Variant
