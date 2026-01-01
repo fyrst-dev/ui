@@ -8,11 +8,12 @@
             />
             <FyrstCardBody>
                 This is the body of the card. It contains the main content.
-                <FyrstListRoot>
-                    <FyrstListItem>First item</FyrstListItem>
-                    <FyrstListItem>First item</FyrstListItem>
-                    <FyrstListItem>First item</FyrstListItem>
-                </FyrstListRoot>
+                <FyrstListRoot 
+                 :items="[
+                    { content: 'First item' },
+                    { content: 'Second item' },
+                    { content: 'Third <b>bold</b> item' }
+                 ]"/>
             </FyrstCardBody>
         </FyrstCardRoot>
     </ShowcaseContainer>
