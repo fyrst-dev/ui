@@ -25,9 +25,10 @@ export const cardStyles = sva({
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
+      alignItems: "center",
       borderBottomWidth: "var(--card-border-size)",
       borderStyle: "solid",
-      borderColor: "grey.700"
+      borderColor: "var(--card-border-color)"
     },
     headerBody: {
       display: "flex",
@@ -71,7 +72,7 @@ export const cardStyles = sva({
           "--card-bg": "linear-gradient(token(colors.grey.deep))",
           "--card-border-color": "token(colors.grey.700)",
           _light: {
-            "--card-bg": "linear-gradient(token(colors.grey.50))",
+            "--card-bg": "linear-gradient(token(colors.white))",
             "--card-border-color": "token(colors.grey.100)",
           }
         },

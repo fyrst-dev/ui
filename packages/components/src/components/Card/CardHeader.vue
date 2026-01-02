@@ -27,13 +27,15 @@ import { inject, computed } from 'vue';
 import { css } from "styled-system/css";
 import { cardStyles, CardStylesKey } from "./styles";
 
-defineProps<{ 
+export interface CardHeaderProps {
     title?: string;
     subtitle?: string;
-}>();
+}
+
+defineProps<CardHeaderProps>();
 
 const styles = inject(
-  CardStylesKey,
-  computed(() => cardStyles.raw({}))
+    CardStylesKey,
+    computed(() => cardStyles.raw({}))
 );
 </script>

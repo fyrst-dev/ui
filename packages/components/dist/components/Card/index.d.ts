@@ -8,6 +8,7 @@ declare const _default: {
             borderRadius: "sm" | "md" | "lg" | "xl";
             color: "default" | "primary" | "danger" | "success" | "warning" | "info" | "none" | "lucid-deep";
             borderSize: number;
+            header: import('./CardHeader.vue').CardHeaderProps;
             colorStrategy: "default" | "image";
             as: "div" | "li";
         }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, any, import('vue').ComponentProvideOptions, {
@@ -21,6 +22,7 @@ declare const _default: {
             borderRadius: "sm" | "md" | "lg" | "xl";
             color: "default" | "primary" | "danger" | "success" | "warning" | "info" | "none" | "lucid-deep";
             borderSize: number;
+            header: import('./CardHeader.vue').CardHeaderProps;
             colorStrategy: "default" | "image";
             as: "div" | "li";
         }>;
@@ -31,14 +33,14 @@ declare const _default: {
         borderRadius: "sm" | "md" | "lg" | "xl";
         color: "default" | "primary" | "danger" | "success" | "warning" | "info" | "none" | "lucid-deep";
         borderSize: number;
+        header: import('./CardHeader.vue').CardHeaderProps;
         colorStrategy: "default" | "image";
         as: "div" | "li";
     }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
             before?(_: {}): any;
-            default?(_: {}): any;
             header?(_: {}): any;
-            body?(_: {}): any;
+            default?(_: {}): any;
             footer?(_: {}): any;
             after?(_: {}): any;
         };
@@ -61,27 +63,18 @@ declare const _default: {
         };
     });
     Header: {
-        new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<{
-            title?: string;
-            subtitle?: string;
-        }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {}, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLElement, import('vue').ComponentProvideOptions, {
+        new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./CardHeader.vue').CardHeaderProps> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, import('vue').PublicProps, {}, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, HTMLElement, import('vue').ComponentProvideOptions, {
             P: {};
             B: {};
             D: {};
             C: {};
             M: {};
             Defaults: {};
-        }, Readonly<{
-            title?: string;
-            subtitle?: string;
-        }> & Readonly<{}>, {}, {}, {}, {}, {}>;
+        }, Readonly<import('./CardHeader.vue').CardHeaderProps> & Readonly<{}>, {}, {}, {}, {}, {}>;
         __isFragment?: never;
         __isTeleport?: never;
         __isSuspense?: never;
-    } & import('vue').ComponentOptionsBase<Readonly<{
-        title?: string;
-        subtitle?: string;
-    }> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {}, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
+    } & import('vue').ComponentOptionsBase<Readonly<import('./CardHeader.vue').CardHeaderProps> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {}, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
         $slots: {
             icon?(_: {}): any;
             default?(_: {}): any;

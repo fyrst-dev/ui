@@ -2,12 +2,18 @@
 <template>
     <ShowcaseContainer>
         <FyrstCardRoot>
-            <FyrstCardHeader
-                title="Card Title"
-                subtitle="Card Subtitle"
-            />
+            <template #header>
+                <FyrstCardHeader
+                    title="Card Title"
+                    subtitle="Card Subtitle"
+                >
+                <template #icon>
+                    <span class="icon icon-info-bold" />
+                </template>
+                </FyrstCardHeader>
+            </template>
             <FyrstCardBody>
-                This is the body of the card. It contains the main content.
+                <p>This is the body of the card. It contains the main content.</p>
                 <FyrstListRoot 
                     state="danger"
                     size="md"

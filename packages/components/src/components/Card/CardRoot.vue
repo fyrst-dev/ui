@@ -3,6 +3,7 @@ import { css, type Styles } from "styled-system/css";
 import { cardStyles, CardStylesKey } from "./styles";
 import { computed, provide } from "vue";
 import type { SystemStyleObject } from "@pandacss/dev";
+import CardHeader, { type CardHeaderProps } from "./CardHeader.vue";
 
 type BorderRadius = "sm" | "md" | "lg" | "xl";
 
@@ -22,6 +23,7 @@ export interface Props {
   borderRadius?: BorderRadius;
   borderColor?: string;
   classRoot?: Styles & SystemStyleObject;
+  header?: CardHeaderProps;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,6 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
   color: "default",
   borderRadius: "md",
   borderSize: 1,
+  header: undefined,
 });
 
 const styles = computed(() => cardStyles.raw({
@@ -61,11 +64,13 @@ provide(CardStylesKey, styles);
     :style="inlineStyles"
   >
     <slot name="before" />
-    <slot>
-      <slot name="header" />
-      <slot name="body" />
-      <slot name="footer" />
+    <slot name="header">
+      <CardHeader 
+        v-if="props.header"
+        v-bind="props.header" />
     </slot>
-    <slot name="after" />
+    <slot />
+    <slot name="footer" />
+  <slot name="after" />
   </component>
 </template>

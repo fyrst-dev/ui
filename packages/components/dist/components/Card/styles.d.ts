@@ -27,7 +27,7 @@ export declare const cardStyles: import('../../../styled-system/types').SlotReci
                 "--card-bg": "linear-gradient(token(colors.grey.deep))";
                 "--card-border-color": "token(colors.grey.700)";
                 _light: {
-                    "--card-bg": "linear-gradient(token(colors.grey.50))";
+                    "--card-bg": "linear-gradient(token(colors.white))";
                     "--card-border-color": "token(colors.grey.100)";
                 };
             };

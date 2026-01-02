@@ -1,5 +1,6 @@
 import { Styles } from '../../../styled-system/css';
 import { SystemStyleObject } from '@pandacss/dev';
+import { CardHeaderProps } from './CardHeader.vue';
 type BorderRadius = "sm" | "md" | "lg" | "xl";
 export interface Props {
     as?: "div" | "li";
@@ -9,14 +10,14 @@ export interface Props {
     borderRadius?: BorderRadius;
     borderColor?: string;
     classRoot?: Styles & SystemStyleObject;
+    header?: CardHeaderProps;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
         before?(_: {}): any;
-        default?(_: {}): any;
         header?(_: {}): any;
-        body?(_: {}): any;
+        default?(_: {}): any;
         footer?(_: {}): any;
         after?(_: {}): any;
     };
@@ -28,6 +29,7 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     borderRadius: BorderRadius;
     color: "default" | "primary" | "danger" | "success" | "warning" | "info" | "none" | "lucid-deep";
     borderSize: number;
+    header: CardHeaderProps;
     colorStrategy: "default" | "image";
     as: "div" | "li";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
