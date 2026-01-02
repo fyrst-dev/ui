@@ -26,6 +26,7 @@ const icons: Record<string, string[]> = {
       'caret-left-bold',
       'caret-right',
       'caret-right-bold',
+      'check-bold',
       'check-circle',
       'check-circle-bold',
       'circle-wavy-warning',

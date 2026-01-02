@@ -9,11 +9,13 @@
             <FyrstCardBody>
                 This is the body of the card. It contains the main content.
                 <FyrstListRoot 
-                 :items="[
-                    { content: 'First item' },
-                    { content: 'Second item' },
-                    { content: 'Third <b>bold</b> item' }
-                 ]"/>
+                    state="danger"
+                    size="md"
+                    :items="[
+                        { content: 'First item' },
+                        { content: 'Second item' },
+                        { content: 'Third <b>bold</b> item' }
+                    ]"/>
             </FyrstCardBody>
         </FyrstCardRoot>
     </ShowcaseContainer>

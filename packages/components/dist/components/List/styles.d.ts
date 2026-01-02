@@ -16,6 +16,9 @@ export declare const listStyles: import('../../../styled-system/types').SlotReci
                 height: "16px";
                 minWidth: "16px";
                 marginTop: "2px";
+                '& .icon': {
+                    fontSize: "10px";
+                };
             };
         };
         md: {
@@ -30,7 +33,10 @@ export declare const listStyles: import('../../../styled-system/types').SlotReci
                 width: "20px";
                 height: "20px";
                 minWidth: "20px";
-                marginTop: "1px";
+                marginTop: "2px";
+                '& .icon': {
+                    fontSize: "12px";
+                };
             };
         };
         lg: {
@@ -46,6 +52,41 @@ export declare const listStyles: import('../../../styled-system/types').SlotReci
                 height: "20px";
                 minWidth: "20px";
                 marginTop: "6px";
+                '& .icon': {
+                    fontSize: "12px";
+                };
+            };
+        };
+    };
+    state: {
+        default: {
+            marker: {
+                color: "grey.dawn";
+                backgroundColor: "grey.night";
+            };
+        };
+        primary: {
+            marker: {
+                color: "primary";
+                backgroundColor: "primary.lucid.900";
+            };
+        };
+        success: {
+            marker: {
+                color: "success";
+                backgroundColor: "success.lucid.900";
+            };
+        };
+        danger: {
+            marker: {
+                color: "danger";
+                backgroundColor: "danger.lucid.900";
+            };
+        };
+        info: {
+            marker: {
+                color: "info";
+                backgroundColor: "info.lucid.900";
             };
         };
     };

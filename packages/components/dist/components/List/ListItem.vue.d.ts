@@ -1,9 +1,13 @@
 export interface ListItemProps {
     content?: string;
+    size?: 'sm' | 'md' | 'lg';
+    state?: 'default' | 'primary' | 'success' | 'danger' | 'info';
+    icon?: string | boolean;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
+        marker?(_: {}): any;
         default?(_: {}): any;
     };
     refs: {};
