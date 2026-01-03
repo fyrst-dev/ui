@@ -22,7 +22,7 @@ export interface Props {
   borderSize?: number;
   borderRadius?: BorderRadius;
   borderColor?: string;
-  classRoot?: Styles & SystemStyleObject;
+  classRoot?: Styles;
   header?: CardHeaderProps;
 }
 
@@ -35,11 +35,13 @@ const props = withDefaults(defineProps<Props>(), {
   header: undefined,
 });
 
-const styles = computed(() => cardStyles.raw({
-  borderRadius: props.borderRadius,
-  colorStrategy: props.colorStrategy,
-  color: props.color,
-}));
+const styles = computed(() =>
+  cardStyles.raw({
+    borderRadius: props.borderRadius,
+    colorStrategy: props.colorStrategy,
+    color: props.color,
+  })
+);
 
 const inlineStyles = computed(() => {
   const styles: any = {
@@ -54,7 +56,6 @@ const inlineStyles = computed(() => {
 });
 
 provide(CardStylesKey, styles);
-
 </script>
 
 <template>
@@ -65,12 +66,10 @@ provide(CardStylesKey, styles);
   >
     <slot name="before" />
     <slot name="header">
-      <CardHeader 
-        v-if="props.header"
-        v-bind="props.header" />
+      <CardHeader v-if="props.header" v-bind="props.header" />
     </slot>
     <slot />
     <slot name="footer" />
-  <slot name="after" />
+    <slot name="after" />
   </component>
 </template>
