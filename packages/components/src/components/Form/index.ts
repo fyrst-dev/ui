@@ -7,7 +7,7 @@ export { FormInput, FormPrompt }
 
 // Default export for namespaced usage: <Form.Input />
 export default {
-    Input: FormInput,
-    Prompt: FormPrompt,
-    PromptFooter: FormPromptFooter
+  Input: FormInput,
+  Prompt: FormPrompt,
+  PromptFooter: FormPromptFooter,
 }

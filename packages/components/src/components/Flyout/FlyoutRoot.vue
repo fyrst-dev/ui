@@ -1,20 +1,21 @@
 <script lang="ts" setup>
-import { ref } from "vue";
-import { useFlyout } from "../../composables/flyout";
-import { css } from "styled-system/css";
-import FlyoutDropdown from "./FlyoutDropdown.vue";
-const el = ref<HTMLElement>();
+import { ref } from 'vue'
+import { useFlyout } from '../../composables/flyout'
+import { css } from 'styled-system/css'
+import FlyoutDropdown from './FlyoutDropdown.vue'
+
+const el = ref<HTMLElement>()
 
 export interface Props {
-  icon?: string;
-  label?: string;
-  ariaLabel?: string;
-  classTrigger?: any;
+  icon?: string
+  label?: string
+  ariaLabel?: string
+  classTrigger?: any
 }
 
-const props = defineProps<Props>();
+const props = defineProps<Props>()
 
-const { open, toggle } = useFlyout({ el });
+const { open, toggle } = useFlyout({ el })
 </script>
 
 <template>
@@ -25,11 +26,14 @@ const { open, toggle } = useFlyout({ el });
         css.raw({
           position: 'relative',
           zIndex: 20,
-        })
+        }),
       )
     "
   >
-    <slot name="trigger" v-bind="{ open }">
+    <slot
+      name="trigger"
+      v-bind="{ open }"
+    >
       <button
         type="button"
         :class="[
@@ -37,7 +41,7 @@ const { open, toggle } = useFlyout({ el });
             css.raw({
               cursor: 'pointer',
             }),
-            props.classTrigger
+            props.classTrigger,
           ),
           open ? 'active' : null,
         ]"
@@ -46,15 +50,24 @@ const { open, toggle } = useFlyout({ el });
         :aria-expanded="open"
         @click="toggle"
       >
-        <span v-if="props.icon" :class="props.icon" />
+        <span
+          v-if="props.icon"
+          :class="props.icon"
+        />
         <slot name="trigger-label">
           <span v-html="label" />
         </slot>
-        <slot name="trigger-icon" v-bind="{ open }" />
+        <slot
+          name="trigger-icon"
+          v-bind="{ open }"
+        />
       </button>
     </slot>
 
-    <slot name="dropdown" v-bind="{ open }">
+    <slot
+      name="dropdown"
+      v-bind="{ open }"
+    >
       <Transition name="flyout">
         <FlyoutDropdown v-if="open">
           <slot />

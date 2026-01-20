@@ -6,6 +6,6 @@ export { FlyoutRoot, FlyoutDropdown }
 
 // Default export for namespaced usage: <Flyout.Root />, <Flyout.Dropdown />
 export default {
-    Root: FlyoutRoot,
-    Dropdown: FlyoutDropdown,
+  Root: FlyoutRoot,
+  Dropdown: FlyoutDropdown,
 }

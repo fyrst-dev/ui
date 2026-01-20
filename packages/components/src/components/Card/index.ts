@@ -7,7 +7,7 @@ export { CardRoot, CardBody, CardHeader }
 
 // Default export for namespaced usage: <Card.Root />, <Card.Body />
 export default {
-    Root: CardRoot,
-    Body: CardBody,
-    Header: CardHeader,
+  Root: CardRoot,
+  Body: CardBody,
+  Header: CardHeader,
 }

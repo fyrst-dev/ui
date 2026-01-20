@@ -6,6 +6,6 @@ export { ListRoot, ListItem }
 
 // Default export for namespaced usage: <Card.Root />, <Card.Body />
 export default {
-    Root: ListRoot,
-    Item: ListItem,
+  Root: ListRoot,
+  Item: ListItem,
 }

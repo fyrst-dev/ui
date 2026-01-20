@@ -1,151 +1,151 @@
-import { sva } from "styled-system/css";
-import type { InjectionKey, ComputedRef } from "vue";
+import { sva } from 'styled-system/css'
+import type { InjectionKey, ComputedRef } from 'vue'
 
-export type CardStyles = ReturnType<typeof cardStyles.raw>;
-export const CardStylesKey: InjectionKey<ComputedRef<CardStyles>> = Symbol("CardStyles");
+export type CardStyles = ReturnType<typeof cardStyles.raw>
+export const CardStylesKey: InjectionKey<ComputedRef<CardStyles>> = Symbol('CardStyles')
 
 export const cardStyles = sva({
-  slots: ["root", "header", "headerBody", "headerTitle", "headerSubtitle", "body", "footer"],
+  slots: ['root', 'header', 'headerBody', 'headerTitle', 'headerSubtitle', 'body', 'footer'],
   base: {
     root: {
-      color: "neutral",
-      display: "block",
-      borderWidth: "var(--card-border-size)",
-      borderStyle: "solid",
-      borderColor: "transparent",
-      position: "relative",
-      zIndex: "1",
-      maxWidth: "100%",
-      backdropBlur: "8px",
-      backdropFilter: "auto",
-      boxShadow: "var(--card-shadow)",
-      "--card-bg-overlay": "linear-gradient(transparent)",
+      'color': 'neutral',
+      'display': 'block',
+      'borderWidth': 'var(--card-border-size)',
+      'borderStyle': 'solid',
+      'borderColor': 'transparent',
+      'position': 'relative',
+      'zIndex': '1',
+      'maxWidth': '100%',
+      'backdropBlur': '8px',
+      'backdropFilter': 'auto',
+      'boxShadow': 'var(--card-shadow)',
+      '--card-bg-overlay': 'linear-gradient(transparent)',
     },
     header: {
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      alignItems: "center",
-      borderBottomWidth: "var(--card-border-size)",
-      borderStyle: "solid",
-      borderColor: "var(--card-border-color)"
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderBottomWidth: 'var(--card-border-size)',
+      borderStyle: 'solid',
+      borderColor: 'var(--card-border-color)',
     },
     headerBody: {
-      display: "flex",
-      flexDirection: "column",
+      display: 'flex',
+      flexDirection: 'column',
       flexGrow: 1,
     },
     headerTitle: {
-      fontWeight: "700",
-      fontSize: "lg",
-      lineHeight: "1.25"
+      fontWeight: '700',
+      fontSize: 'lg',
+      lineHeight: '1.25',
     },
     headerSubtitle: {
-      color: "grey.dawn",
-      fontSize: "md",
-    }
+      color: 'grey.dawn',
+      fontSize: 'md',
+    },
   },
   variants: {
     colorStrategy: {
       default: {
         root: {
-          background: "var(--card-bg-overlay) padding-box, var(--card-bg) padding-box",
-          borderColor: "var(--card-border-color)",
+          background: 'var(--card-bg-overlay) padding-box, var(--card-bg) padding-box',
+          borderColor: 'var(--card-border-color)',
         },
       },
       image: {
         root: {
           background:
-            "var(--card-bg-overlay) padding-box, var(--card-bg) padding-box, var(--card-border-color) border-box",
+            'var(--card-bg-overlay) padding-box, var(--card-bg) padding-box, var(--card-border-color) border-box',
         },
       },
     },
     color: {
-      none: {
+      'none': {
         root: {
-          "--card-bg": "transparent",
-          "--card-border-color": "transparent",
+          '--card-bg': 'transparent',
+          '--card-border-color': 'transparent',
         },
       },
-      default: {
+      'default': {
         root: {
-          "--card-bg": "linear-gradient(token(colors.grey.deep))",
-          "--card-border-color": "token(colors.grey.700)",
-          _light: {
-            "--card-bg": "linear-gradient(token(colors.white))",
-            "--card-border-color": "token(colors.grey.100)",
-          }
+          '--card-bg': 'linear-gradient(token(colors.grey.deep))',
+          '--card-border-color': 'token(colors.grey.700)',
+          '_light': {
+            '--card-bg': 'linear-gradient(token(colors.white))',
+            '--card-border-color': 'token(colors.grey.100)',
+          },
         },
       },
-      primary: {
+      'primary': {
         root: {
-          "--card-bg": "linear-gradient(var(--colors-primary-lucid-900))",
+          '--card-bg': 'linear-gradient(var(--colors-primary-lucid-900))',
         },
       },
-      danger: {
+      'danger': {
         root: {
-          "--card-bg": "linear-gradient(var(--colors-danger-lucid-900))",
+          '--card-bg': 'linear-gradient(var(--colors-danger-lucid-900))',
         },
       },
-      success: {
+      'success': {
         root: {
-          "--card-bg": "linear-gradient(var(--colors-success-lucid-900))",
+          '--card-bg': 'linear-gradient(var(--colors-success-lucid-900))',
         },
       },
-      warning: {
+      'warning': {
         root: {
-          "--card-bg": "linear-gradient(var(--colors-warning-lucid-900))",
+          '--card-bg': 'linear-gradient(var(--colors-warning-lucid-900))',
         },
       },
-      info: {
+      'info': {
         root: {
-          "--card-bg": "linear-gradient(var(--colors-info-lucid-900))",
+          '--card-bg': 'linear-gradient(var(--colors-info-lucid-900))',
         },
       },
       'lucid-deep': {
         root: {
-          "--card-bg": "linear-gradient(rgb(from token(colors.black) r g b / 10%))",
+          '--card-bg': 'linear-gradient(rgb(from token(colors.black) r g b / 10%))',
         },
-      }
+      },
     },
     padding: {
       md: {
         header: {
-          padding: "xl",
-          gap: "md",
+          padding: 'xl',
+          gap: 'md',
         },
         body: {
-          padding: "xl",
-        }
-      }
+          padding: 'xl',
+        },
+      },
     },
     borderRadius: {
       sm: {
         root: {
-          borderRadius: "lg",
+          borderRadius: 'lg',
         },
       },
       md: {
         root: {
-          borderRadius: "xl",
+          borderRadius: 'xl',
         },
       },
       lg: {
         root: {
-          borderRadius: "2xl",
+          borderRadius: '2xl',
         },
       },
       xl: {
         root: {
-          borderRadius: "4xl",
+          borderRadius: '4xl',
         },
       },
     },
   },
   defaultVariants: {
-    borderRadius: "md",
-    color: "default",
-    padding: "md",
-    colorStrategy: "default",
+    borderRadius: 'md',
+    color: 'default',
+    padding: 'md',
+    colorStrategy: 'default',
   },
-});
+})

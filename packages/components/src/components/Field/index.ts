@@ -9,9 +9,9 @@ export { FieldInput, FieldBase, FieldLabel, FieldError, FieldMessage }
 
 // Default export for namespaced usage: <Field.Base />, <Field.Label />, etc.
 export default {
-    Input: FieldInput,
-    Base: FieldBase,
-    Label: FieldLabel,
-    Error: FieldError,
-    Message: FieldMessage,
+  Input: FieldInput,
+  Base: FieldBase,
+  Label: FieldLabel,
+  Error: FieldError,
+  Message: FieldMessage,
 }

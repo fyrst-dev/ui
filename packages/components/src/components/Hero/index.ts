@@ -5,5 +5,5 @@ export { HeroLead }
 
 // Default export for namespaced usage: <Hero.Lead />
 export default {
-    Lead: HeroLead,
+  Lead: HeroLead,
 }

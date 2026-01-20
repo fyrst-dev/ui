@@ -1,4 +1,4 @@
-import AccordionRoot from "./AccordionRoot.vue"
+import AccordionRoot from './AccordionRoot.vue'
 
 // Named exports for direct imports
 export { AccordionRoot }

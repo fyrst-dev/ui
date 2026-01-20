@@ -6,5 +6,5 @@ export type { AlertMessage } from './types'
 
 // Default export for namespaced usage
 export default {
-    Root: Alert
+  Root: Alert,
 }

@@ -7,7 +7,7 @@ export { CarouselRoot, CarouselItem, CarouselNavigation }
 
 // Default export for namespaced usage: <Carousel.Root />, <Carousel.Item />, etc.
 export default {
-    Root: CarouselRoot,
-    Item: CarouselItem,
-    Navigation: CarouselNavigation,
+  Root: CarouselRoot,
+  Item: CarouselItem,
+  Navigation: CarouselNavigation,
 }
