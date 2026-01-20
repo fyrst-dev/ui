@@ -37,9 +37,7 @@
  *   <Field.Error />
  * </Field.Base>
  */
-import { provide, computed } from 'vue'
-// @ts-ignore - useId is available in Vue 3.3+
-import { useId } from 'vue'
+import { provide, computed, useId } from 'vue'
 import { css } from 'styled-system/css'
 
 const props = withDefaults(defineProps<{
