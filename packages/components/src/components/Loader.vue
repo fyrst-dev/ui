@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { css } from 'styled-system/css'
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   size?: number
   label?: string
 }>(), {

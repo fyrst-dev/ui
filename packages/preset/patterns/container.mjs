@@ -6,7 +6,7 @@ transform({ maxWidth, px }) {
   return {
     position: "relative",
     maxWidth: {
-      base: "360px",
+      "base": "360px",
       "3xs": "360px",
       "2xs": "400px",
       "xs": "500px",
