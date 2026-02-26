@@ -3,6 +3,7 @@
     :class="css(styles.header)"
   >
     <slot name="icon" />
+    
     <slot>
       <div
         :class="css(styles.headerBody)"
