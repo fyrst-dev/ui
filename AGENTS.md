@@ -101,6 +101,55 @@ bun run --filter='@fyrst/ui-nuxt' test:types             # Type checking
 - Use Panda CSS for styling
 - Follow patterns in `packages/components/src/`
 
+### CVA/SVA Styling Pattern
+
+New components using CVA (or SVA for multi-slot) must follow this pattern:
+
+**1. Create component folder** (e.g., `packages/components/src/components/Badge/`):
+```
+Badge/
+├── Badge.vue
+├── styles.ts
+└── index.ts
+```
+
+**2. styles.ts** - Define CVA/SVA with slots if needed:
+```typescript
+import { cva } from 'styled-system/css'
+// or for multi-slot: import { sva } from 'styled-system/css'
+
+export const badgeStyles = cva({
+  base: { ... },
+  variants: { ... },
+  defaultVariants: { ... },
+})
+```
+
+**3. Component.vue** - Use computed with `.raw()`:
+```typescript
+import { computed } from 'vue'
+import { badgeStyles } from './styles'
+
+const props = defineProps<{ ... }>()
+
+const badgeClass = computed(() =>
+  badgeStyles.raw({ color: props.color, size: props.size }),
+)
+```
+
+```vue
+<template>
+  <span :class="badgeClass">...</span>
+</template>
+```
+
+**4. index.ts** - Export component:
+```typescript
+import Badge from './Badge.vue'
+export { Badge }
+export default { Badge }
+```
+
 ### Panda CSS
 
 - Use semantic tokens: `colors.primary`, `colors.neutral`

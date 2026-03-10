@@ -2,6 +2,7 @@
 import './styles/icons.css'
 
 import Alert from './components/Alert'
+import Badge from './components/Badge'
 import Button from './components/Button.vue'
 import Loader from './components/Loader.vue'
 import Card from './components/Card'
@@ -15,6 +16,7 @@ import Accordion from './components/Accordion'
 
 export {
   Alert,
+  Badge,
   Button,
   Loader,
   Card,
