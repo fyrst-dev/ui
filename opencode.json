@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "skill": {
+      "vue": "allow",
+      "vue-best-practices": "allow",
+      "vite": "allow",
+      "*": "deny"
+    }
+  }
+}

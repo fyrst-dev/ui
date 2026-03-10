@@ -33,8 +33,8 @@ import { css } from 'styled-system/css'
 import { cardStyles, CardStylesKey } from './styles'
 
 export interface CardHeaderProps {
-  title?: string
-  subtitle?: string
+  title?: string | null
+  subtitle?: string | null
 }
 
 defineProps<CardHeaderProps>()
