@@ -45,10 +45,22 @@ export const badgeStyles = cva({
         paddingInline: 'md',
       },
       md: {
-        fontSize: 'md',
-        gap: 'sm',
-        paddingBlock: 'sm',
-        paddingInline: 'lg',
+        fontSize: {
+          base: 'sm',
+          lg: 'md',
+        },
+        gap: {
+          base: 'xs',
+          lg: 'sm',
+        },
+        paddingBlock: {
+          base: 'xs',
+          lg: 'sm',
+        },
+        paddingInline: {
+          base: 'md',
+          lg: 'lg',
+        },
       },
       lg: {
         fontSize: 'md',
