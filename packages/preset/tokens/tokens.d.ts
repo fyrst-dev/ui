@@ -7,7 +7,7 @@ export type ColorToken = "white" | "black" | "transparent" | "brand.100" | "bran
 
 export type SpacingToken = "3xs" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl" | "8xl" | "9xl" | "10xl" | "11xl" | "12xl" | "-3xs" | "-2xs" | "-xs" | "-sm" | "-md" | "-lg" | "-xl" | "-2xl" | "-3xl" | "-4xl" | "-5xl" | "-6xl" | "-7xl" | "-8xl" | "-9xl" | "-10xl" | "-11xl" | "-12xl"
 
-export type RadiusToken = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl"
+export type RadiusToken = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "pill"
 
 export type FontSizeToken = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl"
 

@@ -1,5 +1,6 @@
 <template>
   <div :class="cssClasses.root">
+    <slot name="prepend" />
     <slot name="headline">
       <component
         :is="headlineTag"
@@ -17,6 +18,7 @@
       />
     </slot>
     <slot name="actions" />
+    <slot name="append" />
   </div>
 </template>
 

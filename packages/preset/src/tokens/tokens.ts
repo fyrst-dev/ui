@@ -242,6 +242,7 @@ export const radii = defineTokens.radii({
   '3xl': { value: '24px' },
   '4xl': { value: '32px' },
   '5xl': { value: '40px' },
+  'pill': { value: '99rem' },
 })
 
 export const fontSizes = defineTokens.fontSizes({

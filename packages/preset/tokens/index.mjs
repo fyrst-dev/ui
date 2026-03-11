@@ -355,6 +355,10 @@ const tokens = {
     "value": "40px",
     "variable": "var(--radii-5xl)"
   },
+  "radii.pill": {
+    "value": "99rem",
+    "variable": "var(--radii-pill)"
+  },
   "fontSizes.xs": {
     "value": "12px",
     "variable": "var(--font-sizes-xs)"
