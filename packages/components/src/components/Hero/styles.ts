@@ -69,9 +69,6 @@ export const heroLead = sva({
     },
     size: {
       sm: {
-        root: {
-          gap: 'md',
-        },
         headline: {
           fontSize: {
             base: 'xl',
@@ -87,9 +84,6 @@ export const heroLead = sva({
         },
       },
       md: {
-        root: {
-          gap: 'lg',
-        },
         headline: {
           fontSize: {
             base: '2xl',
@@ -105,9 +99,6 @@ export const heroLead = sva({
         },
       },
       lg: {
-        root: {
-          gap: 'xl',
-        },
         headline: {
           fontSize: {
             'base': '2xl',
@@ -123,6 +114,28 @@ export const heroLead = sva({
             '2xl': 'xl',
           },
           lineHeight: '1.75',
+        },
+      },
+    },
+    gap: {
+      sm: {
+        root: {
+          gap: 'sm',
+        },
+      },
+      md: {
+        root: {
+          gap: 'lg',
+        },
+      },
+      lg: {
+        root: {
+          gap: 'xl',
+        },
+      },
+      xl: {
+        root: {
+          gap: '2xl',
         },
       },
     },

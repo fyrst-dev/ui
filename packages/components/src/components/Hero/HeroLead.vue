@@ -33,6 +33,7 @@ export interface Props {
   alignItems?: 'start' | 'center' | 'end'
   alignSelf?: 'start' | 'center' | 'end'
   size?: 'sm' | 'md' | 'lg'
+  gap?: 'sm' | 'md' | 'lg' | 'xl'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -40,6 +41,7 @@ const props = withDefaults(defineProps<Props>(), {
   alignItems: 'start',
   alignSelf: 'start',
   size: 'md',
+  gap: 'md',
 })
 
 const cssClasses = computed(() => {
@@ -47,6 +49,7 @@ const cssClasses = computed(() => {
     alignItems: props.alignItems || 'start',
     alignSelf: props.alignSelf || 'start',
     size: props.size || 'md',
+    gap: props.gap || 'md',
   })
 })
 </script>
