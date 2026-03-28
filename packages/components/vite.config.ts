@@ -8,7 +8,6 @@ export default defineConfig({
     vue(),
     dts({
       insertTypesEntry: true,
-      copyDtsFiles: true,
       include: ['src/**/*'],
       exclude: ['src/**/*.test.*', 'src/**/*.spec.*']
     })
