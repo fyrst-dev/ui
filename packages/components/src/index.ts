@@ -12,6 +12,7 @@ import Hero from './components/Hero'
 import Field from './components/Field'
 import Form from './components/Form'
 import List from './components/List'
+import PricingCard, { PricingCardRoot } from './components/PricingCard'
 import Accordion from './components/Accordion'
 
 export {
@@ -26,6 +27,8 @@ export {
   Field,
   Form,
   List,
+  PricingCard,
+  PricingCardRoot,
   Accordion,
 }
 

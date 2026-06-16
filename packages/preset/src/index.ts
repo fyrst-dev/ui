@@ -47,6 +47,7 @@ const preset = definePreset({
   conditions: {
     extend: {
       light: '.light &, .light&',
+      hasNext: '&:has(+ *)',
     },
   },
   patterns: {
