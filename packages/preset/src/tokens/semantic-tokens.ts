@@ -54,6 +54,7 @@ export const colors = defineSemanticTokens.colors({
   },
   neutral: {
     DEFAULT: { value: { base: '{colors.white}', _light: '{colors.grey.night}' } },
+    inverse: { value: { base: '{colors.grey.night}', _light: '{colors.white}' } },
     light: { value: { base: '{colors.grey.300}', _light: '{colors.grey.400}' } },
   },
   lucid: {

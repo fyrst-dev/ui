@@ -6,23 +6,21 @@
         Basic PricingCard
       </h2>
       <p :class="css({ marginBottom: 'lg', color: 'grey.300', _light: { color: 'grey.700' } })">
-        Default pricing card with title, subtitle, price, optional hosting and feature list.
+        Default pricing card with title, subtitle, price and feature list.
       </p>
 
       <FyrstPricingCardRoot
         title="Starter"
         subtitle="For new Onlineshops"
-        currency="$"
-        amount="999"
-        :hosting="{ label: 'optional hosting', amount: 49, period: 'month' }"
+        price="$999"
         :features="features"
       />
     </div>
 
-    <!-- Featured PricingCard -->
+    <!-- Highlighted PricingCard -->
     <div>
       <h2 :class="css({ fontSize: '2xl', fontWeight: 'bold', marginBottom: 'md' })">
-        Featured PricingCard
+        Highlighted PricingCard
       </h2>
       <p :class="css({ marginBottom: 'lg', color: 'grey.300', _light: { color: 'grey.700' } })">
         Highlighted pricing card using the primary brand token for the border.
@@ -31,29 +29,9 @@
       <FyrstPricingCardRoot
         title="Starter"
         subtitle="For new Onlineshops"
-        currency="$"
-        amount="999"
-        :hosting="{ label: 'optional hosting', amount: 49, period: 'month' }"
+        price="$999"
         :features="features"
-        featured
-      />
-    </div>
-
-    <!-- PricingCard without hosting -->
-    <div>
-      <h2 :class="css({ fontSize: '2xl', fontWeight: 'bold', marginBottom: 'md' })">
-        PricingCard without hosting
-      </h2>
-      <p :class="css({ marginBottom: 'lg', color: 'grey.300', _light: { color: 'grey.700' } })">
-        Pricing card that only shows the price, without an optional hosting add-on line.
-      </p>
-
-      <FyrstPricingCardRoot
-        title="Starter"
-        subtitle="For new Onlineshops"
-        currency="$"
-        amount="999"
-        :features="features"
+        highlight
       />
     </div>
 
@@ -69,9 +47,7 @@
       <FyrstPricingCardRoot
         title="Starter"
         subtitle="For new Onlineshops"
-        currency="$"
-        amount="999"
-        :hosting="{ label: 'optional hosting', amount: 49, period: 'month' }"
+        price="$999"
         :features="features"
       >
         <template #feature="{ feature, index }">

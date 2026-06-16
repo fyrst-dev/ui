@@ -3,34 +3,28 @@ import { computed } from 'vue'
 import { css } from 'styled-system/css'
 import { pricingCardStyles } from './styles'
 
-export interface PricingCardHosting {
-  label?: string
-  amount: string | number
-  period?: string
-}
-
 export interface Props {
   title: string
   titleTag?: string
   subtitle?: string
-  currency?: string
-  amount: string | number
-  hosting?: PricingCardHosting
+  price: string
   features?: string[]
-  featured?: boolean
+  badge?: boolean
+  badgeLabel?: string
+  highlight?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   titleTag: 'div',
-  currency: '$',
   subtitle: undefined,
-  hosting: undefined,
   features: () => [],
-  featured: false,
+  badge: false,
+  badgeLabel: 'Featured',
+  highlight: false,
 })
 
 const styles = computed(() =>
-  pricingCardStyles.raw({ featured: props.featured }),
+  pricingCardStyles.raw({ highlight: props.highlight }),
 )
 
 const hasFeatures = computed(() => props.features.length > 0)
@@ -38,6 +32,12 @@ const hasFeatures = computed(() => props.features.length > 0)
 
 <template>
   <article :class="css(styles.root)">
+    <slot name="badge">
+      <div
+        v-if="props.highlight || props.badge"
+        :class="css(styles.badge)"
+        v-html="props.badgeLabel" />
+    </slot>
     <slot name="header">
       <header :class="css(styles.header)">
         <slot name="package">
@@ -58,10 +58,10 @@ const hasFeatures = computed(() => props.features.length > 0)
         </slot>
 
         <slot name="pricing">
-          <div :class="css(styles.price)">
+          <div :class="css(styles.pricing)">
             <slot name="price">
-              <span :class="css(styles.amount)">
-                {{ props.currency }}{{ props.amount }}
+              <span :class="css(styles.price)">
+                {{ props.price }}
               </span>
             </slot>
             <slot name="pricing-addon"/>

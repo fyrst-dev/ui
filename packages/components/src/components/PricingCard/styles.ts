@@ -6,14 +6,12 @@ export const pricingCardStyles = sva({
     'header',
     'title',
     'subtitle',
+    'pricing',
     'price',
-    'amount',
-    'hosting',
-    'hostingAmount',
-    'divider',
     'features',
     'feature',
     'featureIcon',
+    'badge',
   ],
   base: {
     root: {
@@ -27,9 +25,8 @@ export const pricingCardStyles = sva({
       borderStyle: 'solid',
       borderColor: 'grey.700',
       borderRadius: 'md',
-      overflow: 'hidden',
       position: 'relative',
-      outlineWidth: '3px',
+      outlineWidth: '2px',
       outlineStyle: 'solid',
       outlineColor: 'transparent',
     },
@@ -50,25 +47,14 @@ export const pricingCardStyles = sva({
       fontSize: 'md',
       color: 'grey.dawn',
     },
-    price: {
+    pricing: {
       display: 'flex',
       alignItems: 'baseline',
       gap: 'sm',
     },
-    amount: {
+    price: {
       fontSize: '2xl',
       fontWeight: '600',
-    },
-    hosting: {
-      display: 'inline-flex',
-      alignItems: 'baseline',
-      gap: 'xs',
-      fontSize: 'sm',
-      color: 'grey.dawn',
-    },
-    hostingAmount: {
-      fontWeight: '700',
-      color: 'neutral',
     },
     features: {
       display: 'flex',
@@ -95,18 +81,34 @@ export const pricingCardStyles = sva({
       fontSize: 'lg',
       color: 'primary',
     },
+    badge: {
+      pos: 'absolute',
+      bottom: '100%',
+      left: '50%',
+      translate: 'auto',
+      translateX: '-1/2',
+      translateY: '1/2',
+      display: 'inline-flex',
+      bg: 'primary',
+      color: 'neutral.inverse',
+      borderRadius: 'pill',
+      paddingBlock: '2xs',
+      paddingInline: 'md',
+      fontSize: 'sm',
+      fontWeight: 'semibold',
+    }
   },
   variants: {
-    featured: {
+    highlight: {
       true: {
         root: {
           borderColor: 'primary',
-          outlineColor: 'primary'
+          outlineColor: 'primary',
         },
       },
     },
   },
   defaultVariants: {
-    featured: false,
+    highlight: false,
   },
 })
