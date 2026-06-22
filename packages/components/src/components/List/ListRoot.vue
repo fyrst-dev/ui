@@ -1,6 +1,6 @@
 <template>
   <ul
-    :class="css(styles.list, props.css)"
+    :class="css(styles.list, props.css?.root)"
   >
     <slot>
       <ListItem
@@ -16,9 +16,10 @@
 </template>
 
 <script setup lang="ts">
-import { listStyles, ListStylesKey } from './styles'
+import { listStyles } from './styles'
+import { ListStylesKey, type ListRootCss } from './types'
 import { computed, provide } from 'vue'
-import { css, type Styles } from 'styled-system/css'
+import { css } from 'styled-system/css'
 import ListItem, { type ListItemProps } from './ListItem.vue'
 
 const props = withDefaults(defineProps<{
@@ -26,10 +27,10 @@ const props = withDefaults(defineProps<{
   size?: ListItemProps['size']
   state?: ListItemProps['state']
   icon?: ListItemProps['icon']
-  css?: Styles
+  css?: ListRootCss
 }>(), {
   icon: true,
-  size: 'sm',
+  size: 'md',
   state: 'default',
 })
 

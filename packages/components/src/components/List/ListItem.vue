@@ -1,7 +1,7 @@
 <template>
-  <li :class="css(styles.item)">
+  <li :class="css(styles.item, props.css?.root)">
     <slot name="marker">
-      <span :class="css(styles.marker)">
+      <span :class="css(styles.marker, props.css?.marker)">
         <span
           v-if="typeof icon === 'string'"
           :class="`icon icon-${icon}`"
@@ -20,13 +20,15 @@
 <script setup lang="ts">
 import { css } from 'styled-system/css'
 import { inject, computed } from 'vue'
-import { listStyles, ListStylesKey } from './styles'
+import { listStyles } from './styles'
+import { ListStylesKey, type ListItemCss } from './types'
 
 export interface ListItemProps {
   content?: string
   size?: 'sm' | 'md' | 'lg'
   state?: 'default' | 'primary' | 'success' | 'danger' | 'info'
   icon?: string | boolean
+  css?: ListItemCss
 }
 
 const props = defineProps<ListItemProps>()
