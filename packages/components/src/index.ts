@@ -12,7 +12,13 @@ import Hero from './components/Hero'
 import Field from './components/Field'
 import Form from './components/Form'
 import List from './components/List'
-import PricingCard, { PricingCardRoot } from './components/PricingCard'
+import PricingCard, {
+  PricingCardRoot,
+  PricingCardHeader,
+  PricingCardPricing,
+  PricingCardBody,
+  PricingCardBadge,
+} from './components/PricingCard'
 import Accordion from './components/Accordion'
 
 export {
@@ -29,14 +35,28 @@ export {
   List,
   PricingCard,
   PricingCardRoot,
+  PricingCardHeader,
+  PricingCardPricing,
+  PricingCardBody,
+  PricingCardBadge,
   Accordion,
 }
 
 // Export types
 export type { AccordionItem } from './components/Accordion'
 export type { AlertMessage } from './components/Alert'
+export type {
+  PricingCardData,
+  PricingCardRootCss,
+  PricingCardHeaderCss,
+  PricingCardPricingCss,
+  PricingCardBodyCss,
+  PricingCardBadgeCss,
+} from './components/PricingCard'
+export type { ListRootCss, ListItemCss } from './components/List'
 
 // Export composables
 export * from './composables/carousel'
 export * from './composables/flyout'
 export * from './composables/form'
+export * from './composables/injection-key'
