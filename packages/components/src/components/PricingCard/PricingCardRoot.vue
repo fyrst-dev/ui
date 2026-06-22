@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { css } from 'styled-system/css'
 import { pricingCardStyles } from './styles'
+import { PricingCardStylesKey, PricingCardDataKey, type PricingCardRootCss } from './types'
+import type { ListItemProps } from '../List/ListItem.vue'
+import { computed, provide } from 'vue'
 
 export interface Props {
-  title: string
+  title?: string
   titleTag?: string
   subtitle?: string
-  price: string
+  price?: string
   features?: string[]
-  badge?: boolean
-  badgeLabel?: string
+  featuresState?: ListItemProps['state']
+  featuresSize?: ListItemProps['size']
   highlight?: boolean
+  css?: PricingCardRootCss
 }
 
 const props = withDefaults(defineProps<Props>(), {
   titleTag: 'div',
-  subtitle: undefined,
   features: () => [],
-  badge: false,
-  badgeLabel: 'Featured',
+  featuresState: 'success',
+  featuresSize: 'md',
   highlight: false,
 })
 
@@ -27,71 +29,24 @@ const styles = computed(() =>
   pricingCardStyles.raw({ highlight: props.highlight }),
 )
 
-const hasFeatures = computed(() => props.features.length > 0)
+const data = computed(() => ({
+  title: props.title,
+  titleTag: props.titleTag,
+  subtitle: props.subtitle,
+  price: props.price,
+  features: props.features,
+  featuresState: props.featuresState,
+  featuresSize: props.featuresSize,
+}))
+
+provide(PricingCardStylesKey, styles)
+provide(PricingCardDataKey, data)
 </script>
 
 <template>
-  <article :class="css(styles.root)">
-    <slot name="badge">
-      <div
-        v-if="props.highlight || props.badge"
-        :class="css(styles.badge)"
-        v-html="props.badgeLabel" />
-    </slot>
-    <slot name="header">
-      <header :class="css(styles.header)">
-        <slot name="package">
-          <div>
-            <component
-              :is="props.titleTag"
-              :class="css(styles.title)"
-            >
-              {{ props.title }}
-            </component>
-            <p
-              v-if="props.subtitle"
-              :class="css(styles.subtitle)"
-            >
-              {{ props.subtitle }}
-            </p>
-          </div>
-        </slot>
-
-        <slot name="pricing">
-          <div :class="css(styles.pricing)">
-            <slot name="price">
-              <span :class="css(styles.price)">
-                {{ props.price }}
-              </span>
-            </slot>
-            <slot name="pricing-addon"/>
-          </div>
-        </slot>
-      </header>
-    </slot>
-
-    <slot name="features">
-      <ul
-        v-if="hasFeatures"
-        :class="css(styles.features)"
-      >
-        <li
-          v-for="(feature, index) in props.features"
-          :key="index"
-          :class="css(styles.feature)"
-        >
-          <slot
-            name="feature"
-            :feature="feature"
-            :index="index"
-          >
-            <span :class="css(styles.featureIcon)">
-              <span class="icon icon-check-circle-bold" />
-            </span>
-            <span>{{ feature }}</span>
-          </slot>
-        </li>
-      </ul>
-    </slot>
+  <article :class="css(styles.root, props.css?.root)">
+    <slot name="before" />
+    <slot />
+    <slot name="after" />
   </article>
 </template>

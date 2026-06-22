@@ -1,16 +1,16 @@
 import { sva } from 'styled-system/css'
 
+export type PricingCardStyles = ReturnType<typeof pricingCardStyles.raw>
+
 export const pricingCardStyles = sva({
   slots: [
     'root',
     'header',
+    'headerPackage',
     'title',
     'subtitle',
     'pricing',
     'price',
-    'features',
-    'feature',
-    'featureIcon',
     'badge',
   ],
   base: {
@@ -39,6 +39,10 @@ export const pricingCardStyles = sva({
         borderBottom: '1px solid {colors.grey.700}',
       },
     },
+    headerPackage: {
+      display: 'flex',
+      flexDir: 'column',
+    },
     title: {
       fontSize: 'lg',
       fontWeight: '700',
@@ -56,31 +60,6 @@ export const pricingCardStyles = sva({
       fontSize: '2xl',
       fontWeight: '600',
     },
-    features: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'md',
-      listStyle: 'none',
-      margin: 0,
-      paddingBlock: '2xl',
-      paddingInline: 'lg',
-    },
-    feature: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 'md',
-      fontSize: 'md',
-    },
-    featureIcon: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      width: '1.5em',
-      height: '1.5em',
-      fontSize: 'lg',
-      color: 'primary',
-    },
     badge: {
       pos: 'absolute',
       bottom: '100%',
@@ -96,7 +75,7 @@ export const pricingCardStyles = sva({
       paddingInline: 'md',
       fontSize: 'sm',
       fontWeight: 'semibold',
-    }
+    },
   },
   variants: {
     highlight: {
