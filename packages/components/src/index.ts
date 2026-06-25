@@ -12,6 +12,7 @@ import Hero from './components/Hero'
 import Field from './components/Field'
 import Form from './components/Form'
 import List from './components/List'
+import Tab from './components/Tab'
 import PricingCard, {
   PricingCardRoot,
   PricingCardHeader,
@@ -33,6 +34,7 @@ export {
   Field,
   Form,
   List,
+  Tab,
   PricingCard,
   PricingCardRoot,
   PricingCardHeader,
@@ -54,6 +56,7 @@ export type {
   PricingCardBadgeCss,
 } from './components/PricingCard'
 export type { ListRootCss, ListItemCss } from './components/List'
+export type { TabItemData } from './components/Tab'
 
 // Export composables
 export * from './composables/carousel'
