@@ -4,7 +4,7 @@ import { computed, provide, ref, watch } from 'vue'
 import { css } from 'styled-system/css'
 import TabItem from './TabItem.vue'
 import { tabStyles } from './styles'
-import { TabContextKey, type TabItemData } from './types'
+import { TabContextKey, type TabChangePayload, type TabItemData } from './types'
 
 const props = withDefaults(defineProps<{
   modelValue?: string
@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
-  'change': [value: string]
+  'change': [payload: TabChangePayload]
 }>()
 
 const internalValue = ref<string | undefined>(props.modelValue ?? props.defaultValue ?? undefined)
@@ -37,9 +37,14 @@ provide(TabContextKey, {
 
 const handleUpdate = (value: string | number) => {
   const stringValue = String(value)
+  const oldValue = internalValue.value
+  const oldIndex = props.items.findIndex(i => i.value === oldValue)
+  const newIndex = props.items.findIndex(i => i.value === stringValue)
+  const direction: 'prev' | 'next'
+    = oldIndex !== -1 && newIndex !== -1 && newIndex < oldIndex ? 'prev' : 'next'
   internalValue.value = stringValue
   emit('update:modelValue', stringValue)
-  emit('change', stringValue)
+  emit('change', { value: stringValue, direction })
 }
 </script>
 
