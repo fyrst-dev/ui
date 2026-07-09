@@ -56,7 +56,7 @@ export type {
   PricingCardBadgeCss,
 } from './components/PricingCard'
 export type { ListRootCss, ListItemCss } from './components/List'
-export type { TabItemData } from './components/Tab'
+export type { TabItemData, TabChangePayload } from './components/Tab'
 
 // Export composables
 export * from './composables/carousel'
