@@ -1,76 +1,52 @@
 <script setup lang="ts">
 /**
- * @component FieldInput
- * @description Composed text input field with label, message, and error support.
+ * @component FieldCheckbox
+ * @description Composed checkbox field with message and error support.
  */
-import { computed } from 'vue'
 import { css } from 'styled-system/css'
 import FieldBase from './FieldBase.vue'
-import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
-import FormInput from '../Form/FormInput.vue'
+import FormCheckbox from '../Form/FormCheckbox.vue'
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   name?: string
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date'
   label?: string | null
-  placeholder?: string | null
-  modelValue?: string | null
+  modelValue?: boolean | null
   id?: string
   disabled?: boolean
   required?: boolean
-  autocomplete?: string | null
   message?: string | null
   error?: string | null
 }>(), {
   name: undefined,
-  type: 'text',
   label: null,
-  placeholder: null,
-  modelValue: null,
+  modelValue: false,
   id: '',
   disabled: false,
   required: false,
-  autocomplete: null,
   message: null,
   error: null,
 })
 
-const isValid = computed(() => {
-  if (props.error) return false
-  return 'none' as const
-})
-
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:modelValue', value: boolean): void
 }>()
 
-const handleInput = (value: string) => {
+const handleInput = (value: boolean) => {
   emit('update:modelValue', value)
 }
 </script>
 
 <template>
   <FieldBase>
-    <FieldLabel
-      v-if="label"
-      :label="label"
-      :for="id"
-      :required="required"
-      size="sm"
-    />
-
-    <FormInput
+    <FormCheckbox
       :id="id"
       :name="name"
-      :type="type"
-      :placeholder="placeholder"
+      :label="label"
       :model-value="modelValue"
       :disabled="disabled"
       :required="required"
-      :autocomplete="autocomplete"
-      :valid="isValid"
       @update:model-value="handleInput"
     />
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
- * @component FieldInput
- * @description Composed text input field with label, message, and error support.
+ * @component FieldTextarea
+ * @description Composed textarea field with label, message, and error support.
  */
 import { computed } from 'vue'
 import { css } from 'styled-system/css'
@@ -9,30 +9,28 @@ import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
-import FormInput from '../Form/FormInput.vue'
+import FormTextarea from '../Form/FormTextarea.vue'
 
 const props = withDefaults(defineProps<{
   name?: string
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date'
   label?: string | null
   placeholder?: string | null
   modelValue?: string | null
   id?: string
   disabled?: boolean
   required?: boolean
-  autocomplete?: string | null
+  rows?: number
   message?: string | null
   error?: string | null
 }>(), {
   name: undefined,
-  type: 'text',
   label: null,
   placeholder: null,
   modelValue: null,
   id: '',
   disabled: false,
   required: false,
-  autocomplete: null,
+  rows: 5,
   message: null,
   error: null,
 })
@@ -61,15 +59,14 @@ const handleInput = (value: string) => {
       size="sm"
     />
 
-    <FormInput
+    <FormTextarea
       :id="id"
       :name="name"
-      :type="type"
       :placeholder="placeholder"
       :model-value="modelValue"
       :disabled="disabled"
       :required="required"
-      :autocomplete="autocomplete"
+      :rows="rows"
       :valid="isValid"
       @update:model-value="handleInput"
     />

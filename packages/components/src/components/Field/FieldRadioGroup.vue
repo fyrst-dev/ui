@@ -1,45 +1,36 @@
 <script setup lang="ts">
 /**
- * @component FieldInput
- * @description Composed text input field with label, message, and error support.
+ * @component FieldRadioGroup
+ * @description Composed radio group field with label, message, and error support.
  */
-import { computed } from 'vue'
 import { css } from 'styled-system/css'
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
-import FormInput from '../Form/FormInput.vue'
+import FormRadioGroup from '../Form/FormRadioGroup.vue'
+import type { FormFieldOption } from '../Form/controlStyles'
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   name?: string
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date'
   label?: string | null
-  placeholder?: string | null
   modelValue?: string | null
   id?: string
+  options?: FormFieldOption[]
   disabled?: boolean
   required?: boolean
-  autocomplete?: string | null
   message?: string | null
   error?: string | null
 }>(), {
   name: undefined,
-  type: 'text',
   label: null,
-  placeholder: null,
   modelValue: null,
   id: '',
+  options: () => [],
   disabled: false,
   required: false,
-  autocomplete: null,
   message: null,
   error: null,
-})
-
-const isValid = computed(() => {
-  if (props.error) return false
-  return 'none' as const
 })
 
 const emit = defineEmits<{
@@ -61,16 +52,13 @@ const handleInput = (value: string) => {
       size="sm"
     />
 
-    <FormInput
+    <FormRadioGroup
       :id="id"
       :name="name"
-      :type="type"
-      :placeholder="placeholder"
       :model-value="modelValue"
+      :options="options"
       :disabled="disabled"
       :required="required"
-      :autocomplete="autocomplete"
-      :valid="isValid"
       @update:model-value="handleInput"
     />
 

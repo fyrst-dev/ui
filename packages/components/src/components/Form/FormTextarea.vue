@@ -1,32 +1,31 @@
 <script setup lang="ts">
 /**
- * @component FormInput
- * @description A standalone text input component. Supports common input types and Field.Base composition.
+ * @component FormTextarea
+ * @description A standalone textarea control with Field.Base composition support.
  */
 import { computed, inject } from 'vue'
 import { controlStyles, type ControlSize, type ControlValid } from './controlStyles'
+import { css } from 'styled-system/css'
 
 const props = withDefaults(defineProps<{
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date'
   modelValue?: string | null
   id?: string
   name?: string
   placeholder?: string | null
   disabled?: boolean
   required?: boolean
-  autocomplete?: string | null
+  rows?: number
   size?: ControlSize
   valid?: ControlValid
   class?: unknown
 }>(), {
-  type: 'text',
   modelValue: null,
   id: '',
   name: '',
   placeholder: null,
   disabled: false,
   required: false,
-  autocomplete: null,
+  rows: 5,
   size: 'md',
   valid: 'none',
   class: undefined,
@@ -59,25 +58,34 @@ const isInvalid = computed(() => {
   return fieldContext?.hasError ?? false
 })
 
+const textareaClass = computed(() => [
+  controlStyles({ size: props.size, valid: props.valid }),
+  css({
+    alignItems: 'flex-start',
+    resize: 'vertical',
+    minHeight: '6rem',
+  }),
+  props.class,
+])
+
 const handleInput = (event: Event) => {
-  const target = event.target as HTMLInputElement
+  const target = event.target as HTMLTextAreaElement
   emit('update:modelValue', target.value)
 }
 </script>
 
 <template>
-  <input
+  <textarea
     :id="id"
     :name="name"
-    :class="[controlStyles({ size, valid: props.valid }), props.class]"
-    :type="type"
+    :class="textareaClass"
     :placeholder="placeholder || undefined"
     :value="modelValue || ''"
     :disabled="disabled"
     :required="required"
-    :autocomplete="autocomplete || undefined"
+    :rows="rows"
     :aria-invalid="isInvalid"
     :aria-describedby="ariaDescribedBy"
     @input="handleInput"
-  >
+  />
 </template>
