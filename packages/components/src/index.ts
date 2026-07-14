@@ -11,6 +11,7 @@ import Flyout from './components/Flyout'
 import Hero from './components/Hero'
 import Field from './components/Field'
 import Form from './components/Form'
+import Control from './internal/controls'
 import List from './components/List'
 import Tab from './components/Tab'
 import PricingCard, {
@@ -33,6 +34,7 @@ export {
   Hero,
   Field,
   Form,
+  Control,
   List,
   Tab,
   PricingCard,
@@ -57,6 +59,7 @@ export type {
 } from './components/PricingCard'
 export type { ListRootCss, ListItemCss } from './components/List'
 export type { TabItemData, TabChangePayload } from './components/Tab'
+export type { ControlSize, ControlValid, FieldOption } from './internal/controls'
 
 // Export composables
 export * from './composables/carousel'

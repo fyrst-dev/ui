@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
- * @component FieldInput
- * @description Composed text input field with label, message, and error support.
+ * @component FieldTextarea
+ * @description Composed textarea field with label, message, and error support.
  */
 import { computed } from 'vue'
 import FieldBase from './FieldBase.vue'
@@ -9,33 +9,31 @@ import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
 import { fieldFooterStyles } from './fieldFooterStyles'
-import ControlInput from '../../internal/controls/ControlInput.vue'
+import ControlTextarea from '../../internal/controls/ControlTextarea.vue'
 import type { ControlSize } from '../../internal/controls/types'
 
 const props = withDefaults(defineProps<{
   name?: string
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date'
   label?: string | null
   placeholder?: string | null
   modelValue?: string | null
   id?: string
   disabled?: boolean
   required?: boolean
-  autocomplete?: string | null
+  rows?: number
   size?: ControlSize
   message?: string | null
   error?: string | null
   class?: unknown
 }>(), {
   name: undefined,
-  type: 'text',
   label: null,
   placeholder: null,
   modelValue: null,
   id: '',
   disabled: false,
   required: false,
-  autocomplete: null,
+  rows: 5,
   size: 'md',
   message: null,
   error: null,
@@ -69,14 +67,13 @@ const handleInput = (value: string) => {
       size="sm"
     />
 
-    <ControlInput
+    <ControlTextarea
       :name="name"
-      :type="type"
       :placeholder="placeholder"
       :model-value="modelValue"
       :disabled="disabled"
       :required="required"
-      :autocomplete="autocomplete"
+      :rows="rows"
       :size="size"
       :valid="isValid"
       :class="props.class"

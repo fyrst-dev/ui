@@ -74,14 +74,16 @@ Current components (`packages/components/src/components/`):
 
 **Field/** - Form field composition system (namespace: `Field.*`):
 - **FieldBase.vue** - Wrapper with context (ID generation, ARIA, error/message state)
-- **FieldInput.vue** - Complete field with label, input, error, message
+- **FieldInput.vue** / **FieldTextarea** / **FieldSelect** / **FieldCheckbox** / **FieldRadioGroup** - Composed fields
 - **FieldLabel.vue** - Accessible label with required indicator support
 - **FieldError.vue** - Error message display
 - **FieldMessage.vue** - Helper text display
-- **FieldRequired.vue** - Required field indicator
+- **FieldRequired.vue** - Required field indicator (internal)
 
-**Form/** - Form input components (namespace: `Form.*`):
-- **FormInput.vue** - Base text input with styling
+**Control** (`src/internal/controls/`, namespace: `Control.*`) - Private bare controls used by Field (package export for advanced use; not Nuxt-registered):
+- **Input** / **Textarea** / **Select** / **Checkbox** / **RadioGroup**
+
+**Form/** - Form shell components (namespace: `Form.*`):
 - **FormPrompt.vue** - Styled form container with textarea
 - **FormPromptFooter.vue** - Footer section for FormPrompt
 

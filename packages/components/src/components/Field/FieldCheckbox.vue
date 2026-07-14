@@ -1,57 +1,44 @@
 <script setup lang="ts">
 /**
- * @component FieldInput
- * @description Composed text input field with label, message, and error support.
+ * @component FieldCheckbox
+ * @description Composed checkbox field with message and error support.
  */
-import { computed } from 'vue'
 import FieldBase from './FieldBase.vue'
-import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
 import { fieldFooterStyles } from './fieldFooterStyles'
-import ControlInput from '../../internal/controls/ControlInput.vue'
+import ControlCheckbox from '../../internal/controls/ControlCheckbox.vue'
 import type { ControlSize } from '../../internal/controls/types'
 
 const props = withDefaults(defineProps<{
   name?: string
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date'
   label?: string | null
-  placeholder?: string | null
-  modelValue?: string | null
+  modelValue?: boolean | null
   id?: string
   disabled?: boolean
   required?: boolean
-  autocomplete?: string | null
   size?: ControlSize
   message?: string | null
   error?: string | null
   class?: unknown
 }>(), {
   name: undefined,
-  type: 'text',
   label: null,
-  placeholder: null,
-  modelValue: null,
+  modelValue: false,
   id: '',
   disabled: false,
   required: false,
-  autocomplete: null,
   size: 'md',
   message: null,
   error: null,
   class: undefined,
 })
 
-const isValid = computed(() => {
-  if (props.error) return false
-  return 'none' as const
-})
-
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:modelValue', value: boolean): void
 }>()
 
-const handleInput = (value: string) => {
+const handleInput = (value: boolean) => {
   emit('update:modelValue', value)
 }
 </script>
@@ -62,23 +49,13 @@ const handleInput = (value: string) => {
     :error="error"
     :message="message"
   >
-    <FieldLabel
-      v-if="label"
-      :label="label"
-      :required="required"
-      size="sm"
-    />
-
-    <ControlInput
+    <ControlCheckbox
       :name="name"
-      :type="type"
-      :placeholder="placeholder"
+      :label="label"
       :model-value="modelValue"
       :disabled="disabled"
       :required="required"
-      :autocomplete="autocomplete"
       :size="size"
-      :valid="isValid"
       :class="props.class"
       @update:model-value="handleInput"
     />

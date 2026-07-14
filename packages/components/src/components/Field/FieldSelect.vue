@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
- * @component FieldInput
- * @description Composed text input field with label, message, and error support.
+ * @component FieldSelect
+ * @description Composed select field with label, message, and error support.
  */
 import { computed } from 'vue'
 import FieldBase from './FieldBase.vue'
@@ -9,33 +9,31 @@ import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
 import { fieldFooterStyles } from './fieldFooterStyles'
-import ControlInput from '../../internal/controls/ControlInput.vue'
-import type { ControlSize } from '../../internal/controls/types'
+import ControlSelect from '../../internal/controls/ControlSelect.vue'
+import type { ControlSize, FieldOption } from '../../internal/controls/types'
 
 const props = withDefaults(defineProps<{
   name?: string
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date'
   label?: string | null
   placeholder?: string | null
   modelValue?: string | null
   id?: string
+  options?: FieldOption[]
   disabled?: boolean
   required?: boolean
-  autocomplete?: string | null
   size?: ControlSize
   message?: string | null
   error?: string | null
   class?: unknown
 }>(), {
   name: undefined,
-  type: 'text',
   label: null,
   placeholder: null,
   modelValue: null,
   id: '',
+  options: () => [],
   disabled: false,
   required: false,
-  autocomplete: null,
   size: 'md',
   message: null,
   error: null,
@@ -69,14 +67,13 @@ const handleInput = (value: string) => {
       size="sm"
     />
 
-    <ControlInput
+    <ControlSelect
       :name="name"
-      :type="type"
       :placeholder="placeholder"
       :model-value="modelValue"
+      :options="options"
       :disabled="disabled"
       :required="required"
-      :autocomplete="autocomplete"
       :size="size"
       :valid="isValid"
       :class="props.class"
