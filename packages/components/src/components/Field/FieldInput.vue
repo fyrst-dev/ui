@@ -4,12 +4,13 @@
  * @description Composed text input field with label, message, and error support.
  */
 import { computed } from 'vue'
-import { css } from 'styled-system/css'
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
-import FormInput from '../Form/FormInput.vue'
+import { fieldFooterStyles } from './fieldFooterStyles'
+import ControlInput from '../../internal/controls/ControlInput.vue'
+import type { ControlSize } from '../../internal/controls/types'
 
 const props = withDefaults(defineProps<{
   name?: string
@@ -21,8 +22,10 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   required?: boolean
   autocomplete?: string | null
+  size?: ControlSize
   message?: string | null
   error?: string | null
+  class?: unknown
 }>(), {
   name: undefined,
   type: 'text',
@@ -33,8 +36,10 @@ const props = withDefaults(defineProps<{
   disabled: false,
   required: false,
   autocomplete: null,
+  size: 'md',
   message: null,
   error: null,
+  class: undefined,
 })
 
 const isValid = computed(() => {
@@ -52,17 +57,19 @@ const handleInput = (value: string) => {
 </script>
 
 <template>
-  <FieldBase>
+  <FieldBase
+    :id="id || undefined"
+    :error="error"
+    :message="message"
+  >
     <FieldLabel
       v-if="label"
       :label="label"
-      :for="id"
       :required="required"
       size="sm"
     />
 
-    <FormInput
-      :id="id"
+    <ControlInput
       :name="name"
       :type="type"
       :placeholder="placeholder"
@@ -70,29 +77,18 @@ const handleInput = (value: string) => {
       :disabled="disabled"
       :required="required"
       :autocomplete="autocomplete"
+      :size="size"
       :valid="isValid"
+      :class="props.class"
       @update:model-value="handleInput"
     />
 
     <div
       v-if="message || error"
-      :class="css({
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        columnGap: 'md',
-      })"
+      :class="fieldFooterStyles"
     >
-      <FieldMessage
-        v-if="message"
-        :message="message"
-      />
-
-      <FieldError
-        v-if="error"
-        :message="error"
-      />
+      <FieldMessage />
+      <FieldError />
     </div>
   </FieldBase>
 </template>

@@ -3,24 +3,26 @@
  * @component FieldRadioGroup
  * @description Composed radio group field with label, message, and error support.
  */
-import { css } from 'styled-system/css'
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
-import FormRadioGroup from '../Form/FormRadioGroup.vue'
-import type { FormFieldOption } from '../Form/controlStyles'
+import { fieldFooterStyles } from './fieldFooterStyles'
+import ControlRadioGroup from '../../internal/controls/ControlRadioGroup.vue'
+import type { ControlSize, FieldOption } from '../../internal/controls/types'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   name?: string
   label?: string | null
   modelValue?: string | null
   id?: string
-  options?: FormFieldOption[]
+  options?: FieldOption[]
   disabled?: boolean
   required?: boolean
+  size?: ControlSize
   message?: string | null
   error?: string | null
+  class?: unknown
 }>(), {
   name: undefined,
   label: null,
@@ -29,8 +31,10 @@ withDefaults(defineProps<{
   options: () => [],
   disabled: false,
   required: false,
+  size: 'md',
   message: null,
   error: null,
+  class: undefined,
 })
 
 const emit = defineEmits<{
@@ -43,44 +47,35 @@ const handleInput = (value: string) => {
 </script>
 
 <template>
-  <FieldBase>
+  <FieldBase
+    :id="id || undefined"
+    :error="error"
+    :message="message"
+  >
     <FieldLabel
       v-if="label"
       :label="label"
-      :for="id"
       :required="required"
       size="sm"
     />
 
-    <FormRadioGroup
-      :id="id"
+    <ControlRadioGroup
       :name="name"
       :model-value="modelValue"
       :options="options"
       :disabled="disabled"
       :required="required"
+      :size="size"
+      :class="props.class"
       @update:model-value="handleInput"
     />
 
     <div
       v-if="message || error"
-      :class="css({
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        columnGap: 'md',
-      })"
+      :class="fieldFooterStyles"
     >
-      <FieldMessage
-        v-if="message"
-        :message="message"
-      />
-
-      <FieldError
-        v-if="error"
-        :message="error"
-      />
+      <FieldMessage />
+      <FieldError />
     </div>
   </FieldBase>
 </template>

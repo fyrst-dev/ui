@@ -83,12 +83,3 @@ export const controlStyles = cva({
     valid: 'none',
   },
 })
-
-export type ControlSize = 'sm' | 'md' | 'lg'
-export type ControlValid = true | false | 'none'
-
-export type FormFieldOption = {
-  label: string
-  value: string
-  disabled?: boolean
-}

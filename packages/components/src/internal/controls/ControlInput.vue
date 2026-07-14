@@ -1,10 +1,12 @@
 <script setup lang="ts">
 /**
- * @component FormInput
- * @description A standalone text input component. Supports common input types and Field.Base composition.
+ * @component ControlInput
+ * @description Standalone text input control. Supports Field.Base composition via field context.
  */
 import { computed, inject } from 'vue'
-import { controlStyles, type ControlSize, type ControlValid } from './controlStyles'
+import { controlStyles } from './controlStyles'
+import { fieldContextKey } from './context'
+import type { ControlSize, ControlValid } from './types'
 
 const props = withDefaults(defineProps<{
   type?: 'text' | 'email' | 'tel' | 'number' | 'date'
@@ -36,19 +38,16 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
 
-const fieldContext = inject<{
-  fieldId: string
-  errorId: string | null
-  messageId: string | null
-  hasError: boolean
-} | null>('fieldContext', null)
+const fieldContext = inject(fieldContextKey, null)
+
+const inputId = computed(() => props.id || fieldContext?.fieldId.value || undefined)
 
 const ariaDescribedBy = computed(() => {
   if (!fieldContext) return undefined
 
   const ids: string[] = []
-  if (fieldContext.errorId) ids.push(fieldContext.errorId)
-  if (fieldContext.messageId) ids.push(fieldContext.messageId)
+  if (fieldContext.errorId.value) ids.push(fieldContext.errorId.value)
+  if (fieldContext.messageId.value) ids.push(fieldContext.messageId.value)
 
   return ids.length > 0 ? ids.join(' ') : undefined
 })
@@ -56,7 +55,7 @@ const ariaDescribedBy = computed(() => {
 const isInvalid = computed(() => {
   if (props.valid === true) return false
   if (props.valid === false) return true
-  return fieldContext?.hasError ?? false
+  return fieldContext?.hasError.value ?? false
 })
 
 const handleInput = (event: Event) => {
@@ -67,7 +66,7 @@ const handleInput = (event: Event) => {
 
 <template>
   <input
-    :id="id"
+    :id="inputId"
     :name="name"
     :class="[controlStyles({ size, valid: props.valid }), props.class]"
     :type="type"

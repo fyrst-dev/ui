@@ -396,17 +396,21 @@ Field/
 ```
 
 ### Field/* (Form Field Composition)
-Namespace: `Field.*`
-- **FieldBase** - Wrapper with context (ID, ARIA, state)
-- **FieldInput** - Complete field with label/input/error/message
+Namespace: `Field.*` — **public product API for form controls**
+- **FieldBase** - Wrapper with reactive context (ID, ARIA, error/message)
+- **FieldInput** / **FieldTextarea** / **FieldSelect** / **FieldCheckbox** / **FieldRadioGroup** - Composed fields (label + control + message/error)
 - **FieldLabel** - Accessible label with required indicator
 - **FieldError** - Error message display
 - **FieldMessage** - Helper text display
-- **FieldRequired** - Required field indicator (note: exists as component but not exported in index.ts)
+- **FieldRequired** - Required field indicator (internal; not exported from Field/index)
 
-### Form/* (Form Inputs)
+### Control/* (Bare controls — advanced)
+Namespace: `Control.*` — package export only (under `src/internal/controls/`, **not** Nuxt auto-registered)
+- **Control.Input** / **Textarea** / **Select** / **Checkbox** / **RadioGroup**
+- Used internally by Field*; import from `@fyrst/ui-components` for custom layouts with `Field.Base`
+
+### Form/* (Form shell)
 Namespace: `Form.*`
-- **FormInput** - Base text input with styling
 - **FormPrompt** - Form container with textarea
 - **FormPromptFooter** - Footer section for FormPrompt
 

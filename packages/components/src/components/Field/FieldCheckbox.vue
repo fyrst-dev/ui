@@ -3,21 +3,24 @@
  * @component FieldCheckbox
  * @description Composed checkbox field with message and error support.
  */
-import { css } from 'styled-system/css'
 import FieldBase from './FieldBase.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
-import FormCheckbox from '../Form/FormCheckbox.vue'
+import { fieldFooterStyles } from './fieldFooterStyles'
+import ControlCheckbox from '../../internal/controls/ControlCheckbox.vue'
+import type { ControlSize } from '../../internal/controls/types'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   name?: string
   label?: string | null
   modelValue?: boolean | null
   id?: string
   disabled?: boolean
   required?: boolean
+  size?: ControlSize
   message?: string | null
   error?: string | null
+  class?: unknown
 }>(), {
   name: undefined,
   label: null,
@@ -25,8 +28,10 @@ withDefaults(defineProps<{
   id: '',
   disabled: false,
   required: false,
+  size: 'md',
   message: null,
   error: null,
+  class: undefined,
 })
 
 const emit = defineEmits<{
@@ -39,36 +44,28 @@ const handleInput = (value: boolean) => {
 </script>
 
 <template>
-  <FieldBase>
-    <FormCheckbox
-      :id="id"
+  <FieldBase
+    :id="id || undefined"
+    :error="error"
+    :message="message"
+  >
+    <ControlCheckbox
       :name="name"
       :label="label"
       :model-value="modelValue"
       :disabled="disabled"
       :required="required"
+      :size="size"
+      :class="props.class"
       @update:model-value="handleInput"
     />
 
     <div
       v-if="message || error"
-      :class="css({
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        columnGap: 'md',
-      })"
+      :class="fieldFooterStyles"
     >
-      <FieldMessage
-        v-if="message"
-        :message="message"
-      />
-
-      <FieldError
-        v-if="error"
-        :message="error"
-      />
+      <FieldMessage />
+      <FieldError />
     </div>
   </FieldBase>
 </template>

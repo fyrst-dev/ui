@@ -1,18 +1,19 @@
 <script setup lang="ts">
 /**
- * @component FormRadioGroup
+ * @component ControlRadioGroup
  * @description Radio group control built on reka-ui RadioGroup primitives.
  */
 import { computed, inject } from 'vue'
 import { RadioGroupIndicator, RadioGroupItem, RadioGroupRoot } from 'reka-ui'
 import { css } from 'styled-system/css'
-import type { ControlSize, FormFieldOption } from './controlStyles'
+import { fieldContextKey } from './context'
+import type { ControlSize, FieldOption } from './types'
 
 const props = withDefaults(defineProps<{
   modelValue?: string | null
   id?: string
   name?: string
-  options?: FormFieldOption[]
+  options?: FieldOption[]
   disabled?: boolean
   required?: boolean
   size?: ControlSize
@@ -32,22 +33,21 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
 }>()
 
-const fieldContext = inject<{
-  fieldId: string
-  errorId: string | null
-  messageId: string | null
-  hasError: boolean
-} | null>('fieldContext', null)
+const fieldContext = inject(fieldContextKey, null)
+
+const inputId = computed(() => props.id || fieldContext?.fieldId.value || undefined)
 
 const ariaDescribedBy = computed(() => {
   if (!fieldContext) return undefined
 
   const ids: string[] = []
-  if (fieldContext.errorId) ids.push(fieldContext.errorId)
-  if (fieldContext.messageId) ids.push(fieldContext.messageId)
+  if (fieldContext.errorId.value) ids.push(fieldContext.errorId.value)
+  if (fieldContext.messageId.value) ids.push(fieldContext.messageId.value)
 
   return ids.length > 0 ? ids.join(' ') : undefined
 })
+
+const hasError = computed(() => fieldContext?.hasError.value ?? false)
 
 const rootClass = computed(() => [
   css({
@@ -82,7 +82,7 @@ const itemClass = computed(() =>
     'height': props.size === 'sm' ? '1rem' : props.size === 'lg' ? '1.375rem' : '1.125rem',
     'borderWidth': '1px',
     'borderStyle': 'solid',
-    'borderColor': fieldContext?.hasError ? 'danger' : 'grey.dusk',
+    'borderColor': hasError.value ? 'danger' : 'grey.dusk',
     'borderRadius': 'full',
     'backgroundColor': 'grey.black',
     'transition': 'all 200ms',
@@ -95,7 +95,7 @@ const itemClass = computed(() =>
     },
     '_light': {
       'backgroundColor': 'white',
-      'borderColor': fieldContext?.hasError ? 'danger' : 'grey.200',
+      'borderColor': hasError.value ? 'danger' : 'grey.200',
       '&[data-state="checked"]': {
         borderColor: 'primary',
       },
@@ -131,12 +131,12 @@ const handleUpdate = (value: unknown) => {
 
 <template>
   <RadioGroupRoot
-    :id="id || undefined"
+    :id="inputId"
     :name="name"
     :required="required"
     :disabled="disabled"
     :model-value="modelValue || undefined"
-    :aria-invalid="fieldContext?.hasError ?? false"
+    :aria-invalid="hasError"
     :aria-describedby="ariaDescribedBy"
     :class="rootClass"
     @update:model-value="handleUpdate"

@@ -1,25 +1,13 @@
 <script setup lang="ts">
 /**
  * @component FieldLabel
- * @description A label component for form fields with theme-aware styling and size variants.
- * Automatically integrates with Field.Base context for linking to inputs.
- *
- * @prop {string} label - The text content of the label.
- * @prop {string} [for] - The ID of the associated form control. Auto-linked from Field.Base context if not provided.
- * @prop {'sm'|'md'|'lg'} [size='md'] - The size variant of the label affecting font size and spacing.
- * @prop {boolean} [required=false] - When true, displays a visual indicator (asterisk) that the field is required.
- * @prop {boolean} [disabled=false] - When true, applies disabled styling to indicate the associated field is disabled.
- * @prop {any} [class] - Additional CSS classes to apply to the label element.
- *
- * @example
- * <FieldLabel label="Email Address" for="email" />
- * <FieldLabel label="Password" for="password" required />
- * <FieldLabel label="Username" for="username" size="lg" />
- * <FieldLabel label="Disabled Field" for="disabled" disabled />
+ * @description Label for form fields with size variants and required indicator.
+ * Links to the control via prop `for` or Field.Base context fieldId.
  */
 import { inject, computed } from 'vue'
 import { cva } from 'styled-system/css'
 import FieldRequired from './FieldRequired.vue'
+import { fieldContextKey } from '../../internal/controls/context'
 
 const props = withDefaults(defineProps<{
   label: string
@@ -27,7 +15,7 @@ const props = withDefaults(defineProps<{
   size?: 'sm' | 'md' | 'lg'
   required?: boolean
   disabled?: boolean
-  class?: any
+  class?: unknown
 }>(), {
   for: undefined,
   size: 'md',
@@ -36,17 +24,10 @@ const props = withDefaults(defineProps<{
   class: undefined,
 })
 
-// Inject field context if available (optional)
-const fieldContext = inject<{
-  fieldId: string
-  errorId: string | null
-  helperId: string | null
-  hasError: boolean
-} | null>('fieldContext', null)
+const fieldContext = inject(fieldContextKey, null)
 
-// Use prop 'for' or context fieldId
 const htmlFor = computed(() => {
-  return props.for || fieldContext?.fieldId || undefined
+  return props.for || fieldContext?.fieldId.value || undefined
 })
 
 const labelStyles = cva({

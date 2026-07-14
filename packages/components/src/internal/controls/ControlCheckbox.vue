@@ -1,12 +1,13 @@
 <script setup lang="ts">
 /**
- * @component FormCheckbox
+ * @component ControlCheckbox
  * @description Checkbox control built on reka-ui Checkbox primitives.
  */
 import { computed, inject } from 'vue'
 import { CheckboxIndicator, CheckboxRoot } from 'reka-ui'
 import { css } from 'styled-system/css'
-import type { ControlSize } from './controlStyles'
+import { fieldContextKey } from './context'
+import type { ControlSize } from './types'
 
 const props = withDefaults(defineProps<{
   modelValue?: boolean | null
@@ -32,26 +33,22 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
 
-const fieldContext = inject<{
-  fieldId: string
-  errorId: string | null
-  messageId: string | null
-  hasError: boolean
-} | null>('fieldContext', null)
+const fieldContext = inject(fieldContextKey, null)
 
-const inputId = computed(() => props.id || fieldContext?.fieldId || undefined)
+const inputId = computed(() => props.id || fieldContext?.fieldId.value || undefined)
 
 const ariaDescribedBy = computed(() => {
   if (!fieldContext) return undefined
 
   const ids: string[] = []
-  if (fieldContext.errorId) ids.push(fieldContext.errorId)
-  if (fieldContext.messageId) ids.push(fieldContext.messageId)
+  if (fieldContext.errorId.value) ids.push(fieldContext.errorId.value)
+  if (fieldContext.messageId.value) ids.push(fieldContext.messageId.value)
 
   return ids.length > 0 ? ids.join(' ') : undefined
 })
 
 const checked = computed(() => Boolean(props.modelValue))
+const hasError = computed(() => fieldContext?.hasError.value ?? false)
 
 const rootClass = computed(() => [
   css({
@@ -74,7 +71,7 @@ const boxClass = computed(() =>
     'height': props.size === 'sm' ? '1rem' : props.size === 'lg' ? '1.375rem' : '1.125rem',
     'borderWidth': '1px',
     'borderStyle': 'solid',
-    'borderColor': fieldContext?.hasError ? 'danger' : 'grey.dusk',
+    'borderColor': hasError.value ? 'danger' : 'grey.dusk',
     'borderRadius': 'sm',
     'backgroundColor': 'grey.black',
     'color': 'neutral',
@@ -90,7 +87,7 @@ const boxClass = computed(() =>
     },
     '_light': {
       'backgroundColor': 'white',
-      'borderColor': fieldContext?.hasError ? 'danger' : 'grey.200',
+      'borderColor': hasError.value ? 'danger' : 'grey.200',
       'color': 'grey.night',
       '&[data-state="checked"]': {
         backgroundColor: 'primary',
@@ -126,7 +123,7 @@ const handleUpdate = (value: boolean | 'indeterminate') => {
       :required="required"
       :disabled="disabled"
       :model-value="checked"
-      :aria-invalid="fieldContext?.hasError ?? false"
+      :aria-invalid="hasError"
       :aria-describedby="ariaDescribedBy"
       :class="boxClass"
       @update:model-value="handleUpdate"
