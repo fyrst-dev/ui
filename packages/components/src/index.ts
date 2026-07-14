@@ -24,6 +24,7 @@ import PricingCard, {
 import Accordion from './components/Accordion'
 import Dialog, { DialogRoot } from './components/Dialog'
 import Switch, { SwitchRoot } from './components/Switch'
+import Progress, { ProgressRoot } from './components/Progress'
 
 export {
   Alert,
@@ -50,6 +51,8 @@ export {
   DialogRoot,
   Switch,
   SwitchRoot,
+  Progress,
+  ProgressRoot,
 }
 
 // Export types
@@ -67,6 +70,13 @@ export type { ListRootCss, ListItemCss } from './components/List'
 export type { TabItemData, TabChangePayload } from './components/Tab'
 export type { ControlSize, ControlValid, FieldOption } from './internal/controls'
 export type { SwitchCss, SwitchCssMap, SwitchStyles } from './components/Switch'
+export type {
+  ProgressColor,
+  ProgressCss,
+  ProgressCssMap,
+  ProgressSize,
+  ProgressStyles,
+} from './components/Progress'
 
 // Export composables
 export * from './composables/carousel'

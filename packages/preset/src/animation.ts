@@ -13,6 +13,14 @@ export const animationStyles: ReturnType<typeof defineAnimationStyles> = defineA
       animationDuration: '300ms',
     },
   },
+  progressIndeterminate: {
+    value: {
+      animationName: 'progressIndeterminate',
+      animationDuration: '1.4s',
+      animationTimingFunction: 'ease-in-out',
+      animationIterationCount: 'infinite',
+    },
+  },
 })
 
 export const keyframes = defineKeyframes({
@@ -34,6 +42,14 @@ export const keyframes = defineKeyframes({
     '100%': {
       height: '0',
       visibility: 'hidden',
+    },
+  },
+  progressIndeterminate: {
+    '0%': {
+      transform: 'translateX(-100%)',
+    },
+    '100%': {
+      transform: 'translateX(350%)',
     },
   },
 })
