@@ -3,6 +3,7 @@ import FieldTextarea from './FieldTextarea.vue'
 import FieldSelect from './FieldSelect.vue'
 import FieldCheckbox from './FieldCheckbox.vue'
 import FieldRadioGroup from './FieldRadioGroup.vue'
+import FieldSwitch from './FieldSwitch.vue'
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldError from './FieldError.vue'
@@ -14,6 +15,7 @@ export {
   FieldSelect,
   FieldCheckbox,
   FieldRadioGroup,
+  FieldSwitch,
   FieldBase,
   FieldLabel,
   FieldError,
@@ -26,6 +28,7 @@ export default {
   Select: FieldSelect,
   Checkbox: FieldCheckbox,
   RadioGroup: FieldRadioGroup,
+  Switch: FieldSwitch,
   Base: FieldBase,
   Label: FieldLabel,
   Error: FieldError,

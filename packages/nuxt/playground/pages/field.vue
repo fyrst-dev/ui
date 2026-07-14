@@ -58,6 +58,12 @@
       :required="true"
     />
 
+    <FyrstFieldSwitch
+      v-model="switchValue"
+      name="notifications"
+      label="Enable notifications"
+    />
+
     <FyrstFormPrompt
       id="formPrompt"
       action="/submit"
@@ -127,6 +133,7 @@ const textareaValue = ref('')
 const selectValue = ref('')
 const checkboxValue = ref(false)
 const radioValue = ref('')
+const switchValue = ref(false)
 
 const selectOptions = [
   { label: 'Sales', value: 'sales' },

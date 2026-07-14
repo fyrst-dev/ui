@@ -22,6 +22,8 @@ import PricingCard, {
   PricingCardBadge,
 } from './components/PricingCard'
 import Accordion from './components/Accordion'
+import Dialog, { DialogRoot } from './components/Dialog'
+import Switch, { SwitchRoot } from './components/Switch'
 
 export {
   Alert,
@@ -44,6 +46,10 @@ export {
   PricingCardBody,
   PricingCardBadge,
   Accordion,
+  Dialog,
+  DialogRoot,
+  Switch,
+  SwitchRoot,
 }
 
 // Export types
@@ -60,6 +66,7 @@ export type {
 export type { ListRootCss, ListItemCss } from './components/List'
 export type { TabItemData, TabChangePayload } from './components/Tab'
 export type { ControlSize, ControlValid, FieldOption } from './internal/controls'
+export type { SwitchCss, SwitchCssMap, SwitchStyles } from './components/Switch'
 
 // Export composables
 export * from './composables/carousel'
