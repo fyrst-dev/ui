@@ -25,6 +25,14 @@
       type="date"
     />
 
+    <FyrstFieldUrl
+      v-model="urlValue"
+      name="website"
+      label="Website"
+      placeholder="example.com"
+      :required="true"
+    />
+
     <FyrstFieldTextarea
       v-model="textareaValue"
       name="message"
@@ -129,6 +137,7 @@ import { css } from 'styled-system/css'
 
 const numberValue = ref('')
 const dateValue = ref('')
+const urlValue = ref('https://localhost:3000/de')
 const textareaValue = ref('')
 const selectValue = ref('')
 const checkboxValue = ref(false)

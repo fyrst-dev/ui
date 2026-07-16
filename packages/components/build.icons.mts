@@ -37,6 +37,8 @@ const icons: Record<string, string[]> = {
       'warning-bold',
       'x',
       'x-bold',
+      'lock-simple-bold',
+      'lock-simple-open-bold',
    ]
 };
 

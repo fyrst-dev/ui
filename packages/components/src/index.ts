@@ -68,7 +68,7 @@ export type {
 } from './components/PricingCard'
 export type { ListRootCss, ListItemCss } from './components/List'
 export type { TabItemData, TabChangePayload } from './components/Tab'
-export type { ControlSize, ControlValid, FieldOption } from './internal/controls'
+export type { ControlSize, ControlValid, FieldOption, UrlProtocol, UrlCss, UrlCssMap, UrlStyles } from './internal/controls'
 export type { SwitchCss, SwitchCssMap, SwitchStyles } from './components/Switch'
 export type {
   ProgressColor,

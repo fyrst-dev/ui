@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
- * @component FieldInput
- * @description Composed text input field with label, message, and error support.
+ * @component FieldUrl
+ * @description Composed URL field with protocol toggle, label, message, and error support.
  */
 import { computed } from 'vue'
 import FieldBase from './FieldBase.vue'
@@ -9,12 +9,13 @@ import FieldLabel from './FieldLabel.vue'
 import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
 import { fieldFooterStyles } from './fieldFooterStyles'
-import ControlInput from '../../internal/controls/ControlInput.vue'
+import ControlUrl from '../../internal/controls/ControlUrl.vue'
 import type { ControlSize } from '../../internal/controls/types'
+import type { UrlCss } from '../../internal/controls/urlStyles'
+import type { UrlProtocol } from '../../internal/controls/urlUtils'
 
 const props = withDefaults(defineProps<{
   name?: string
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date' | 'url'
   label?: string | null
   placeholder?: string | null
   modelValue?: string | null
@@ -25,20 +26,23 @@ const props = withDefaults(defineProps<{
   size?: ControlSize
   message?: string | null
   error?: string | null
+  defaultProtocol?: UrlProtocol
+  css?: UrlCss
   class?: unknown
 }>(), {
   name: undefined,
-  type: 'text',
   label: null,
   placeholder: null,
   modelValue: null,
   id: '',
   disabled: false,
   required: false,
-  autocomplete: null,
+  autocomplete: 'url',
   size: 'md',
   message: null,
   error: null,
+  defaultProtocol: 'https',
+  css: undefined,
   class: undefined,
 })
 
@@ -69,9 +73,8 @@ const handleInput = (value: string) => {
       size="sm"
     />
 
-    <ControlInput
+    <ControlUrl
       :name="name"
-      :type="type"
       :placeholder="placeholder"
       :model-value="modelValue"
       :disabled="disabled"
@@ -79,6 +82,8 @@ const handleInput = (value: string) => {
       :autocomplete="autocomplete"
       :size="size"
       :valid="isValid"
+      :default-protocol="defaultProtocol"
+      :css="props.css"
       :class="props.class"
       @update:model-value="handleInput"
     />

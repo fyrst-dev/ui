@@ -9,7 +9,7 @@ import { fieldContextKey } from './context'
 import type { ControlSize, ControlValid } from './types'
 
 const props = withDefaults(defineProps<{
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date'
+  type?: 'text' | 'email' | 'tel' | 'number' | 'date' | 'url'
   modelValue?: string | null
   id?: string
   name?: string

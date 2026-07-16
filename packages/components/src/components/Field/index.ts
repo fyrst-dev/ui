@@ -4,6 +4,7 @@ import FieldSelect from './FieldSelect.vue'
 import FieldCheckbox from './FieldCheckbox.vue'
 import FieldRadioGroup from './FieldRadioGroup.vue'
 import FieldSwitch from './FieldSwitch.vue'
+import FieldUrl from './FieldUrl.vue'
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldError from './FieldError.vue'
@@ -16,6 +17,7 @@ export {
   FieldCheckbox,
   FieldRadioGroup,
   FieldSwitch,
+  FieldUrl,
   FieldBase,
   FieldLabel,
   FieldError,
@@ -29,6 +31,7 @@ export default {
   Checkbox: FieldCheckbox,
   RadioGroup: FieldRadioGroup,
   Switch: FieldSwitch,
+  Url: FieldUrl,
   Base: FieldBase,
   Label: FieldLabel,
   Error: FieldError,
