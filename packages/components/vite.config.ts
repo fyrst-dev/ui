@@ -19,7 +19,7 @@ export default defineConfig({
       formats: ['es', 'cjs'],
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: ['vue', '@pandacss/dev', 'reka-ui'],
       output: {
         globals: {
