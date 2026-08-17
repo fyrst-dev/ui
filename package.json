@@ -40,7 +40,9 @@
     "dev:components": "bun run --filter='@fyrst/ui-components' dev",
     "dev:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev",
     "dev:nuxt:prepare": "bun run --filter='@fyrst/ui-nuxt' dev:prepare",
-    "test": "bun run --filter='packages/*' test",
+    "test": "bun run --filter='@fyrst/ui-nuxt' test",
+    "pack:check": "bun run build && bun publish --dry-run --cwd packages/preset && bun publish --dry-run --cwd packages/components && bun publish --dry-run --cwd packages/nuxt",
+    "publish:packages": "bun publish --cwd packages/preset --access public && bun publish --cwd packages/components --access public && bun publish --cwd packages/nuxt --access public",
     "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist"
   },
   "devDependencies": {

@@ -215,3 +215,4 @@ describe('ssr', async () => {
 3. Build order: Nuxt module requires preset built first (automatic)
 4. Peer dependencies: ensure vue, nuxt, panda in peerDependencies
 5. No Prettier: ESLint used for formatting (stylistic rules)
+6. Do not ship compiled Panda CSS (`panda cssgen`, `styles.css`, `panda.css`). Consuming apps must depend on `@pandacss/dev`, keep their own `panda.config.ts` (preset from `@fyrst/design-preset`), and include `@fyrst/ui-components/panda.buildinfo.json` from `panda ship`. `@fyrst/ui-components/style.css` is Iconify icons only.

@@ -1,84 +1,88 @@
-<!--
-Get your module up and running quickly.
+# @fyrst/ui-nuxt
 
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
--->
+Nuxt module for the Fyrst Digital Vue UI components.
 
-# My Module
-
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
-[![Nuxt][nuxt-src]][nuxt-href]
-
-My new Nuxt module for doing amazing things.
-
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
-
-## Features
-
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
-
-## Quick Setup
-
-Install the module to your Nuxt application with one command:
+## Install
 
 ```bash
-npx nuxi module add my-module
+bun add @fyrst/ui-nuxt @pandacss/dev
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+`@fyrst/design-preset` and `@fyrst/ui-components` are installed with the module. `@pandacss/dev` is a required peer.
 
+```ts
+export default defineNuxtConfig({
+  modules: ['@fyrst/ui-nuxt'],
+  css: ['~/assets/css/global.css'],
+  postcss: {
+    plugins: {
+      '@pandacss/dev/postcss': {},
+    },
+  },
+})
+```
 
-## Contribution
+The module:
 
-<details>
-  <summary>Local development</summary>
-  
-  ```bash
-  # Install dependencies
-  npm install
-  
-  # Generate type stubs
-  npm run dev:prepare
-  
-  # Develop with the playground
-  npm run dev
-  
-  # Build the playground
-  npm run dev:build
-  
-  # Run ESLint
-  npm run lint
-  
-  # Run Vitest
-  npm run test
-  npm run test:watch
-  
-  # Release new version
-  npm run release
-  ```
+- Auto-imports components with a `Fyrst` prefix (`FyrstButton`, `FyrstCardRoot`, `FyrstAlert`, …)
+- Auto-imports composables (`useCarousel`, `useFlyout`, `useFormData`, `createInjectionKey`)
+- Injects the icon stylesheet from `@fyrst/ui-components`
 
-</details>
+Component styles are **not** bundled. The consuming app must depend on `@pandacss/dev` and keep its own `panda.config.ts` that consumes the library buildinfo:
 
+```ts
+import { createRequire } from 'node:module'
+import { defineConfig } from '@pandacss/dev'
+import { preset } from '@fyrst/design-preset'
 
-<!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/my-module/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/my-module
+const require = createRequire(import.meta.url)
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/my-module
+export default defineConfig({
+  preflight: true,
+  presets: [preset],
+  include: [
+    require.resolve('@fyrst/ui-components/panda.buildinfo.json'),
+    './app/**/*.{js,ts,vue}',
+  ],
+  outdir: 'styled-system',
+})
+```
 
-[license-src]: https://img.shields.io/npm/l/my-module.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/my-module
+Add the Panda layer directive to a global stylesheet (`~/assets/css/global.css`) and include that file from `nuxt.config.ts`:
 
-[nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
-[nuxt-href]: https://nuxt.com
+```css
+@layer reset, base, tokens, recipes, utilities;
+```
+
+```vue
+<template>
+  <FyrstButton label="Get started" color="primary" />
+</template>
+```
+
+## Options
+
+```ts
+export default defineNuxtConfig({
+  modules: ['@fyrst/ui-nuxt'],
+  fyrstUi: {
+    prefix: 'Fyrst',
+    icons: true,
+  },
+})
+```
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `prefix` | `'Fyrst'` | Component name prefix |
+| `icons` | `true` | Inject the icon stylesheet |
+
+## Local development
+
+```bash
+bun install
+bun run build
+bun run --filter='@fyrst/ui-nuxt' dev:prepare
+bun run --filter='@fyrst/ui-nuxt' dev
+bun run --filter='@fyrst/ui-nuxt' test
+```

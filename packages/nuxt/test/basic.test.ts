@@ -12,4 +12,17 @@ describe('ssr', async () => {
     const html = await $fetch('/')
     expect(html).toContain('<div>basic</div>')
   })
+
+  it('auto-imports FyrstButton from the module', async () => {
+    const html = await $fetch('/')
+    expect(html).toContain('Publish')
+    expect(html).toContain('btn')
+  })
+
+  it('does not inject compiled Panda CSS from the library', async () => {
+    const html = await $fetch('/')
+    expect(html).not.toContain('@layer reset')
+    expect(html).not.toContain('@layer tokens')
+    expect(html).not.toContain('@layer recipes')
+  })
 })

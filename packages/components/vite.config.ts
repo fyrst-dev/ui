@@ -16,12 +16,14 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'fyrst-ui',
+      cssFileName: 'ui-components',
       formats: ['es', 'cjs'],
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
     },
     rollupOptions: {
       external: ['vue', '@pandacss/dev', 'reka-ui'],
       output: {
+        exports: 'named',
         globals: {
           vue: 'Vue'
         }

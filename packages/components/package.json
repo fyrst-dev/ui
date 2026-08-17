@@ -1,12 +1,41 @@
 {
     "name": "@fyrst/ui-components",
     "version": "0.1.0",
+    "description": "Vue 3 UI components for the Fyrst Digital design system",
+    "license": "MIT",
+    "author": "Fyrst Digital",
     "type": "module",
     "main": "./dist/index.cjs",
     "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
+    "homepage": "https://github.com/fyrst-digital/ui/tree/master/packages/components#readme",
+    "bugs": {
+        "url": "https://github.com/fyrst-digital/ui/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fyrst-digital/ui.git",
+        "directory": "packages/components"
+    },
+    "keywords": [
+        "vue",
+        "ui",
+        "components",
+        "design-system",
+        "fyrst",
+        "pandacss"
+    ],
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "sideEffects": [
+        "**/*.css"
+    ],
     "files": [
-        "dist"
+        "dist",
+        "LICENSE",
+        "README.md"
     ],
     "exports": {
         ".": {
@@ -18,18 +47,18 @@
         "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
     },
     "scripts": {
-        "prepare": "panda codegen",
+        "codegen": "panda codegen",
         "panda:ship": "panda ship --outfile dist/panda.buildinfo.json",
         "panda:ship:watch": "panda ship -w --outfile dist/panda.buildinfo.json",
-        "build": "bun run clean && bun run prepare && bun run build:icons && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
+        "build": "bun run clean && bun run codegen && bun run build:icons && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
         "build:icons": "bun run build.icons",
         "dev": "vite dev",
-        "clean": "rm -rf dist"
-    },
-    "dependencies": {
-        "@fyrst/design-preset": "workspace:*"
+        "clean": "rm -rf dist",
+        "prepublishOnly": "bun run build"
     },
     "devDependencies": {
+        "@fyrst/design-preset": "workspace:*",
+        "@pandacss/dev": "^1.4.1",
         "@iconify/json": "^2.2.405",
         "@iconify/utils": "^3.0.2",
         "@pandacss/studio": "^1.4.3",
@@ -37,6 +66,7 @@
     },
     "peerDependencies": {
         "vue": "^3.5.12",
+        "@fyrst/design-preset": "^0.1.0",
         "@pandacss/dev": "^1.0.1",
         "reka-ui": "^2.10.1"
     }

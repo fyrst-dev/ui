@@ -1,10 +1,32 @@
 {
   "name": "@fyrst/design-preset",
-  "version": "0.2.0",
+  "version": "0.1.0",
+  "description": "Panda CSS preset with Fyrst Digital design tokens",
+  "license": "MIT",
+  "author": "Fyrst Digital",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/fyrst-digital/ui#readme",
+  "bugs": {
+    "url": "https://github.com/fyrst-digital/ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fyrst-digital/ui.git",
+    "directory": "packages/preset"
+  },
+  "keywords": [
+    "pandacss",
+    "design-tokens",
+    "design-system",
+    "fyrst"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
     "dist",
     "css",
@@ -12,21 +34,22 @@
     "types",
     "patterns",
     "recipes",
-    "jsx"
+    "jsx",
+    "LICENSE",
+    "README.md"
   ],
   "scripts": {
-    "prepare": "panda codegen",
-    "build": "bun run prepare && tsup src/index.ts --format esm,cjs --dts --clean && panda emit-pkg",
-    "watch": "tsup src/index.ts --format esm,cjs --dts --watch"
+    "codegen": "panda codegen",
+    "build": "bun run codegen && tsup src/index.ts --format esm,cjs --dts --clean",
+    "watch": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "prepublishOnly": "bun run build"
   },
   "devDependencies": {
     "@pandacss/dev": "^1.4.1",
     "tsup": "^8.5.0"
   },
   "peerDependencies": {
-    "@pandacss/dev": "^1.0.1",
-    "typescript": "^5.9.2",
-    "vue": "^3.5.12"
+    "@pandacss/dev": "^1.0.1"
   },
   "exports": {
     ".": {
@@ -58,7 +81,6 @@
       "types": "./jsx/index.d.ts",
       "require": "./jsx/index.mjs",
       "import": "./jsx/index.mjs"
-    },
-    "./styles.css": "./styles.css"
+    }
   }
 }
