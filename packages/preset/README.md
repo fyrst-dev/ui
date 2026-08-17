@@ -15,17 +15,14 @@ Peer dependency: `@pandacss/dev`.
 Add the preset to the consuming project's `panda.config.ts`. This package does not ship compiled CSS. When using `@fyrst/ui-components`, include the shipped buildinfo file so the app's Panda generate can emit component styles:
 
 ```ts
-import { createRequire } from 'node:module'
 import { defineConfig } from '@pandacss/dev'
 import { preset } from '@fyrst/design-preset'
-
-const require = createRequire(import.meta.url)
 
 export default defineConfig({
   preflight: true,
   presets: [preset],
   include: [
-    require.resolve('@fyrst/ui-components/panda.buildinfo.json'),
+    './node_modules/@fyrst/ui-components/dist/panda.buildinfo.json',
     './src/**/*.{js,jsx,ts,tsx,vue}',
   ],
   exclude: [],

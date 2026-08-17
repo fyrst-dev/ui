@@ -31,17 +31,14 @@ The module:
 Component styles are **not** bundled. The consuming app must depend on `@pandacss/dev` and keep its own `panda.config.ts` that consumes the library buildinfo:
 
 ```ts
-import { createRequire } from 'node:module'
 import { defineConfig } from '@pandacss/dev'
 import { preset } from '@fyrst/design-preset'
-
-const require = createRequire(import.meta.url)
 
 export default defineConfig({
   preflight: true,
   presets: [preset],
   include: [
-    require.resolve('@fyrst/ui-components/panda.buildinfo.json'),
+    './node_modules/@fyrst/ui-components/dist/panda.buildinfo.json',
     './app/**/*.{js,ts,vue}',
   ],
   outdir: 'styled-system',

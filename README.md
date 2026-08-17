@@ -48,17 +48,14 @@ export default defineNuxtConfig({
 ```
 
 ```ts
-import { createRequire } from 'node:module'
 import { defineConfig } from '@pandacss/dev'
 import { preset } from '@fyrst/design-preset'
-
-const require = createRequire(import.meta.url)
 
 export default defineConfig({
   preflight: true,
   presets: [preset],
   include: [
-    require.resolve('@fyrst/ui-components/panda.buildinfo.json'),
+    './node_modules/@fyrst/ui-components/dist/panda.buildinfo.json',
     './app/**/*.{js,ts,vue}',
   ],
   outdir: 'styled-system',
@@ -85,17 +82,14 @@ app.use(FyrstUI)
 `style.css` is the icon stylesheet only. Component styles come from your Panda config:
 
 ```ts
-import { createRequire } from 'node:module'
 import { defineConfig } from '@pandacss/dev'
 import { preset } from '@fyrst/design-preset'
-
-const require = createRequire(import.meta.url)
 
 export default defineConfig({
   preflight: true,
   presets: [preset],
   include: [
-    require.resolve('@fyrst/ui-components/panda.buildinfo.json'),
+    './node_modules/@fyrst/ui-components/dist/panda.buildinfo.json',
     './src/**/*.{js,ts,vue}',
   ],
   outdir: 'styled-system',
