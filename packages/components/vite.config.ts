@@ -1,7 +1,7 @@
+import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
-import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [
@@ -14,12 +14,12 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(import.meta.dirname, 'src/index.ts'),
       name: 'fyrst-ui',
       formats: ['es', 'cjs'],
       fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: ['vue', '@pandacss/dev', 'reka-ui'],
       output: {
         globals: {
@@ -31,8 +31,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
-      'styled-system': resolve(__dirname, 'styled-system')
+      '@': resolve(import.meta.dirname, 'src'),
+      'styled-system': resolve(import.meta.dirname, 'styled-system')
     }
   }
 })
