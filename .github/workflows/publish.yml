@@ -31,14 +31,5 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish @fyrst/design-preset
-        working-directory: packages/preset
-        run: bun publish --access public
-
-      - name: Publish @fyrst/ui-components
-        working-directory: packages/components
-        run: bun publish --access public
-
-      - name: Publish @fyrst/ui-nuxt
-        working-directory: packages/nuxt
+      - name: Publish @fyrst/ui
         run: bun publish --access public

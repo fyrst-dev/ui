@@ -1,6 +1,7 @@
 {
     "name": "@fyrst/ui-nuxt",
     "version": "0.1.0",
+    "private": true,
     "description": "Nuxt module for the Fyrst Digital Vue UI components",
     "license": "MIT",
     "author": "Fyrst Digital",
@@ -23,10 +24,6 @@
         "design-system",
         "fyrst"
     ],
-    "publishConfig": {
-        "access": "public",
-        "registry": "https://registry.npmjs.org/"
-    },
     "exports": {
         ".": {
             "types": "./dist/types.d.mts",
@@ -48,11 +45,10 @@
     ],
     "scripts": {
         "prepack": "nuxt-module-build build",
-        "prepublishOnly": "nuxt-module-build build",
         "dev": "bun run dev:prepare && cd playground && bun run dev",
         "dev:build": "cd playground && bun run prepare && nuxi build",
         "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-        "release": "bun run lint && bun run test && bun run prepack && changelogen --release && bun publish --access public && git push --follow-tags",
+        "release": "bun run lint && bun run test && bun run prepack && changelogen --release && git push --follow-tags",
         "lint": "eslint .",
         "test": "vitest run",
         "test:watch": "vitest watch",

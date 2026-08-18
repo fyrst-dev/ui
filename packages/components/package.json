@@ -1,6 +1,7 @@
 {
     "name": "@fyrst/ui-components",
     "version": "0.1.0",
+    "private": true,
     "description": "Vue 3 UI components for the Fyrst Digital design system",
     "license": "MIT",
     "author": "Fyrst Digital",
@@ -25,10 +26,6 @@
         "fyrst",
         "pandacss"
     ],
-    "publishConfig": {
-        "access": "public",
-        "registry": "https://registry.npmjs.org/"
-    },
     "sideEffects": [
         "**/*.css"
     ],
@@ -53,8 +50,7 @@
         "build": "bun run clean && bun run codegen && bun run build:icons && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
         "build:icons": "bun run build.icons",
         "dev": "vite dev",
-        "clean": "rm -rf dist",
-        "prepublishOnly": "bun run build"
+        "clean": "rm -rf dist"
     },
     "devDependencies": {
         "@fyrst/design-preset": "workspace:*",

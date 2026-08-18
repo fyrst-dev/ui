@@ -9,7 +9,7 @@ export default defineConfig({
   ],
   // Where to look for your css declarations
   include: [
-    // Published equivalent: ./node_modules/@fyrst/ui-components/dist/panda.buildinfo.json
+    // Published equivalent: ./node_modules/@fyrst/ui/dist/panda.buildinfo.json
     '../../components/dist/panda.buildinfo.json',
     './app.vue',
     './components/**/*.{js,jsx,ts,tsx,vue}',

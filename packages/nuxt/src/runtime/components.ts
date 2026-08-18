@@ -41,4 +41,4 @@ export {
   SwitchRoot,
   Tab,
   TabItem,
-} from '@fyrst/ui-components'
+} from '../../../components/dist/index.js'

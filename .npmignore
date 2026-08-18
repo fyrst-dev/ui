@@ -1,0 +1,16 @@
+.git
+.github
+.agents
+.cursor
+.nuxt
+.output
+node_modules
+coverage
+packages/nuxt/playground
+packages/nuxt/test
+packages/*/src
+packages/*/styled-system
+*.tgz
+.eslintcache
+.env*
+*.code-workspace

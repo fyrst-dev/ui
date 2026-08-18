@@ -1,38 +1,28 @@
 # @fyrst/ui
 
-Monorepo for Fyrst Digital's design system:
+Fyrst Digital design system. One npm package with subpath exports:
 
-| Package | Description |
+| Import | What you get |
 | --- | --- |
-| [`@fyrst/design-preset`](./packages/preset) | Panda CSS preset with design tokens |
-| [`@fyrst/ui-components`](./packages/components) | Vue 3 UI components |
-| [`@fyrst/ui-nuxt`](./packages/nuxt) | Nuxt module for the Vue components |
+| `@fyrst/ui` / `@fyrst/ui/components` | Vue 3 UI components |
+| `@fyrst/ui/design-preset` | Panda CSS preset with design tokens |
+| `@fyrst/ui/nuxt` | Nuxt module |
+| `@fyrst/ui/panda.buildinfo.json` | Panda `ship` output for component styles |
+| `@fyrst/ui/style.css` | Iconify stylesheet only |
 
-The root `@fyrst/ui` workspace is private. Publish and consume the three packages above.
-
-## How styling works
-
-Consuming apps **must** depend on `@pandacss/dev` and keep their own `panda.config.ts`. This library does **not** ship compiled Panda CSS.
-
-Your app:
-
-1. Uses the preset from `@fyrst/design-preset`
-2. Includes `@fyrst/ui-components/panda.buildinfo.json` (from `panda ship`)
-3. Generates `styled-system` and CSS locally
-
-`@fyrst/ui-components/style.css` is the Iconify stylesheet only.
+This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pandacss/dev`, keep their own `panda.config.ts`, and generate styles locally.
 
 ## Install
 
 **Nuxt**
 
 ```bash
-bun add @fyrst/ui-nuxt @pandacss/dev
+bun add @fyrst/ui @pandacss/dev
 ```
 
 ```ts
 export default defineNuxtConfig({
-  modules: ['@fyrst/ui-nuxt'],
+  modules: ['@fyrst/ui/nuxt'],
   css: ['~/assets/css/global.css'],
   postcss: {
     plugins: {
@@ -49,13 +39,13 @@ export default defineNuxtConfig({
 
 ```ts
 import { defineConfig } from '@pandacss/dev'
-import { preset } from '@fyrst/design-preset'
+import { preset } from '@fyrst/ui/design-preset'
 
 export default defineConfig({
   preflight: true,
   presets: [preset],
   include: [
-    './node_modules/@fyrst/ui-components/dist/panda.buildinfo.json',
+    './node_modules/@fyrst/ui/dist/panda.buildinfo.json',
     './app/**/*.{js,ts,vue}',
   ],
   outdir: 'styled-system',
@@ -67,36 +57,38 @@ Components are auto-imported with a `Fyrst` prefix (`FyrstButton`, `FyrstCardRoo
 **Vue (Vite)**
 
 ```bash
-bun add @fyrst/ui-components @fyrst/design-preset @pandacss/dev
+bun add @fyrst/ui @pandacss/dev
 ```
 
 ```ts
 import { createApp } from 'vue'
-import FyrstUI from '@fyrst/ui-components'
-import '@fyrst/ui-components/style.css'
+import FyrstUI from '@fyrst/ui'
+import '@fyrst/ui/style.css'
 
 const app = createApp({})
 app.use(FyrstUI)
 ```
 
-`style.css` is the icon stylesheet only. Component styles come from your Panda config:
-
 ```ts
 import { defineConfig } from '@pandacss/dev'
-import { preset } from '@fyrst/design-preset'
+import { preset } from '@fyrst/ui/design-preset'
 
 export default defineConfig({
   preflight: true,
   presets: [preset],
   include: [
-    './node_modules/@fyrst/ui-components/dist/panda.buildinfo.json',
+    './node_modules/@fyrst/ui/dist/panda.buildinfo.json',
     './src/**/*.{js,ts,vue}',
   ],
   outdir: 'styled-system',
 })
 ```
 
+You can also import from `@fyrst/ui/components` if you want the subpath to be explicit.
+
 ## Development
+
+This repo is a Bun workspace. Internal package names (`@fyrst/design-preset`, `@fyrst/ui-components`, `@fyrst/ui-nuxt`) stay private and are not published.
 
 ```bash
 bun install
@@ -108,7 +100,7 @@ See `AGENTS.md` for lint, test, and package scripts.
 
 ## Publishing
 
-Packages are versioned together at `0.1.0`. Publish in order so workspace dependencies resolve on npm:
+Publish the root package only:
 
 1. Create the public `@fyrst` org on npm (or request access).
 2. Authenticate (`npm login` / `NPM_TOKEN`).
@@ -117,7 +109,7 @@ Packages are versioned together at `0.1.0`. Publish in order so workspace depend
 ```bash
 bun run build
 bun run test
-bun run publish:packages
+bun publish --access public
 ```
 
 Or run the **Publish to npm** GitHub Action after adding an `NPM_TOKEN` repository secret.

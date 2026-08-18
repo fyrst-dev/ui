@@ -9,6 +9,10 @@
     "allowJs": true,
     // To be able to import the preset as @fyrst/ui/preset
     "paths": {
+      "@fyrst/ui/design-preset": ["./packages/preset/src/index.ts"],
+      "@fyrst/ui/preset": ["./packages/preset/src/index.ts"],
+      "@fyrst/ui/components": ["./packages/components/src/index.ts"],
+      "@fyrst/ui/nuxt": ["./packages/nuxt/src/module.ts"],
       "@fyrst/ui/*": ["./packages/*/src/index.ts"],
       "@fyrst/design-preset": ["./packages/preset/src/index.ts"],
       "@fyrst/ui-components": ["./packages/components/src/index.ts"]

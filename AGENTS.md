@@ -1,9 +1,11 @@
 # Agent Instructions for @fyrst/ui
 
-Monorepo for Fyrst Digital's Design System with:
-- `@fyrst/design-preset` - Panda CSS preset with design tokens
-- `@fyrst/ui-components` - Reusable UI components (Vue 3)
-- `@fyrst/ui-nuxt` - Nuxt module integration
+Monorepo for Fyrst Digital's Design System. Publish **one** npm package: `@fyrst/ui`.
+
+Workspace packages (private, not published):
+- `@fyrst/design-preset` - Panda CSS preset (`@fyrst/ui/design-preset`)
+- `@fyrst/ui-components` - Vue 3 UI components (`@fyrst/ui` / `@fyrst/ui/components`)
+- `@fyrst/ui-nuxt` - Nuxt module (`@fyrst/ui/nuxt`)
 
 Uses Bun as package manager and build tool, full TypeScript support.
 
@@ -215,4 +217,4 @@ describe('ssr', async () => {
 3. Build order: Nuxt module requires preset built first (automatic)
 4. Peer dependencies: ensure vue, nuxt, panda in peerDependencies
 5. No Prettier: ESLint used for formatting (stylistic rules)
-6. Do not ship compiled Panda CSS (`panda cssgen`, `styles.css`, `panda.css`). Consuming apps must depend on `@pandacss/dev`, keep their own `panda.config.ts` (preset from `@fyrst/design-preset`), and include `@fyrst/ui-components/panda.buildinfo.json` from `panda ship`. `@fyrst/ui-components/style.css` is Iconify icons only.
+6. Do not ship compiled Panda CSS (`panda cssgen`, `styles.css`, `panda.css`). Publish only the root `@fyrst/ui` package. Consuming apps must depend on `@pandacss/dev`, keep their own `panda.config.ts` (`import { preset } from '@fyrst/ui/design-preset'`), and include `@fyrst/ui/panda.buildinfo.json` from `panda ship`. `@fyrst/ui/style.css` is Iconify icons only.

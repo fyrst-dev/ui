@@ -1,36 +1,22 @@
-# @fyrst/design-preset
+# Internal: Panda CSS preset
 
-Panda CSS preset with Fyrst Digital design tokens, semantic colors, breakpoints, and patterns.
+Workspace package used to build the preset that `@fyrst/ui/design-preset` exports.
 
-## Install
-
-```bash
-bun add @fyrst/design-preset @pandacss/dev
-```
-
-Peer dependency: `@pandacss/dev`.
-
-## Usage
-
-Add the preset to the consuming project's `panda.config.ts`. This package does not ship compiled CSS. When using `@fyrst/ui-components`, include the shipped buildinfo file so the app's Panda generate can emit component styles:
+This folder is **not** published to npm. Consume the design system as `@fyrst/ui`.
 
 ```ts
 import { defineConfig } from '@pandacss/dev'
-import { preset } from '@fyrst/design-preset'
+import { preset } from '@fyrst/ui/design-preset'
 
 export default defineConfig({
   preflight: true,
   presets: [preset],
   include: [
-    './node_modules/@fyrst/ui-components/dist/panda.buildinfo.json',
+    './node_modules/@fyrst/ui/dist/panda.buildinfo.json',
     './src/**/*.{js,jsx,ts,tsx,vue}',
   ],
-  exclude: [],
-  theme: {
-    extend: {},
-  },
   outdir: 'styled-system',
 })
 ```
 
-After codegen, use the generated `styled-system` runtime in your app (`css`, `cva`, `sva`, patterns).
+See the [root README](../../README.md) for install and publishing.

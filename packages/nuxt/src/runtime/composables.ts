@@ -3,4 +3,4 @@ export {
   useFlyout,
   useFormData,
   createInjectionKey,
-} from '@fyrst/ui-components'
+} from '../../../components/dist/index.js'

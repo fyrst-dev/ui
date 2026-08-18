@@ -1,6 +1,7 @@
 {
   "name": "@fyrst/design-preset",
   "version": "0.1.0",
+  "private": true,
   "description": "Panda CSS preset with Fyrst Digital design tokens",
   "license": "MIT",
   "author": "Fyrst Digital",
@@ -23,10 +24,6 @@
     "design-system",
     "fyrst"
   ],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
   "files": [
     "dist",
     "css",
@@ -41,8 +38,7 @@
   "scripts": {
     "codegen": "panda codegen",
     "build": "bun run codegen && tsup src/index.ts --format esm,cjs --dts --clean",
-    "watch": "tsup src/index.ts --format esm,cjs --dts --watch",
-    "prepublishOnly": "bun run build"
+    "watch": "tsup src/index.ts --format esm,cjs --dts --watch"
   },
   "devDependencies": {
     "@pandacss/dev": "^1.12.0",

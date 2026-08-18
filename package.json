@@ -1,13 +1,60 @@
 {
   "name": "@fyrst/ui",
-  "private": true,
-  "module": "index.ts",
+  "version": "0.1.0",
+  "description": "Fyrst Digital design system: Panda CSS preset, Vue components, and Nuxt module",
+  "license": "MIT",
+  "author": "Fyrst Digital",
   "type": "module",
+  "homepage": "https://github.com/fyrst-digital/ui#readme",
+  "bugs": {
+    "url": "https://github.com/fyrst-digital/ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fyrst-digital/ui.git"
+  },
+  "keywords": [
+    "vue",
+    "nuxt",
+    "ui",
+    "components",
+    "design-system",
+    "fyrst",
+    "pandacss"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "workspaces": [
     "packages/*"
   ],
+  "main": "./packages/components/dist/index.cjs",
+  "module": "./packages/components/dist/index.js",
+  "types": "./packages/components/dist/index.d.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "packages/preset/dist",
+    "packages/preset/css",
+    "packages/preset/tokens",
+    "packages/preset/types",
+    "packages/preset/patterns",
+    "packages/preset/jsx",
+    "packages/components/dist",
+    "packages/nuxt/dist",
+    "LICENSE",
+    "README.md"
+  ],
   "exports": {
-    "./styled-system": {
+    ".": {
+      "types": "./packages/components/dist/index.d.ts",
+      "import": "./packages/components/dist/index.js",
+      "require": "./packages/components/dist/index.cjs"
+    },
+    "./design-preset": {
       "types": "./packages/preset/dist/index.d.ts",
       "import": "./packages/preset/dist/index.js",
       "require": "./packages/preset/dist/index.cjs"
@@ -25,7 +72,9 @@
     "./nuxt": {
       "types": "./packages/nuxt/dist/types.d.mts",
       "import": "./packages/nuxt/dist/module.mjs"
-    }
+    },
+    "./style.css": "./dist/style.css",
+    "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
   },
   "scripts": {
     "lint": "eslint packages/*/src --cache",
@@ -33,17 +82,22 @@
     "build": "bun run build:preset && bun run build:components && bun run build:nuxt",
     "build:styled-system": "bun run --filter='@fyrst/design-preset' build",
     "build:preset": "bun run build:styled-system",
-    "build:components": "bun run --filter='@fyrst/ui-components' build",
+    "build:components": "bun run --filter='@fyrst/ui-components' build && bun run pack:exports",
     "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev:prepare && bun run --filter='@fyrst/ui-nuxt' dev:build && bun run --filter='@fyrst/ui-nuxt' prepack",
+    "pack:exports": "mkdir -p dist && cp packages/components/dist/panda.buildinfo.json dist/panda.buildinfo.json && cp packages/components/dist/ui-components.css dist/style.css",
     "watch:styled-system": "bun run --filter='@fyrst/design-preset' watch",
     "watch:preset": "bun run watch:styled-system",
     "dev:components": "bun run --filter='@fyrst/ui-components' dev",
     "dev:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev",
     "dev:nuxt:prepare": "bun run --filter='@fyrst/ui-nuxt' dev:prepare",
     "test": "bun run --filter='@fyrst/ui-nuxt' test",
-    "pack:check": "bun run build && bun publish --dry-run --cwd packages/preset && bun publish --dry-run --cwd packages/components && bun publish --dry-run --cwd packages/nuxt",
-    "publish:packages": "bun publish --cwd packages/preset --access public && bun publish --cwd packages/components --access public && bun publish --cwd packages/nuxt --access public",
-    "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist"
+    "pack:check": "bun run build && bun publish --dry-run",
+    "prepublishOnly": "bun run build",
+    "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist dist",
+    "publish:packages": "bun publish --access public"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^4.5.2"
   },
   "devDependencies": {
     "@nuxt/devtools": "^3.4.1",
@@ -69,6 +123,18 @@
     "vue-tsc": "^3.3.10"
   },
   "peerDependencies": {
+    "vue": "^3.5.12",
+    "@pandacss/dev": "^1.0.1",
+    "reka-ui": "^2.10.1",
+    "nuxt": "^4.0.1",
     "typescript": "^5.9.2"
+  },
+  "peerDependenciesMeta": {
+    "nuxt": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": true
+    }
   }
 }
