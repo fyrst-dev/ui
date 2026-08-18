@@ -33,8 +33,8 @@ bun run build:nuxt          # Nuxt module (prepack only; does not build playgrou
 bun run link:package        # Symlink the root package to node_modules/@fyrst/ui (dev only)
 bun run watch:styled-system # Preset watch mode
 bun run dev:components      # Components dev server
-bun run dev:nuxt            # Nuxt module dev
-bun run dev:nuxt:build      # Build the Nuxt playground (dev check, not publish)
+bun run dev:nuxt            # Link @fyrst/ui, then Nuxt module playground
+bun run dev:nuxt:build      # Link @fyrst/ui, then build the Nuxt playground (dev check, not publish)
 bun run clean               # Clean all dist folders
 ```
 

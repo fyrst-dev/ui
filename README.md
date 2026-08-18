@@ -114,7 +114,7 @@ bun run build
 bun run dev:nuxt
 ```
 
-`bun run build` links the root package at `node_modules/@fyrst/ui` so the playground can import `@fyrst/ui/design-preset` the same way consumers do.
+`bun run build` and `bun run dev:nuxt` link the root package at `node_modules/@fyrst/ui` so the playground can import `@fyrst/ui/design-preset` the same way consumers do.
 
 See `AGENTS.md` for lint, test, and package scripts.
 
