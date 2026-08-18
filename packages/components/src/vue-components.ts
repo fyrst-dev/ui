@@ -33,4 +33,4 @@ export {
 } from './components/PricingCard'
 export { ProgressRoot } from './components/Progress'
 export { SwitchRoot } from './components/Switch'
-export { Tab, TabItem } from './components/Tab'
+export { Tab, Tab as TabRoot, TabItem } from './components/Tab'

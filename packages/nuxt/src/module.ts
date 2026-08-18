@@ -1,38 +1,55 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { addComponent, addImports, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addComponent, addImports, createResolver, defineNuxtModule, useLogger } from '@nuxt/kit'
 
 const require = createRequire(import.meta.url)
+const logger = useLogger('@fyrst/ui')
+
+function findFileFromModule(relativePaths: string[]): string | undefined {
+  let dir = fileURLToPath(new URL('.', import.meta.url))
+
+  for (let i = 0; i < 8; i++) {
+    for (const relativePath of relativePaths) {
+      const candidate = join(dir, relativePath)
+      if (existsSync(candidate)) {
+        return candidate
+      }
+    }
+
+    const parent = dirname(dir)
+    if (parent === dir) {
+      break
+    }
+    dir = parent
+  }
+}
 
 function resolveIconCss(): string | undefined {
   try {
     return require.resolve('@fyrst/ui/style.css')
   }
   catch {
-    // Root package is not linked in the monorepo; fall through to relative paths.
+    // Root package is not linked as node_modules/@fyrst/ui in this monorepo.
   }
 
-  const candidates = [
-    new URL('../../components/dist/ui-components.css', import.meta.url),
-    new URL('../../../components/dist/ui-components.css', import.meta.url),
-    new URL('../../../dist/style.css', import.meta.url),
-    new URL('../../../../dist/style.css', import.meta.url),
-  ]
+  return findFileFromModule([
+    'dist/style.css',
+    'packages/components/dist/ui-components.css',
+    'components/dist/ui-components.css',
+  ])
+}
 
-  for (const url of candidates) {
-    try {
-      const cssPath = fileURLToPath(url)
-      if (existsSync(cssPath)) {
-        return cssPath
-      }
-    }
-    catch {
-      // ignore
-    }
+function readModuleVersion(): string {
+  try {
+    const pkgPath = fileURLToPath(new URL('../package.json', import.meta.url))
+    const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as { version?: string }
+    return pkg.version ?? '0.0.0'
   }
-
-  return undefined
+  catch {
+    return '0.0.0'
+  }
 }
 
 const vueComponents = [
@@ -77,6 +94,7 @@ const vueComponents = [
   'ProgressRoot',
   'SwitchRoot',
   'Tab',
+  'TabRoot',
   'TabItem',
 ] as const
 
@@ -84,7 +102,6 @@ const composables = [
   'useCarousel',
   'useFlyout',
   'useFormData',
-  'createInjectionKey',
 ] as const
 
 export interface ModuleOptions {
@@ -107,7 +124,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@fyrst/ui',
     configKey: 'fyrstUi',
-    version: '0.1.0',
+    version: readModuleVersion(),
   },
   defaults: {
     prefix: 'Fyrst',
@@ -123,8 +140,13 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (options.icons !== false) {
       const cssPath = resolveIconCss()
-      if (cssPath && !nuxt.options.css.includes(cssPath)) {
-        nuxt.options.css.push(cssPath)
+      if (cssPath) {
+        if (!nuxt.options.css.includes(cssPath)) {
+          nuxt.options.css.push(cssPath)
+        }
+      }
+      else {
+        logger.warn('Could not resolve @fyrst/ui/style.css. Iconify icons will be missing.')
       }
     }
 

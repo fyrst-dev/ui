@@ -88,6 +88,22 @@ export default defineConfig({
 
 You can also import from `@fyrst/ui/components` if you want the subpath to be explicit.
 
+`createInjectionKey` is exported from `@fyrst/ui` but is not auto-imported by the Nuxt module.
+
+## Component names
+
+Nuxt auto-imports Vue components with a `Fyrst` prefix (`FyrstButton`, `FyrstAlert`, `FyrstCardRoot`). Those registrations currently load the component barrel (`@fyrst/ui` / `packages/components/dist/index.js`), so using one `Fyrst*` component does not tree-shake the others.
+
+Named Vue roots live next to compound namespaces:
+
+| Pattern | Examples |
+| --- | --- |
+| Vue root (+ `*Root` alias) | `Alert` / `AlertRoot`, `Tab` / `TabRoot`, `Badge` / `BadgeRoot` |
+| Named parts | `CardRoot`, `CardBody`, `TabItem` |
+| Namespace object (`Card.Root`) | `Accordion`, `Card`, `Carousel`, `Dialog`, `Field`, `Flyout`, `Form`, `Hero`, `List`, `PricingCard`, `Progress`, `Switch`, `Control` |
+
+`Alert` and `Tab` are the root Vue components, not `{ Root }` namespace objects.
+
 ## Development
 
 This repo is a Bun workspace. Internal package names (`@fyrst/design-preset`, `@fyrst/ui-components`, `@fyrst/ui-nuxt`) stay private and are not published.

@@ -40,5 +40,6 @@ export {
   ProgressRoot,
   SwitchRoot,
   Tab,
+  TabRoot,
   TabItem,
 } from '../../../components/dist/index.js'

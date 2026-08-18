@@ -1,4 +1,5 @@
 import { defineConfig } from "@pandacss/dev";
+// Local workspace import. Published apps use: import { preset } from '@fyrst/ui/design-preset'
 import { preset } from "@fyrst/design-preset";
 
 export default defineConfig({
