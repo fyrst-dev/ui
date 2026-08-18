@@ -45,8 +45,8 @@
     "prepublishOnly": "bun run build"
   },
   "devDependencies": {
-    "@pandacss/dev": "^1.4.1",
-    "tsup": "^8.5.0"
+    "@pandacss/dev": "^1.12.0",
+    "tsup": "^8.5.1"
   },
   "peerDependencies": {
     "@pandacss/dev": "^1.0.1"
