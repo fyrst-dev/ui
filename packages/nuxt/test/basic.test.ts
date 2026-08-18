@@ -1,6 +1,9 @@
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, it, expect } from 'vitest'
-import { setup, $fetch } from '@nuxt/test-utils/e2e'
+import { setup, $fetch, useTestContext } from '@nuxt/test-utils/e2e'
+
+const workspaceRoot = fileURLToPath(new URL('../../..', import.meta.url))
 
 describe('ssr', async () => {
   await setup({
@@ -24,5 +27,32 @@ describe('ssr', async () => {
     expect(html).not.toContain('@layer reset')
     expect(html).not.toContain('@layer tokens')
     expect(html).not.toContain('@layer recipes')
+  })
+
+  it('allows linked icon CSS and excludes prebuilt vue chunks from unimport', () => {
+    const nuxt = useTestContext().nuxt
+    expect(nuxt).toBeDefined()
+
+    const cssPath = nuxt?.options.css.find(entry =>
+      typeof entry === 'string'
+      && (entry.endsWith('style.css') || entry.endsWith('ui-components.css')),
+    )
+    expect(cssPath).toEqual(expect.any(String))
+    if (typeof cssPath !== 'string') {
+      return
+    }
+
+    expect(nuxt?.options.vite.server?.fs?.allow).toEqual(
+      expect.arrayContaining([dirname(cssPath)]),
+    )
+
+    const componentsDist = join(workspaceRoot, 'packages/components/dist')
+    expect(nuxt?.options.vite.server?.fs?.allow).toEqual(
+      expect.arrayContaining([componentsDist]),
+    )
+
+    const heroLeadPath = join(componentsDist, 'vue/HeroLead.js')
+    const exclude = nuxt?.options.imports.transform?.exclude ?? []
+    expect(exclude.some(pattern => pattern.test(heroLeadPath))).toBe(true)
   })
 })
