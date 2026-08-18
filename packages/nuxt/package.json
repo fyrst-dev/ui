@@ -44,7 +44,7 @@
         "README.md"
     ],
     "scripts": {
-        "prepack": "nuxt-module-build build",
+        "prepack": "nuxt-module-build prepare && nuxt-module-build build",
         "dev": "bun run dev:prepare && cd playground && bun run dev",
         "dev:build": "cd playground && bun run prepare && nuxi build",
         "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
