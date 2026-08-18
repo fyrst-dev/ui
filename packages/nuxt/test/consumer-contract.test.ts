@@ -60,6 +60,36 @@ describe('published package contract', () => {
     expect(pkg.scripts['dev:nuxt:build']).toContain('dev:build')
   })
 
+  it('playground dogfoods the public preset import', () => {
+    const pandaConfig = readFileSync(
+      join(rootDir, 'packages/nuxt/playground/panda.config.ts'),
+      'utf8',
+    )
+
+    expect(pandaConfig).toContain("@fyrst/ui/design-preset")
+    expect(pandaConfig).not.toContain('@fyrst/design-preset')
+  })
+
+  it('emits per-component Vue entries for Nuxt auto-imports', () => {
+    const buttonPath = join(rootDir, 'packages/components/dist/vue/Button.js')
+    const accordionPath = join(rootDir, 'packages/components/dist/vue/AccordionRoot.js')
+    const entriesPath = join(rootDir, 'packages/components/dist/nuxt-entries.json')
+
+    expect(existsSync(buttonPath)).toBe(true)
+    expect(existsSync(accordionPath)).toBe(true)
+    expect(existsSync(entriesPath)).toBe(true)
+
+    const buttonJs = readFileSync(buttonPath, 'utf8')
+    expect(buttonJs).not.toContain('AccordionRoot')
+
+    const entries = JSON.parse(readFileSync(entriesPath, 'utf8')) as {
+      components: Record<string, string>
+    }
+    expect(entries.components.Button).toBe('Button')
+    expect(entries.components.AlertRoot).toBe('Alert')
+    expect(entries.components.TabRoot).toBe('Tab')
+  })
+
   it('does not pack preset codegen folders', () => {
     expect(pkg.files).toEqual([
       'dist',
@@ -98,6 +128,8 @@ describe('packed install exports', () => {
       expect(packedFiles).toContain('package/dist/panda.buildinfo.json')
       expect(packedFiles).toContain('package/packages/preset/dist/index.js')
       expect(packedFiles).toContain('package/packages/nuxt/dist/module.mjs')
+      expect(packedFiles).toContain('package/packages/components/dist/vue/Button.js')
+      expect(packedFiles).toContain('package/packages/components/dist/nuxt-entries.json')
       expect(packedFiles).not.toContain('package/packages/components/dist/panda.buildinfo.json')
       expect(packedFiles).not.toContain('package/packages/components/dist/ui-components.css')
       expect(packedFiles.some(file => file.includes('packages/preset/types/csstype'))).toBe(false)

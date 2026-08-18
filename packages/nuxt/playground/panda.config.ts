@@ -1,6 +1,5 @@
 import { defineConfig } from "@pandacss/dev";
-// Local workspace import. Published apps use: import { preset } from '@fyrst/ui/design-preset'
-import { preset } from "@fyrst/design-preset";
+import { preset } from "@fyrst/ui/design-preset";
 
 export default defineConfig({
   // Whether to use css reset
@@ -10,8 +9,7 @@ export default defineConfig({
   ],
   // Where to look for your css declarations
   include: [
-    // Published equivalent: ./node_modules/@fyrst/ui/dist/panda.buildinfo.json
-    '../../components/dist/panda.buildinfo.json',
+    '../../../node_modules/@fyrst/ui/dist/panda.buildinfo.json',
     './app.vue',
     './components/**/*.{js,jsx,ts,tsx,vue}',
     './pages/**/*.{js,jsx,ts,tsx,vue}'

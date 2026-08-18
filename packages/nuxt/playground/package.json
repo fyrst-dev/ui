@@ -9,8 +9,6 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "@fyrst/design-preset": "workspace:*",
-    "@fyrst/ui-components": "workspace:*",
     "nuxt": "^4.5.2"
   },
   "devDependencies": {

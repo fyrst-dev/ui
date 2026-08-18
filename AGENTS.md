@@ -26,10 +26,11 @@ packages/
 ## Build Commands
 
 ```bash
-bun run build              # Build all packages (preset, components, nuxt prepack)
+bun run build              # Link @fyrst/ui, then build preset, components, nuxt prepack
 bun run build:preset        # Panda CSS preset
 bun run build:components    # Vue components
 bun run build:nuxt          # Nuxt module (prepack only; does not build playground)
+bun run link:package        # Symlink the root package to node_modules/@fyrst/ui (dev only)
 bun run watch:styled-system # Preset watch mode
 bun run dev:components      # Components dev server
 bun run dev:nuxt            # Nuxt module dev
