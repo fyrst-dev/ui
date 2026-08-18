@@ -3,14 +3,22 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
 
+const libExternals = ['vue', '@pandacss/dev', 'reka-ui']
+const libOutput = {
+  exports: 'named' as const,
+  globals: {
+    vue: 'Vue',
+  },
+}
+
 export default defineConfig({
   plugins: [
     vue(),
     dts({
       insertTypesEntry: true,
       include: ['src/**/*'],
-      exclude: ['src/**/*.test.*', 'src/**/*.spec.*']
-    })
+      exclude: ['src/**/*.test.*', 'src/**/*.spec.*'],
+    }),
   ],
   build: {
     lib: {
@@ -18,23 +26,22 @@ export default defineConfig({
       name: 'fyrst-ui',
       cssFileName: 'ui-components',
       formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
+      fileName: format => `index.${format === 'es' ? 'js' : 'cjs'}`,
+    },
+    rollupOptions: {
+      external: libExternals,
+      output: libOutput,
     },
     rolldownOptions: {
-      external: ['vue', '@pandacss/dev', 'reka-ui'],
-      output: {
-        exports: 'named',
-        globals: {
-          vue: 'Vue'
-        }
-      }
+      external: libExternals,
+      output: libOutput,
     },
-    cssCodeSplit: false
+    cssCodeSplit: false,
   },
   resolve: {
     alias: {
       '@': resolve(import.meta.dirname, 'src'),
-      'styled-system': resolve(import.meta.dirname, 'styled-system')
-    }
-  }
+      'styled-system': resolve(import.meta.dirname, 'styled-system'),
+    },
+  },
 })
