@@ -10,6 +10,8 @@ packages/nuxt/playground
 packages/nuxt/test
 packages/*/src
 packages/*/styled-system
+packages/components/dist/panda.buildinfo.json
+packages/components/dist/ui-components.css
 *.tgz
 .eslintcache
 .env*
