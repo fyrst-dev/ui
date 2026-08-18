@@ -2,9 +2,9 @@
     "name": "@fyrst/ui-nuxt",
     "version": "0.1.0",
     "private": true,
-    "description": "Nuxt module for the Fyrst Digital Vue UI components",
+    "description": "Nuxt module for the fyrst.dev Vue UI components",
     "license": "MIT",
-    "author": "Fyrst Digital",
+    "author": "fyrst.dev",
     "type": "module",
     "homepage": "https://github.com/fyrst-digital/ui/tree/master/packages/nuxt#readme",
     "bugs": {

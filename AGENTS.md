@@ -1,6 +1,6 @@
 # Agent Instructions for @fyrst/ui
 
-Monorepo for Fyrst Digital's Design System. Publish **one** npm package: `@fyrst/ui`.
+Monorepo for the fyrst.dev design system. Publish **one** npm package: `@fyrst/ui`.
 
 Workspace packages (private, not published):
 - `@fyrst/design-preset` - Panda CSS preset (`@fyrst/ui/design-preset`)

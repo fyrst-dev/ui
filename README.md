@@ -1,6 +1,6 @@
 # @fyrst/ui
 
-Fyrst Digital design system. One npm package with subpath exports:
+fyrst.dev design system. One npm package with subpath exports:
 
 | Import | What you get |
 | --- | --- |

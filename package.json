@@ -1,9 +1,9 @@
 {
   "name": "@fyrst/ui",
   "version": "0.1.0",
-  "description": "Fyrst Digital design system: Panda CSS preset, Vue components, and Nuxt module",
+  "description": "fyrst.dev design system: Panda CSS preset, Vue components, and Nuxt module",
   "license": "MIT",
-  "author": "Fyrst Digital",
+  "author": "fyrst.dev",
   "type": "module",
   "homepage": "https://github.com/fyrst-digital/ui#readme",
   "bugs": {
