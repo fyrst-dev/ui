@@ -53,6 +53,6 @@ describe('ssr', async () => {
 
     const heroLeadPath = join(componentsDist, 'vue/HeroLead.js')
     const exclude = nuxt?.options.imports.transform?.exclude ?? []
-    expect(exclude.some(pattern => pattern.test(heroLeadPath))).toBe(true)
+    expect(exclude.some(pattern => pattern instanceof RegExp && pattern.test(heroLeadPath))).toBe(true)
   })
 })
