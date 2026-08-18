@@ -3,9 +3,9 @@ import { TabsTrigger } from 'reka-ui'
 import { computed } from 'vue'
 import { css } from 'styled-system/css'
 import { tabStyles } from './styles'
-import { type TabItemData } from './types'
+import type { TabItemData } from './types'
 
-const props = defineProps<TabItemData>()
+defineProps<TabItemData>()
 
 const styles = computed(() =>
   tabStyles.raw({}),

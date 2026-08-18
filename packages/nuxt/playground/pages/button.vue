@@ -59,7 +59,7 @@
             
             <div :class="css({ display: 'flex', gap: 'md', flexWrap: 'wrap' })">
                 <FyrstButton label="Internal Link" to="/hero" color="primary" />
-                <FyrstButton label="External Link" to="https://fyrst.digital" :external="true" color="secondary" />
+                <FyrstButton label="External Link" to="https://fyrst.dev" :external="true" color="secondary" />
             </div>
         </div>
 

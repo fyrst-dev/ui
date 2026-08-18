@@ -1,5 +1,8 @@
 <template>
-  <div>basic</div>
+  <div>
+    <div>basic</div>
+    <FyrstButton label="Publish" />
+  </div>
 </template>
 
 <script setup>

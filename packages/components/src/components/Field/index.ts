@@ -9,6 +9,7 @@ import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
 import FieldError from './FieldError.vue'
 import FieldMessage from './FieldMessage.vue'
+import FieldRequired from './FieldRequired.vue'
 
 export {
   FieldInput,
@@ -22,6 +23,7 @@ export {
   FieldLabel,
   FieldError,
   FieldMessage,
+  FieldRequired,
 }
 
 export default {
@@ -36,4 +38,5 @@ export default {
   Label: FieldLabel,
   Error: FieldError,
   Message: FieldMessage,
+  Required: FieldRequired,
 }

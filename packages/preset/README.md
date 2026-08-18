@@ -1,16 +1,11 @@
-# Internal: Nuxt module
+# Internal: Panda CSS preset
 
-Workspace package used to build the Nuxt module that `@fyrst/ui/nuxt` exports.
+Workspace package used to build the preset that `@fyrst/ui/design-preset` exports.
 
 This folder is **not** published to npm. Consume the design system as `@fyrst/ui`.
 
 ```ts
-export default defineNuxtConfig({
-  modules: ['@fyrst/ui/nuxt'],
-})
-```
-
-```ts
+import { defineConfig } from '@pandacss/dev'
 import { preset } from '@fyrst/ui/design-preset'
 
 export default defineConfig({
@@ -18,10 +13,10 @@ export default defineConfig({
   presets: [preset],
   include: [
     './node_modules/@fyrst/ui/dist/panda.buildinfo.json',
-    './app/**/*.{js,ts,vue}',
+    './src/**/*.{js,jsx,ts,tsx,vue}',
   ],
   outdir: 'styled-system',
 })
 ```
 
-See the [root README](../../README.md) for the full consumer setup.
+See the [root README](../../README.md) for install and publishing.

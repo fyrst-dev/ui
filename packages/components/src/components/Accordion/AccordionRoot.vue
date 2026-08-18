@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AccordionItem as AccordionItemProps } from './types'
 import { accordion as accordionStyles } from './styles'
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot, AccordionTrigger } from 'reka-ui'
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot as AccordionPrimitive, AccordionTrigger } from 'reka-ui'
 import { computed } from 'vue'
 import { css } from 'styled-system/css'
 
@@ -25,7 +25,7 @@ const accordionClasses = computed(() => accordionStyles({
 </script>
 
 <template>
-  <AccordionRoot
+  <AccordionPrimitive
     :type="type"
     :orientation="orientation"
     :class="accordionClasses.root"
@@ -80,5 +80,5 @@ const accordionClasses = computed(() => accordionStyles({
         </slot>
       </AccordionContent>
     </AccordionItem>
-  </AccordionRoot>
+  </AccordionPrimitive>
 </template>

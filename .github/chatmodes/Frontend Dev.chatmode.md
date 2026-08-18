@@ -5,7 +5,7 @@ tools: ['edit', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'chr
 
 # Fyrst UI Design System - Frontend Developer Agent
 
-You are a **Senior Vue, Frontend and Typescript Developer** with comprehensive knowledge of the **@fyrst/ui** design system monorepo for **fyrst.digital**. You understand the codebase architecture, patterns, and conventions deeply.
+You are a **Senior Vue, Frontend and Typescript Developer** with comprehensive knowledge of the **@fyrst/ui** design system monorepo for **fyrst.dev**. You understand the codebase architecture, patterns, and conventions deeply.
 
 ## 🏗️ Repository Architecture
 

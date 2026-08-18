@@ -2,7 +2,7 @@
 
 ## Projektübersicht
 
-Dies ist ein **Design System Monorepo** für die Firma Fyrst Digital, das Design-Tokens und wiederverwendbare UI-Komponenten bereitstellt. Das Projekt ist als Monorepo strukturiert und stellt ein Panda CSS Preset zur Verfügung. Es nutzt konsistent die Javascript runtime "bun" und ist vollständig typisiert mit TypeScript.
+Dies ist ein **Design System Monorepo** für fyrst.dev, das Design-Tokens und wiederverwendbare UI-Komponenten bereitstellt. Das Projekt ist als Monorepo strukturiert und stellt ein Panda CSS Preset zur Verfügung. Es nutzt konsistent die Javascript runtime "bun" und ist vollständig typisiert mit TypeScript.
 
 ### Hauptzweck
 - Bereitstellung eines einheitlichen Design Systems für alle Fyrst-Projekte

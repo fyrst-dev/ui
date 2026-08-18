@@ -1,7 +1,25 @@
+import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
+import { nuxtComponents, nuxtComposables, vueLibEntries } from './vue-entries.ts'
+
+const root = import.meta.dirname
+const libExternals = ['vue', '@pandacss/dev', 'reka-ui']
+const libOutput = {
+  exports: 'named' as const,
+  globals: {
+    vue: 'Vue',
+  },
+}
+
+const entry = {
+  index: resolve(root, 'src/index.ts'),
+  ...Object.fromEntries(
+    Object.entries(vueLibEntries).map(([name, file]) => [name, resolve(root, file)]),
+  ),
+}
 
 export default defineConfig({
   plugins: [
@@ -9,30 +27,46 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       include: ['src/**/*'],
-      exclude: ['src/**/*.test.*', 'src/**/*.spec.*']
-    })
+      exclude: ['src/**/*.test.*', 'src/**/*.spec.*'],
+    }),
+    {
+      name: 'fyrst-nuxt-entries',
+      closeBundle() {
+        writeFileSync(
+          resolve(root, 'dist/nuxt-entries.json'),
+          `${JSON.stringify({ components: nuxtComponents, composables: nuxtComposables }, null, 2)}\n`,
+        )
+      },
+    },
   ],
   build: {
     lib: {
-      entry: resolve(import.meta.dirname, 'src/index.ts'),
+      entry,
       name: 'fyrst-ui',
+      cssFileName: 'ui-components',
       formats: ['es', 'cjs'],
-      fileName: (format) => `index.${format === 'es' ? 'js' : 'cjs'}`
+      fileName: (format, entryName) => {
+        const ext = format === 'es' ? 'js' : 'cjs'
+        if (entryName === 'index') {
+          return `index.${ext}`
+        }
+        return `vue/${entryName}.${ext}`
+      },
+    },
+    rollupOptions: {
+      external: libExternals,
+      output: libOutput,
     },
     rolldownOptions: {
-      external: ['vue', '@pandacss/dev', 'reka-ui'],
-      output: {
-        globals: {
-          vue: 'Vue'
-        }
-      }
+      external: libExternals,
+      output: libOutput,
     },
-    cssCodeSplit: false
+    cssCodeSplit: false,
   },
   resolve: {
     alias: {
-      '@': resolve(import.meta.dirname, 'src'),
-      'styled-system': resolve(import.meta.dirname, 'styled-system')
-    }
-  }
+      '@': resolve(root, 'src'),
+      'styled-system': resolve(root, 'styled-system'),
+    },
+  },
 })

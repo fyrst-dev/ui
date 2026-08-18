@@ -1,9 +1,11 @@
 # Agent Instructions for @fyrst/ui
 
-Monorepo for Fyrst Digital's Design System with:
-- `@fyrst/design-preset` - Panda CSS preset with design tokens
-- `@fyrst/ui-components` - Reusable UI components (Vue 3)
-- `@fyrst/ui-nuxt` - Nuxt module integration
+Monorepo for the fyrst.dev design system. Publish **one** npm package: `@fyrst/ui`.
+
+Workspace packages (private, not published):
+- `@fyrst/design-preset` - Panda CSS preset (`@fyrst/ui/design-preset`)
+- `@fyrst/ui-components` - Vue 3 UI components (`@fyrst/ui` / `@fyrst/ui/components`)
+- `@fyrst/ui-nuxt` - Nuxt module (`@fyrst/ui/nuxt`)
 
 Uses Bun as package manager and build tool, full TypeScript support.
 
@@ -24,13 +26,15 @@ packages/
 ## Build Commands
 
 ```bash
-bun run build              # Build all packages
+bun run build              # Link @fyrst/ui, then build preset, components, nuxt prepack
 bun run build:preset        # Panda CSS preset
 bun run build:components    # Vue components
-bun run build:nuxt          # Nuxt module
+bun run build:nuxt          # Nuxt module (prepack only; does not build playground)
+bun run link:package        # Symlink the root package to node_modules/@fyrst/ui (dev only)
 bun run watch:styled-system # Preset watch mode
 bun run dev:components      # Components dev server
-bun run dev:nuxt            # Nuxt module dev
+bun run dev:nuxt            # Link @fyrst/ui, then Nuxt module playground
+bun run dev:nuxt:build      # Link @fyrst/ui, then build the Nuxt playground (dev check, not publish)
 bun run clean               # Clean all dist folders
 ```
 
@@ -213,5 +217,6 @@ describe('ssr', async () => {
 1. Token changes: add to both `tokens.ts` and `semantic-tokens.ts`
 2. New packages: register in root `package.json` under `workspaces`
 3. Build order: Nuxt module requires preset built first (automatic)
-4. Peer dependencies: ensure vue, nuxt, panda in peerDependencies
+4. Peer dependencies: `vue`, `reka-ui`, and `@pandacss/dev` are required. `nuxt` and `@nuxt/kit` are optional (only `@fyrst/ui/nuxt`). Do not put `@nuxt/kit` in published `dependencies`.
 5. No Prettier: ESLint used for formatting (stylistic rules)
+6. Do not ship compiled Panda CSS (`panda cssgen`, `styles.css`, `panda.css`). Publish only the root `@fyrst/ui` package. Consuming apps must depend on `@pandacss/dev`, keep their own `panda.config.ts` (`import { preset } from '@fyrst/ui/design-preset'`), and include `@fyrst/ui/panda.buildinfo.json` from `panda ship`. `@fyrst/ui/style.css` is Iconify icons only. Pack `packages/preset/dist` only — do not include Panda codegen folders (`css`, `tokens`, `types`, `patterns`, `jsx`).

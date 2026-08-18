@@ -1,8 +1,29 @@
 {
     "name": "@fyrst/ui-nuxt",
-    "version": "1.0.0",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Nuxt module for the fyrst.dev Vue UI components",
     "license": "MIT",
+    "author": "fyrst.dev",
     "type": "module",
+    "homepage": "https://github.com/fyrst-digital/ui/tree/master/packages/nuxt#readme",
+    "bugs": {
+        "url": "https://github.com/fyrst-digital/ui/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fyrst-digital/ui.git",
+        "directory": "packages/nuxt"
+    },
+    "keywords": [
+        "nuxt",
+        "nuxt-module",
+        "vue",
+        "ui",
+        "components",
+        "design-system",
+        "fyrst"
+    ],
     "exports": {
         ".": {
             "types": "./dist/types.d.mts",
@@ -18,24 +39,25 @@
         }
     },
     "files": [
-        "dist"
+        "dist",
+        "LICENSE",
+        "README.md"
     ],
     "scripts": {
         "prepack": "nuxt-module-build build",
         "dev": "bun run dev:prepare && cd playground && bun run dev",
         "dev:build": "cd playground && bun run prepare && nuxi build",
         "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-        "release": "bun run lint && bun run test && bun run prepack && changelogen --release && npm publish && git push --follow-tags",
+        "release": "bun run lint && bun run test && bun run prepack && changelogen --release && git push --follow-tags",
         "lint": "eslint .",
         "test": "vitest run",
         "test:watch": "vitest watch",
         "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
     },
     "dependencies": {
+        "@fyrst/design-preset": "workspace:*",
+        "@fyrst/ui-components": "workspace:*",
         "@nuxt/kit": "^4.5.2"
-    },
-    "devDependencies": {
-        "@fyrst/design-preset": "workspace:*"
     },
     "peerDependencies": {
         "nuxt": "^4.5.2",
