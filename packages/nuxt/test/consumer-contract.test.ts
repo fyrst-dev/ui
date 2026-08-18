@@ -58,6 +58,12 @@ describe('published package contract', () => {
     expect(pkg.scripts['build:nuxt']).not.toContain('dev:build')
     expect(pkg.scripts['build:nuxt']).not.toContain('dev:prepare')
     expect(pkg.scripts['dev:nuxt:build']).toContain('dev:build')
+
+    const nuxtPkg = JSON.parse(readFileSync(join(rootDir, 'packages/nuxt/package.json'), 'utf8')) as {
+      scripts: Record<string, string>
+    }
+    expect(nuxtPkg.scripts.prepack).toContain('nuxt-module-build prepare')
+    expect(nuxtPkg.scripts.prepack).toContain('nuxt-module-build build')
   })
 
   it('playground dogfoods the public preset import', () => {
