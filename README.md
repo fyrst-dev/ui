@@ -14,10 +14,12 @@ This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pa
 
 ## Install
 
+Required peers: `vue`, `reka-ui`, `@pandacss/dev`. `nuxt` and `@nuxt/kit` are optional and only needed for `@fyrst/ui/nuxt` (a Nuxt app already provides both).
+
 **Nuxt**
 
 ```bash
-bun add @fyrst/ui @pandacss/dev
+bun add @fyrst/ui reka-ui @pandacss/dev
 ```
 
 ```ts
@@ -57,7 +59,7 @@ Components are auto-imported with a `Fyrst` prefix (`FyrstButton`, `FyrstCardRoo
 **Vue (Vite)**
 
 ```bash
-bun add @fyrst/ui @pandacss/dev
+bun add @fyrst/ui vue reka-ui @pandacss/dev
 ```
 
 ```ts
@@ -111,5 +113,7 @@ bun run build
 bun run test
 bun publish --access public
 ```
+
+`bun publish` runs `prepublishOnly` (`bun run build`) unless you pass `--ignore-scripts`. The GitHub Action builds and tests first, then publishes with `--ignore-scripts` so it does not rebuild.
 
 Or run the **Publish to npm** GitHub Action after adding an `NPM_TOKEN` repository secret.

@@ -32,4 +32,4 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @fyrst/ui
-        run: bun publish --access public
+        run: bun publish --access public --ignore-scripts

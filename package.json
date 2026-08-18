@@ -83,24 +83,23 @@
     "build:styled-system": "bun run --filter='@fyrst/design-preset' build",
     "build:preset": "bun run build:styled-system",
     "build:components": "bun run --filter='@fyrst/ui-components' build && bun run pack:exports",
-    "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev:prepare && bun run --filter='@fyrst/ui-nuxt' dev:build && bun run --filter='@fyrst/ui-nuxt' prepack",
+    "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' prepack",
     "pack:exports": "mkdir -p dist && cp packages/components/dist/panda.buildinfo.json dist/panda.buildinfo.json && cp packages/components/dist/ui-components.css dist/style.css",
     "watch:styled-system": "bun run --filter='@fyrst/design-preset' watch",
     "watch:preset": "bun run watch:styled-system",
     "dev:components": "bun run --filter='@fyrst/ui-components' dev",
     "dev:nuxt": "bun run --filter='@fyrst/ui-nuxt' dev",
     "dev:nuxt:prepare": "bun run --filter='@fyrst/ui-nuxt' dev:prepare",
+    "dev:nuxt:build": "bun run --filter='@fyrst/ui-nuxt' dev:prepare && bun run --filter='@fyrst/ui-nuxt' dev:build",
     "test": "bun run --filter='@fyrst/ui-nuxt' test",
-    "pack:check": "bun run build && bun publish --dry-run",
+    "pack:check": "bun run build && bun publish --dry-run --ignore-scripts",
     "prepublishOnly": "bun run build",
     "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist dist",
     "publish:packages": "bun publish --access public"
   },
-  "dependencies": {
-    "@nuxt/kit": "^4.5.2"
-  },
   "devDependencies": {
     "@nuxt/devtools": "^3.4.1",
+    "@nuxt/kit": "^4.5.2",
     "@nuxt/eslint-config": "^1.17.0",
     "@nuxt/module-builder": "^1.0.3",
     "@nuxt/schema": "^4.5.2",
@@ -127,10 +126,14 @@
     "@pandacss/dev": "^1.0.1",
     "reka-ui": "^2.10.1",
     "nuxt": "^4.0.1",
+    "@nuxt/kit": "^4.0.1",
     "typescript": "^5.9.2"
   },
   "peerDependenciesMeta": {
     "nuxt": {
+      "optional": true
+    },
+    "@nuxt/kit": {
       "optional": true
     },
     "typescript": {
