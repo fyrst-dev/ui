@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { addComponent, addImports, createResolver, defineNuxtModule, useLogger } from '@nuxt/kit'
+import { addComponent, addImports, defineNuxtModule, useLogger } from '@nuxt/kit'
 
 const require = createRequire(import.meta.url)
 const logger = useLogger('@fyrst/ui')
@@ -31,7 +31,7 @@ function resolveIconCss(): string | undefined {
     return require.resolve('@fyrst/ui/style.css')
   }
   catch {
-    // Root package is not linked as node_modules/@fyrst/ui in this monorepo.
+    // Root package is not linked as node_modules/@fyrst/ui until `bun run link:package`.
   }
 
   return findFileFromModule([
@@ -52,57 +52,31 @@ function readModuleVersion(): string {
   }
 }
 
-const vueComponents = [
-  'AccordionRoot',
-  'Alert',
-  'AlertRoot',
-  'Badge',
-  'BadgeRoot',
-  'Button',
-  'CardRoot',
-  'CardBody',
-  'CardHeader',
-  'CarouselRoot',
-  'CarouselItem',
-  'CarouselNavigation',
-  'DialogRoot',
-  'FieldInput',
-  'FieldTextarea',
-  'FieldSelect',
-  'FieldCheckbox',
-  'FieldRadioGroup',
-  'FieldSwitch',
-  'FieldUrl',
-  'FieldBase',
-  'FieldLabel',
-  'FieldError',
-  'FieldMessage',
-  'FieldRequired',
-  'FlyoutRoot',
-  'FlyoutDropdown',
-  'FormPrompt',
-  'FormPromptFooter',
-  'HeroLead',
-  'ListRoot',
-  'ListItem',
-  'Loader',
-  'PricingCardRoot',
-  'PricingCardHeader',
-  'PricingCardPricing',
-  'PricingCardBody',
-  'PricingCardBadge',
-  'ProgressRoot',
-  'SwitchRoot',
-  'Tab',
-  'TabRoot',
-  'TabItem',
-] as const
+function loadNuxtEntries(): {
+  components: Record<string, string>
+  composables: string[]
+} {
+  const entriesPath = findFileFromModule([
+    'packages/components/dist/nuxt-entries.json',
+    'components/dist/nuxt-entries.json',
+  ])
 
-const composables = [
-  'useCarousel',
-  'useFlyout',
-  'useFormData',
-] as const
+  if (!entriesPath) {
+    return { components: {}, composables: [] }
+  }
+
+  return JSON.parse(readFileSync(entriesPath, 'utf8')) as {
+    components: Record<string, string>
+    composables: string[]
+  }
+}
+
+function resolveVueFile(entryName: string): string | undefined {
+  return findFileFromModule([
+    `packages/components/dist/vue/${entryName}.js`,
+    `components/dist/vue/${entryName}.js`,
+  ])
+}
 
 export interface ModuleOptions {
   /**
@@ -131,10 +105,8 @@ export default defineNuxtModule<ModuleOptions>({
     icons: true,
   },
   setup(options, nuxt) {
-    const resolver = createResolver(import.meta.url)
-    const componentsFile = resolver.resolve('./runtime/components')
-    const composablesFile = resolver.resolve('./runtime/composables')
     const prefix = options.prefix ?? 'Fyrst'
+    const { components, composables } = loadNuxtEntries()
 
     nuxt.options.build.transpile.push('reka-ui')
 
@@ -150,18 +122,34 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
-    for (const name of vueComponents) {
+    if (Object.keys(components).length === 0) {
+      logger.warn('Could not resolve packages/components/dist/nuxt-entries.json. Auto-imports are skipped.')
+    }
+
+    for (const [name, entry] of Object.entries(components)) {
+      const filePath = resolveVueFile(entry)
+      if (!filePath) {
+        logger.warn(`Could not resolve Vue entry ${entry} for ${prefix}${name}.`)
+        continue
+      }
+
       addComponent({
         name: `${prefix}${name}`,
-        export: name,
-        filePath: componentsFile,
+        export: 'default',
+        filePath,
       })
     }
 
     for (const name of composables) {
+      const filePath = resolveVueFile(name)
+      if (!filePath) {
+        logger.warn(`Could not resolve composable ${name}.`)
+        continue
+      }
+
       addImports({
         name,
-        from: composablesFile,
+        from: filePath,
       })
     }
   },
