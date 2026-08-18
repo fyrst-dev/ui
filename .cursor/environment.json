@@ -1,0 +1,17 @@
+{
+  "name": "@fyrst/ui",
+  "install": "./.cursor/install.sh",
+  "terminals": [
+    {
+      "name": "nuxt-playground",
+      "command": "bun run dev:nuxt",
+      "description": "Nuxt module playground dev server on http://localhost:3000"
+    }
+  ],
+  "ports": [
+    {
+      "name": "nuxt-playground",
+      "port": 3000
+    }
+  ]
+}
