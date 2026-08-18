@@ -90,10 +90,10 @@
     "dev:nuxt:prepare": "bun run link:package && bun run --filter='@fyrst/ui-nuxt' dev:prepare",
     "dev:nuxt:build": "bun run link:package && bun run --filter='@fyrst/ui-nuxt' dev:prepare && bun run --filter='@fyrst/ui-nuxt' dev:build",
     "test": "bun run --filter='@fyrst/ui-nuxt' test",
-    "pack:check": "bun run build && bun publish --dry-run --ignore-scripts",
+    "pack:check": "bun run build && npm publish --dry-run --ignore-scripts",
     "prepublishOnly": "bun run build",
     "clean": "bun run --filter='packages/*' clean && rm -rf packages/*/dist dist",
-    "publish:packages": "bun publish --access public"
+    "publish:packages": "npm publish --access public --ignore-scripts"
   },
   "devDependencies": {
     "@nuxt/devtools": "^3.4.1",
