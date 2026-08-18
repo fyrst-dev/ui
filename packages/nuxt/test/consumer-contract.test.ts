@@ -90,6 +90,19 @@ describe('published package contract', () => {
     expect(entries.components.TabRoot).toBe('Tab')
   })
 
+  it('publishes from GitHub Actions with npm trusted publishing', () => {
+    const workflow = readFileSync(
+      join(rootDir, '.github/workflows/publish.yml'),
+      'utf8',
+    )
+
+    expect(workflow).toContain('id-token: write')
+    expect(workflow).toContain('npm publish --access public --ignore-scripts')
+    expect(workflow).not.toContain('NPM_TOKEN')
+    expect(workflow).not.toContain('_authToken')
+    expect(workflow).not.toContain('bun publish')
+  })
+
   it('does not pack preset codegen folders', () => {
     expect(pkg.files).toEqual([
       'dist',

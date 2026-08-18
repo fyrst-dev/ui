@@ -120,18 +120,31 @@ See `AGENTS.md` for lint, test, and package scripts.
 
 ## Publishing
 
-Publish the root package only:
+Publish the root package only. The GitHub Action uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) (OIDC). There is no `NPM_TOKEN`.
 
-1. Create the public `@fyrst` org on npm (or request access).
-2. Authenticate (`npm login` / `NPM_TOKEN`).
+`prepublishOnly` runs `bun run build`. The Action already builds and tests with Bun, then runs `npm publish --ignore-scripts` so that script does not rebuild. `bun publish` cannot authenticate with OIDC.
+
+### First publish (bootstrap)
+
+Trusted publishing can only be attached to a package that already exists.
+
+1. Create the public `@fyrst` org on npm (or request access) and enable 2FA.
+2. `npm login` in a browser session (interactive 2FA). Do not create a bypass-2FA granular token.
 3. From the repo root:
 
 ```bash
 bun run build
 bun run test
-bun publish --access public
+npm publish --access public --ignore-scripts
 ```
 
-`bun publish` runs `prepublishOnly` (`bun run build`) unless you pass `--ignore-scripts`. The GitHub Action builds and tests first, then publishes with `--ignore-scripts` so it does not rebuild.
+4. On npmjs.com → `@fyrst/ui` → Settings → Trusted Publisher → GitHub Actions:
+   - Organization or user: `fyrst-digital`
+   - Repository: `ui`
+   - Workflow filename: `publish.yml` (filename only, including `.yml`)
+   - Environment name: leave empty
+   - Allowed actions: `npm publish`
 
-Or run the **Publish to npm** GitHub Action after adding an `NPM_TOKEN` repository secret.
+### Later publishes
+
+Run the **Publish to npm** GitHub Action (`workflow_dispatch`) or publish a GitHub Release. After the first OIDC publish succeeds, you can set the package to require 2FA and disallow tokens.
