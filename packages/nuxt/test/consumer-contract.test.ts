@@ -2,7 +2,6 @@ import { execFileSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import { describe, it, expect } from 'vitest'
 
@@ -118,14 +117,40 @@ describe('packed install exports', () => {
         stdio: ['ignore', 'pipe', 'pipe'],
       })
 
-      const require = createRequire(join(consumer, 'package.json'))
-      expect(require.resolve('@fyrst/ui/style.css')).toMatch(/style\.css$/)
-      expect(require.resolve('@fyrst/ui/panda.buildinfo.json')).toMatch(/panda\.buildinfo\.json$/)
-      expect(require.resolve('@fyrst/ui/design-preset')).toMatch(/index\.(js|cjs)$/)
-      expect(require.resolve('@fyrst/ui/preset')).toMatch(/index\.(js|cjs)$/)
-      expect(require.resolve('@fyrst/ui/nuxt')).toMatch(/module\.mjs$/)
-      expect(require.resolve('@fyrst/ui')).toMatch(/index\.(js|cjs)$/)
-      expect(require.resolve('@fyrst/ui/components')).toMatch(/index\.(js|cjs)$/)
+      const specifiers = [
+        '@fyrst/ui',
+        '@fyrst/ui/components',
+        '@fyrst/ui/design-preset',
+        '@fyrst/ui/preset',
+        '@fyrst/ui/nuxt',
+        '@fyrst/ui/style.css',
+        '@fyrst/ui/panda.buildinfo.json',
+      ]
+      writeFileSync(
+        join(consumer, 'resolve.mjs'),
+        `${specifiers.map(specifier => `console.log(${JSON.stringify(specifier)} + '\\t' + import.meta.resolve(${JSON.stringify(specifier)}))`).join('\n')}\n`,
+      )
+
+      const resolved = Object.fromEntries(
+        execFileSync(process.execPath, ['resolve.mjs'], {
+          cwd: consumer,
+          encoding: 'utf8',
+        })
+          .trim()
+          .split('\n')
+          .map((line) => {
+            const [specifier, url] = line.split('\t')
+            return [specifier, url]
+          }),
+      ) as Record<string, string>
+
+      expect(resolved['@fyrst/ui']).toMatch(/index\.(js|cjs)$/)
+      expect(resolved['@fyrst/ui/components']).toMatch(/index\.(js|cjs)$/)
+      expect(resolved['@fyrst/ui/design-preset']).toMatch(/index\.(js|cjs)$/)
+      expect(resolved['@fyrst/ui/preset']).toMatch(/index\.(js|cjs)$/)
+      expect(resolved['@fyrst/ui/nuxt']).toMatch(/module\.mjs$/)
+      expect(resolved['@fyrst/ui/style.css']).toMatch(/style\.css$/)
+      expect(resolved['@fyrst/ui/panda.buildinfo.json']).toMatch(/panda\.buildinfo\.json$/)
     }
     finally {
       rmSync(dir, { recursive: true, force: true })

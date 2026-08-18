@@ -66,7 +66,8 @@
     },
     "./nuxt": {
       "types": "./packages/nuxt/dist/types.d.mts",
-      "import": "./packages/nuxt/dist/module.mjs"
+      "import": "./packages/nuxt/dist/module.mjs",
+      "default": "./packages/nuxt/dist/module.mjs"
     },
     "./style.css": "./dist/style.css",
     "./panda.buildinfo.json": "./dist/panda.buildinfo.json",
@@ -80,7 +81,7 @@
     "build:preset": "bun run build:styled-system",
     "build:components": "bun run --filter='@fyrst/ui-components' build && bun run pack:exports",
     "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' prepack",
-    "pack:exports": "mkdir -p dist && cp packages/components/dist/panda.buildinfo.json dist/panda.buildinfo.json && cp packages/components/dist/ui-components.css dist/style.css",
+    "pack:exports": "mkdir -p dist && cp packages/components/dist/panda.buildinfo.json dist/panda.buildinfo.json && cp packages/components/dist/ui-components.css dist/style.css && rm -f packages/components/dist/panda.buildinfo.json packages/components/dist/ui-components.css",
     "watch:styled-system": "bun run --filter='@fyrst/design-preset' watch",
     "watch:preset": "bun run watch:styled-system",
     "dev:components": "bun run --filter='@fyrst/ui-components' dev",
