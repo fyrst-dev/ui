@@ -156,6 +156,30 @@ describe('published package contract', () => {
     expect(workflow).not.toContain('bun publish')
   })
 
+  it('runs build and test on pull requests', () => {
+    const workflow = readFileSync(
+      join(rootDir, '.github/workflows/ci.yml'),
+      'utf8',
+    )
+
+    expect(workflow).toContain('pull_request')
+    expect(workflow).toContain('bun run build')
+    expect(workflow).toContain('bun run test')
+    expect(workflow).not.toContain('bun run lint')
+    expect(workflow).not.toContain('test:types')
+  })
+
+  it('reads the published package version from @fyrst/ui/package.json', () => {
+    const moduleSrc = readFileSync(join(rootDir, 'packages/nuxt/src/module.ts'), 'utf8')
+    const builtModule = readFileSync(join(rootDir, 'packages/nuxt/dist/module.mjs'), 'utf8')
+    const rootPkg = JSON.parse(readFileSync(rootPackagePath, 'utf8')) as { version: string }
+
+    expect(moduleSrc).toContain('@fyrst/ui/package.json')
+    expect(moduleSrc).not.toContain("new URL('../package.json'")
+    expect(builtModule).toContain('@fyrst/ui/package.json')
+    expect(rootPkg.version).toMatch(/^\d+\.\d+\.\d+/)
+  })
+
   it('does not pack preset codegen folders', () => {
     expect(pkg.files).toEqual([
       'dist',
@@ -200,6 +224,11 @@ describe('packed install exports', () => {
       expect(packedFiles).not.toContain('package/packages/components/dist/ui-components.css')
       expect(packedFiles.some(file => file.includes('packages/preset/types/csstype'))).toBe(false)
       expect(packedFiles.some(file => file.startsWith('package/packages/preset/css/'))).toBe(false)
+
+      const packedModule = execFileSync('tar', ['-xOf', tarball, 'package/packages/nuxt/dist/module.mjs'], {
+        encoding: 'utf8',
+      })
+      expect(packedModule).toContain('@fyrst/ui/package.json')
 
       const consumer = join(dir, 'consumer')
       mkdirSync(consumer)

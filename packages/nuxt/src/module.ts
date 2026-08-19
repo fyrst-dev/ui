@@ -43,7 +43,7 @@ function resolveIconCss(): string | undefined {
 
 function readModuleVersion(): string {
   try {
-    const pkgPath = fileURLToPath(new URL('../package.json', import.meta.url))
+    const pkgPath = require.resolve('@fyrst/ui/package.json')
     const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as { version?: string }
     return pkg.version ?? '0.0.0'
   }
