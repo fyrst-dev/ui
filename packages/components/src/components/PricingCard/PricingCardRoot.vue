@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import { pricingCardStyles } from './styles'
 import { PricingCardStylesKey, PricingCardDataKey, type PricingCardRootCss } from './types'
 import type { ListItemProps } from '../List/ListItem.vue'
@@ -44,7 +44,7 @@ provide(PricingCardDataKey, data)
 </script>
 
 <template>
-  <article :class="css(styles.root, props.css?.root)">
+  <article :class="pandaCss(styles.root, props.css?.root)">
     <slot name="before" />
     <slot />
     <slot name="after" />

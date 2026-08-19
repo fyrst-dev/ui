@@ -1,9 +1,10 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -- author-controlled rich text -->
   <header
     :class="css(styles.header)"
   >
     <slot name="icon" />
-    
+
     <slot>
       <div
         :class="css(styles.headerBody)"

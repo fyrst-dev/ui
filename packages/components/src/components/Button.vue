@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable vue/no-v-html -- author-controlled rich text */
 /**
  * @component Button
  * @description A versatile button component that can render as either a button or anchor tag.
@@ -21,6 +22,8 @@
  */
 import { computed } from 'vue'
 import { cva, css } from 'styled-system/css'
+
+defineOptions({ name: 'FyButton' })
 
 const props = withDefaults(defineProps<{
   label?: string | null
@@ -231,6 +234,7 @@ const buttonClass = computed(() => css(
       ]"
     />
 
+    <!-- eslint-disable-next-line vue/no-v-html -- button labels may include light markup -->
     <span
       v-if="props.label"
       class="btn-label"

@@ -5,7 +5,7 @@
  */
 import { computed, inject } from 'vue'
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import { fieldContextKey } from './context'
 import { switchStyles } from './switchStyles'
 import type { SwitchCss } from '../../components/Switch/types'
@@ -64,7 +64,7 @@ const handleUpdate = (value: boolean) => {
 <template>
   <component
     :is="label ? 'label' : 'div'"
-    :class="[css(styles.root, props.css?.root), props.class]"
+    :class="[pandaCss(styles.root, props.css?.root), props.class]"
     :data-disabled="disabled ? '' : undefined"
   >
     <SwitchRoot
@@ -76,14 +76,14 @@ const handleUpdate = (value: boolean) => {
       :aria-invalid="hasError"
       :aria-describedby="ariaDescribedBy"
       :data-invalid="hasError ? '' : undefined"
-      :class="css(styles.track, props.css?.track)"
+      :class="pandaCss(styles.track, props.css?.track)"
       @update:model-value="handleUpdate"
     >
-      <SwitchThumb :class="css(styles.thumb, props.css?.thumb)" />
+      <SwitchThumb :class="pandaCss(styles.thumb, props.css?.thumb)" />
     </SwitchRoot>
     <span
       v-if="label"
-      :class="css(styles.label, props.css?.label)"
+      :class="pandaCss(styles.label, props.css?.label)"
     >{{ label }}</span>
   </component>
 </template>

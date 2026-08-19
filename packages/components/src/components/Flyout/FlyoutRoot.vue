@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+/* eslint-disable vue/no-v-html -- author-controlled rich text */
 import { ref } from 'vue'
 import { useFlyout } from '../../composables/flyout'
-import { css } from 'styled-system/css'
+import { css, type Styles } from 'styled-system/css'
 import FlyoutDropdown from './FlyoutDropdown.vue'
 
 const el = ref<HTMLElement>()
@@ -10,7 +11,7 @@ export interface Props {
   icon?: string
   label?: string
   ariaLabel?: string
-  classTrigger?: any
+  classTrigger?: Styles | null
 }
 
 const props = defineProps<Props>()

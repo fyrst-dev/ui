@@ -25,8 +25,8 @@ export const tabStyles = sva({
         right: 'anchor(right)',
         bottom: 'anchor(bottom)',
         borderRadius: 'pill',
-        zIndex: '0'
-      }
+        zIndex: '0',
+      },
     },
     item: {
       display: 'inline-flex',
@@ -50,19 +50,19 @@ export const tabStyles = sva({
         cursor: 'not-allowed',
       },
       _hover: {
-        bgColor: 'grey.700'
+        bgColor: 'grey.700',
       },
       _active: {
         anchorName: '--active-tab',
         color: 'neutral.inverse',
         _hover: {
-          bgColor: 'transparent'
-        }
-      }
+          bgColor: 'transparent',
+        },
+      },
     },
     icon: {
-      fontSize: 'lg'
-    }
+      fontSize: 'lg',
+    },
   },
   defaultVariants: {
     state: 'inactive',

@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -- author-controlled rich text -->
   <div :class="cssClasses.root">
     <slot name="prepend" />
     <slot name="headline">

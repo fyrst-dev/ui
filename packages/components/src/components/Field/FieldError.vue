@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable vue/no-v-html -- author-controlled rich text */
 /**
  * @component FieldError
  * @description Error message for form fields. Reads from Field.Base context when message prop is omitted.

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { badgeStyles } from './styles'
-import {  css } from 'styled-system/css'
+import { css } from 'styled-system/css'
 
 const props = defineProps<{
   label: string

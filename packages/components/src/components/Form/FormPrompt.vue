@@ -6,7 +6,7 @@ export interface FormPromptProps {
   /** Action URL for the form submission */
   action: string
   /** HTTP method for the form submission */
-  method: 'get' | 'post'
+  method?: 'get' | 'post'
   /** ID attribute for the form */
   id: string
   /** Name attribute for the form */

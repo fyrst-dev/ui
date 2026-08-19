@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable vue/no-v-html -- accordion copy is author-controlled */
 import type { AccordionItem as AccordionItemProps } from './types'
 import { accordion as accordionStyles } from './styles'
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot as AccordionPrimitive, AccordionTrigger } from 'reka-ui'
@@ -10,12 +11,12 @@ const props = withDefaults(defineProps<{
   orientation?: 'vertical' | 'horizontal'
   size?: 'md' | 'lg'
   items: AccordionItemProps[]
-  classes?: any
+  classes?: { icon?: string | null }
 }>(), {
   type: 'multiple',
   orientation: 'vertical',
   size: 'md',
-  classes: {},
+  classes: () => ({}),
 })
 
 const accordionClasses = computed(() => accordionStyles({
@@ -30,55 +31,56 @@ const accordionClasses = computed(() => accordionStyles({
     :orientation="orientation"
     :class="accordionClasses.root"
   >
-    <AccordionItem
-      v-for="item in items"
-      v-if="items && items.length > 0"
-      :key="item.id"
-      :value="item.id"
-      :class="accordionClasses.item"
-    >
-      <AccordionHeader>
-        <AccordionTrigger
-          :class="accordionClasses.trigger"
+    <template v-if="items.length > 0">
+      <AccordionItem
+        v-for="item in items"
+        :key="item.id"
+        :value="item.id"
+        :class="accordionClasses.item"
+      >
+        <AccordionHeader>
+          <AccordionTrigger
+            :class="accordionClasses.trigger"
+          >
+            <slot
+              name="icon"
+              :item="item"
+            >
+              <span
+                v-if="item.icon"
+                :class="[
+                  `icon icon-${item.icon}`,
+                  classes?.icon || null,
+                ]"
+              />
+            </slot>
+            <span
+              :class="css({
+                flex: '1 0%',
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
+                textAlign: 'start',
+              })"
+              v-html="item.title"
+            />
+            <span
+              class="icon icon-caret-down-bold"
+              data-trigger="icon"
+            />
+          </AccordionTrigger>
+        </AccordionHeader>
+
+        <AccordionContent
+          :class="accordionClasses.content"
         >
           <slot
-            name="icon"
+            name="content"
             :item="item"
           >
-            <span
-              v-if="item.icon"
-              :class="[
-                `icon icon-${item.icon}`,
-                classes?.icon || null,
-              ]"
-            />
+            <div v-html="item.content" />
           </slot>
-          <span
-            :class="css({
-              flex: '1 0%',
-              whiteSpace: 'normal',
-              wordBreak: 'break-word',
-              textAlign: 'start',
-            })"
-            v-html="item.title"
-          />
-          <span
-            class="icon icon-caret-down-bold"
-            data-trigger="icon"
-          />
-        </AccordionTrigger>
-      </AccordionHeader>
-
-      <AccordionContent
-        :class="accordionClasses.content"
-      >
-        <slot
-          name="content"
-          :item="item"
-        >
-          <div v-html="item.content" />
-        </slot>
-      </AccordionContent>
-    </AccordionItem>
+        </AccordionContent>
+      </AccordionItem>
+    </template>
   </AccordionPrimitive>
 </template>

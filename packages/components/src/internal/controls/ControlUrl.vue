@@ -4,7 +4,7 @@
  * @description URL input group with clickable http(s) protocol prefix and paste sanitization.
  */
 import { computed, inject, ref, watch } from 'vue'
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import { fieldContextKey } from './context'
 import { urlStyles } from './urlStyles'
 import type { UrlCss } from './urlStyles'
@@ -119,7 +119,7 @@ const handleInput = (event: Event) => {
 </script>
 
 <template>
-  <div :class="[css(styles.root, props.css?.root), props.class]">
+  <div :class="[pandaCss(styles.root, props.css?.root), props.class]">
     <input
       v-if="name"
       type="hidden"
@@ -129,7 +129,7 @@ const handleInput = (event: Event) => {
 
     <button
       type="button"
-      :class="css(styles.protocol, props.css?.protocol)"
+      :class="pandaCss(styles.protocol, props.css?.protocol)"
       :disabled="disabled"
       :aria-label="`Toggle protocol, currently ${protocolLabel}`"
       @click="toggleProtocol"
@@ -146,7 +146,7 @@ const handleInput = (event: Event) => {
       :id="inputId"
       type="text"
       inputmode="url"
-      :class="css(styles.input, props.css?.input)"
+      :class="pandaCss(styles.input, props.css?.input)"
       :placeholder="placeholder || undefined"
       :value="hostPath"
       :disabled="disabled"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import { pricingCardStyles } from './styles'
 import { PricingCardStylesKey, PricingCardDataKey, type PricingCardData, type PricingCardHeaderCss } from './types'
 
@@ -29,15 +29,15 @@ const subtitle = computed(() => props.subtitle ?? data.value.subtitle)
 </script>
 
 <template>
-  <header :class="css(styles.header, props.css?.root)">
+  <header :class="pandaCss(styles.header, props.css?.root)">
     <slot name="prepend" />
     <slot>
-      <div :class="css(styles.headerPackage, props.css?.headerPackage)">
+      <div :class="pandaCss(styles.headerPackage, props.css?.headerPackage)">
         <slot name="title">
           <component
             :is="titleTag"
             v-if="title"
-            :class="css(styles.title, props.css?.title)"
+            :class="pandaCss(styles.title, props.css?.title)"
           >
             {{ title }}
           </component>
@@ -45,7 +45,7 @@ const subtitle = computed(() => props.subtitle ?? data.value.subtitle)
         <slot name="subtitle">
           <p
             v-if="subtitle"
-            :class="css(styles.subtitle, props.css?.subtitle)"
+            :class="pandaCss(styles.subtitle, props.css?.subtitle)"
           >
             {{ subtitle }}
           </p>

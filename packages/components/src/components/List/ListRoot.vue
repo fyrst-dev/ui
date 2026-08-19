@@ -1,6 +1,6 @@
 <template>
   <ul
-    :class="css(styles.list, props.css?.root)"
+    :class="pandaCss(styles.list, props.css?.root)"
   >
     <slot>
       <ListItem
@@ -19,7 +19,7 @@
 import { listStyles } from './styles'
 import { ListStylesKey, type ListRootCss } from './types'
 import { computed, provide } from 'vue'
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import ListItem, { type ListItemProps } from './ListItem.vue'
 
 const props = withDefaults(defineProps<{
