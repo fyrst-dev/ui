@@ -69,11 +69,33 @@ describe('published package contract', () => {
     expect(pkg.peerDependenciesMeta?.['reka-ui']?.optional).toBeUndefined()
   })
 
+  it('keeps root scripts to orchestration and daily commands', () => {
+    expect(Object.keys(pkg.scripts)).toEqual([
+      'lint',
+      'lint:fix',
+      'build',
+      'build:preset',
+      'build:components',
+      'build:nuxt',
+      'link:package',
+      'watch:preset',
+      'dev:components',
+      'dev:nuxt',
+      'dev:nuxt:prepare',
+      'dev:nuxt:build',
+      'test',
+      'prepublishOnly',
+      'clean',
+    ])
+  })
+
   it('builds the Nuxt module without the playground', () => {
     expect(pkg.scripts['build:nuxt']).toContain('prepack')
     expect(pkg.scripts['build:nuxt']).not.toContain('dev:build')
     expect(pkg.scripts['build:nuxt']).not.toContain('dev:prepare')
     expect(pkg.scripts['dev:nuxt:build']).toContain('dev:build')
+    expect(pkg.scripts['build:components']).toContain('dist/style.css')
+    expect(pkg.scripts['build:components']).toContain('dist/panda.buildinfo.json')
 
     const nuxtPkg = JSON.parse(readFileSync(join(rootDir, 'packages/nuxt/package.json'), 'utf8')) as {
       scripts: Record<string, string>

@@ -28,12 +28,13 @@ packages/
 ```bash
 bun run build              # Link @fyrst/ui, then build preset, components, nuxt prepack
 bun run build:preset        # Panda CSS preset
-bun run build:components    # Vue components
+bun run build:components    # Vue components + root dist exports
 bun run build:nuxt          # Nuxt module (prepack only; does not build playground)
 bun run link:package        # Symlink the root package to node_modules/@fyrst/ui (dev only)
-bun run watch:styled-system # Preset watch mode
+bun run watch:preset        # Preset watch mode
 bun run dev:components      # Components dev server
 bun run dev:nuxt            # Link @fyrst/ui, then Nuxt module playground
+bun run dev:nuxt:prepare    # Link @fyrst/ui, then stub/prepare the Nuxt module + playground
 bun run dev:nuxt:build      # Link @fyrst/ui, then build the Nuxt playground (dev check, not publish)
 bun run clean               # Clean all dist folders
 ```
