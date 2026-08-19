@@ -37,7 +37,7 @@
  * </Alert>
  */
 import { computed, useSlots } from 'vue'
-import { cx, type Styles } from 'styled-system/css'
+import { css, cx, type Styles } from 'styled-system/css'
 import { alertStyles } from './styles'
 import type { AlertMessage } from './types'
 
@@ -117,7 +117,7 @@ const handleDismiss = () => {
 <template>
   <div
     v-if="shouldRender"
-    :class="cx(classes.root, classRoot)"
+    :class="cx(classes.root, classRoot ? css(classRoot) : undefined)"
     :role="ariaRole"
   >
     <slot name="icon">
@@ -125,14 +125,14 @@ const handleDismiss = () => {
         :class="[
           'icon',
           `icon-${iconName}`,
-          cx(classes.icon, classIcon),
+          cx(classes.icon, classIcon ? css(classIcon) : undefined),
         ]"
         aria-hidden="true"
       />
     </slot>
 
     <!-- Content -->
-    <div :class="cx(classes.content, classContent)">
+    <div :class="cx(classes.content, classContent ? css(classContent) : undefined)">
       <!-- Messages -->
       <div
         v-for="(message, index) in messages"
@@ -155,7 +155,7 @@ const handleDismiss = () => {
     <button
       v-if="dismissible"
       type="button"
-      :class="cx(classes.close, classClose)"
+      :class="cx(classes.close, classClose ? css(classClose) : undefined)"
       aria-label="Dismiss alert"
       @click="handleDismiss"
     >
