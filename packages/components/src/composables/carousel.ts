@@ -1,40 +1,37 @@
 import { ref, computed, watch, onMounted, onUnmounted, type Slots, type Ref } from 'vue'
 
 /**
- * @todo #3
- * There is a bug in `viewPort` scrollmode where its impossible to scroll if the viewport is too small.
- * It seems that elements doesn't get the visible flag and this causes follow-up problems
- * @todo
- * `item` scrollmode is buggy, it doesn't scroll to the next item
- * @param props
- * @param carousel
- * @param slots
- * @returns {object}
+ * Carousel scrolling for `item` and `viewport` modes.
+ *
+ * Navigation uses the scroller's overflow geometry (`scrollTo` + item offsets),
+ * not IntersectionObserver visibility. Observer callbacks only toggle CSS
+ * classes — a `threshold` of `1` never marked items visible when the viewport
+ * was smaller than an item (issue #11).
  */
 export function useCarousel(props: { scrollMode: 'item' | 'viewport' }, carousel: Ref<HTMLElement | null>, slots: Slots) {
-  // Reactive state
   const carouselItems = ref<NodeListOf<HTMLElement> | null>(null)
   const currentCarouselItemIndex = ref<number>(0)
   const visibleCarouselItems = ref<HTMLElement[]>([])
   const scrollDirection = ref<'prev' | 'next' | null>(null)
   const itemsVisibilityObserver = ref<IntersectionObserver | null>(null)
 
-  // Constants and IntersectionObserver
   const options = {
     itemActiveClass: 'active',
     itemVisibleClass: 'visible',
   }
 
-  // Computed for active carousel item
+  const getItems = (): HTMLElement[] => Array.from(carouselItems.value ?? [])
+
   const carouselItem = computed(() => {
-    if ((carouselItems.value ?? []).length > 0) {
-      return carouselItems.value![currentCarouselItemIndex.value]
-    }
-    return null
+    const items = getItems()
+    if (items.length === 0) return null
+    return items[currentCarouselItemIndex.value] ?? null
   })
 
   const pages = computed(() => {
-    return Math.ceil((carouselItems.value?.length ?? 0) / visibleCarouselItems.value.length)
+    const visibleCount = visibleCarouselItems.value.length
+    if (visibleCount === 0) return 0
+    return Math.ceil((carouselItems.value?.length ?? 0) / visibleCount)
   })
 
   const allItemsVisible = computed(() => {
@@ -42,59 +39,85 @@ export function useCarousel(props: { scrollMode: 'item' | 'viewport' }, carousel
     return total > 0 && visibleCarouselItems.value.length === total
   })
 
-  // Watch active item changes to toggle active class
   watch(carouselItem, (newItem, oldItem) => {
     if (newItem) {
       newItem.classList.add(options.itemActiveClass)
     }
-    if (oldItem) {
+    if (oldItem && oldItem !== newItem) {
       oldItem.classList.remove(options.itemActiveClass)
     }
   })
 
-  // Helper to compute next/prev index based on visible items
-  const getOffsetCarouselItemIndex = (position: 'first' | 'last') => {
-    if (!carouselItems.value) return null
-    if (position === 'first') {
-      const firstVisibleItem = visibleCarouselItems.value[0]
-      return firstVisibleItem ? Array.from(carouselItems.value).indexOf(firstVisibleItem) - 1 : null
-    }
-    if (position === 'last') {
-      const lastVisibleItem = visibleCarouselItems.value[visibleCarouselItems.value.length - 1]
-      return lastVisibleItem ? Array.from(carouselItems.value).indexOf(lastVisibleItem) + 1 : null
-    }
-    return null
+  const isFullyVisible = (item: HTMLElement, scroller: HTMLElement) => {
+    const start = item.offsetLeft
+    const end = start + item.offsetWidth
+    const viewStart = scroller.scrollLeft
+    const viewEnd = viewStart + scroller.clientWidth
+    return start >= viewStart - 1 && end <= viewEnd + 1
   }
 
-  // Methods to scroll items or viewport
-  const scrollItem = () => {
-    const snapAlign = scrollDirection.value === 'next' ? 'end' : 'start'
-    const index = scrollDirection.value === 'next' ? currentCarouselItemIndex.value + 1 : currentCarouselItemIndex.value - 1
-    if (!carouselItems.value || carouselItems.value[index] === undefined) {
+  const scrollToIndex = (index: number) => {
+    const items = getItems()
+    const item = items[index]
+    const scroller = carousel.value
+    if (!item || !scroller) {
       console.warn('No more items to scroll', scrollDirection.value)
       return
     }
-    carouselItems.value[index].style.scrollSnapAlign = snapAlign
-    carouselItems.value[index].scrollIntoView({ behavior: 'smooth' })
+
+    scroller.scrollTo({ left: item.offsetLeft, behavior: 'smooth' })
     currentCarouselItemIndex.value = index
+  }
+
+  const getViewportTargetIndex = (direction: 'next' | 'prev'): number | null => {
+    const items = getItems()
+    const scroller = carousel.value
+    if (!scroller || items.length === 0) return null
+
+    const fullyVisible = items.filter(item => isFullyVisible(item, scroller))
+
+    if (direction === 'next') {
+      const lastFullyVisible = fullyVisible[fullyVisible.length - 1]
+      if (lastFullyVisible) {
+        const nextIndex = items.indexOf(lastFullyVisible) + 1
+        return nextIndex < items.length ? nextIndex : null
+      }
+
+      // Viewport is smaller than one item: nothing is fully visible, but we can
+      // still advance to the next overflowing item.
+      const viewStart = scroller.scrollLeft
+      const currentIndex = items.findIndex(item => item.offsetLeft + item.offsetWidth > viewStart)
+      const startIndex = currentIndex === -1 ? 0 : currentIndex
+      const nextIndex = startIndex + 1
+      return nextIndex < items.length ? nextIndex : null
+    }
+
+    const firstFullyVisible = fullyVisible[0]
+    if (firstFullyVisible) {
+      const prevIndex = items.indexOf(firstFullyVisible) - 1
+      return prevIndex >= 0 ? prevIndex : null
+    }
+
+    const viewStart = scroller.scrollLeft
+    const currentIndex = items.findIndex(item => item.offsetLeft + item.offsetWidth > viewStart)
+    const startIndex = currentIndex === -1 ? 0 : currentIndex
+    const prevIndex = startIndex - 1
+    return prevIndex >= 0 ? prevIndex : null
+  }
+
+  const scrollItem = () => {
+    const delta = scrollDirection.value === 'next' ? 1 : -1
+    scrollToIndex(currentCarouselItemIndex.value + delta)
   }
 
   const scrollViewport = () => {
-    const index = scrollDirection.value === 'prev' ? getOffsetCarouselItemIndex('first') : getOffsetCarouselItemIndex('last')
-
-    if (!carouselItems.value || !carouselItems.value.length) return
-
-    if (
-      index === null
-      || !carouselItems.value
-      || carouselItems.value[index] === undefined
-    ) {
+    const direction = scrollDirection.value === 'prev' ? 'prev' : 'next'
+    const index = getViewportTargetIndex(direction)
+    if (index === null) {
       console.warn('No more items to scroll', scrollDirection.value)
       return
     }
-
-    carouselItems.value[index].scrollIntoView({ behavior: 'smooth' })
-    currentCarouselItemIndex.value = index
+    scrollToIndex(index)
   }
 
   const handleNext = () => {
@@ -127,33 +150,35 @@ export function useCarousel(props: { scrollMode: 'item' | 'viewport' }, carousel
     event.deltaY > 0 ? handleNext() : handlePrev()
   }
 
-  // Lifecycle: setup and teardown
   onMounted(() => {
     carouselItems.value = slots.default ? carousel.value?.querySelectorAll(':scope > *') ?? null : null
-    itemsVisibilityObserver.value = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          (entry.target as HTMLElement).dataset.carouselVisibility = 'visible'
-          entry.target.classList.add(options.itemVisibleClass)
-        }
-        else {
-          delete (entry.target as HTMLElement).dataset.carouselVisibility
-          entry.target.classList.remove(options.itemVisibleClass)
-        }
-      })
-      visibleCarouselItems.value = Array.from(carouselItems.value ?? []).filter(item => item.dataset.carouselVisibility === 'visible')
-    }, {
-      root: carousel.value,
-      rootMargin: '0px',
-      threshold: 1,
-    })
 
-    if (carouselItems.value && itemsVisibilityObserver.value) {
-      carouselItems.value.forEach(item => itemsVisibilityObserver.value!.observe(item))
+    if (typeof IntersectionObserver !== 'undefined') {
+      itemsVisibilityObserver.value = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).dataset.carouselVisibility = 'visible'
+            entry.target.classList.add(options.itemVisibleClass)
+          }
+          else {
+            delete (entry.target as HTMLElement).dataset.carouselVisibility
+            entry.target.classList.remove(options.itemVisibleClass)
+          }
+        })
+        visibleCarouselItems.value = Array.from(carouselItems.value ?? []).filter(item => item.dataset.carouselVisibility === 'visible')
+      }, {
+        root: carousel.value,
+        rootMargin: '0px',
+        // `1` never intersected when the viewport was smaller than an item.
+        threshold: 0.01,
+      })
+
+      if (carouselItems.value && itemsVisibilityObserver.value) {
+        carouselItems.value.forEach(item => itemsVisibilityObserver.value!.observe(item))
+      }
     }
   })
   onUnmounted(() => {
-    carousel.value = null
     carouselItems.value = null
     currentCarouselItemIndex.value = 0
     if (itemsVisibilityObserver.value) itemsVisibilityObserver.value.disconnect()
