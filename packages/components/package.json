@@ -50,6 +50,8 @@
         "build": "bun run clean && bun run codegen && bun run build:icons && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
         "build:icons": "bun run build.icons",
         "dev": "vite dev",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "clean": "rm -rf dist"
     },
     "devDependencies": {
@@ -59,8 +61,11 @@
         "@iconify/utils": "^3.1.4",
         "@pandacss/studio": "^1.12.0",
         "@vitejs/plugin-vue": "^6.0.8",
+        "@vue/test-utils": "^2.4.6",
+        "happy-dom": "^20.0.0",
         "sass-embedded": "^1.102.0",
-        "vite": "^8.2.1"
+        "vite": "^8.2.1",
+        "vitest": "^4.1.10"
     },
     "peerDependencies": {
         "vue": "^3.5.41",
