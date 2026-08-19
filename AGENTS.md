@@ -178,7 +178,7 @@ export default { Badge }
 
 Publish the root `@fyrst/ui` package with `.github/workflows/publish.yml`. The Action authenticates with npm trusted publishing (OIDC). Do not add `NPM_TOKEN` or a bypass-2FA granular token.
 
-The first version must be published locally with `npm login` + 2FA, then attach the trusted publisher on npmjs.com (`fyrst-digital` / `ui` / `publish.yml`).
+The first version must be published locally with `npm login` + 2FA, then attach the trusted publisher on npmjs.com (`fyrst-dev` / `ui` / `publish.yml`).
 
 ## Key Dependencies
 

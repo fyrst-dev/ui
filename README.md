@@ -139,7 +139,7 @@ npm publish --access public --ignore-scripts
 ```
 
 4. On npmjs.com → `@fyrst/ui` → Settings → Trusted Publisher → GitHub Actions:
-   - Organization or user: `fyrst-digital`
+   - Organization or user: `fyrst-dev`
    - Repository: `ui`
    - Workflow filename: `publish.yml` (filename only, including `.yml`)
    - Environment name: leave empty
