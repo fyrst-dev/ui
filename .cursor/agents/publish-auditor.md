@@ -39,7 +39,7 @@ Confirm, or say build is needed:
 - Packed tarball (do not pack unless artifacts already exist; you may read test expectations): include `package/dist/style.css`, `package/dist/panda.buildinfo.json`, `package/packages/preset/dist/index.js`, `package/packages/nuxt/dist/module.mjs`, `package/packages/components/dist/vue/Button.js`, `package/packages/components/dist/nuxt-entries.json`.
 - Must **not** include `packages/components/dist/panda.buildinfo.json`, `packages/components/dist/ui-components.css`, or `packages/preset/css/`.
 
-Public subpaths that must resolve: `@fyrst/ui`, `@fyrst/ui/components`, `@fyrst/ui/design-preset`, `@fyrst/ui/preset`, `@fyrst/ui/nuxt`, `@fyrst/ui/style.css`, `@fyrst/ui/panda.buildinfo.json`.
+Public subpaths that must resolve: `@fyrst/ui`, `@fyrst/ui/components`, `@fyrst/ui/design-preset`, `@fyrst/ui/preset`, `@fyrst/ui/nuxt`, `@fyrst/ui/nuxt-entries.json`, `@fyrst/ui/vue/Button`, `@fyrst/ui/style.css`, `@fyrst/ui/panda.buildinfo.json`.
 
 Playground `panda.config.ts` must import `@fyrst/ui/design-preset`, not `@fyrst/design-preset`.
 

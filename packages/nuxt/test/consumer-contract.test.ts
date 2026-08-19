@@ -53,6 +53,7 @@ describe('published package contract', () => {
     peerDependenciesMeta?: Record<string, { optional?: boolean }>
     scripts: Record<string, string>
     files: string[]
+    exports: Record<string, unknown>
   }
 
   it('does not install @nuxt/kit for Vue-only consumers', () => {
@@ -112,6 +113,22 @@ describe('published package contract', () => {
 
     expect(pandaConfig).toContain("@fyrst/ui/design-preset")
     expect(pandaConfig).not.toContain('@fyrst/design-preset')
+  })
+
+  it('resolves Nuxt vue entries through public package exports', () => {
+    const moduleSrc = readFileSync(join(rootDir, 'packages/nuxt/src/module.ts'), 'utf8')
+
+    expect(pkg.scripts.test).toContain('link:package')
+    expect(pkg.exports['./nuxt-entries.json']).toBe('./packages/components/dist/nuxt-entries.json')
+    expect(pkg.exports['./vue/*']).toEqual({
+      import: './packages/components/dist/vue/*.js',
+      require: './packages/components/dist/vue/*.js',
+      default: './packages/components/dist/vue/*.js',
+    })
+    expect(moduleSrc).toContain('@fyrst/ui/nuxt-entries.json')
+    expect(moduleSrc).toContain('@fyrst/ui/vue/')
+    expect(moduleSrc).not.toContain('findFileFromModule')
+    expect(moduleSrc).not.toContain('packages/components/dist/nuxt-entries.json')
   })
 
   it('emits per-component Vue entries for Nuxt auto-imports', () => {
@@ -273,6 +290,8 @@ describe('packed install exports', () => {
         '@fyrst/ui/design-preset',
         '@fyrst/ui/preset',
         '@fyrst/ui/nuxt',
+        '@fyrst/ui/nuxt-entries.json',
+        '@fyrst/ui/vue/Button',
         '@fyrst/ui/style.css',
         '@fyrst/ui/panda.buildinfo.json',
       ]
@@ -299,6 +318,8 @@ describe('packed install exports', () => {
       expect(resolved['@fyrst/ui/design-preset']).toMatch(/index\.(js|cjs)$/)
       expect(resolved['@fyrst/ui/preset']).toMatch(/index\.(js|cjs)$/)
       expect(resolved['@fyrst/ui/nuxt']).toMatch(/module\.mjs$/)
+      expect(resolved['@fyrst/ui/nuxt-entries.json']).toMatch(/nuxt-entries\.json$/)
+      expect(resolved['@fyrst/ui/vue/Button']).toMatch(/vue\/Button\.js$/)
       expect(resolved['@fyrst/ui/style.css']).toMatch(/style\.css$/)
       expect(resolved['@fyrst/ui/panda.buildinfo.json']).toMatch(/panda\.buildinfo\.json$/)
     }
