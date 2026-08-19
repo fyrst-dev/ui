@@ -143,6 +143,27 @@ describe('published package contract', () => {
     expect(heroLead).not.toMatch(/\bh\s*=/)
   })
 
+  it('emits Vue types with vue-tsc only', () => {
+    const viteConfig = readFileSync(join(rootDir, 'packages/components/vite.config.ts'), 'utf8')
+    const componentsPkg = JSON.parse(readFileSync(join(rootDir, 'packages/components/package.json'), 'utf8')) as {
+      scripts: Record<string, string>
+    }
+    const rootPkg = JSON.parse(readFileSync(rootPackagePath, 'utf8')) as {
+      devDependencies?: Record<string, string>
+    }
+    const indexDtsPath = join(rootDir, 'packages/components/dist/index.d.ts')
+
+    expect(viteConfig).not.toContain('vite-plugin-dts')
+    expect(rootPkg.devDependencies?.['vite-plugin-dts']).toBeUndefined()
+    expect(componentsPkg.scripts.build).toContain('vue-tsc --emitDeclarationOnly')
+    expect(existsSync(indexDtsPath)).toBe(true)
+    expect(existsSync(join(rootDir, 'packages/components/dist/AccordionRoot.d.ts'))).toBe(false)
+
+    const indexDts = readFileSync(indexDtsPath, 'utf8')
+    expect(indexDts).toContain('./vue-components')
+    expect(indexDts).not.toContain('.vue.js')
+  })
+
   it('publishes from GitHub Actions with npm trusted publishing', () => {
     const workflow = readFileSync(
       join(rootDir, '.github/workflows/publish.yml'),
@@ -219,7 +240,9 @@ describe('packed install exports', () => {
       expect(packedFiles).toContain('package/packages/preset/dist/index.js')
       expect(packedFiles).toContain('package/packages/nuxt/dist/module.mjs')
       expect(packedFiles).toContain('package/packages/components/dist/vue/Button.js')
+      expect(packedFiles).toContain('package/packages/components/dist/index.d.ts')
       expect(packedFiles).toContain('package/packages/components/dist/nuxt-entries.json')
+      expect(packedFiles).not.toContain('package/packages/components/dist/AccordionRoot.d.ts')
       expect(packedFiles).not.toContain('package/packages/components/dist/panda.buildinfo.json')
       expect(packedFiles).not.toContain('package/packages/components/dist/ui-components.css')
       expect(packedFiles.some(file => file.includes('packages/preset/types/csstype'))).toBe(false)
