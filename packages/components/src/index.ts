@@ -4,6 +4,8 @@ export * from './vue-components'
 export { FyrstUI, FyrstUI as default } from './plugin'
 
 export { default as Accordion } from './components/Accordion'
+export { default as Alert } from './components/Alert'
+export { default as Badge } from './components/Badge'
 export { default as Card } from './components/Card'
 export { default as Carousel } from './components/Carousel'
 export { default as Dialog } from './components/Dialog'
@@ -15,26 +17,11 @@ export { default as List } from './components/List'
 export { default as PricingCard } from './components/PricingCard'
 export { default as Progress } from './components/Progress'
 export { default as Switch } from './components/Switch'
-export { default as Control } from './internal/controls'
-export {
-  ControlInput,
-  ControlTextarea,
-  ControlSelect,
-  ControlCheckbox,
-  ControlRadioGroup,
-  ControlSwitch,
-  ControlUrl,
-  fieldContextKey,
-  controlStyles,
-  switchStyles,
-  urlStyles,
-  parseUrlValue,
-  sanitizeHostPathInput,
-  joinUrl,
-} from './internal/controls'
+export { default as Tab } from './components/Tab'
 
 export type { AccordionItem } from './components/Accordion'
 export type { AlertMessage } from './components/Alert'
+export type { FieldOption } from './components/Field'
 export type {
   PricingCardData,
   PricingCardRootCss,
@@ -45,7 +32,6 @@ export type {
 } from './components/PricingCard'
 export type { ListRootCss, ListItemCss } from './components/List'
 export type { TabItemData, TabChangePayload } from './components/Tab'
-export type { ControlSize, ControlValid, FieldOption, UrlProtocol, UrlCss, UrlCssMap, UrlStyles, FieldContext } from './internal/controls'
 export type { SwitchCss, SwitchCssMap, SwitchStyles } from './components/Switch'
 export type {
   ProgressColor,

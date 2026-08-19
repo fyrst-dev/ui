@@ -1,10 +1,8 @@
-import Alert from './AlertRoot.vue'
-// Named exports for direct imports
+import AlertRoot from './AlertRoot.vue'
 
-export { Alert }
+export { AlertRoot }
 export type { AlertMessage } from './types'
 
-// Default export for namespaced usage
 export default {
-  Root: Alert,
+  Root: AlertRoot,
 }

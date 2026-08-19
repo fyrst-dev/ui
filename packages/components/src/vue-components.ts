@@ -1,7 +1,7 @@
 export { AccordionRoot } from './components/Accordion'
-export { Alert, Alert as AlertRoot } from './components/Alert'
-export { BadgeRoot, BadgeRoot as Badge } from './components/Badge'
-export { default as Button } from './components/Button.vue'
+export { AlertRoot } from './components/Alert'
+export { BadgeRoot } from './components/Badge'
+export { Button } from './components/Button'
 export { CardRoot, CardBody, CardHeader } from './components/Card'
 export { CarouselRoot, CarouselItem, CarouselNavigation } from './components/Carousel'
 export { DialogRoot } from './components/Dialog'
@@ -23,7 +23,7 @@ export { FlyoutRoot, FlyoutDropdown } from './components/Flyout'
 export { FormPrompt, FormPromptFooter } from './components/Form'
 export { HeroLead } from './components/Hero'
 export { ListRoot, ListItem } from './components/List'
-export { default as Loader } from './components/Loader.vue'
+export { Loader } from './components/Loader'
 export {
   PricingCardRoot,
   PricingCardHeader,
@@ -33,4 +33,4 @@ export {
 } from './components/PricingCard'
 export { ProgressRoot } from './components/Progress'
 export { SwitchRoot } from './components/Switch'
-export { Tab, Tab as TabRoot, TabItem } from './components/Tab'
+export { TabRoot, TabItem } from './components/Tab'

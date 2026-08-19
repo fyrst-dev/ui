@@ -1,26 +1,26 @@
 <template>
     <ShowcaseContainer>
-        <FyrstAlert 
+        <FyrstAlertRoot 
             :messages="[{
                 title: 'test',
                 description: 'this is a test alert'
             }]"
         />
-        <FyrstAlert 
+        <FyrstAlertRoot 
             variant="danger"
             :messages="[{
                 title: 'test',
                 description: 'this is a test alert'
             }]"
         />
-        <FyrstAlert 
+        <FyrstAlertRoot 
             variant="success"
             :messages="[{
                 title: 'test',
                 description: 'this is a test alert'
             }]"
         />
-        <FyrstAlert 
+        <FyrstAlertRoot 
             variant="warning"
             border-size="xl"
             :messages="[{

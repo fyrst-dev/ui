@@ -26,6 +26,8 @@ export {
   FieldRequired,
 }
 
+export type { FieldOption } from '../../internal/controls/types'
+
 export default {
   Input: FieldInput,
   Textarea: FieldTextarea,

@@ -1,10 +1,10 @@
-import Tab from './Tab.vue'
+import TabRoot from './TabRoot.vue'
 import TabItem from './TabItem.vue'
 
-export { Tab, TabItem }
+export { TabRoot, TabItem }
 export type { TabItemData, TabChangePayload } from './types'
 
 export default {
-  Root: Tab,
+  Root: TabRoot,
   Item: TabItem,
 }

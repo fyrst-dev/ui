@@ -113,7 +113,15 @@ New components using CVA (or SVA for multi-slot) must follow this pattern:
 **1. Create component folder** (e.g., `packages/components/src/components/Badge/`):
 ```
 Badge/
-├── Badge.vue
+├── BadgeRoot.vue
+├── styles.ts
+└── index.ts
+```
+
+Standalone exceptions (`Button`, `Loader`) keep those public names (not `ButtonRoot` / `LoaderRoot`) but still use a folder + `styles.ts`:
+```
+Button/
+├── Button.vue
 ├── styles.ts
 └── index.ts
 ```
@@ -130,16 +138,17 @@ export const badgeStyles = cva({
 })
 ```
 
-**3. Component.vue** - Use computed with `.raw()`:
+**3. Component.vue** - Use computed with `.raw()` (typically wrapped in `css(...)`):
 ```typescript
 import { computed } from 'vue'
+import { css } from 'styled-system/css'
 import { badgeStyles } from './styles'
 
 const props = defineProps<{ ... }>()
 
-const badgeClass = computed(() =>
+const badgeClass = computed(() => css(
   badgeStyles.raw({ color: props.color, size: props.size }),
-)
+))
 ```
 
 ```vue
@@ -148,12 +157,16 @@ const badgeClass = computed(() =>
 </template>
 ```
 
-**4. index.ts** - Export component:
+**4. index.ts** - Named parts plus default namespace `{ Root, … }`:
 ```typescript
-import Badge from './Badge.vue'
-export { Badge }
-export default { Badge }
+import BadgeRoot from './BadgeRoot.vue'
+export { BadgeRoot }
+export default { Root: BadgeRoot }
 ```
+
+Register the same named exports in `vue-components.ts` and `vue-entries.ts` (`vueLibEntries` and `nuxtComponents` are 1:1; no alias table). `Button` / `Loader` export the SFC by those names and do not use a `{ Root }` namespace.
+
+Do not export `Control*` from `@fyrst/ui`. Bare controls stay under `src/internal/controls/` for Field/Switch. Public form API is `Field.*` / `FyrstField*`. Re-export `FieldOption` from Field.
 
 ### Panda CSS
 
