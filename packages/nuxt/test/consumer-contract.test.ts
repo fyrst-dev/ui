@@ -120,6 +120,8 @@ describe('published package contract', () => {
     expect(pandaConfig).toContain('@fyrst/ui/design-preset')
     expect(pandaConfig).toContain('@fyrst/ui/panda.buildinfo.json')
     expect(pandaConfig).toContain('require.resolve')
+    expect(pandaConfig).toContain("resolve(process.cwd(), 'panda.config.ts')")
+    expect(pandaConfig).not.toContain('createRequire(import.meta.url)')
     expect(pandaConfig).not.toContain('@fyrst/design-preset')
     expect(pandaConfig).not.toContain('node_modules/@fyrst/ui/dist/panda.buildinfo.json')
   })
