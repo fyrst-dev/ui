@@ -42,7 +42,11 @@ function removeMatching(dir: string, shouldRemove: (name: string, absolutePath: 
 
 copyDirContents(join(rootDir, 'packages/components/dist'), distDir)
 copyDirContents(join(rootDir, 'packages/preset/dist'), join(distDir, 'preset'))
-copyDirContents(join(rootDir, 'packages/nuxt/dist'), join(distDir, 'nuxt'))
+
+const nuxtDist = join(rootDir, 'packages/nuxt/dist')
+if (existsSync(nuxtDist)) {
+  copyDirContents(nuxtDist, join(distDir, 'nuxt'))
+}
 
 removeMatching(distDir, (name, absolutePath) => {
   if (name.endsWith('.d.ts.map')) {
