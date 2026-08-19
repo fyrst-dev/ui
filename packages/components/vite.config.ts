@@ -2,7 +2,6 @@ import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import dts from 'vite-plugin-dts'
 import { nuxtComponents, nuxtComposables, vueLibEntries } from './vue-entries.ts'
 
 const root = import.meta.dirname
@@ -24,11 +23,6 @@ const entry = {
 export default defineConfig({
   plugins: [
     vue(),
-    dts({
-      insertTypesEntry: true,
-      include: ['src/**/*'],
-      exclude: ['src/**/*.test.*', 'src/**/*.spec.*'],
-    }),
     {
       name: 'fyrst-nuxt-entries',
       closeBundle() {
