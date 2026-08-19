@@ -88,6 +88,8 @@ describe('published package contract', () => {
       'prepublishOnly',
       'clean',
     ])
+    expect(pkg.scripts.test).toContain('link:package')
+    expect(pkg.scripts.test).toContain('@fyrst/ui-components')
   })
 
   it('builds the Nuxt module without the playground', () => {

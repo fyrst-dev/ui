@@ -92,7 +92,7 @@
     "dev:nuxt": "bun run link:package && bun run --filter='@fyrst/ui-nuxt' dev",
     "dev:nuxt:prepare": "bun run link:package && bun run --filter='@fyrst/ui-nuxt' dev:prepare",
     "dev:nuxt:build": "bun run dev:nuxt:prepare && bun run --filter='@fyrst/ui-nuxt' dev:build",
-    "test": "bun run link:package && bun run --filter='@fyrst/ui-nuxt' test",
+    "test": "bun run link:package && bun run --filter='@fyrst/ui-components' test && bun run --filter='@fyrst/ui-nuxt' test",
     "prepublishOnly": "bun run build",
     "clean": "rm -rf packages/*/dist dist"
   },
