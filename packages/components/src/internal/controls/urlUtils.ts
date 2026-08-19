@@ -3,7 +3,7 @@ export type UrlProtocol = 'http' | 'https'
 export function parseUrlValue(
   value: string | null | undefined,
   defaultProtocol: UrlProtocol = 'https',
-): { protocol: UrlProtocol; hostPath: string } {
+): { protocol: UrlProtocol, hostPath: string } {
   const raw = (value ?? '').trim()
   if (!raw) {
     return { protocol: defaultProtocol, hostPath: '' }

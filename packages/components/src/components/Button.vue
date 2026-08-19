@@ -22,6 +22,8 @@
 import { computed } from 'vue'
 import { cva, css } from 'styled-system/css'
 
+defineOptions({ name: 'FyButton' })
+
 const props = withDefaults(defineProps<{
   label?: string | null
   icon?: string | null

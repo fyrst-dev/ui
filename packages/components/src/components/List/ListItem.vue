@@ -1,7 +1,7 @@
 <template>
-  <li :class="css(styles.item, props.css?.root)">
+  <li :class="pandaCss(styles.item, props.css?.root)">
     <slot name="marker">
-      <span :class="css(styles.marker, props.css?.marker)">
+      <span :class="pandaCss(styles.marker, props.css?.marker)">
         <span
           v-if="typeof icon === 'string'"
           :class="`icon icon-${icon}`"
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import { inject, computed } from 'vue'
 import { listStyles } from './styles'
 import { ListStylesKey, type ListItemCss } from './types'
@@ -56,7 +56,9 @@ const icon = computed(() => {
   }
 
   if (props.state) {
-    return iconMaps[props.state || 'default']
+    return iconMaps[props.state] ?? iconMaps.default
   }
+
+  return iconMaps.default
 })
 </script>

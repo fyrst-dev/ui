@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import { pricingCardStyles } from './styles'
 import { PricingCardStylesKey, PricingCardDataKey, type PricingCardData, type PricingCardPricingCss } from './types'
 
@@ -25,12 +25,12 @@ const price = computed(() => props.price ?? data.value.price)
 </script>
 
 <template>
-  <div :class="css(styles.pricing, props.css?.root)">
+  <div :class="pandaCss(styles.pricing, props.css?.root)">
     <slot>
       <slot name="price">
         <span
           v-if="price"
-          :class="css(styles.price, props.css?.price)"
+          :class="pandaCss(styles.price, props.css?.price)"
         >
           {{ price }}
         </span>

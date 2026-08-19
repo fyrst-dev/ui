@@ -9,10 +9,10 @@
  * @prop {AlertMessage[]} [messages=[]] - Array of message objects to display.
  * @prop {boolean} [dismissible=false] - Whether the alert can be dismissed.
  * @prop {'alert'|'status'} [role] - ARIA role. Defaults to 'alert' for danger/warning, 'status' for info/success.
- * @prop {any} [classRoot] - Custom classes for the root element.
- * @prop {any} [classIcon] - Custom classes for the icon wrapper.
- * @prop {any} [classContent] - Custom classes for the content wrapper.
- * @prop {any} [classClose] - Custom classes for the close button.
+ * @prop {Styles|null} [classRoot] - Custom classes for the root element.
+ * @prop {Styles|null} [classIcon] - Custom classes for the icon wrapper.
+ * @prop {Styles|null} [classContent] - Custom classes for the content wrapper.
+ * @prop {Styles|null} [classClose] - Custom classes for the close button.
  *
  * @slot icon - Override the default variant icon.
  *
@@ -37,7 +37,7 @@
  * </Alert>
  */
 import { computed, useSlots } from 'vue'
-import { cx } from 'styled-system/css'
+import { css, cx, type Styles } from 'styled-system/css'
 import { alertStyles } from './styles'
 import type { AlertMessage } from './types'
 
@@ -52,10 +52,10 @@ export interface Props {
   messages?: AlertMessage[]
   dismissible?: boolean
   role?: 'alert' | 'status'
-  classRoot?: any
-  classIcon?: any
-  classContent?: any
-  classClose?: any
+  classRoot?: Styles | null
+  classIcon?: Styles | null
+  classContent?: Styles | null
+  classClose?: Styles | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -117,7 +117,7 @@ const handleDismiss = () => {
 <template>
   <div
     v-if="shouldRender"
-    :class="cx(classes.root, classRoot)"
+    :class="cx(classes.root, classRoot ? css(classRoot) : undefined)"
     :role="ariaRole"
   >
     <slot name="icon">
@@ -125,14 +125,14 @@ const handleDismiss = () => {
         :class="[
           'icon',
           `icon-${iconName}`,
-          cx(classes.icon, classIcon),
+          cx(classes.icon, classIcon ? css(classIcon) : undefined),
         ]"
         aria-hidden="true"
       />
     </slot>
 
     <!-- Content -->
-    <div :class="cx(classes.content, classContent)">
+    <div :class="cx(classes.content, classContent ? css(classContent) : undefined)">
       <!-- Messages -->
       <div
         v-for="(message, index) in messages"
@@ -155,7 +155,7 @@ const handleDismiss = () => {
     <button
       v-if="dismissible"
       type="button"
-      :class="cx(classes.close, classClose)"
+      :class="cx(classes.close, classClose ? css(classClose) : undefined)"
       aria-label="Dismiss alert"
       @click="handleDismiss"
     >

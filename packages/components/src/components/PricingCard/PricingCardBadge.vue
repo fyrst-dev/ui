@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import { pricingCardStyles } from './styles'
 import { PricingCardStylesKey, type PricingCardBadgeCss } from './types'
 
@@ -20,7 +20,7 @@ const styles = inject(
 </script>
 
 <template>
-  <div :class="css(styles.badge, props.css?.root)">
+  <div :class="pandaCss(styles.badge, props.css?.root)">
     <slot>
       <template v-if="props.label">
         {{ props.label }}

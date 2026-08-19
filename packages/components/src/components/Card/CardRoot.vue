@@ -43,7 +43,7 @@ const styles = computed(() =>
 )
 
 const inlineStyles = computed(() => {
-  const styles: any = {
+  const styles: Record<string, string> = {
     '--card-border-size': `${props.borderSize}px`,
   }
 

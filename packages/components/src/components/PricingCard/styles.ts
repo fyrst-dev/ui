@@ -31,8 +31,8 @@ export const pricingCardStyles = sva({
       outlineColor: 'transparent',
       transition: 'all 300ms',
       _hover: {
-        borderColor: 'primary'
-      }
+        borderColor: 'primary',
+      },
     },
     header: {
       display: 'flex',

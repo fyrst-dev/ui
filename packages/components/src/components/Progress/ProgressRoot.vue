@@ -5,7 +5,7 @@
  */
 import { computed } from 'vue'
 import { ProgressIndicator, ProgressRoot } from 'reka-ui'
-import { css } from 'styled-system/css'
+import { css as pandaCss } from 'styled-system/css'
 import { progressStyles } from './styles'
 import type { ProgressColor, ProgressCss, ProgressSize } from './types'
 
@@ -53,11 +53,11 @@ const displayValue = computed(() => {
 
 <template>
   <div
-    :class="[css(styles.root, props.css?.root), props.class]"
+    :class="[pandaCss(styles.root, props.css?.root), props.class]"
   >
     <div
       v-if="showValue"
-      :class="css(styles.value, props.css?.value)"
+      :class="pandaCss(styles.value, props.css?.value)"
     >
       <slot
         name="value"
@@ -74,12 +74,12 @@ const displayValue = computed(() => {
       :max="max"
       :get-value-label="getValueLabel"
       :get-value-text="getValueText"
-      :class="css(styles.track, props.css?.track)"
+      :class="pandaCss(styles.track, props.css?.track)"
       :style="{
         '--progress-value': isIndeterminate ? undefined : `${percentage}%`,
       }"
     >
-      <ProgressIndicator :class="css(styles.indicator, props.css?.indicator)" />
+      <ProgressIndicator :class="pandaCss(styles.indicator, props.css?.indicator)" />
       <slot
         :model-value="modelValue"
         :max="max"

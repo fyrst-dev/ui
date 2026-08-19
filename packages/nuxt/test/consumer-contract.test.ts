@@ -102,9 +102,12 @@ describe('published package contract', () => {
 
     const nuxtPkg = JSON.parse(readFileSync(join(rootDir, 'packages/nuxt/package.json'), 'utf8')) as {
       scripts: Record<string, string>
+      dependencies?: Record<string, string>
     }
     expect(nuxtPkg.scripts.prepack).toContain('nuxt-module-build prepare')
     expect(nuxtPkg.scripts.prepack).toContain('nuxt-module-build build')
+    expect(nuxtPkg.dependencies?.['@fyrst/design-preset']).toBeUndefined()
+    expect(nuxtPkg.dependencies?.['@fyrst/ui-components']).toBeUndefined()
   })
 
   it('playground dogfoods the public preset import', () => {
@@ -113,8 +116,11 @@ describe('published package contract', () => {
       'utf8',
     )
 
-    expect(pandaConfig).toContain("@fyrst/ui/design-preset")
+    expect(pandaConfig).toContain('@fyrst/ui/design-preset')
+    expect(pandaConfig).toContain('@fyrst/ui/panda.buildinfo.json')
+    expect(pandaConfig).toContain('require.resolve')
     expect(pandaConfig).not.toContain('@fyrst/design-preset')
+    expect(pandaConfig).not.toContain('node_modules/@fyrst/ui/dist/panda.buildinfo.json')
   })
 
   it('resolves Nuxt vue entries through public package exports', () => {
@@ -129,6 +135,9 @@ describe('published package contract', () => {
     })
     expect(moduleSrc).toContain('@fyrst/ui/nuxt-entries.json')
     expect(moduleSrc).toContain('@fyrst/ui/vue/')
+    expect(moduleSrc).toContain('@fyrst/ui/panda.buildinfo.json')
+    expect(moduleSrc).toContain('warnIfPandaSetupLooksMissing')
+    expect(moduleSrc).toContain('@pandacss/dev/postcss')
     expect(moduleSrc).not.toContain('findFileFromModule')
     expect(moduleSrc).not.toContain('packages/components/dist/nuxt-entries.json')
   })
@@ -196,16 +205,16 @@ describe('published package contract', () => {
     expect(workflow).not.toContain('bun publish')
   })
 
-  it('runs build and test on pull requests', () => {
+  it('runs lint, build, and test on pull requests', () => {
     const workflow = readFileSync(
       join(rootDir, '.github/workflows/ci.yml'),
       'utf8',
     )
 
     expect(workflow).toContain('pull_request')
+    expect(workflow).toContain('bun run lint')
     expect(workflow).toContain('bun run build')
     expect(workflow).toContain('bun run test')
-    expect(workflow).not.toContain('bun run lint')
     expect(workflow).not.toContain('test:types')
   })
 

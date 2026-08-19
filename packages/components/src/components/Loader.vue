@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { css } from 'styled-system/css'
 
+defineOptions({ name: 'FyLoader' })
+
 withDefaults(defineProps<{
   size?: number
   label?: string
