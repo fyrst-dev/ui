@@ -1,8 +1,8 @@
 export const vueLibEntries = {
   AccordionRoot: 'src/components/Accordion/AccordionRoot.vue',
-  Alert: 'src/components/Alert/AlertRoot.vue',
-  Badge: 'src/components/Badge/BadgeRoot.vue',
-  Button: 'src/components/Button.vue',
+  AlertRoot: 'src/components/Alert/AlertRoot.vue',
+  BadgeRoot: 'src/components/Badge/BadgeRoot.vue',
+  Button: 'src/components/Button/Button.vue',
   CardRoot: 'src/components/Card/CardRoot.vue',
   CardBody: 'src/components/Card/CardBody.vue',
   CardHeader: 'src/components/Card/CardHeader.vue',
@@ -29,7 +29,7 @@ export const vueLibEntries = {
   HeroLead: 'src/components/Hero/HeroLead.vue',
   ListRoot: 'src/components/List/ListRoot.vue',
   ListItem: 'src/components/List/ListItem.vue',
-  Loader: 'src/components/Loader.vue',
+  Loader: 'src/components/Loader/Loader.vue',
   PricingCardRoot: 'src/components/PricingCard/PricingCardRoot.vue',
   PricingCardHeader: 'src/components/PricingCard/PricingCardHeader.vue',
   PricingCardPricing: 'src/components/PricingCard/PricingCardPricing.vue',
@@ -37,7 +37,7 @@ export const vueLibEntries = {
   PricingCardBadge: 'src/components/PricingCard/PricingCardBadge.vue',
   ProgressRoot: 'src/components/Progress/ProgressRoot.vue',
   SwitchRoot: 'src/components/Switch/SwitchRoot.vue',
-  Tab: 'src/components/Tab/Tab.vue',
+  TabRoot: 'src/components/Tab/TabRoot.vue',
   TabItem: 'src/components/Tab/TabItem.vue',
   useCarousel: 'src/composables/carousel.ts',
   useFlyout: 'src/composables/flyout.ts',
@@ -48,10 +48,8 @@ export type VueLibEntryName = keyof typeof vueLibEntries
 
 export const nuxtComponents: Record<string, VueLibEntryName> = {
   AccordionRoot: 'AccordionRoot',
-  Alert: 'Alert',
-  AlertRoot: 'Alert',
-  Badge: 'Badge',
-  BadgeRoot: 'Badge',
+  AlertRoot: 'AlertRoot',
+  BadgeRoot: 'BadgeRoot',
   Button: 'Button',
   CardRoot: 'CardRoot',
   CardBody: 'CardBody',
@@ -87,8 +85,7 @@ export const nuxtComponents: Record<string, VueLibEntryName> = {
   PricingCardBadge: 'PricingCardBadge',
   ProgressRoot: 'ProgressRoot',
   SwitchRoot: 'SwitchRoot',
-  Tab: 'Tab',
-  TabRoot: 'Tab',
+  TabRoot: 'TabRoot',
   TabItem: 'TabItem',
 }
 

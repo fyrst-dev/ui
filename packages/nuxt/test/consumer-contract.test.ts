@@ -120,6 +120,8 @@ describe('published package contract', () => {
     expect(pandaConfig).toContain('@fyrst/ui/design-preset')
     expect(pandaConfig).toContain('@fyrst/ui/panda.buildinfo.json')
     expect(pandaConfig).toContain('require.resolve')
+    expect(pandaConfig).toContain("resolve(process.cwd(), 'panda.config.ts')")
+    expect(pandaConfig).not.toContain('createRequire(import.meta.url)')
     expect(pandaConfig).not.toContain('@fyrst/design-preset')
     expect(pandaConfig).not.toContain('node_modules/@fyrst/ui/dist/panda.buildinfo.json')
   })
@@ -174,8 +176,19 @@ describe('published package contract', () => {
       components: Record<string, string>
     }
     expect(entries.components.Button).toBe('Button')
-    expect(entries.components.AlertRoot).toBe('Alert')
-    expect(entries.components.TabRoot).toBe('Tab')
+    expect(entries.components.AlertRoot).toBe('AlertRoot')
+    expect(entries.components.BadgeRoot).toBe('BadgeRoot')
+    expect(entries.components.TabRoot).toBe('TabRoot')
+    expect(entries.components.Alert).toBeUndefined()
+    expect(entries.components.Badge).toBeUndefined()
+    expect(entries.components.Tab).toBeUndefined()
+
+    expect(existsSync(join(rootDir, 'packages/components/dist/vue/AlertRoot.js'))).toBe(true)
+    expect(existsSync(join(rootDir, 'packages/components/dist/vue/Alert.js'))).toBe(false)
+    expect(existsSync(join(rootDir, 'packages/components/dist/vue/BadgeRoot.js'))).toBe(true)
+    expect(existsSync(join(rootDir, 'packages/components/dist/vue/Badge.js'))).toBe(false)
+    expect(existsSync(join(rootDir, 'packages/components/dist/vue/TabRoot.js'))).toBe(true)
+    expect(existsSync(join(rootDir, 'packages/components/dist/vue/Tab.js'))).toBe(false)
   })
 
   it('does not minify vue lib identifiers that collide with Vue auto-imports', () => {
@@ -204,8 +217,26 @@ describe('published package contract', () => {
     expect(existsSync(join(rootDir, 'packages/components/dist/AccordionRoot.d.ts'))).toBe(false)
 
     const indexDts = readFileSync(indexDtsPath, 'utf8')
+    const vueComponentsDts = readFileSync(
+      join(rootDir, 'packages/components/dist/vue-components.d.ts'),
+      'utf8',
+    )
     expect(indexDts).toContain('./vue-components')
     expect(indexDts).not.toContain('.vue.js')
+    expect(indexDts).toContain('FieldOption')
+    expect(indexDts).toContain('export { default as Alert }')
+    expect(indexDts).toContain('export { default as Badge }')
+    expect(indexDts).toContain('export { default as Tab }')
+    expect(vueComponentsDts).toContain('AlertRoot')
+    expect(vueComponentsDts).toContain('BadgeRoot')
+    expect(vueComponentsDts).toContain('TabRoot')
+    expect(vueComponentsDts).not.toMatch(/Alert as AlertRoot/)
+    expect(vueComponentsDts).not.toMatch(/BadgeRoot as Badge/)
+    expect(vueComponentsDts).not.toMatch(/Tab as TabRoot/)
+    expect(indexDts).not.toMatch(/\bControlInput\b/)
+    expect(indexDts).not.toMatch(/\bfieldContextKey\b/)
+    expect(indexDts).not.toMatch(/export \{ default as Control \}/)
+    expect(indexDts).not.toMatch(/\bControlSize\b/)
   })
 
   it('publishes from GitHub Actions with npm trusted publishing', () => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * @component Alert
+ * @component AlertRoot
  * @description A versatile alert component for displaying important messages to users.
  * Supports multiple variants (danger, success, info, warning), dismissible functionality,
  * and can display multiple messages with optional titles.
@@ -19,7 +19,7 @@
  * @emits dismiss - Emitted when the close button is clicked.
  *
  * @example
- * <Alert
+ * <AlertRoot
  *   variant="danger"
  *   :messages="[
  *     { title: 'Error occurred', description: 'Please try again later.' },
@@ -30,11 +30,11 @@
  * />
  *
  * @example
- * <Alert variant="success" :messages="[{ description: 'Saved successfully!' }]">
+ * <Alert.Root variant="success" :messages="[{ description: 'Saved successfully!' }]">
  *   <template #icon>
  *     <CustomIcon />
  *   </template>
- * </Alert>
+ * </Alert.Root>
  */
 import { computed, useSlots } from 'vue'
 import { css, cx, type Styles } from 'styled-system/css'

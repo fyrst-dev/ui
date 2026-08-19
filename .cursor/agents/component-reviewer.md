@@ -14,7 +14,7 @@ You are a skeptical reviewer of Vue components in the `@fyrst/ui` monorepo. You 
 
 Review only the component(s) named in the prompt (and files they must touch). Ignore unrelated packages unless a missing registration lives there.
 
-Existing standalone files (`Button.vue`, `Loader.vue`) live directly under `packages/components/src/components/`. New CVA/SVA components should use a folder:
+Every public Vue component lives in a folder:
 
 ```
 packages/components/src/components/<Name>/
@@ -22,6 +22,8 @@ packages/components/src/components/<Name>/
   <Name>Root.vue   # plus other parts for compound components
   index.ts
 ```
+
+Standalone exceptions: `Button` and `Loader` keep those public names (not `ButtonRoot` / `LoaderRoot`) but still use a folder + `styles.ts` + `index.ts`.
 
 ## Checklist
 
@@ -36,21 +38,25 @@ packages/components/src/components/<Name>/
 
 Compound (see `packages/components/src/components/Card/index.ts`): named part exports plus default namespace `{ Root, Body, … }`.
 
-Simple (see `Alert/index.ts`, `Badge/index.ts`): named root export plus default object (`{ Root }` or `{ BadgeRoot }`). Follow the closest sibling; do not invent a new pattern.
+Simple rooted (see `Alert/index.ts`, `Badge/index.ts`): named `FooRoot` plus `export default { Root }`.
+
+Standalone (`Button`, `Loader`): named `Button` / `Loader` only. No `{ Root }` namespace and no `*Root` suffix.
+
+Do not re-export `Control*` from `@fyrst/ui`. Internals stay under `src/internal/controls/`. `FieldOption` is a Field public type.
 
 ### Registration (all required)
 
 Every public Vue SFC / composable must appear in:
 
-1. `packages/components/vue-entries.ts` — `vueLibEntries` **and** `nuxtComponents` (aliases like `Badge` → `BadgeRoot`, `AlertRoot` → `Alert` if neighbors do that). Composables also go in `nuxtComposables`.
-2. `packages/components/src/vue-components.ts` — named exports (and aliases used elsewhere).
-3. `packages/components/src/index.ts` — namespace default re-export and public types as neighbors do.
+1. `packages/components/vue-entries.ts` — `vueLibEntries` **and** `nuxtComponents` with the **same** canonical names (no alias table: no `Alert` → `AlertRoot`, no extra `FyrstAlert`). Composables also go in `nuxtComposables`.
+2. `packages/components/src/vue-components.ts` — those named exports only (the Vue plugin registers this list).
+3. `packages/components/src/index.ts` — namespace default re-export (`export { default as Card }`) and public types as neighbors do. Standalone Button/Loader come through `vue-components` only.
 
 Nuxt auto-imports come from built `packages/components/dist/nuxt-entries.json` (generated from `vue-entries.ts`). Do not require hand-edits of `packages/nuxt/src/module.ts` for a new component name.
 
 ### Playground
 
-Look for `packages/nuxt/playground/pages/<kebab-name>.vue`. Several components already have no page (e.g. Badge, List, Switch, Tab, Form). **Report the gap. Do not create pages unless the parent asked.**
+Look for `packages/nuxt/playground/pages/<kebab-name>.vue`. Several components already have no page (e.g. Badge, List, Switch, Tab, Form). **Report the gap. Do not create pages unless the parent asked.** Playground tags must use canonical names (`FyrstAlertRoot`, not `FyrstAlert`).
 
 ## Report format
 

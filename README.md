@@ -41,10 +41,11 @@ export default defineNuxtConfig({
 
 ```ts
 import { createRequire } from 'node:module'
+import { resolve } from 'node:path'
 import { defineConfig } from '@pandacss/dev'
 import { preset } from '@fyrst/ui/design-preset'
 
-const require = createRequire(import.meta.url)
+const require = createRequire(resolve(process.cwd(), 'panda.config.ts'))
 
 export default defineConfig({
   preflight: true,
@@ -57,7 +58,7 @@ export default defineConfig({
 })
 ```
 
-Components are auto-imported with a `Fyrst` prefix (`FyrstButton`, `FyrstCardRoot`, …).
+Components are auto-imported with a `Fyrst` prefix (`FyrstButton`, `FyrstAlertRoot`, `FyrstCardRoot`, …).
 
 **Vue (Vite)**
 
@@ -76,10 +77,11 @@ app.use(FyrstUI)
 
 ```ts
 import { createRequire } from 'node:module'
+import { resolve } from 'node:path'
 import { defineConfig } from '@pandacss/dev'
 import { preset } from '@fyrst/ui/design-preset'
 
-const require = createRequire(import.meta.url)
+const require = createRequire(resolve(process.cwd(), 'panda.config.ts'))
 
 export default defineConfig({
   preflight: true,
@@ -98,17 +100,17 @@ You can also import from `@fyrst/ui/components` if you want the subpath to be ex
 
 ## Component names
 
-Nuxt auto-imports Vue components with a `Fyrst` prefix (`FyrstButton`, `FyrstAlert`, `FyrstCardRoot`). Each auto-import points at a per-component file from `@fyrst/ui/vue/*` (for example `@fyrst/ui/vue/Button`), so unused `Fyrst*` components are not pulled into the app bundle.
+Nuxt auto-imports Vue components with a `Fyrst` prefix (`FyrstButton`, `FyrstAlertRoot`, `FyrstCardRoot`). Each auto-import points at a per-component file from `@fyrst/ui/vue/*` (for example `@fyrst/ui/vue/Button`), so unused `Fyrst*` components are not pulled into the app bundle.
 
-Named Vue roots live next to compound namespaces:
+Nuxt tags, the Vue plugin, and `@fyrst/ui/vue/*` use the same canonical names:
 
 | Pattern | Examples |
 | --- | --- |
-| Vue root (+ `*Root` alias) | `Alert` / `AlertRoot`, `Tab` / `TabRoot`, `Badge` / `BadgeRoot` |
-| Named parts | `CardRoot`, `CardBody`, `TabItem` |
-| Namespace object (`Card.Root`) | `Accordion`, `Card`, `Carousel`, `Dialog`, `Field`, `Flyout`, `Form`, `Hero`, `List`, `PricingCard`, `Progress`, `Switch`, `Control` |
+| Standalone | `Button`, `Loader` (`FyrstButton`, `FyrstLoader`) |
+| Named roots / parts | `AlertRoot`, `BadgeRoot`, `TabRoot`, `CardRoot`, `CardBody`, `TabItem` |
+| Namespace object (`Card.Root`) | `Accordion`, `Alert`, `Badge`, `Card`, `Carousel`, `Dialog`, `Field`, `Flyout`, `Form`, `Hero`, `List`, `PricingCard`, `Progress`, `Switch`, `Tab` |
 
-`Alert` and `Tab` are the root Vue components, not `{ Root }` namespace objects.
+`Alert.Root` is the same component as named `AlertRoot`. There is no `FyrstAlert` / `FyrstBadge` / `FyrstTab` alias. Form controls are `Field.*` / `FyrstField*` — `Control*` is not a public export.
 
 ## Development
 

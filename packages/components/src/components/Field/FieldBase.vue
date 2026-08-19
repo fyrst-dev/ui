@@ -10,12 +10,14 @@
  * @prop {any} [class] - Additional CSS classes for the wrapper.
  *
  * @example
- * <Field.Base :error="emailError" message="We'll never share your email">
- *   <Field.Label label="Email" />
- *   <Control.Input type="email" v-model="email" />
- *   <Field.Error />
- *   <Field.Message />
- * </Field.Base>
+ * <Field.Input
+ *   name="email"
+ *   label="Email"
+ *   type="email"
+ *   v-model="email"
+ *   :error="emailError"
+ *   message="We'll never share your email"
+ * />
  */
 import { provide, computed, useId } from 'vue'
 import { css } from 'styled-system/css'
