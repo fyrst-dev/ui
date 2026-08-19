@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { addComponent, addImports, defineNuxtModule, useLogger } from '@nuxt/kit'
 
 const require = createRequire(import.meta.url)
@@ -54,6 +53,24 @@ function resolveVueFile(entryName: string): string | undefined {
 function resolveComponentsDist(): string | undefined {
   const entriesPath = resolveFromPackage('@fyrst/ui/nuxt-entries.json')
   return entriesPath ? dirname(entriesPath) : undefined
+}
+
+function hasPandaPostcssPlugin(postcss: { plugins?: Record<string, unknown> } | undefined): boolean {
+  const plugins = postcss?.plugins
+  if (!plugins) {
+    return false
+  }
+  return Object.prototype.hasOwnProperty.call(plugins, '@pandacss/dev/postcss')
+}
+
+function warnIfPandaSetupLooksMissing(nuxt: { options: { dev: boolean, postcss?: { plugins?: Record<string, unknown> } } }) {
+  if (!resolveFromPackage('@fyrst/ui/panda.buildinfo.json')) {
+    logger.warn('Could not resolve @fyrst/ui/panda.buildinfo.json. Include require.resolve(\'@fyrst/ui/panda.buildinfo.json\') in panda.config.ts so component styles generate.')
+  }
+
+  if (nuxt.options.dev && !hasPandaPostcssPlugin(nuxt.options.postcss)) {
+    logger.warn('Panda PostCSS is not configured. Set postcss.plugins[\'@pandacss/dev/postcss\'] in nuxt.config and keep @layer reset, base, tokens, recipes, utilities in your CSS.')
+  }
 }
 
 function escapeRegExp(value: string): string {
@@ -127,6 +144,7 @@ export default defineNuxtModule<ModuleOptions>({
     const componentsDist = resolveComponentsDist()
     allowLinkedFsDir(nuxt.options.vite, componentsDist)
     excludeLinkedVueDist(nuxt.options.imports, componentsDist)
+    warnIfPandaSetupLooksMissing(nuxt)
 
     if (options.icons !== false) {
       const cssPath = resolveIconCss()

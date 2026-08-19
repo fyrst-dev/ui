@@ -1,23 +1,20 @@
-import { defineConfig } from "@pandacss/dev";
-import { preset } from "@fyrst/ui/design-preset";
+import { createRequire } from 'node:module'
+import { defineConfig } from '@pandacss/dev'
+import { preset } from '@fyrst/ui/design-preset'
+
+const require = createRequire(import.meta.url)
 
 export default defineConfig({
-  // Whether to use css reset
   preflight: true,
   presets: [
-    preset
+    preset,
   ],
-  // Where to look for your css declarations
   include: [
-    '../../../node_modules/@fyrst/ui/dist/panda.buildinfo.json',
+    require.resolve('@fyrst/ui/panda.buildinfo.json'),
     './app.vue',
     './components/**/*.{js,jsx,ts,tsx,vue}',
-    './pages/**/*.{js,jsx,ts,tsx,vue}'
+    './pages/**/*.{js,jsx,ts,tsx,vue}',
   ],
-
-  // Files to exclude
   exclude: [],
-
-  // The output directory for your css system
-  outdir: 'styled-system'
+  outdir: 'styled-system',
 })
