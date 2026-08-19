@@ -44,7 +44,7 @@ import { AlertRoot, BadgeRoot, TabRoot } from '@fyrst/ui'
 ```
 
 ```ts
-import Badge from '@fyrst/ui'
+import { Badge } from '@fyrst/ui'
 // before: <Badge.BadgeRoot />
 // after:  <Badge.Root />
 ```
