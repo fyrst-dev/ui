@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header
     :class="css(styles.header)"
   >
     <slot name="icon" />
