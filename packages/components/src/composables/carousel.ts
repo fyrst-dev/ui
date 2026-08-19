@@ -147,7 +147,12 @@ export function useCarousel(props: { scrollMode: 'item' | 'viewport' }, carousel
   }
 
   const handleWheel = (event: WheelEvent) => {
-    event.deltaY > 0 ? handleNext() : handlePrev()
+    if (event.deltaY > 0) {
+      handleNext()
+    }
+    else {
+      handlePrev()
+    }
   }
 
   onMounted(() => {

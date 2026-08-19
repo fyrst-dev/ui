@@ -99,4 +99,22 @@ describe('Carousel', () => {
 
     wrapper.unmount()
   })
+
+  it('advances in viewport mode when the viewport is smaller than one item', async () => {
+    const wrapper = mount(Harness, {
+      props: { scrollMode: 'viewport' },
+      attachTo: document.body,
+    })
+    const scroller = wrapper.get('ul').element
+    layoutCarousel(scroller, 180, 100)
+    await nextTick()
+
+    await wrapper.findAll('button')[1]?.trigger('click')
+    await nextTick()
+
+    expect(wrapper.findAll('li')[1]?.classes()).toContain('active')
+    expect(scroller.scrollLeft).toBeGreaterThan(0)
+
+    wrapper.unmount()
+  })
 })

@@ -1,9 +1,9 @@
 import { existsSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
-import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path'
 
-const packageRoot = fileURLToPath(new URL('..', import.meta.url))
-const styledSystemCss = fileURLToPath(new URL('../styled-system/css/index.mjs', import.meta.url))
+const packageRoot = process.cwd()
+const styledSystemCss = resolve(packageRoot, 'styled-system/css/index.mjs')
 
 if (!existsSync(styledSystemCss)) {
   execFileSync('bun', ['run', 'codegen'], {
