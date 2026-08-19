@@ -29,51 +29,48 @@
   "workspaces": [
     "packages/*"
   ],
-  "main": "./packages/components/dist/index.cjs",
-  "module": "./packages/components/dist/index.js",
-  "types": "./packages/components/dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": [
     "**/*.css"
   ],
   "files": [
     "dist",
-    "packages/preset/dist",
-    "packages/components/dist",
-    "packages/nuxt/dist",
     "LICENSE",
     "README.md"
   ],
   "exports": {
     ".": {
-      "types": "./packages/components/dist/index.d.ts",
-      "import": "./packages/components/dist/index.js",
-      "require": "./packages/components/dist/index.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./design-preset": {
-      "types": "./packages/preset/dist/index.d.ts",
-      "import": "./packages/preset/dist/index.js",
-      "require": "./packages/preset/dist/index.cjs"
+      "types": "./dist/preset/index.d.ts",
+      "import": "./dist/preset/index.js",
+      "require": "./dist/preset/index.cjs"
     },
     "./preset": {
-      "types": "./packages/preset/dist/index.d.ts",
-      "import": "./packages/preset/dist/index.js",
-      "require": "./packages/preset/dist/index.cjs"
+      "types": "./dist/preset/index.d.ts",
+      "import": "./dist/preset/index.js",
+      "require": "./dist/preset/index.cjs"
     },
     "./components": {
-      "types": "./packages/components/dist/index.d.ts",
-      "import": "./packages/components/dist/index.js",
-      "require": "./packages/components/dist/index.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./nuxt": {
-      "types": "./packages/nuxt/dist/types.d.mts",
-      "import": "./packages/nuxt/dist/module.mjs",
-      "default": "./packages/nuxt/dist/module.mjs"
+      "types": "./dist/nuxt/types.d.mts",
+      "import": "./dist/nuxt/module.mjs",
+      "default": "./dist/nuxt/module.mjs"
     },
-    "./nuxt-entries.json": "./packages/components/dist/nuxt-entries.json",
+    "./nuxt-entries.json": "./dist/nuxt-entries.json",
     "./vue/*": {
-      "import": "./packages/components/dist/vue/*.js",
-      "require": "./packages/components/dist/vue/*.js",
-      "default": "./packages/components/dist/vue/*.js"
+      "import": "./dist/vue/*.js",
+      "require": "./dist/vue/*.js",
+      "default": "./dist/vue/*.js"
     },
     "./style.css": "./dist/style.css",
     "./panda.buildinfo.json": "./dist/panda.buildinfo.json",
@@ -82,7 +79,7 @@
   "scripts": {
     "lint": "eslint packages/*/src --cache",
     "lint:fix": "eslint packages/*/src --fix --cache",
-    "build": "bun run link:package && bun run build:preset && bun run build:components && bun run build:nuxt",
+    "build": "bun run link:package && bun run build:preset && bun run build:components && bun run build:nuxt && bun scripts/assemble-dist.ts",
     "build:preset": "bun run --filter='@fyrst/design-preset' build",
     "build:components": "bun run --filter='@fyrst/ui-components' build && mkdir -p dist && cp packages/components/dist/panda.buildinfo.json dist/panda.buildinfo.json && cp packages/components/dist/ui-components.css dist/style.css && rm -f packages/components/dist/panda.buildinfo.json packages/components/dist/ui-components.css",
     "build:nuxt": "bun run --filter='@fyrst/ui-nuxt' prepack",

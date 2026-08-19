@@ -9,7 +9,7 @@
       "styled-system/*": ["styled-system/*"]
     },
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "rootDir": "./src",
     "outDir": "./dist",
     "noEmit": false,

@@ -23,11 +23,12 @@ Treat `packages/nuxt/test/consumer-contract.test.ts` as the source of truth. Do 
 
 ### package.json (root)
 
-- `files` is exactly: `dist`, `packages/preset/dist`, `packages/components/dist`, `packages/nuxt/dist`, `LICENSE`, `README.md`.
+- `files` is exactly: `dist`, `LICENSE`, `README.md`.
 - No Panda codegen packed from the preset: no `packages/preset/css`, `tokens`, `types`, `patterns`, `jsx`.
 - `dependencies` must **not** include `@nuxt/kit`.
 - Peers: `vue`, `reka-ui`, `@pandacss/dev` required (not optional). `nuxt` and `@nuxt/kit` optional.
 - `build:nuxt` is module `prepack` only (not playground `dev:build` / `dev:prepare`).
+- `build` runs `scripts/assemble-dist.ts` so published files live under root `dist/` (`preset/`, `nuxt/`, `vue/`, `index.js`).
 - `build:components` copies `dist/style.css` and `dist/panda.buildinfo.json` to the **root** `dist/` and must not leave those files as the published copies under `packages/components/dist/`.
 
 ### Dist / tarball (if `dist/` exists)
@@ -36,8 +37,8 @@ Confirm, or say build is needed:
 
 - Root `dist/style.css` contains `.icon` and does **not** contain `@layer reset|tokens|recipes|utilities`.
 - Root `dist/panda.buildinfo.json` exists and has atomic styles.
-- Packed tarball (do not pack unless artifacts already exist; you may read test expectations): include `package/dist/style.css`, `package/dist/panda.buildinfo.json`, `package/packages/preset/dist/index.js`, `package/packages/nuxt/dist/module.mjs`, `package/packages/components/dist/vue/Button.js`, `package/packages/components/dist/nuxt-entries.json`.
-- Must **not** include `packages/components/dist/panda.buildinfo.json`, `packages/components/dist/ui-components.css`, or `packages/preset/css/`.
+- Packed tarball (do not pack unless artifacts already exist; you may read test expectations): include `package/dist/style.css`, `package/dist/panda.buildinfo.json`, `package/dist/preset/index.js`, `package/dist/nuxt/module.mjs`, `package/dist/vue/Button.js`, `package/dist/nuxt-entries.json`.
+- Must **not** include `package/packages/**`, `packages/components/dist/panda.buildinfo.json`, `packages/components/dist/ui-components.css`, `packages/preset/css/`, `*.d.ts.map`, or `dist/nuxt/runtime/server/tsconfig.json`.
 
 Public subpaths that must resolve: `@fyrst/ui`, `@fyrst/ui/components`, `@fyrst/ui/design-preset`, `@fyrst/ui/preset`, `@fyrst/ui/nuxt`, `@fyrst/ui/nuxt-entries.json`, `@fyrst/ui/vue/Button`, `@fyrst/ui/style.css`, `@fyrst/ui/panda.buildinfo.json`.
 
