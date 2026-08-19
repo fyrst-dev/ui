@@ -24,6 +24,13 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
 
+  # Monitor npm dependencies in the Nuxt package
+  - package-ecosystem: "npm"
+    directory: "/packages/nuxt"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+
   # Monitor GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"

@@ -99,6 +99,7 @@ describe('published package contract', () => {
     expect(pkg.scripts['dev:nuxt:build']).toContain('dev:build')
     expect(pkg.scripts['build:components']).toContain('dist/style.css')
     expect(pkg.scripts['build:components']).toContain('dist/panda.buildinfo.json')
+    expect(pkg.scripts.build).toContain('assemble-dist.ts')
 
     const nuxtPkg = JSON.parse(readFileSync(join(rootDir, 'packages/nuxt/package.json'), 'utf8')) as {
       scripts: Record<string, string>
@@ -127,11 +128,26 @@ describe('published package contract', () => {
     const moduleSrc = readFileSync(join(rootDir, 'packages/nuxt/src/module.ts'), 'utf8')
 
     expect(pkg.scripts.test).toContain('link:package')
-    expect(pkg.exports['./nuxt-entries.json']).toBe('./packages/components/dist/nuxt-entries.json')
+    expect(pkg.exports['./nuxt-entries.json']).toBe('./dist/nuxt-entries.json')
     expect(pkg.exports['./vue/*']).toEqual({
-      import: './packages/components/dist/vue/*.js',
-      require: './packages/components/dist/vue/*.js',
-      default: './packages/components/dist/vue/*.js',
+      import: './dist/vue/*.js',
+      require: './dist/vue/*.js',
+      default: './dist/vue/*.js',
+    })
+    expect(pkg.exports['.']).toEqual({
+      types: './dist/index.d.ts',
+      import: './dist/index.js',
+      require: './dist/index.cjs',
+    })
+    expect(pkg.exports['./design-preset']).toEqual({
+      types: './dist/preset/index.d.ts',
+      import: './dist/preset/index.js',
+      require: './dist/preset/index.cjs',
+    })
+    expect(pkg.exports['./nuxt']).toEqual({
+      types: './dist/nuxt/types.d.mts',
+      import: './dist/nuxt/module.mjs',
+      default: './dist/nuxt/module.mjs',
     })
     expect(moduleSrc).toContain('@fyrst/ui/nuxt-entries.json')
     expect(moduleSrc).toContain('@fyrst/ui/vue/')
@@ -220,7 +236,7 @@ describe('published package contract', () => {
 
   it('reads the published package version from @fyrst/ui/package.json', () => {
     const moduleSrc = readFileSync(join(rootDir, 'packages/nuxt/src/module.ts'), 'utf8')
-    const builtModule = readFileSync(join(rootDir, 'packages/nuxt/dist/module.mjs'), 'utf8')
+    const builtModule = readFileSync(join(rootDir, 'dist/nuxt/module.mjs'), 'utf8')
     const rootPkg = JSON.parse(readFileSync(rootPackagePath, 'utf8')) as { version: string }
 
     expect(moduleSrc).toContain('@fyrst/ui/package.json')
@@ -232,9 +248,6 @@ describe('published package contract', () => {
   it('does not pack preset codegen folders', () => {
     expect(pkg.files).toEqual([
       'dist',
-      'packages/preset/dist',
-      'packages/components/dist',
-      'packages/nuxt/dist',
       'LICENSE',
       'README.md',
     ])
@@ -245,7 +258,7 @@ describe('published package contract', () => {
 describe('packed install exports', () => {
   it('resolves public subpaths from an installed tarball', () => {
     expect(existsSync(join(rootDir, 'dist/style.css'))).toBe(true)
-    expect(existsSync(join(rootDir, 'packages/nuxt/dist/module.mjs'))).toBe(true)
+    expect(existsSync(join(rootDir, 'dist/nuxt/module.mjs'))).toBe(true)
 
     const dir = mkdtempSync(join(tmpdir(), 'fyrst-ui-pack-'))
 
@@ -265,18 +278,21 @@ describe('packed install exports', () => {
 
       expect(packedFiles).toContain('package/dist/style.css')
       expect(packedFiles).toContain('package/dist/panda.buildinfo.json')
-      expect(packedFiles).toContain('package/packages/preset/dist/index.js')
-      expect(packedFiles).toContain('package/packages/nuxt/dist/module.mjs')
-      expect(packedFiles).toContain('package/packages/components/dist/vue/Button.js')
-      expect(packedFiles).toContain('package/packages/components/dist/index.d.ts')
-      expect(packedFiles).toContain('package/packages/components/dist/nuxt-entries.json')
-      expect(packedFiles).not.toContain('package/packages/components/dist/AccordionRoot.d.ts')
-      expect(packedFiles).not.toContain('package/packages/components/dist/panda.buildinfo.json')
-      expect(packedFiles).not.toContain('package/packages/components/dist/ui-components.css')
+      expect(packedFiles).toContain('package/dist/preset/index.js')
+      expect(packedFiles).toContain('package/dist/nuxt/module.mjs')
+      expect(packedFiles).toContain('package/dist/vue/Button.js')
+      expect(packedFiles).toContain('package/dist/index.d.ts')
+      expect(packedFiles).toContain('package/dist/nuxt-entries.json')
+      expect(packedFiles).not.toContain('package/dist/AccordionRoot.d.ts')
+      expect(packedFiles.some(file => file.startsWith('package/packages/'))).toBe(false)
+      expect(packedFiles).not.toContain('package/dist/ui-components.css')
+      expect(packedFiles).not.toContain('package/dist/panda.buildinfo.json.map')
+      expect(packedFiles.some(file => file.endsWith('.d.ts.map'))).toBe(false)
+      expect(packedFiles).not.toContain('package/dist/nuxt/runtime/server/tsconfig.json')
       expect(packedFiles.some(file => file.includes('packages/preset/types/csstype'))).toBe(false)
       expect(packedFiles.some(file => file.startsWith('package/packages/preset/css/'))).toBe(false)
 
-      const packedModule = execFileSync('tar', ['-xOf', tarball, 'package/packages/nuxt/dist/module.mjs'], {
+      const packedModule = execFileSync('tar', ['-xOf', tarball, 'package/dist/nuxt/module.mjs'], {
         encoding: 'utf8',
       })
       expect(packedModule).toContain('@fyrst/ui/package.json')

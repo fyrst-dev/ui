@@ -46,12 +46,12 @@ describe('ssr', async () => {
       expect.arrayContaining([dirname(cssPath)]),
     )
 
-    const componentsDist = join(workspaceRoot, 'packages/components/dist')
+    const publishedDist = join(workspaceRoot, 'dist')
     expect(nuxt?.options.vite.server?.fs?.allow).toEqual(
-      expect.arrayContaining([componentsDist]),
+      expect.arrayContaining([publishedDist]),
     )
 
-    const heroLeadPath = join(componentsDist, 'vue/HeroLead.js')
+    const heroLeadPath = join(publishedDist, 'vue/HeroLead.js')
     const exclude = nuxt?.options.imports.transform?.exclude ?? []
     expect(exclude.some(pattern => pattern instanceof RegExp && pattern.test(heroLeadPath))).toBe(true)
   })

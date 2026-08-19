@@ -1,5 +1,7 @@
 # 2025-10-28 - Styled System External Package Architecture
 
+> Abandoned. `@fyrst/ui` stays one npm package. Consumers generate CSS from `@fyrst/ui/panda.buildinfo.json` plus `@fyrst/ui/design-preset`. Do not publish `@fyrst/styled-system`.
+
 **Branch:** `feat/styled-system-resolution`  
 **Date:** October 28, 2025
 

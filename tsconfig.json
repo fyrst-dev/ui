@@ -5,7 +5,7 @@
     "target": "ESNext",
     "module": "Preserve",
     "moduleDetection": "force",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "allowJs": true,
     // To be able to import the preset as @fyrst/ui/preset
     "paths": {
