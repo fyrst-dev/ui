@@ -10,6 +10,22 @@ const buildinfoPath = fileURLToPath(new URL('../../../dist/panda.buildinfo.json'
 const rootDir = fileURLToPath(new URL('../../..', import.meta.url))
 const rootPackagePath = join(rootDir, 'package.json')
 
+function readBuiltVueModule(entryName: string): string {
+  const entryDir = join(rootDir, 'packages/components/dist/vue')
+  const entry = readFileSync(join(entryDir, `${entryName}.js`), 'utf8')
+  const parts = [entry]
+
+  for (const match of entry.matchAll(/from\s+["'](\.\.?\/[^"']+)["']/g)) {
+    const specifier = match[1]
+    if (!specifier) {
+      continue
+    }
+    parts.push(readFileSync(join(entryDir, specifier), 'utf8'))
+  }
+
+  return parts.join('\n')
+}
+
 describe('consumer styling contract', () => {
   it('exports panda.buildinfo.json for the consuming app to include', () => {
     const buildinfo = JSON.parse(readFileSync(buildinfoPath, 'utf8')) as {
@@ -94,6 +110,15 @@ describe('published package contract', () => {
     expect(entries.components.Button).toBe('Button')
     expect(entries.components.AlertRoot).toBe('Alert')
     expect(entries.components.TabRoot).toBe('Tab')
+  })
+
+  it('does not minify vue lib identifiers that collide with Vue auto-imports', () => {
+    const viteConfig = readFileSync(join(rootDir, 'packages/components/vite.config.ts'), 'utf8')
+    expect(viteConfig).toMatch(/minify:\s*false/)
+
+    const heroLead = readBuiltVueModule('HeroLead')
+    expect(heroLead).toContain('defineComponent')
+    expect(heroLead).not.toMatch(/\bh\s*=/)
   })
 
   it('publishes from GitHub Actions with npm trusted publishing', () => {

@@ -78,6 +78,49 @@ function resolveVueFile(entryName: string): string | undefined {
   ])
 }
 
+function resolveComponentsDist(): string | undefined {
+  return findFileFromModule([
+    'packages/components/dist',
+    'components/dist',
+  ])
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function allowLinkedFsDir(
+  vite: { server?: { fs?: { allow?: string[] } } },
+  dir: string | undefined,
+) {
+  if (!dir) {
+    return
+  }
+
+  vite.server ??= {}
+  vite.server.fs ??= {}
+  vite.server.fs.allow ??= []
+  if (!vite.server.fs.allow.includes(dir)) {
+    vite.server.fs.allow.push(dir)
+  }
+}
+
+function excludeLinkedVueDist(
+  imports: { transform?: { exclude?: RegExp[] } },
+  dir: string | undefined,
+) {
+  if (!dir) {
+    return
+  }
+
+  imports.transform ??= {}
+  imports.transform.exclude ??= []
+  const pattern = new RegExp(escapeRegExp(dir))
+  if (!imports.transform.exclude.some(existing => existing.source === pattern.source)) {
+    imports.transform.exclude.push(pattern)
+  }
+}
+
 export interface ModuleOptions {
   /**
    * Prefix for auto-registered components.
@@ -110,12 +153,17 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.build.transpile.push('reka-ui')
 
+    const componentsDist = resolveComponentsDist()
+    allowLinkedFsDir(nuxt.options.vite, componentsDist)
+    excludeLinkedVueDist(nuxt.options.imports, componentsDist)
+
     if (options.icons !== false) {
       const cssPath = resolveIconCss()
       if (cssPath) {
         if (!nuxt.options.css.includes(cssPath)) {
           nuxt.options.css.push(cssPath)
         }
+        allowLinkedFsDir(nuxt.options.vite, dirname(cssPath))
       }
       else {
         logger.warn('Could not resolve @fyrst/ui/style.css. Iconify icons will be missing.')

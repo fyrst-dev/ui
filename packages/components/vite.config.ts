@@ -40,6 +40,9 @@ export default defineConfig({
     },
   ],
   build: {
+    // Lib ESM must keep identifiers. Vite 8 Oxc minify emits `var h = defineComponent(...)`,
+    // which collides with Nuxt unimport's `import { h } from 'vue'` on linked installs.
+    minify: false,
     lib: {
       entry,
       name: 'fyrst-ui',
