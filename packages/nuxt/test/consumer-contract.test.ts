@@ -136,6 +136,8 @@ describe('published package contract', () => {
     expect(moduleSrc).toContain('@fyrst/ui/nuxt-entries.json')
     expect(moduleSrc).toContain('@fyrst/ui/vue/')
     expect(moduleSrc).toContain('@fyrst/ui/panda.buildinfo.json')
+    expect(moduleSrc).toContain('warnIfPandaSetupLooksMissing')
+    expect(moduleSrc).toContain('@pandacss/dev/postcss')
     expect(moduleSrc).not.toContain('findFileFromModule')
     expect(moduleSrc).not.toContain('packages/components/dist/nuxt-entries.json')
   })
