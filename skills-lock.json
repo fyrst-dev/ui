@@ -4,17 +4,20 @@
     "vite": {
       "source": "antfu/skills",
       "sourceType": "github",
-      "computedHash": "0293c251e4d6ff4818e8d2faed2a92f98d8d73c2f4819bd754faf93ca134d6fe"
+      "skillPath": "skills/vite/SKILL.md",
+      "computedHash": "867ff66238f3152e9c494339ad08dc432dd0df5bcf5cc7a00b61a72b580eb908"
     },
     "vue": {
       "source": "antfu/skills",
       "sourceType": "github",
+      "skillPath": "skills/vue/SKILL.md",
       "computedHash": "9c241141e07e836e4f0537c63e8f929fba3767c2997250be38e699f19b75e3f2"
     },
     "vue-best-practices": {
       "source": "antfu/skills",
       "sourceType": "github",
-      "computedHash": "eef7ee82688c9541f91b3f1050e79a5c978ddcc2c776a4bf31a11ba37c7901e8"
+      "skillPath": "skills/vue-best-practices/SKILL.md",
+      "computedHash": "d7d22c8cb343583c3904692c4d1d7b50382945e433e4f6e053f4aabb9846cbc3"
     }
   }
 }
