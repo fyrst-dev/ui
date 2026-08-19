@@ -1,6 +1,5 @@
 <template>
-  <!-- eslint-disable vue/no-v-html -- author-controlled rich text -->
-  <header
+  <header>
     :class="css(styles.header)"
   >
     <slot name="icon" />

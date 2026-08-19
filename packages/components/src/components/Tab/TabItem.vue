@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable vue/no-v-html -- author-controlled rich text */
 import { TabsTrigger } from 'reka-ui'
 import { computed } from 'vue'
 import { css } from 'styled-system/css'

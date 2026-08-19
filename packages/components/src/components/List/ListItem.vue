@@ -1,5 +1,4 @@
 <template>
-  <!-- eslint-disable vue/no-v-html -- author-controlled rich text -->
   <li :class="pandaCss(styles.item, props.css?.root)">
     <slot name="marker">
       <span :class="pandaCss(styles.marker, props.css?.marker)">

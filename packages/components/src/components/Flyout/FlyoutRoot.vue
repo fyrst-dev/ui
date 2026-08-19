@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-/* eslint-disable vue/no-v-html -- author-controlled rich text */
 import { ref } from 'vue'
 import { useFlyout } from '../../composables/flyout'
 import { css, type Styles } from 'styled-system/css'

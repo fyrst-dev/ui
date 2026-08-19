@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable vue/no-v-html -- author-controlled rich text */
 /**
  * @component FieldMessage
  * @description Helper/hint text for form fields. Reads from Field.Base context when message prop is omitted.

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable vue/no-v-html -- accordion copy is author-controlled */
 import type { AccordionItem as AccordionItemProps } from './types'
 import { accordion as accordionStyles } from './styles'
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot as AccordionPrimitive, AccordionTrigger } from 'reka-ui'

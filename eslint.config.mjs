@@ -32,6 +32,8 @@ export default createConfigForNuxt({
       'unused-imports': unusedImports,
     },
     rules: {
+      // Design-system copy props are trusted HTML (labels, titles, list content).
+      'vue/no-v-html': 'off',
       // Disable base rules that conflict with unused-imports plugin
       '@typescript-eslint/no-unused-vars': 'off',
       // Enable unused imports detection and auto-fix
