@@ -92,7 +92,7 @@ You can also import from `@fyrst/ui/components` if you want the subpath to be ex
 
 ## Component names
 
-Nuxt auto-imports Vue components with a `Fyrst` prefix (`FyrstButton`, `FyrstAlert`, `FyrstCardRoot`). Each auto-import points at a per-component file under `packages/components/dist/vue/`, so unused `Fyrst*` components are not pulled into the app bundle.
+Nuxt auto-imports Vue components with a `Fyrst` prefix (`FyrstButton`, `FyrstAlert`, `FyrstCardRoot`). Each auto-import points at a per-component file from `@fyrst/ui/vue/*` (for example `@fyrst/ui/vue/Button`), so unused `Fyrst*` components are not pulled into the app bundle.
 
 Named Vue roots live next to compound namespaces:
 

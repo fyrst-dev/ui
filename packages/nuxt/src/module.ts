@@ -1,44 +1,23 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { dirname, join } from 'node:path'
+import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { addComponent, addImports, defineNuxtModule, useLogger } from '@nuxt/kit'
 
 const require = createRequire(import.meta.url)
 const logger = useLogger('@fyrst/ui')
 
-function findFileFromModule(relativePaths: string[]): string | undefined {
-  let dir = fileURLToPath(new URL('.', import.meta.url))
-
-  for (let i = 0; i < 8; i++) {
-    for (const relativePath of relativePaths) {
-      const candidate = join(dir, relativePath)
-      if (existsSync(candidate)) {
-        return candidate
-      }
-    }
-
-    const parent = dirname(dir)
-    if (parent === dir) {
-      break
-    }
-    dir = parent
+function resolveFromPackage(specifier: string): string | undefined {
+  try {
+    return require.resolve(specifier)
+  }
+  catch {
+    return undefined
   }
 }
 
 function resolveIconCss(): string | undefined {
-  try {
-    return require.resolve('@fyrst/ui/style.css')
-  }
-  catch {
-    // Root package is not linked as node_modules/@fyrst/ui until `bun run link:package`.
-  }
-
-  return findFileFromModule([
-    'dist/style.css',
-    'packages/components/dist/ui-components.css',
-    'components/dist/ui-components.css',
-  ])
+  return resolveFromPackage('@fyrst/ui/style.css')
 }
 
 function readModuleVersion(): string {
@@ -56,10 +35,7 @@ function loadNuxtEntries(): {
   components: Record<string, string>
   composables: string[]
 } {
-  const entriesPath = findFileFromModule([
-    'packages/components/dist/nuxt-entries.json',
-    'components/dist/nuxt-entries.json',
-  ])
+  const entriesPath = resolveFromPackage('@fyrst/ui/nuxt-entries.json')
 
   if (!entriesPath) {
     return { components: {}, composables: [] }
@@ -72,17 +48,12 @@ function loadNuxtEntries(): {
 }
 
 function resolveVueFile(entryName: string): string | undefined {
-  return findFileFromModule([
-    `packages/components/dist/vue/${entryName}.js`,
-    `components/dist/vue/${entryName}.js`,
-  ])
+  return resolveFromPackage(`@fyrst/ui/vue/${entryName}`)
 }
 
 function resolveComponentsDist(): string | undefined {
-  return findFileFromModule([
-    'packages/components/dist',
-    'components/dist',
-  ])
+  const entriesPath = resolveFromPackage('@fyrst/ui/nuxt-entries.json')
+  return entriesPath ? dirname(entriesPath) : undefined
 }
 
 function escapeRegExp(value: string): string {
@@ -171,7 +142,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     if (Object.keys(components).length === 0) {
-      logger.warn('Could not resolve packages/components/dist/nuxt-entries.json. Auto-imports are skipped.')
+      logger.warn('Could not resolve @fyrst/ui/nuxt-entries.json. Auto-imports are skipped.')
     }
 
     for (const [name, entry] of Object.entries(components)) {

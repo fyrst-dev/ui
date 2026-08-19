@@ -69,6 +69,12 @@
       "import": "./packages/nuxt/dist/module.mjs",
       "default": "./packages/nuxt/dist/module.mjs"
     },
+    "./nuxt-entries.json": "./packages/components/dist/nuxt-entries.json",
+    "./vue/*": {
+      "import": "./packages/components/dist/vue/*.js",
+      "require": "./packages/components/dist/vue/*.js",
+      "default": "./packages/components/dist/vue/*.js"
+    },
     "./style.css": "./dist/style.css",
     "./panda.buildinfo.json": "./dist/panda.buildinfo.json",
     "./package.json": "./package.json"
@@ -86,7 +92,7 @@
     "dev:nuxt": "bun run link:package && bun run --filter='@fyrst/ui-nuxt' dev",
     "dev:nuxt:prepare": "bun run link:package && bun run --filter='@fyrst/ui-nuxt' dev:prepare",
     "dev:nuxt:build": "bun run dev:nuxt:prepare && bun run --filter='@fyrst/ui-nuxt' dev:build",
-    "test": "bun run --filter='@fyrst/ui-nuxt' test",
+    "test": "bun run link:package && bun run --filter='@fyrst/ui-nuxt' test",
     "prepublishOnly": "bun run build",
     "clean": "rm -rf packages/*/dist dist"
   },

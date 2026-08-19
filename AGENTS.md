@@ -52,8 +52,8 @@ bun run --filter='@fyrst/ui-nuxt' lint   # Lint specific package
 Only `@fyrst/ui-nuxt` has tests (Vitest with `@nuxt/test-utils`).
 
 ```bash
-bun run test                              # Run all tests
-bun run --filter='@fyrst/ui-nuxt' test    # Nuxt package tests
+bun run test                              # Link @fyrst/ui, then run all tests
+bun run --filter='@fyrst/ui-nuxt' test    # Nuxt package tests (needs `bun run link:package`)
 bun run --filter='@fyrst/ui-nuxt' test:watch   # Watch mode
 bun run --filter='@fyrst/ui-nuxt' test -- basic.test.ts   # Single file
 bun run --filter='@fyrst/ui-nuxt' test -t "test name"    # By name

@@ -17,21 +17,21 @@ You verify the Nuxt module and the only automated test suite in this repo. You d
 From the repo root:
 
 ```bash
-bun run --filter='@fyrst/ui-nuxt' test
+bun run test
 ```
 
-(`bun run test` at the root is the same filter.) Tests live in `packages/nuxt/test/*.test.ts` (e2e via `@nuxt/test-utils` plus `consumer-contract.test.ts`). Output is noisy; summarize.
+(`bun run test` links `@fyrst/ui` then runs the `@fyrst/ui-nuxt` Vitest suite.) Tests live in `packages/nuxt/test/*.test.ts` (e2e via `@nuxt/test-utils` plus `consumer-contract.test.ts`). Output is noisy; summarize.
 
 If dist artifacts are missing and consumer-contract fails for that reason, report that a root `bun run build` is required. Do not start a publish. Do not run the playground unless needed to explain a failure.
 
 ## Module wiring (when entries/module changed)
 
-`packages/nuxt/src/module.ts` does **not** list components by hand. It loads `packages/components/dist/nuxt-entries.json` (also resolved from `components/dist/nuxt-entries.json`) and registers `Fyrst${name}` from `dist/vue/${entry}.js`.
+`packages/nuxt/src/module.ts` does **not** list components by hand. It resolves `@fyrst/ui/nuxt-entries.json` and registers `Fyrst${name}` from `@fyrst/ui/vue/${entry}`. Those subpaths are public root `exports`; the module must not walk `packages/components/dist` on disk.
 
 If `vue-entries.ts` or the module changed, confirm:
 
 - `vueLibEntries` / `nuxtComponents` / `nuxtComposables` in `packages/components/vue-entries.ts` still match what the module expects (`components` map values are entry names, composable names match vue dist files).
-- Resolution fallbacks in the module still make sense (linked `@fyrst/ui` vs monorepo paths for `style.css` and `nuxt-entries.json`).
+- Resolution uses `@fyrst/ui` package exports (`nuxt-entries.json`, `vue/*`, `style.css`). Linked installs still need Vite `server.fs.allow` and unimport `transform.exclude` for the resolved dist directory.
 - Prefix default remains `Fyrst`; icons CSS is optional via `icons`.
 
 ## Coverage honesty
