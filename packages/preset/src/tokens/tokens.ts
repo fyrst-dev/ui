@@ -246,9 +246,15 @@ export const radii = defineTokens.radii({
 })
 
 export const opacity = defineTokens.opacity({
-  subtle: {
-    color: { value: '40%' },
-    night: { value: '60%' },
+  color: {
+    status: { 
+      base: { value: '20%' },
+      _light: { value: '30%' },
+    },
+    neutral: { 
+      base: { value: '80%' },
+      _light: { value: '60%' },
+    },
   },
 })
 

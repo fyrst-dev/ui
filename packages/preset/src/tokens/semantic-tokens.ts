@@ -3,12 +3,12 @@ import { defineSemanticTokens } from '@pandacss/dev'
 const subtleMix = (
   dark: string,
   light: string,
-  color = '{opacity.subtle.color}',
-  night = '{opacity.subtle.night}',
+  status = '{opacity.color.status}',
+  neutral = '{opacity.color.neutral}',
 ) => ({
   value: {
-    base: `color-mix(in srgb, {colors.${dark}} ${color}, {colors.grey.800} ${night})`,
-    _light: `color-mix(in srgb, {colors.${light}} ${color}, {colors.grey.800} ${night})`,
+    base: `color-mix(in srgb, {colors.${dark}} ${status}, {colors.grey.800} ${neutral})`,
+    _light: `color-mix(in srgb, {colors.${light}} ${status}, {colors.grey.800} ${neutral})`,
   },
 })
 
