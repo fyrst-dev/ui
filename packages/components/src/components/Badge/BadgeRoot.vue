@@ -5,7 +5,7 @@ import { css } from 'styled-system/css'
 
 const props = defineProps<{
   label: string
-  color?: 'default' | 'primary' | 'success' | 'info' | null
+  color?: 'default' | 'primary' | 'success' | 'info' | 'danger' | null
   size?: 'sm' | 'md' | 'lg'
 }>()
 

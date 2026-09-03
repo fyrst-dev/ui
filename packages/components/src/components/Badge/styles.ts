@@ -36,6 +36,11 @@ export const badgeStyles = cva({
         color: 'grey.night',
         borderColor: 'info',
       },
+      danger: {
+        backgroundColor: 'danger',
+        color: 'grey.night',
+        borderColor: 'danger',
+      },
     },
     size: {
       sm: {
