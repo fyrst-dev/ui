@@ -62,17 +62,17 @@ export const controlStyles = cva({
     },
     valid: {
       true: {
-        borderColor: 'success !important',
+        borderColor: 'success.subtle !important',
         _focus: {
-          borderColor: 'success !important',
-          outlineColor: 'success/50 !important',
+          borderColor: 'success.subtle !important',
+          outlineColor: 'success.subtle/50 !important',
         },
       },
       false: {
-        borderColor: 'danger !important',
+        borderColor: 'danger.subtle !important',
         _focus: {
-          borderColor: 'danger !important',
-          outlineColor: 'danger/50 !important',
+          borderColor: 'danger.subtle !important',
+          outlineColor: 'danger.subtle/50 !important',
         },
       },
       none: {},

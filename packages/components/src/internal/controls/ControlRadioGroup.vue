@@ -82,7 +82,7 @@ const itemClass = computed(() =>
     'height': props.size === 'sm' ? '1rem' : props.size === 'lg' ? '1.375rem' : '1.125rem',
     'borderWidth': '1px',
     'borderStyle': 'solid',
-    'borderColor': hasError.value ? 'danger' : 'grey.dusk',
+    'borderColor': hasError.value ? 'danger.subtle' : 'grey.dusk',
     'borderRadius': 'full',
     'backgroundColor': 'grey.black',
     'transition': 'all 200ms',
@@ -95,7 +95,7 @@ const itemClass = computed(() =>
     },
     '_light': {
       'backgroundColor': 'white',
-      'borderColor': hasError.value ? 'danger' : 'grey.200',
+      'borderColor': hasError.value ? 'danger.subtle' : 'grey.200',
       '&[data-state="checked"]': {
         borderColor: 'primary',
       },

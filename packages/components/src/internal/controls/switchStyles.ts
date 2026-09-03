@@ -40,7 +40,7 @@ export const switchStyles = sva({
         cursor: 'not-allowed',
       },
       '&[data-invalid]': {
-        borderColor: 'danger',
+        borderColor: 'danger.subtle',
       },
       '_light': {
         'borderColor': 'grey.300',
@@ -49,7 +49,7 @@ export const switchStyles = sva({
           bgColor: 'primary',
         },
         '&[data-invalid]': {
-          borderColor: 'danger',
+          borderColor: 'danger.subtle',
         },
       },
     },

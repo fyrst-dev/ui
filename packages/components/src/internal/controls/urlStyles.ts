@@ -167,19 +167,19 @@ export const urlStyles = sva({
     valid: {
       true: {
         root: {
-          borderColor: 'success !important',
+          borderColor: 'success.subtle !important',
           _focusWithin: {
-            borderColor: 'success !important',
-            outlineColor: 'success/50 !important',
+            borderColor: 'success.subtle !important',
+            outlineColor: 'success.subtle/50 !important',
           },
         },
       },
       false: {
         root: {
-          borderColor: 'danger !important',
+          borderColor: 'danger.subtle !important',
           _focusWithin: {
-            borderColor: 'danger !important',
-            outlineColor: 'danger/50 !important',
+            borderColor: 'danger.subtle !important',
+            outlineColor: 'danger.subtle/50 !important',
           },
         },
       },
@@ -189,7 +189,7 @@ export const urlStyles = sva({
       true: {
         protocol: {
           '& .icon': {
-            color: 'success',
+            color: 'success.subtle',
           },
         },
       },

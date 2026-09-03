@@ -27,19 +27,19 @@ export const badgeStyles = cva({
         borderColor: 'primary',
       },
       success: {
-        backgroundColor: 'success',
-        color: 'grey.night',
-        borderColor: 'success',
+        backgroundColor: 'success.subtle',
+        color: 'white',
+        borderColor: 'success.subtle',
       },
       info: {
-        backgroundColor: 'info',
-        color: 'grey.night',
-        borderColor: 'info',
+        backgroundColor: 'info.subtle',
+        color: 'white',
+        borderColor: 'info.subtle',
       },
       danger: {
-        backgroundColor: 'danger',
-        color: 'grey.night',
-        borderColor: 'danger',
+        backgroundColor: 'danger.subtle',
+        color: 'white',
+        borderColor: 'danger.subtle',
       },
     },
     size: {
