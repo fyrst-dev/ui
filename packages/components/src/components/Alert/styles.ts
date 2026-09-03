@@ -57,98 +57,62 @@ export const alertStyles = sva({
     variant: {
       danger: {
         root: {
-          bg: 'danger/15',
-          borderColor: 'danger/20',
+          bg: 'danger.subtle/15',
+          borderColor: 'danger.subtle/20',
         },
         icon: {
-          color: 'red.300',
-          _light: {
-            color: 'red.700',
-          },
+          color: 'danger.subtle',
         },
         title: {
-          color: 'red.200',
-          _light: {
-            color: 'red.800',
-          },
+          color: 'danger.subtle',
         },
         description: {
-          color: 'red.200',
-          _light: {
-            color: 'red.800',
-          },
+          color: 'danger.subtle',
         },
       },
       success: {
         root: {
-          bg: 'success/15',
-          borderColor: 'success/20',
+          bg: 'success.subtle/15',
+          borderColor: 'success.subtle/20',
         },
         icon: {
-          color: 'green.300',
-          _light: {
-            color: 'green.700',
-          },
+          color: 'success.subtle',
         },
         title: {
-          color: 'green.200',
-          _light: {
-            color: 'green.800',
-          },
+          color: 'success.subtle',
         },
         description: {
-          color: 'green.200',
-          _light: {
-            color: 'green.800',
-          },
+          color: 'success.subtle',
         },
       },
       info: {
         root: {
-          bg: 'info/15',
-          borderColor: 'info/20',
+          bg: 'info.subtle/15',
+          borderColor: 'info.subtle/20',
         },
         icon: {
-          color: 'blue.300',
-          _light: {
-            color: 'blue.700',
-          },
+          color: 'info.subtle',
         },
         title: {
-          color: 'blue.200',
-          _light: {
-            color: 'blue.800',
-          },
+          color: 'info.subtle',
         },
         description: {
-          color: 'blue.200',
-          _light: {
-            color: 'blue.800',
-          },
+          color: 'info.subtle',
         },
       },
       warning: {
         root: {
-          bg: 'warning/15',
-          borderColor: 'warning/20',
+          bg: 'warning.subtle/15',
+          borderColor: 'warning.subtle/20',
         },
         icon: {
-          color: 'yellow.300',
-          _light: {
-            color: 'yellow.700',
-          },
+          color: 'warning.subtle',
         },
         title: {
-          color: 'yellow.200',
-          _light: {
-            color: 'yellow.800',
-          },
+          color: 'warning.subtle',
         },
         description: {
-          color: 'yellow.200',
-          _light: {
-            color: 'yellow.800',
-          },
+          color: 'warning.subtle',
         },
       },
     },

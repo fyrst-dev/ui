@@ -27,19 +27,28 @@ export const badgeStyles = cva({
         borderColor: 'primary',
       },
       success: {
-        backgroundColor: 'success',
-        color: 'grey.night',
-        borderColor: 'success',
+        backgroundColor: 'success.subtle',
+        color: {
+          base: 'white',
+          _light: 'success.text',
+        },
+        borderColor: 'success.subtle.light',
       },
       info: {
-        backgroundColor: 'info',
-        color: 'grey.night',
-        borderColor: 'info',
+        backgroundColor: 'info.subtle',
+        color: {
+          base: 'white',
+          _light: 'info.text',
+        },
+        borderColor: 'info.subtle.light',
       },
       danger: {
-        backgroundColor: 'danger',
-        color: 'grey.night',
-        borderColor: 'danger',
+        backgroundColor: 'danger.subtle',
+        color: {
+          base: 'white',
+          _light: 'danger.text',
+        },
+        borderColor: 'danger.subtle.light',
       },
     },
     size: {
@@ -52,11 +61,10 @@ export const badgeStyles = cva({
           base: 'xs',
         },
         paddingBlock: {
-          base: 'xs',
+          base: '2xs',
         },
         paddingInline: {
           base: 'sm',
-          lg: 'md',
         },
       },
       md: {
@@ -83,12 +91,12 @@ export const badgeStyles = cva({
           lg: 'lg',
         },
         gap: {
-          base: 'xs',
-          lg: 'sm',
+          base: 'sm',
+          lg: 'md',
         },
         paddingBlock: {
-          base: 'xs',
-          lg: 'sm',
+          base: 'sm',
+          lg: 'md',
         },
         paddingInline: {
           base: 'lg',

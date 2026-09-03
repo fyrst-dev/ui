@@ -79,27 +79,27 @@ export const cardStyles = sva({
       },
       'primary': {
         root: {
-          '--card-bg': 'linear-gradient(var(--colors-primary-lucid-900))',
+          '--card-bg': 'linear-gradient(token(colors.primary/10))',
         },
       },
       'danger': {
         root: {
-          '--card-bg': 'linear-gradient(var(--colors-danger-lucid-900))',
+          '--card-bg': 'linear-gradient(token(colors.danger.subtle/10))',
         },
       },
       'success': {
         root: {
-          '--card-bg': 'linear-gradient(var(--colors-success-lucid-900))',
+          '--card-bg': 'linear-gradient(token(colors.success.subtle/10))',
         },
       },
       'warning': {
         root: {
-          '--card-bg': 'linear-gradient(var(--colors-warning-lucid-900))',
+          '--card-bg': 'linear-gradient(token(colors.warning.subtle/10))',
         },
       },
       'info': {
         root: {
-          '--card-bg': 'linear-gradient(var(--colors-info-lucid-900))',
+          '--card-bg': 'linear-gradient(token(colors.info.subtle/10))',
         },
       },
       'lucid-deep': {

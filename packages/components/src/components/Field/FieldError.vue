@@ -32,7 +32,7 @@ const errorStyles = css({
   paddingX: 'xs',
   fontSize: 'sm',
   fontWeight: '500',
-  color: 'danger',
+  color: 'danger.subtle',
   wordBreak: 'break-word',
 })
 </script>

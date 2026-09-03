@@ -90,25 +90,25 @@ export const listStyles = sva({
       primary: {
         marker: {
           color: 'primary',
-          backgroundColor: 'primary.lucid.900',
+          backgroundColor: 'primary/10',
         },
       },
       success: {
         marker: {
-          color: 'success',
-          backgroundColor: 'success.lucid.900',
+          color: 'success.subtle',
+          backgroundColor: 'success.subtle/10',
         },
       },
       danger: {
         marker: {
-          color: 'danger',
-          backgroundColor: 'danger.lucid.900',
+          color: 'danger.subtle',
+          backgroundColor: 'danger.subtle/10',
         },
       },
       info: {
         marker: {
-          color: 'info',
-          backgroundColor: 'info.lucid.900',
+          color: 'info.subtle',
+          backgroundColor: 'info.subtle/10',
         },
       },
     },

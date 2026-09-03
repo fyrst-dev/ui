@@ -72,17 +72,17 @@ export const progressStyles = sva({
       },
       success: {
         indicator: {
-          bgColor: 'success',
+          bgColor: 'success.subtle',
         },
       },
       danger: {
         indicator: {
-          bgColor: 'danger',
+          bgColor: 'danger.subtle',
         },
       },
       info: {
         indicator: {
-          bgColor: 'info',
+          bgColor: 'info.subtle',
         },
       },
     },
