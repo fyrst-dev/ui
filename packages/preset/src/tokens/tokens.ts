@@ -245,6 +245,13 @@ export const radii = defineTokens.radii({
   'pill': { value: '99rem' },
 })
 
+export const opacity = defineTokens.opacity({
+  subtle: {
+    color: { value: '40%' },
+    night: { value: '60%' },
+  },
+})
+
 export const fontSizes = defineTokens.fontSizes({
   'xs': { value: '12px' },
   'sm': { value: '14px' },

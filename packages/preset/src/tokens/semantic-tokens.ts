@@ -1,5 +1,17 @@
 import { defineSemanticTokens } from '@pandacss/dev'
 
+const subtleMix = (
+  dark: string,
+  light: string,
+  color = '{opacity.subtle.color}',
+  night = '{opacity.subtle.night}',
+) => ({
+  value: {
+    base: `color-mix(in srgb, {colors.${dark}} ${color}, {colors.grey.800} ${night})`,
+    _light: `color-mix(in srgb, {colors.${light}} ${color}, {colors.grey.800} ${night})`,
+  },
+})
+
 export const colors = defineSemanticTokens.colors({
   brand: {
     pale: { value: '{colors.brand.100}' },
@@ -19,39 +31,19 @@ export const colors = defineSemanticTokens.colors({
   },
   danger: {
     DEFAULT: { value: { base: '{colors.red.400}', _light: '{colors.red.600}' } },
-    subtle: {
-      value: {
-        base: 'color-mix(in srgb, {colors.red.400} 40%, {colors.grey.800} 60%)',
-        _light: 'color-mix(in srgb, {colors.red.600} 40%, {colors.grey.800} 60%)',
-      },
-    },
+    subtle: subtleMix('red.400', 'red.600'),
   },
   success: {
     DEFAULT: { value: { base: '{colors.green.400}', _light: '{colors.green.600}' } },
-    subtle: {
-      value: {
-        base: 'color-mix(in srgb, {colors.green.400} 40%, {colors.grey.800} 60%)',
-        _light: 'color-mix(in srgb, {colors.green.600} 40%, {colors.grey.800} 60%)',
-      },
-    },
+    subtle: subtleMix('green.400', 'green.600'),
   },
   warning: {
     DEFAULT: { value: { base: '{colors.yellow.400}', _light: '{colors.yellow.600}' } },
-    subtle: {
-      value: {
-        base: 'color-mix(in srgb, {colors.yellow.400} 40%, {colors.grey.800} 60%)',
-        _light: 'color-mix(in srgb, {colors.yellow.600} 40%, {colors.grey.800} 60%)',
-      },
-    },
+    subtle: subtleMix('yellow.400', 'yellow.600'),
   },
   info: {
     DEFAULT: { value: { base: '{colors.blue.400}', _light: '{colors.blue.600}' } },
-    subtle: {
-      value: {
-        base: 'color-mix(in srgb, {colors.blue.400} 40%, {colors.grey.800} 60%)',
-        _light: 'color-mix(in srgb, {colors.blue.600} 40%, {colors.grey.800} 60%)',
-      },
-    },
+    subtle: subtleMix('blue.400', 'blue.600'),
   },
   neutral: {
     DEFAULT: { value: { base: '{colors.white}', _light: '{colors.grey.night}' } },
