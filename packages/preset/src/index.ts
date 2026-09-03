@@ -1,6 +1,6 @@
 import { definePreset } from '@pandacss/dev'
-import { colors, spacing, radii, fontSizes, opacity, breakpoints } from './tokens/tokens'
-import { colors as semanticColors } from './tokens/semantic-tokens'
+import { colors, spacing, radii, fontSizes, breakpoints } from './tokens/tokens'
+import { colors as semanticColors, opacity as semanticOpacity } from './tokens/semantic-tokens'
 import { keyframes, animationStyles } from './animation'
 
 const preset = definePreset({
@@ -11,7 +11,6 @@ const preset = definePreset({
       spacing: spacing,
       radii: radii,
       fontSizes: fontSizes,
-      opacity: opacity,
       fontWeights: {
         normal: { value: '400' },
         medium: { value: '500' },
@@ -24,6 +23,7 @@ const preset = definePreset({
     },
     semanticTokens: {
       colors: semanticColors,
+      opacity: semanticOpacity,
     },
     extend: {
       breakpoints: breakpoints,

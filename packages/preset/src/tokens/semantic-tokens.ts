@@ -8,7 +8,20 @@ const subtleMix = (
 ) => ({
   value: {
     base: `color-mix(in srgb, {colors.${dark}} ${status}, {colors.grey.800} ${neutral})`,
-    _light: `color-mix(in srgb, {colors.${light}} ${status}, {colors.grey.800} ${neutral})`,
+    _light: `color-mix(in srgb, {colors.${light}} ${status}, {colors.grey.400} ${neutral})`,
+  },
+})
+
+export const opacity = defineSemanticTokens.opacity({
+  color: {
+    status: { 
+      DEFAULT: { value: { base: '20%', _light: '80%' } },
+      lighter: { value: { base: '25%', _light: '25%' } },
+    },
+    neutral: { 
+      DEFAULT: { value: { base: '80%', _light: '5%' } },
+      lighter: { value: { base: '20%', _light: '25%' } },
+    },
   },
 })
 
@@ -31,19 +44,35 @@ export const colors = defineSemanticTokens.colors({
   },
   danger: {
     DEFAULT: { value: { base: '{colors.red.400}', _light: '{colors.red.600}' } },
-    subtle: subtleMix('red.400', 'red.600'),
+    subtle: {
+      DEFAULT: subtleMix('red.400', 'red.200'),
+      light: subtleMix('red.200', 'red.400', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
+    },
+    text: { value: { base: '{colors.red.900}' } },
   },
   success: {
     DEFAULT: { value: { base: '{colors.green.400}', _light: '{colors.green.600}' } },
-    subtle: subtleMix('green.400', 'green.600'),
+    subtle: { 
+      DEFAULT: subtleMix('green.400', 'green.200'),
+      light: subtleMix('green.200', 'green.400', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
+    },
+    text: { value: { base: '{colors.green.900}' } },
   },
   warning: {
     DEFAULT: { value: { base: '{colors.yellow.400}', _light: '{colors.yellow.600}' } },
-    subtle: subtleMix('yellow.400', 'yellow.600'),
+    subtle: { 
+      DEFAULT: subtleMix('yellow.400', 'yellow.200'),
+      light: subtleMix('yellow.200', 'yellow.400', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
+    },
+    text: { value: { base: '{colors.yellow.900}' } },
   },
   info: {
     DEFAULT: { value: { base: '{colors.blue.400}', _light: '{colors.blue.600}' } },
-    subtle: subtleMix('blue.400', 'blue.600'),
+    subtle: { 
+      DEFAULT: subtleMix('blue.400', 'blue.200'),
+      light: subtleMix('blue.200', 'blue.400', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
+    },
+    text: { value: { base: '{colors.blue.900}' } },
   },
   neutral: {
     DEFAULT: { value: { base: '{colors.white}', _light: '{colors.grey.night}' } },
