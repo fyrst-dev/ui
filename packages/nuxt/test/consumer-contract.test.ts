@@ -95,12 +95,11 @@ describe('published package contract', () => {
   it('builds packages before assembling dist in the cloud install script', () => {
     const install = readFileSync(join(rootDir, '.cursor/install.sh'), 'utf8')
     const buildIdx = install.indexOf('bun run build')
-    const assembleViaPrepare = install.includes('dev:nuxt:prepare')
     const playgroundPrepareIdx = install.indexOf('nuxi prepare playground')
     const pandaPrepareIdx = install.indexOf('packages/nuxt/playground && bun run prepare')
 
     expect(buildIdx).toBeGreaterThan(-1)
-    expect(assembleViaPrepare).toBe(false)
+    expect(install).not.toMatch(/^\s*bun run dev:nuxt:prepare\b/m)
     expect(install).toContain('NUXT_TELEMETRY_DISABLED=1')
     expect(playgroundPrepareIdx).toBeGreaterThan(buildIdx)
     expect(pandaPrepareIdx).toBeGreaterThan(buildIdx)
