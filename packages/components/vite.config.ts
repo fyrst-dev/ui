@@ -2,6 +2,7 @@ import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { writeVueEntryTypeDeclarations } from '../../scripts/write-vue-entry-types.ts'
 import { nuxtComponents, nuxtComposables, vueLibEntries } from './vue-entries.ts'
 
 const root = import.meta.dirname
@@ -30,6 +31,10 @@ export default defineConfig({
           resolve(root, 'dist/nuxt-entries.json'),
           `${JSON.stringify({ components: nuxtComponents, composables: nuxtComposables }, null, 2)}\n`,
         )
+        writeVueEntryTypeDeclarations(resolve(root, 'dist'), {
+          components: nuxtComponents,
+          composables: nuxtComposables,
+        })
       },
     },
   ],

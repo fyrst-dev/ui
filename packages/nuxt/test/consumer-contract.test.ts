@@ -1,8 +1,10 @@
 import { execFileSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync, mkdirSync, existsSync, symlinkSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import ts from 'typescript'
 import { describe, it, expect } from 'vitest'
 
 const styleCssPath = fileURLToPath(new URL('../../../dist/style.css', import.meta.url))
@@ -132,6 +134,7 @@ describe('published package contract', () => {
     expect(pkg.scripts.test).toContain('link:package')
     expect(pkg.exports['./nuxt-entries.json']).toBe('./dist/nuxt-entries.json')
     expect(pkg.exports['./vue/*']).toEqual({
+      types: './dist/vue/*.d.ts',
       import: './dist/vue/*.js',
       require: './dist/vue/*.js',
       default: './dist/vue/*.js',
@@ -168,6 +171,10 @@ describe('published package contract', () => {
     expect(existsSync(buttonPath)).toBe(true)
     expect(existsSync(accordionPath)).toBe(true)
     expect(existsSync(entriesPath)).toBe(true)
+    expect(existsSync(join(rootDir, 'packages/components/dist/vue/Button.d.ts'))).toBe(true)
+    expect(existsSync(join(rootDir, 'dist/vue/Button.d.ts'))).toBe(true)
+    expect(existsSync(join(rootDir, 'dist/vue/FieldInput.d.ts'))).toBe(true)
+    expect(existsSync(join(rootDir, 'dist/vue/useFormData.d.ts'))).toBe(true)
 
     const buttonJs = readFileSync(buttonPath, 'utf8')
     expect(buttonJs).not.toContain('AccordionRoot')
@@ -189,6 +196,113 @@ describe('published package contract', () => {
     expect(existsSync(join(rootDir, 'packages/components/dist/vue/Badge.js'))).toBe(false)
     expect(existsSync(join(rootDir, 'packages/components/dist/vue/TabRoot.js'))).toBe(true)
     expect(existsSync(join(rootDir, 'packages/components/dist/vue/Tab.js'))).toBe(false)
+  })
+
+  it('ships TypeScript types for Nuxt vue entries', () => {
+    const entries = JSON.parse(readFileSync(join(rootDir, 'dist/nuxt-entries.json'), 'utf8')) as {
+      components: Record<string, string>
+      composables: string[]
+    }
+    const buttonDtsPath = join(rootDir, 'dist/vue/Button.d.ts')
+    const fieldInputDtsPath = join(rootDir, 'dist/vue/FieldInput.d.ts')
+    const useFormDataDtsPath = join(rootDir, 'dist/vue/useFormData.d.ts')
+
+    expect(existsSync(buttonDtsPath)).toBe(true)
+    expect(existsSync(fieldInputDtsPath)).toBe(true)
+    expect(existsSync(useFormDataDtsPath)).toBe(true)
+    expect(readFileSync(buttonDtsPath, 'utf8')).toBe("export { Button as default } from '../index'\n")
+    expect(readFileSync(fieldInputDtsPath, 'utf8')).toBe("export { FieldInput as default } from '../index'\n")
+    expect(readFileSync(useFormDataDtsPath, 'utf8')).toBe("export { useFormData } from '../index'\n")
+
+    for (const entry of Object.values(entries.components)) {
+      expect(existsSync(join(rootDir, 'dist/vue', `${entry}.d.ts`))).toBe(true)
+    }
+    for (const name of entries.composables) {
+      expect(existsSync(join(rootDir, 'dist/vue', `${name}.d.ts`))).toBe(true)
+    }
+
+    const assembleDist = readFileSync(join(rootDir, 'scripts/assemble-dist.ts'), 'utf8')
+    const viteConfig = readFileSync(join(rootDir, 'packages/components/vite.config.ts'), 'utf8')
+    expect(assembleDist).toContain('writeVueEntryTypeDeclarations')
+    expect(viteConfig).toContain('writeVueEntryTypeDeclarations')
+
+    const require = createRequire(import.meta.url)
+    const buttonJs = require.resolve('@fyrst/ui/vue/Button')
+    expect(buttonJs).toMatch(/dist\/vue\/Button\.js$/)
+    expect(existsSync(buttonJs.replace(/\.js$/, '.d.ts'))).toBe(true)
+
+    const dir = mkdtempSync(join(tmpdir(), 'fyrst-ui-vue-types-'))
+
+    try {
+      const consumerFile = join(dir, 'consumer.ts')
+      mkdirSync(join(dir, 'node_modules/@fyrst'), { recursive: true })
+      symlinkSync(rootDir, join(dir, 'node_modules/@fyrst/ui'), 'dir')
+      writeFileSync(join(dir, 'package.json'), JSON.stringify({
+        name: 'fyrst-ui-vue-types-consumer',
+        private: true,
+        type: 'module',
+      }))
+      writeFileSync(consumerFile, `
+import Button from '@fyrst/ui/vue/Button'
+import FieldInput from '@fyrst/ui/vue/FieldInput'
+import { useFormData } from '@fyrst/ui/vue/useFormData'
+
+type PropsOf<C> = C extends abstract new (...args: never) => { $props: infer P } ? P : never
+
+type ButtonLabel = PropsOf<typeof Button>['label']
+type FieldInputLabel = PropsOf<typeof FieldInput>['label']
+type FieldInputName = PropsOf<typeof FieldInput>['name']
+
+const buttonLabel: ButtonLabel = 'Publish'
+const fieldLabel: FieldInputLabel = 'Email'
+const fieldName: FieldInputName = 'email'
+const form = useFormData(null)
+
+type ButtonLabelAcceptsString = string extends ButtonLabel ? true : false
+type FieldLabelAcceptsString = string extends FieldInputLabel ? true : false
+type ButtonLabelIsNullOnly = [ButtonLabel] extends [null | undefined] ? true : false
+
+const _buttonLabelOk: ButtonLabelAcceptsString = true
+const _fieldLabelOk: FieldLabelAcceptsString = true
+const _buttonLabelNotNullOnly: ButtonLabelIsNullOnly = false
+
+void buttonLabel
+void fieldLabel
+void fieldName
+void form
+void _buttonLabelOk
+void _fieldLabelOk
+void _buttonLabelNotNullOnly
+`.trimStart())
+
+      const compilerOptions: ts.CompilerOptions = {
+        strict: true,
+        module: ts.ModuleKind.ESNext,
+        moduleResolution: ts.ModuleResolutionKind.Bundler,
+        target: ts.ScriptTarget.ESNext,
+        noEmit: true,
+        skipLibCheck: true,
+        jsx: ts.JsxEmit.Preserve,
+      }
+      const host = ts.createCompilerHost(compilerOptions)
+      const resolved = ts.resolveModuleName(
+        '@fyrst/ui/vue/Button',
+        consumerFile,
+        compilerOptions,
+        host,
+      )
+      expect(resolved.resolvedModule?.resolvedFileName).toMatch(/dist\/vue\/Button\.d\.ts$/)
+
+      const program = ts.createProgram([consumerFile], compilerOptions, host)
+      const diagnostics = ts.getPreEmitDiagnostics(program)
+        .filter(diagnostic => diagnostic.category === ts.DiagnosticCategory.Error)
+        .map(diagnostic => ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'))
+
+      expect(diagnostics).toEqual([])
+    }
+    finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
   })
 
   it('does not minify vue lib identifiers that collide with Vue auto-imports', () => {
@@ -312,6 +426,9 @@ describe('packed install exports', () => {
       expect(packedFiles).toContain('package/dist/preset/index.js')
       expect(packedFiles).toContain('package/dist/nuxt/module.mjs')
       expect(packedFiles).toContain('package/dist/vue/Button.js')
+      expect(packedFiles).toContain('package/dist/vue/Button.d.ts')
+      expect(packedFiles).toContain('package/dist/vue/FieldInput.d.ts')
+      expect(packedFiles).toContain('package/dist/vue/useFormData.d.ts')
       expect(packedFiles).toContain('package/dist/index.d.ts')
       expect(packedFiles).toContain('package/dist/nuxt-entries.json')
       expect(packedFiles).not.toContain('package/dist/AccordionRoot.d.ts')

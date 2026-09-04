@@ -68,6 +68,7 @@
     },
     "./nuxt-entries.json": "./dist/nuxt-entries.json",
     "./vue/*": {
+      "types": "./dist/vue/*.d.ts",
       "import": "./dist/vue/*.js",
       "require": "./dist/vue/*.js",
       "default": "./dist/vue/*.js"
