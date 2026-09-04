@@ -46,3 +46,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # styled-system
 styled-system
+
+# generated Nuxt vue entry modules (from vue-entries.ts)
+/packages/components/src/vue

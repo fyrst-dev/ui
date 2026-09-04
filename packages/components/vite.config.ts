@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { nuxtComponents, nuxtComposables, vueLibEntries } from './vue-entries.ts'
+import { writeVueEntryModules } from './write-vue-entry-modules.ts'
 
 const root = import.meta.dirname
 const libExternals = ['vue', '@pandacss/dev', 'reka-ui']
@@ -13,10 +14,12 @@ const libOutput = {
   },
 }
 
+writeVueEntryModules()
+
 const entry = {
   index: resolve(root, 'src/index.ts'),
   ...Object.fromEntries(
-    Object.entries(vueLibEntries).map(([name, file]) => [name, resolve(root, file)]),
+    Object.keys(vueLibEntries).map(name => [name, resolve(root, `src/vue/${name}.ts`)]),
   ),
 }
 

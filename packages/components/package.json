@@ -47,12 +47,13 @@
         "codegen": "panda codegen",
         "panda:ship": "panda ship --outfile dist/panda.buildinfo.json",
         "panda:ship:watch": "panda ship -w --outfile dist/panda.buildinfo.json",
-        "build": "bun run clean && bun run codegen && bun run build:icons && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
+        "build": "bun run clean && bun run codegen && bun run build:icons && bun run generate:vue-entries && vite build && vue-tsc --emitDeclarationOnly && bun run panda:ship",
         "build:icons": "bun run build.icons",
+        "generate:vue-entries": "bun write-vue-entry-modules.ts",
         "dev": "vite dev",
         "test": "vitest run",
         "test:watch": "vitest",
-        "clean": "rm -rf dist"
+        "clean": "rm -rf dist src/vue"
     },
     "devDependencies": {
         "@fyrst/design-preset": "workspace:*",
