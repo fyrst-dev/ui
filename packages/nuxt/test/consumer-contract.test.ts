@@ -210,9 +210,15 @@ describe('published package contract', () => {
     expect(existsSync(buttonDtsPath)).toBe(true)
     expect(existsSync(fieldInputDtsPath)).toBe(true)
     expect(existsSync(useFormDataDtsPath)).toBe(true)
-    expect(readFileSync(buttonDtsPath, 'utf8')).toBe("export { Button as default } from '../index'\n")
-    expect(readFileSync(fieldInputDtsPath, 'utf8')).toBe("export { FieldInput as default } from '../index'\n")
-    expect(readFileSync(useFormDataDtsPath, 'utf8')).toBe("export { useFormData } from '../index'\n")
+    const buttonDts = readFileSync(buttonDtsPath, 'utf8')
+    const fieldInputDts = readFileSync(fieldInputDtsPath, 'utf8')
+    const useFormDataDts = readFileSync(useFormDataDtsPath, 'utf8')
+    expect(buttonDts).toMatch(/export \{ default \} from ['"]\.\.\/components\/Button\/Button\.vue['"]/)
+    expect(fieldInputDts).toMatch(/export \{ default \} from ['"]\.\.\/components\/Field\/FieldInput\.vue['"]/)
+    expect(useFormDataDts).toMatch(/export \{ useFormData \} from ['"]\.\.\/composables\/form['"]/)
+    expect(buttonDts).not.toContain('../index')
+    expect(fieldInputDts).not.toContain('../index')
+    expect(useFormDataDts).not.toContain('../index')
 
     for (const entry of Object.values(entries.components)) {
       expect(existsSync(join(rootDir, 'dist/vue', `${entry}.d.ts`))).toBe(true)
@@ -223,8 +229,16 @@ describe('published package contract', () => {
 
     const assembleDist = readFileSync(join(rootDir, 'scripts/assemble-dist.ts'), 'utf8')
     const viteConfig = readFileSync(join(rootDir, 'packages/components/vite.config.ts'), 'utf8')
-    expect(assembleDist).toContain('writeVueEntryTypeDeclarations')
-    expect(viteConfig).toContain('writeVueEntryTypeDeclarations')
+    const componentsPkg = JSON.parse(readFileSync(join(rootDir, 'packages/components/package.json'), 'utf8')) as {
+      scripts: Record<string, string>
+    }
+    expect(assembleDist).not.toContain('writeVueEntryTypeDeclarations')
+    expect(viteConfig).not.toContain('writeVueEntryTypeDeclarations')
+    expect(viteConfig).toContain('writeVueEntryModules')
+    expect(viteConfig).toContain('src/vue/')
+    expect(componentsPkg.scripts.build).toContain('generate:vue-entries')
+    expect(componentsPkg.scripts.build).toContain('vue-tsc --emitDeclarationOnly')
+    expect(componentsPkg.scripts['generate:vue-entries']).toContain('write-vue-entry-modules.ts')
 
     const require = createRequire(import.meta.url)
     const buttonJs = require.resolve('@fyrst/ui/vue/Button')
@@ -327,7 +341,9 @@ void _buttonLabelNotNullOnly
     expect(viteConfig).not.toContain('vite-plugin-dts')
     expect(rootPkg.devDependencies?.['vite-plugin-dts']).toBeUndefined()
     expect(componentsPkg.scripts.build).toContain('vue-tsc --emitDeclarationOnly')
+    expect(componentsPkg.scripts.build).toContain('generate:vue-entries')
     expect(existsSync(indexDtsPath)).toBe(true)
+    expect(existsSync(join(rootDir, 'packages/components/dist/vue/Button.d.ts'))).toBe(true)
     expect(existsSync(join(rootDir, 'packages/components/dist/AccordionRoot.d.ts'))).toBe(false)
 
     const indexDts = readFileSync(indexDtsPath, 'utf8')

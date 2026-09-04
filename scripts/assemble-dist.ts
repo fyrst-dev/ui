@@ -1,7 +1,6 @@
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { writeVueEntryTypeDeclarations } from './write-vue-entry-types.ts'
 
 const rootDir = fileURLToPath(new URL('..', import.meta.url))
 const distDir = join(rootDir, 'dist')
@@ -48,17 +47,6 @@ const nuxtDist = join(rootDir, 'packages/nuxt/dist')
 if (existsSync(nuxtDist)) {
   copyDirContents(nuxtDist, join(distDir, 'nuxt'))
 }
-
-const nuxtEntriesPath = join(distDir, 'nuxt-entries.json')
-if (!existsSync(nuxtEntriesPath)) {
-  throw new Error(`Missing build output: ${nuxtEntriesPath}`)
-}
-
-const nuxtEntries = JSON.parse(readFileSync(nuxtEntriesPath, 'utf8')) as {
-  components: Record<string, string>
-  composables: string[]
-}
-writeVueEntryTypeDeclarations(distDir, nuxtEntries)
 
 removeMatching(distDir, (name, absolutePath) => {
   if (name.endsWith('.d.ts.map')) {

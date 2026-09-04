@@ -2,8 +2,8 @@ import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { writeVueEntryTypeDeclarations } from '../../scripts/write-vue-entry-types.ts'
 import { nuxtComponents, nuxtComposables, vueLibEntries } from './vue-entries.ts'
+import { writeVueEntryModules } from './write-vue-entry-modules.ts'
 
 const root = import.meta.dirname
 const libExternals = ['vue', '@pandacss/dev', 'reka-ui']
@@ -14,10 +14,12 @@ const libOutput = {
   },
 }
 
+writeVueEntryModules()
+
 const entry = {
   index: resolve(root, 'src/index.ts'),
   ...Object.fromEntries(
-    Object.entries(vueLibEntries).map(([name, file]) => [name, resolve(root, file)]),
+    Object.keys(vueLibEntries).map(name => [name, resolve(root, `src/vue/${name}.ts`)]),
   ),
 }
 
@@ -31,10 +33,6 @@ export default defineConfig({
           resolve(root, 'dist/nuxt-entries.json'),
           `${JSON.stringify({ components: nuxtComponents, composables: nuxtComposables }, null, 2)}\n`,
         )
-        writeVueEntryTypeDeclarations(resolve(root, 'dist'), {
-          components: nuxtComponents,
-          composables: nuxtComposables,
-        })
       },
     },
   ],

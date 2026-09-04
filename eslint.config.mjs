@@ -20,6 +20,7 @@ export default createConfigForNuxt({
       '**/styled-system/**',
       '**/dist/**',
       '**/*.d.ts',
+      'packages/components/src/vue/**',
       'packages/preset/jsx/**',
       'packages/preset/css/**',
       'packages/preset/patterns/**',
