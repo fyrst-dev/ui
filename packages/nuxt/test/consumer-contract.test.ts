@@ -92,6 +92,19 @@ describe('published package contract', () => {
     expect(pkg.scripts.test).toContain('@fyrst/ui-components')
   })
 
+  it('builds packages before assembling dist in the cloud install script', () => {
+    const install = readFileSync(join(rootDir, '.cursor/install.sh'), 'utf8')
+    const buildIdx = install.indexOf('bun run build')
+    const assembleViaPrepare = install.includes('dev:nuxt:prepare')
+    const playgroundPrepareIdx = install.indexOf('nuxi prepare playground')
+    const pandaPrepareIdx = install.indexOf('packages/nuxt/playground && bun run prepare')
+
+    expect(buildIdx).toBeGreaterThan(-1)
+    expect(assembleViaPrepare).toBe(false)
+    expect(playgroundPrepareIdx).toBeGreaterThan(buildIdx)
+    expect(pandaPrepareIdx).toBeGreaterThan(buildIdx)
+  })
+
   it('builds the Nuxt module without the playground', () => {
     expect(pkg.scripts['build:nuxt']).toContain('prepack')
     expect(pkg.scripts['build:nuxt']).not.toContain('dev:build')

@@ -23,16 +23,23 @@ fi
 # 2. Install workspace dependencies from the committed lockfile.
 bun install --frozen-lockfile
 
-# 3. Generate the Nuxt module + playground types (.nuxt). These are required
-#    before the Nuxt module can be built and before the playground can run,
-#    because packages/nuxt/tsconfig.json extends the generated .nuxt/tsconfig.json.
-bun run dev:nuxt:prepare
-
-# 4. Build the publishable packages (preset, components, Nuxt module). This also
-#    emits the root dist/ assets (style.css, panda.buildinfo.json) that the Nuxt
-#    module injects and the playground dev server serves.
+# 3. Build the publishable packages (preset, components, Nuxt module) and
+#    assemble root dist/. The playground panda config and Nuxt module resolve
+#    @fyrst/ui exports from that dist. `build:nuxt` (prepack) already runs
+#    `nuxt-module-build prepare`, so packages/nuxt/.nuxt/tsconfig.json is
+#    generated here.
+#
+#    Do not run `dev:nuxt:prepare` on a clean tree: it calls assemble-dist
+#    before packages/components/dist exists. After a real build it would also
+#    stub the module (`nuxt-module-build build --stub`) and overwrite prepack
+#    output.
 bun run build
 
-# 5. Generate the playground's Panda styled-system codegen so the dev server can
-#    resolve `styled-system/*` imports.
+# 4. Generate playground Nuxt types (.nuxt) from the built package.
+#    Run nuxi prepare only — not the full module `dev:prepare`, which stubs
+#    the just-built module.
+(cd packages/nuxt && bunx nuxi prepare playground)
+
+# 5. Generate the playground's Panda styled-system codegen so the dev server
+#    can resolve `styled-system/*` imports.
 (cd packages/nuxt/playground && bun run prepare)
