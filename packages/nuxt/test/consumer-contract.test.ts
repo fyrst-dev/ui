@@ -92,6 +92,25 @@ describe('published package contract', () => {
     expect(pkg.scripts.test).toContain('@fyrst/ui-components')
   })
 
+  it('builds packages before assembling dist in the cloud install script', () => {
+    const install = readFileSync(join(rootDir, '.cursor/install.sh'), 'utf8')
+    const buildIdx = install.indexOf('bun run build')
+    const playgroundPrepareIdx = install.indexOf('nuxi prepare playground')
+    const pandaPrepareIdx = install.indexOf('packages/nuxt/playground && bun run prepare')
+
+    expect(buildIdx).toBeGreaterThan(-1)
+    expect(install).not.toMatch(/^\s*bun run dev:nuxt:prepare\b/m)
+    expect(install).toContain('NUXT_TELEMETRY_DISABLED=1')
+    expect(playgroundPrepareIdx).toBeGreaterThan(buildIdx)
+    expect(pandaPrepareIdx).toBeGreaterThan(buildIdx)
+
+    const playgroundNuxtConfig = readFileSync(
+      join(rootDir, 'packages/nuxt/playground/nuxt.config.ts'),
+      'utf8',
+    )
+    expect(playgroundNuxtConfig).toContain('telemetry: false')
+  })
+
   it('builds the Nuxt module without the playground', () => {
     expect(pkg.scripts['build:nuxt']).toContain('prepack')
     expect(pkg.scripts['build:nuxt']).not.toContain('dev:build')
