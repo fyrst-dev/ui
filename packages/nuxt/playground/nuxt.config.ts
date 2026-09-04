@@ -4,6 +4,7 @@ const { resolve } = createResolver(import.meta.url)
 export default defineNuxtConfig({
   modules: ['../src/module'],
   fyrstUi: {},
+  telemetry: false,
   devtools: { enabled: true },
   alias: {
     'styled-system': resolve('./styled-system')

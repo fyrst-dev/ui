@@ -101,8 +101,15 @@ describe('published package contract', () => {
 
     expect(buildIdx).toBeGreaterThan(-1)
     expect(assembleViaPrepare).toBe(false)
+    expect(install).toContain('NUXT_TELEMETRY_DISABLED=1')
     expect(playgroundPrepareIdx).toBeGreaterThan(buildIdx)
     expect(pandaPrepareIdx).toBeGreaterThan(buildIdx)
+
+    const playgroundNuxtConfig = readFileSync(
+      join(rootDir, 'packages/nuxt/playground/nuxt.config.ts'),
+      'utf8',
+    )
+    expect(playgroundNuxtConfig).toContain('telemetry: false')
   })
 
   it('builds the Nuxt module without the playground', () => {

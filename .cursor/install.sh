@@ -37,8 +37,9 @@ bun run build
 
 # 4. Generate playground Nuxt types (.nuxt) from the built package.
 #    Run nuxi prepare only — not the full module `dev:prepare`, which stubs
-#    the just-built module.
-(cd packages/nuxt && bunx nuxi prepare playground)
+#    the just-built module. Disable telemetry so nuxi cannot hang on the
+#    first-run consent prompt in a non-interactive Cloud Agent install.
+(cd packages/nuxt && NUXT_TELEMETRY_DISABLED=1 bunx nuxi prepare playground)
 
 # 5. Generate the playground's Panda styled-system codegen so the dev server
 #    can resolve `styled-system/*` imports.
