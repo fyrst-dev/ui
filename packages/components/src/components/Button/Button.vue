@@ -36,10 +36,10 @@ const props = withDefaults(defineProps<{
   external?: boolean
   disabled?: boolean
 }>(), {
-  label: null,
-  icon: null,
-  to: null,
-  type: null,
+  label: null as string | null,
+  icon: null as string | null,
+  to: null as string | null,
+  type: null as 'button' | 'submit' | 'reset' | null,
   color: 'secondary',
   size: 'md',
   order: 'regular',

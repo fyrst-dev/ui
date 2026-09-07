@@ -31,7 +31,6 @@ const props = withDefaults(defineProps<Props>(), {
   color: 'default',
   borderRadius: 'md',
   borderSize: 1,
-  header: undefined,
 })
 
 const styles = computed(() =>

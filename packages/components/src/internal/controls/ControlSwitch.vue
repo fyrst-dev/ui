@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: false,
   id: '',
   name: '',
-  label: null,
+  label: null as string | null,
   disabled: false,
   required: false,
   size: 'md',

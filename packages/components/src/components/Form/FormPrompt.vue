@@ -19,8 +19,6 @@ export interface FormPromptProps {
 
 withDefaults(defineProps<FormPromptProps>(), {
   method: 'post',
-  ariaLabel: undefined,
-  placeholder: undefined,
 })
 
 const emit = defineEmits<{

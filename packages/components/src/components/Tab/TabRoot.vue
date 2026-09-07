@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   orientation: 'horizontal',
   loop: true,
-  items: () => [],
+  items: () => [] as TabItemData[],
 })
 
 const emit = defineEmits<{

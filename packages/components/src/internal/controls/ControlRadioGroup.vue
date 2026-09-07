@@ -19,14 +19,13 @@ const props = withDefaults(defineProps<{
   size?: ControlSize
   class?: unknown
 }>(), {
-  modelValue: null,
+  modelValue: null as string | null,
   id: '',
   name: '',
-  options: () => [],
+  options: () => [] as FieldOption[],
   disabled: false,
   required: false,
   size: 'md',
-  class: undefined,
 })
 
 const emit = defineEmits<{

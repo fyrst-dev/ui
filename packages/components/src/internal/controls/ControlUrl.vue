@@ -30,18 +30,16 @@ const props = withDefaults(defineProps<{
   css?: UrlCss
   class?: unknown
 }>(), {
-  modelValue: null,
+  modelValue: null as string | null,
   id: '',
   name: '',
-  placeholder: null,
+  placeholder: null as string | null,
   disabled: false,
   required: false,
   autocomplete: 'url',
   size: 'md',
   valid: 'none',
   defaultProtocol: 'https',
-  css: undefined,
-  class: undefined,
 })
 
 const emit = defineEmits<{

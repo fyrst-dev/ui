@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
   type: 'multiple',
   orientation: 'vertical',
   size: 'md',
-  classes: () => ({}),
+  classes: () => ({}) as { icon?: string | null },
 })
 
 const accordionClasses = computed(() => accordionStyles({

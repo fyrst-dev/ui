@@ -26,18 +26,16 @@ const props = withDefaults(defineProps<{
   error?: string | null
   class?: unknown
 }>(), {
-  name: undefined,
-  label: null,
-  placeholder: null,
-  modelValue: null,
+  label: null as string | null,
+  placeholder: null as string | null,
+  modelValue: null as string | null,
   id: '',
   disabled: false,
   required: false,
   rows: 5,
   size: 'md',
-  message: null,
-  error: null,
-  class: undefined,
+  message: null as string | null,
+  error: null as string | null,
 })
 
 const isValid = computed(() => {

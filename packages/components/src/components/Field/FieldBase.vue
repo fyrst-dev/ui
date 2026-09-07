@@ -29,10 +29,8 @@ const props = withDefaults(defineProps<{
   message?: string | null
   class?: unknown
 }>(), {
-  id: undefined,
-  error: null,
-  message: null,
-  class: undefined,
+  error: null as string | null,
+  message: null as string | null,
 })
 
 const autoId = useId()

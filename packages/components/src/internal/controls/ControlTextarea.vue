@@ -21,16 +21,15 @@ const props = withDefaults(defineProps<{
   valid?: ControlValid
   class?: unknown
 }>(), {
-  modelValue: null,
+  modelValue: null as string | null,
   id: '',
   name: '',
-  placeholder: null,
+  placeholder: null as string | null,
   disabled: false,
   required: false,
   rows: 5,
   size: 'md',
   valid: 'none',
-  class: undefined,
 })
 
 const emit = defineEmits<{

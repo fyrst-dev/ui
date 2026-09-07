@@ -19,7 +19,7 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   titleTag: 'div',
-  features: () => [],
+  features: () => [] as string[],
   featuresState: 'success',
   featuresSize: 'md',
   highlight: false,

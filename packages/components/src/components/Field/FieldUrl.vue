@@ -30,20 +30,17 @@ const props = withDefaults(defineProps<{
   css?: UrlCss
   class?: unknown
 }>(), {
-  name: undefined,
-  label: null,
-  placeholder: null,
-  modelValue: null,
+  label: null as string | null,
+  placeholder: null as string | null,
+  modelValue: null as string | null,
   id: '',
   disabled: false,
   required: false,
   autocomplete: 'url',
   size: 'md',
-  message: null,
-  error: null,
+  message: null as string | null,
+  error: null as string | null,
   defaultProtocol: 'https',
-  css: undefined,
-  class: undefined,
 })
 
 const isValid = computed(() => {

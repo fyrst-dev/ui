@@ -26,12 +26,12 @@ If dist artifacts are missing and consumer-contract fails for that reason, repor
 
 ## Module wiring (when entries/module changed)
 
-`packages/nuxt/src/module.ts` does **not** list components by hand. It resolves `@fyrst/ui/nuxt-entries.json` and registers `Fyrst${name}` from `@fyrst/ui/vue/${entry}`. Those subpaths are public root `exports`; the module must not walk `packages/components/dist` on disk.
+`packages/nuxt/src/module.ts` does **not** list components by hand. It resolves `@fyrst/ui/nuxt-entries.json` and registers `Fyrst${name}` as the named export `${name}` from `@fyrst/ui`. The module must not walk `packages/components/dist` on disk.
 
 If `vue-entries.ts` or the module changed, confirm:
 
-- `vueLibEntries` / `nuxtComponents` / `nuxtComposables` in `packages/components/vue-entries.ts` still match what the module expects (`components` map values are entry names, composable names match vue dist files).
-- Resolution uses `@fyrst/ui` package exports (`nuxt-entries.json`, `vue/*`, `style.css`). Linked installs still need Vite `server.fs.allow` and unimport `transform.exclude` for the resolved dist directory.
+- `vueLibEntries` / `nuxtComponents` / `nuxtComposables` in `packages/components/vue-entries.ts` still match what the module expects (`components` map keys and composable names are `@fyrst/ui` named exports).
+- Resolution uses `@fyrst/ui` package exports (`nuxt-entries.json`, `.`, `style.css`). Linked installs still need Vite `server.fs.allow` and unimport `transform.exclude` for the resolved dist directory.
 - Prefix default remains `Fyrst`; icons CSS is optional via `icons`.
 
 ## Coverage honesty

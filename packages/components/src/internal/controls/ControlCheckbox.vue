@@ -22,11 +22,10 @@ const props = withDefaults(defineProps<{
   modelValue: false,
   id: '',
   name: '',
-  label: null,
+  label: null as string | null,
   disabled: false,
   required: false,
   size: 'md',
-  class: undefined,
 })
 
 const emit = defineEmits<{

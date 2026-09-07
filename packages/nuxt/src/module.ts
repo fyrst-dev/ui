@@ -46,10 +46,6 @@ function loadNuxtEntries(): {
   }
 }
 
-function resolveVueFile(entryName: string): string | undefined {
-  return resolveFromPackage(`@fyrst/ui/vue/${entryName}`)
-}
-
 function resolveComponentsDist(): string | undefined {
   const entriesPath = resolveFromPackage('@fyrst/ui/nuxt-entries.json')
   return entriesPath ? dirname(entriesPath) : undefined
@@ -163,30 +159,18 @@ export default defineNuxtModule<ModuleOptions>({
       logger.warn('Could not resolve @fyrst/ui/nuxt-entries.json. Auto-imports are skipped.')
     }
 
-    for (const [name, entry] of Object.entries(components)) {
-      const filePath = resolveVueFile(entry)
-      if (!filePath) {
-        logger.warn(`Could not resolve Vue entry ${entry} for ${prefix}${name}.`)
-        continue
-      }
-
+    for (const name of Object.keys(components)) {
       addComponent({
         name: `${prefix}${name}`,
-        export: 'default',
-        filePath,
+        export: name,
+        filePath: '@fyrst/ui',
       })
     }
 
     for (const name of composables) {
-      const filePath = resolveVueFile(name)
-      if (!filePath) {
-        logger.warn(`Could not resolve composable ${name}.`)
-        continue
-      }
-
       addImports({
         name,
-        from: filePath,
+        from: '@fyrst/ui',
       })
     }
   },

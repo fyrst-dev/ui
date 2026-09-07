@@ -24,17 +24,14 @@ const props = withDefaults(defineProps<{
   css?: SwitchCss
   class?: unknown
 }>(), {
-  name: undefined,
-  label: null,
+  label: null as string | null,
   modelValue: false,
   id: '',
   disabled: false,
   required: false,
   size: 'md',
-  message: null,
-  error: null,
-  css: undefined,
-  class: undefined,
+  message: null as string | null,
+  error: null as string | null,
 })
 
 const emit = defineEmits<{

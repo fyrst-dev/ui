@@ -64,13 +64,8 @@ const props = withDefaults(defineProps<Props>(), {
   borderSize: 'md',
   iconSize: 'xl',
   textSize: 'lg',
-  messages: () => [],
+  messages: () => [] as AlertMessage[],
   dismissible: false,
-  role: undefined,
-  classRoot: null,
-  classIcon: null,
-  classContent: null,
-  classClose: null,
 })
 
 const emit = defineEmits<{

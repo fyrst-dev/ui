@@ -24,17 +24,15 @@ const props = withDefaults(defineProps<{
   error?: string | null
   class?: unknown
 }>(), {
-  name: undefined,
-  label: null,
-  modelValue: null,
+  label: null as string | null,
+  modelValue: null as string | null,
   id: '',
-  options: () => [],
+  options: () => [] as FieldOption[],
   disabled: false,
   required: false,
   size: 'md',
-  message: null,
-  error: null,
-  class: undefined,
+  message: null as string | null,
+  error: null as string | null,
 })
 
 const emit = defineEmits<{

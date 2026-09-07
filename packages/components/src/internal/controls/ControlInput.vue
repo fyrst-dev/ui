@@ -22,16 +22,15 @@ const props = withDefaults(defineProps<{
   class?: unknown
 }>(), {
   type: 'text',
-  modelValue: null,
+  modelValue: null as string | null,
   id: '',
   name: '',
-  placeholder: null,
+  placeholder: null as string | null,
   disabled: false,
   required: false,
-  autocomplete: null,
+  autocomplete: null as string | null,
   size: 'md',
   valid: 'none',
-  class: undefined,
 })
 
 const emit = defineEmits<{

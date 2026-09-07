@@ -12,9 +12,7 @@ const props = withDefaults(defineProps<{
   id?: string
   class?: unknown
 }>(), {
-  message: null,
-  id: undefined,
-  class: undefined,
+  message: null as string | null,
 })
 
 const fieldContext = inject(fieldContextKey, null)

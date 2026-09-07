@@ -20,15 +20,11 @@ const props = withDefaults(defineProps<{
   css?: ProgressCss
   class?: unknown
 }>(), {
-  modelValue: null,
+  modelValue: null as number | null,
   max: 100,
   size: 'md',
   color: 'primary',
   showValue: false,
-  getValueLabel: undefined,
-  getValueText: undefined,
-  css: undefined,
-  class: undefined,
 })
 
 const styles = computed(() => progressStyles.raw({

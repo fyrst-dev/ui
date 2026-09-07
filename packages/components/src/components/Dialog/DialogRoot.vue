@@ -33,8 +33,6 @@ const props = withDefaults(defineProps<{
   description?: string
   closeLabel?: string
 }>(), {
-  title: undefined,
-  description: undefined,
   closeLabel: 'Close',
 })
 

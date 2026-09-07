@@ -17,11 +17,9 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   class?: unknown
 }>(), {
-  for: undefined,
   size: 'md',
   required: false,
   disabled: false,
-  class: undefined,
 })
 
 const fieldContext = inject(fieldContextKey, null)

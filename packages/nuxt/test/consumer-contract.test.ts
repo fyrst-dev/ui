@@ -174,7 +174,9 @@ describe('published package contract', () => {
       default: './dist/nuxt/module.mjs',
     })
     expect(moduleSrc).toContain('@fyrst/ui/nuxt-entries.json')
-    expect(moduleSrc).toContain('@fyrst/ui/vue/')
+    expect(moduleSrc).toContain("filePath: '@fyrst/ui'")
+    expect(moduleSrc).toContain("from: '@fyrst/ui'")
+    expect(moduleSrc).not.toContain('@fyrst/ui/vue/')
     expect(moduleSrc).toContain('@fyrst/ui/panda.buildinfo.json')
     expect(moduleSrc).toContain('warnIfPandaSetupLooksMissing')
     expect(moduleSrc).toContain('@pandacss/dev/postcss')
