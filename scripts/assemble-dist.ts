@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, statSync } from 'node:fs'
+import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -13,7 +13,10 @@ function copyDirContents(from: string, to: string) {
   mkdirSync(to, { recursive: true })
 
   for (const name of readdirSync(from)) {
-    cpSync(join(from, name), join(to, name), { recursive: true })
+    const src = join(from, name)
+    const dest = join(to, name)
+    rmSync(dest, { recursive: true, force: true })
+    cpSync(src, dest, { recursive: true })
   }
 }
 
@@ -24,7 +27,14 @@ function removeMatching(dir: string, shouldRemove: (name: string, absolutePath: 
 
   for (const name of readdirSync(dir)) {
     const absolutePath = join(dir, name)
-    const stats = statSync(absolutePath)
+    const stats = lstatSync(absolutePath)
+
+    if (stats.isSymbolicLink()) {
+      if (shouldRemove(name, absolutePath)) {
+        rmSync(absolutePath)
+      }
+      continue
+    }
 
     if (stats.isDirectory()) {
       removeMatching(absolutePath, shouldRemove)

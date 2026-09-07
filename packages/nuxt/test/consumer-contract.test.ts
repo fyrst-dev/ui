@@ -122,6 +122,10 @@ describe('published package contract', () => {
     expect(pkg.scripts['build:components']).toContain('dist/panda.buildinfo.json')
     expect(pkg.scripts.build).toContain('assemble-dist.ts')
 
+    const assembleDist = readFileSync(join(rootDir, 'scripts/assemble-dist.ts'), 'utf8')
+    expect(assembleDist).toContain('rmSync(dest, { recursive: true, force: true })')
+    expect(assembleDist).toContain('lstatSync')
+
     const nuxtPkg = JSON.parse(readFileSync(join(rootDir, 'packages/nuxt/package.json'), 'utf8')) as {
       scripts: Record<string, string>
       dependencies?: Record<string, string>
