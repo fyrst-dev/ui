@@ -9,6 +9,7 @@
  * @prop {'button'|'submit'|'reset'|null} [type] - HTML button type attribute (e.g. 'button', 'submit', 'reset'). Only applies when rendered as a button.
  * @prop {'secondary'|'primary'} [color='secondary'] - The color theme of the button.
  * @prop {'sm'|'md'|'lg'} [size='md'] - The size variant of the button.
+ * @prop {boolean} [fullWidth=false] - When true, the button stretches to the width of its container.
  * @prop {boolean} [external=false] - When true and rendered as a link, opens in a new tab with appropriate security attributes.
  * @prop {boolean} [disabled=false] - When true, disables the button preventing user interaction.
  *
@@ -18,6 +19,7 @@
  * <Button label="Visit Site" to="https://example.com" external />
  * <Button icon="icon-class" label="Icon Button" />
  * <Button color="primary" size="lg" label="Large Primary Button" />
+ * <Button label="Continue" full-width />
  */
 import { computed } from 'vue'
 import { buttonStyles } from './styles'
@@ -32,6 +34,7 @@ const props = withDefaults(defineProps<{
   type?: 'button' | 'submit' | 'reset' | null
   color?: 'secondary' | 'primary' | 'transparent'
   size?: 'sm' | 'md' | 'lg'
+  fullWidth?: boolean
   order?: 'regular' | 'inverse'
   external?: boolean
   disabled?: boolean
@@ -42,6 +45,7 @@ const props = withDefaults(defineProps<{
   type: null as 'button' | 'submit' | 'reset' | null,
   color: 'secondary',
   size: 'md',
+  fullWidth: false,
   order: 'regular',
   external: false,
   disabled: false,
@@ -69,7 +73,12 @@ const rel = computed(() => {
 })
 
 const buttonClass = computed(() => css(
-  buttonStyles.raw({ color: props.color, size: props.size, order: props.order }),
+  buttonStyles.raw({
+    color: props.color,
+    size: props.size,
+    order: props.order,
+    fullWidth: props.fullWidth,
+  }),
 ))
 </script>
 

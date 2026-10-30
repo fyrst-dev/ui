@@ -14,12 +14,12 @@ This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pa
 
 ## Install
 
-Required peers: `vue`, `reka-ui`, `@pandacss/dev`, `@pandacss/preset-base`. `nuxt` and `@nuxt/kit` are optional and only needed for `@fyrst/ui/nuxt` (a Nuxt app already provides both).
+Required peers: `vue`, `reka-ui`, `@pandacss/dev`. `@pandacss/preset-base` is a normal dependency: `panda lib` inlines it into the design-system preset, so apps that set `designSystem: '@fyrst/ui'` do not install it. `nuxt` and `@nuxt/kit` are optional and only needed for `@fyrst/ui/nuxt` (a Nuxt app already provides both).
 
 **Nuxt**
 
 ```bash
-bun add @fyrst/ui reka-ui @pandacss/dev @pandacss/preset-base
+bun add @fyrst/ui reka-ui @pandacss/dev
 ```
 
 ```ts
@@ -59,7 +59,7 @@ Components are auto-imported with a `Fyrst` prefix (`FyrstButton`, `FyrstAlertRo
 **Vue (Vite)**
 
 ```bash
-bun add @fyrst/ui vue reka-ui @pandacss/dev @pandacss/preset-base
+bun add @fyrst/ui vue reka-ui @pandacss/dev
 ```
 
 ```ts
@@ -101,6 +101,34 @@ Nuxt tags, the Vue plugin, and `@fyrst/ui/vue/*` use the same canonical names:
 | Namespace object (`Card.Root`) | `Accordion`, `Alert`, `Badge`, `Card`, `Carousel`, `Dialog`, `Field`, `Flyout`, `Form`, `Hero`, `List`, `PricingCard`, `Progress`, `Switch`, `Tab` |
 
 `Alert.Root` is the same component as named `AlertRoot`. There is no `FyrstAlert` / `FyrstBadge` / `FyrstTab` alias. Form controls are `Field.*` / `FyrstField*` — `Control*` is not a public export.
+
+## Fonts
+
+The preset defines `fonts.sans`, `fonts.serif`, and `fonts.mono`. `fonts.sans` is **Figtree**, then the system sans (`ui-sans-serif, system-ui, sans-serif`, plus emoji fonts). `fonts.serif` and `fonts.mono` are those same system stacks. Semantic `fonts.body` aliases `fonts.sans`.
+
+The npm package does not include font files. Load the Figtree **variable** face so intermediate weights (450, 750) resolve. [Fontsource](https://fontsource.org/fonts/figtree) is one way:
+
+```bash
+bun add @fontsource-variable/figtree
+```
+
+```css
+@import '@fontsource-variable/figtree';
+```
+
+Self-hosting works the same way. Figtree is under the [SIL Open Font License](https://openfontlicense.org/). The `@font-face` `font-family` must be `Figtree`.
+
+`Button`, text inputs, textareas, and select triggers set `font-family: inherit`, so they follow the document face when preflight is off. With preflight on, Panda's reset already sets `font: inherit` on those controls. Preflight sets the document face to `--global-font-body`, which falls back to Panda's built-in system stack. It does not apply `fonts.sans` on its own. Point the document at the sans token:
+
+```ts
+globalCss: {
+  html: {
+    fontFamily: 'sans',
+  },
+},
+```
+
+Until the face is loaded, `fonts.sans` falls through to the system sans.
 
 ## Development
 

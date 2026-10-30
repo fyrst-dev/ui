@@ -3,7 +3,7 @@ name: panda-v2-migration
 description: >-
   Migrate a consumer project that uses @fyrst/ui or the fyrst design preset
   from Panda CSS 1.x to Panda CSS 2.x, and from @fyrst/ui 0.2.x
-  (panda.buildinfo.json in include) to 0.3.x (designSystem: '@fyrst/ui').
+  (panda.buildinfo.json in include) to 0.3.x / 0.4.x (designSystem: '@fyrst/ui').
   Use when the app still depends on @pandacss/dev 1.x, panda ship,
   containerSizes, Styles from styled-system/css, styled-system/css/index.mjs,
   or @pandacss/studio; when it still includes @fyrst/ui/panda.buildinfo.json
@@ -44,7 +44,8 @@ Do not invent Panda APIs. If this skill and upstream disagree on a Panda-only de
 - Keep the **consumer contract** for `@fyrst/ui` **0.3.x**: `designSystem: '@fyrst/ui'`. Do **not** add `@fyrst/ui/preset` / `@fyrst/ui/design-preset` to `presets`, and do **not** `include` `@fyrst/ui` or `@fyrst/ui/panda.buildinfo.json`. Listing the package in `include` errors with `design_system_in_include`.
 - `@fyrst/ui/design-preset` (and `@fyrst/ui/preset`) still exist for **token-only** apps that do not render the Vue components and do not set `designSystem`. Do not combine that preset with `designSystem`.
 - Align **every** `@pandacss/*` package on the **same 2.x version**. Never mix 1.x and 2.x in one lockfile.
-- List `@pandacss/preset-base` only when you are **not** using `designSystem` (token-only / vendored-preset apps). `designSystem` already loads the library theme.
+- On `@fyrst/ui` **0.4.0+** with `designSystem: '@fyrst/ui'`, do **not** add `@pandacss/preset-base`. The package depends on it and inlines the module into `dist/panda/preset.mjs`. `@pandacss/dev` stays a peer. A string preset name would be resolved from the app ([Publishing](https://panda-css.com/docs/design-systems/publishing)); that is why 0.3.0 apps had to install it themselves.
+- On **0.3.x**, or on a token-only config that still writes `presets: ['@pandacss/preset-base', preset]`, install `@pandacss/preset-base` in the app. 0.4.0 token-only configs can use `presets: [preset]` — the preset imports the base module, and `@fyrst/ui`'s dependency resolves it.
 - Do not ship compiled Panda CSS from `@fyrst/ui`. `@fyrst/ui/style.css` is Iconify icons only. The app generates styles locally.
 - Public-repo hygiene: no customer names, client domains, internal consumer repo names, screenshots of customer UIs, or secrets in commits, skills, or PRs.
 
@@ -78,6 +79,20 @@ v2 keeps `css()`, recipes, tokens, conditions, and JSX props. It rewrites the co
 | `@fyrst/ui/nuxt` | still auto-imports | still auto-imports; the app must set `designSystem` |
 | Vue entry CSS imports | `styled-system/css` (bundled or aliased) | published JS imports `@fyrst/ui/css` so stale-buildinfo fallback can re-extract |
 | Inline `style=` | Card/Loader/Progress/FormPrompt used CSS variables on `style=` | variants are classes; SSR HTML has no `style=` from those components |
+
+### 0.4.0 (consumer patches) — additive on 0.3.x
+
+| Area | 0.3.x | 0.4.0 |
+| --- | --- | --- |
+| `@pandacss/preset-base` | peer; `designSystem` apps still installed it so Panda could resolve the string from the app | dependency of `@fyrst/ui`; inlined into `dist/panda/preset.mjs`. Do not add it on a `designSystem` app |
+| `Button` | `size` `sm` \| `md` \| `lg` only; no `font-family` | `fullWidth` boolean (default `false`); `fontFamily: 'inherit'` |
+| Fields | input / textarea / select trigger used the user-agent font when preflight was off | `fontFamily: 'inherit'` on those controls. Field URL already had `font: inherit` |
+| `AlertRoot` | `#icon` only replaces the default icon | `hideIcon` omits the icon and its gap |
+| Fonts | no `fonts.sans` / `serif` / `mono` on this preset | Figtree sans stack, system serif and mono, semantic `fonts.body`. Load the face in the app (root README). The package does not ship font files |
+| `*.lucid.700`, `*.lucid.900`, `brand.pale.lucid` | absent (dropped when `*.subtle` was added, still absent in 0.3.0) | restored with the previous values. `*.subtle` remains the muted fill. `primary.subtle` / `primary.subtle.light` / `primary.text` added |
+| Required asterisk | `danger.subtle` (grey wash in dark mode) | `danger` again |
+
+No props were removed. `fullWidth` and `hideIcon` default to `false`.
 
 # Switch 0.2.x include/buildinfo to designSystem
 
@@ -171,8 +186,10 @@ If the app already has Playwright or visual tests, note that baseline. Do not co
 In **every** workspace package that mentions Panda:
 
 ```bash
-bun add -d @pandacss/dev@^2.4.0 @pandacss/preset-base@^2.4.0 @pandacss/types@^2.4.0
+bun add -d @pandacss/dev@^2.4.0 @pandacss/types@^2.4.0
 ```
+
+Add `@pandacss/preset-base@^2.4.0` only for a **0.3.x** `designSystem` app, a token-only config that still lists the string `'@pandacss/preset-base'`, or a vendored preset. `@fyrst/ui` **0.4.0** `designSystem` apps do not.
 
 Also bump any integration to the **same** 2.x line: `@pandacss/postcss`, `@pandacss/vite`, `@pandacss/webpack`, `@pandacss/rollup`, `@pandacss/bun`.
 
@@ -193,7 +210,7 @@ If any `1.x` remains, find the dependent (`bun why @pandacss/studio`, `bun why @
 
 ## 3. Upgrade @fyrst/ui
 
-**npm consumer:** bump `@fyrst/ui` to **0.3.x** (or later). Then apply [Switch 0.2.x include/buildinfo to designSystem](#switch-02x-includebuildinfo-to-designsystem).
+**npm consumer:** bump `@fyrst/ui` to **0.4.x** (or **0.3.x** if you are not taking the font, token, and preset-base fixes yet). Then apply [Switch 0.2.x include/buildinfo to designSystem](#switch-02x-includebuildinfo-to-designsystem). On 0.4.0, remove a direct `@pandacss/preset-base` dependency that was only there so `designSystem` could resolve.
 
 **Vendored preset:** see [Vendored copy of the preset](#vendored-copy-of-the-preset). Copy source from a 0.3.x commit or later; do not leave a Panda 1 snapshot of `packages/preset/src`. If the app also uses **published** `@fyrst/ui` components, the app still needs `designSystem: '@fyrst/ui'` — vendoring the preset does not replace `panda lib`.
 
@@ -201,7 +218,7 @@ If any `1.x` remains, find the dependent (`bun why @pandacss/studio`, `bun why @
 
 Use the 0.3.x snippet above for any app that renders `@fyrst/ui` components.
 
-v1 injected `@pandacss/preset-base` unless `eject: true`. v2 injects **nothing**. Token-only configs that do not use `designSystem` must still list `['@pandacss/preset-base', preset]` or they lose base utilities/conditions (`unknown_condition`).
+v1 injected `@pandacss/preset-base` unless `eject: true`. v2 injects **nothing**. On `@fyrst/ui` 0.4.0 the fyrst preset already imports that module, so `presets: [preset]` is enough for a token-only app. On 0.2.x / 0.3.x, token-only configs must still list `['@pandacss/preset-base', preset]` or they lose base utilities/conditions (`unknown_condition`). A string `'@pandacss/preset-base'` is always resolved from the app, even in 0.4.0.
 
 Remove gone config keys if present: `studio`, `eject`, `emitTokensOnly`, `gitignore`, `clean`, `watch`, `poll`, `lightningcss`, `browserslist`. Replace `forceConsistentTypeExtension` with `forceImportExtension` (different semantics — read the upgrade guide). Drop `syntax` / template-literal mode. Convert array conditions to the nested object form ending in `'@slot'`.
 
@@ -372,9 +389,9 @@ Look for a local `definePreset` named `fyrst-design-preset`, a `tokens/` tree th
 2. Fetch [github.com/fyrst-dev/ui](https://github.com/fyrst-dev/ui) at a **0.3.x** commit **or later** on `master`.
 3. Replace the vendored files with `packages/preset/src/**` from that commit. Do not copy `styled-system/` or other codegen folders.
 4. If the consumer applied local patches on top of the preset, **re-apply them** on the new tree.
-5. In the vendored `definePreset`, ensure `presets: ['@pandacss/preset-base']` and `theme.extend.containers` (not `containerSizes`).
-6. Add `@pandacss/dev`, `@pandacss/preset-base`, and `@pandacss/types` `^2.4.0` to that vendored package (dev + peer) and to the app that loads `panda.config.ts`.
-7. If the app only needs tokens (no `@fyrst/ui` Vue components), point `presets` at `['@pandacss/preset-base', vendoredPreset]`.
+5. In the vendored `definePreset`, import `@pandacss/preset-base` and pass that module on `presets` (0.4.0). A string `'@pandacss/preset-base'` still works if the app installs the package (0.3.x). Keep `theme.extend.containers` (not `containerSizes`).
+6. Add `@pandacss/dev` and `@pandacss/types` `^2.4.0` to the package that owns `panda.config.ts`. On 0.4.0, `@pandacss/preset-base` is a dependency of the vendored preset (it imports the module); the app does not add it again. On 0.3.x, the app installs `@pandacss/preset-base` because a string preset is resolved from the app.
+7. If the app only needs tokens (no `@fyrst/ui` Vue components), point `presets` at `[vendoredPreset]` on 0.4.0. On 0.3.x, use `['@pandacss/preset-base', vendoredPreset]`.
 8. If the app still uses **published** `@fyrst/ui` components, set `designSystem: '@fyrst/ui'` and do **not** also list the vendored preset. Vendoring the preset does not replace `panda lib`.
 9. Rebuild the vendored package. Fix TS2742 with the annotations in section 8.
 10. Run the verification section. Diff tokens against the before-snapshot.
@@ -415,7 +432,8 @@ Stop and fix before declaring done if token names disappeared, container queries
 | --- | --- | --- |
 | `TS2742` on `preset` / `keyframes` during `tsup --dts` | Inferred type points at nested `@pandacss/types` | Annotate `Preset`, `CssKeyframes`, `AnimationStyles`; add `@pandacss/types` `^2.4` as a real dependency |
 | `Cannot find module '@pandacss/types'` | Types came from a nested install only | Direct dep on `@pandacss/types` in the emitting package |
-| `unknown_condition` / missing `Flex` or other patterns | `preset-base` not listed / not installed (token-only config) | `presets: ['@pandacss/preset-base', preset]` and install the package in the app that loads config |
+| `unknown_condition` / missing `Flex` or other patterns | `preset-base` not listed / not installed (token-only config on 0.3.x, or a string preset the app cannot resolve) | 0.4.0: `presets: [preset]`. 0.3.x: `presets: ['@pandacss/preset-base', preset]` and install the package in the app |
+| `preset_resolution_failed` for `@pandacss/preset-base` on a `designSystem` app | 0.3.0 published a string preset resolved from the app | upgrade to 0.4.0 and remove the direct dependency. Do not add the string back |
 | Utilities exist in one package, gone in another | Mixed 1.x / 2.x lockfile, or a workspace package still on 1.x | Same `^2.4` everywhere |
 | Install pulls `@pandacss/dev@1.12` back | `@pandacss/studio` or another v1-only package | Remove `studio` and any `@pandacss/*@1` |
 | `panda: command not found: ship` | v2 dropped `ship` | Consumers: `designSystem`. Library authors: `panda lib` |

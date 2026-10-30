@@ -1,17 +1,21 @@
 import type { Preset } from '@pandacss/dev'
 import { definePreset } from '@pandacss/dev'
-import { colors, spacing, radii, fontSizes, breakpoints } from './tokens/tokens'
-import { colors as semanticColors, opacity as semanticOpacity } from './tokens/semantic-tokens'
+import presetBase from '@pandacss/preset-base'
+import { colors, spacing, radii, fontSizes, fonts, breakpoints } from './tokens/tokens'
+import { colors as semanticColors, fonts as semanticFonts, opacity as semanticOpacity } from './tokens/semantic-tokens'
 import { keyframes, animationStyles } from './animation'
 
 const preset: Preset = definePreset({
   name: 'fyrst-design-preset',
-  presets: ['@pandacss/preset-base'],
+  // Import the module so `panda lib` inlines it. A string preset is resolved
+  // from the consuming app, which forced apps to install this package themselves.
+  presets: [presetBase],
   theme: {
     tokens: {
       colors: colors,
       spacing: spacing,
       radii: radii,
+      fonts: fonts,
       fontSizes: fontSizes,
       fontWeights: {
         normal: { value: '400' },
@@ -25,6 +29,7 @@ const preset: Preset = definePreset({
     },
     semanticTokens: {
       colors: semanticColors,
+      fonts: semanticFonts,
       opacity: semanticOpacity,
     },
     extend: {

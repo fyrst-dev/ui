@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { inject, watch, ref, type Ref } from 'vue'
+import { css } from 'styled-system/css'
 
 const prevDisabled = ref(true)
 const nextDisabled = ref(true)
@@ -33,6 +34,7 @@ watch(
       :disabled="prevDisabled"
     >
       <button
+        :class="css({ fontFamily: 'inherit' })"
         :disabled="prevDisabled"
         @click="handlePrev"
       >
@@ -45,6 +47,7 @@ watch(
       :disabled="nextDisabled"
     >
       <button
+        :class="css({ fontFamily: 'inherit' })"
         :disabled="nextDisabled"
         @click="handleNext"
       >

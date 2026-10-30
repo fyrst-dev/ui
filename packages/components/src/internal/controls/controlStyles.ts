@@ -16,6 +16,7 @@ export const controlStyles = cva({
     outlineOffset: '0px',
     outlineStyle: 'solid',
     fontWeight: '450',
+    fontFamily: 'inherit',
     lineHeight: '1.5',
     color: 'neutral',
     transition: 'all 300ms',

@@ -70,6 +70,10 @@ describe('consumer styling contract', () => {
     expect(manifest.files?.length).toBeGreaterThan(0)
     expect(existsSync(join(rootDir, 'dist/panda/preset.mjs'))).toBe(true)
 
+    const presetSource = readFileSync(join(rootDir, 'dist/panda/preset.mjs'), 'utf8')
+    expect(presetSource).not.toMatch(/from\s+["']@pandacss\/preset-base["']/)
+    expect(presetSource).not.toMatch(/presets:\s*\[\s*["']@pandacss\/preset-base["']/)
+
     const atomCount = buildinfo.atoms?.length ?? buildinfo.styles?.atomic?.length ?? 0
     expect(atomCount).toBeGreaterThan(0)
   })
@@ -105,6 +109,8 @@ describe('published package contract', () => {
     expect(pkg.peerDependencies.vue).toBeDefined()
     expect(pkg.peerDependencies['reka-ui']).toBeDefined()
     expect(pkg.peerDependencies['@pandacss/dev']).toBeDefined()
+    expect(pkg.peerDependencies['@pandacss/preset-base']).toBeUndefined()
+    expect(pkg.dependencies?.['@pandacss/preset-base']).toMatch(/^\^2\.4/)
     expect(pkg.peerDependenciesMeta?.vue?.optional).toBeUndefined()
     expect(pkg.peerDependenciesMeta?.['reka-ui']?.optional).toBeUndefined()
   })

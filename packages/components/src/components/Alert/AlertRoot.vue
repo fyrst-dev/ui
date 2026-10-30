@@ -8,6 +8,7 @@
  * @prop {'danger'|'success'|'info'|'warning'} [variant='info'] - The visual variant of the alert.
  * @prop {AlertMessage[]} [messages=[]] - Array of message objects to display.
  * @prop {boolean} [dismissible=false] - Whether the alert can be dismissed.
+ * @prop {boolean} [hideIcon=false] - When true, the alert renders without an icon and without the icon gap.
  * @prop {'alert'|'status'} [role] - ARIA role. Defaults to 'alert' for danger/warning, 'status' for info/success.
  * @prop {SystemStyleObject|null} [classRoot] - Custom classes for the root element.
  * @prop {SystemStyleObject|null} [classIcon] - Custom classes for the icon wrapper.
@@ -35,6 +36,8 @@
  *     <CustomIcon />
  *   </template>
  * </Alert.Root>
+ *
+ * <AlertRoot hide-icon :messages="[{ description: 'No icon.' }]" />
  */
 import { computed, useSlots } from 'vue'
 import { css, cx } from 'styled-system/css'
@@ -52,6 +55,7 @@ export interface Props {
   borderSize?: 'md' | 'lg' | 'xl'
   messages?: AlertMessage[]
   dismissible?: boolean
+  hideIcon?: boolean
   role?: 'alert' | 'status'
   classRoot?: SystemStyleObject | null
   classIcon?: SystemStyleObject | null
@@ -67,6 +71,7 @@ const props = withDefaults(defineProps<Props>(), {
   textSize: 'lg',
   messages: () => [] as AlertMessage[],
   dismissible: false,
+  hideIcon: false,
 })
 
 const emit = defineEmits<{
@@ -94,7 +99,7 @@ const ariaRole = computed(() => {
 
 // Check if component should render
 const shouldRender = computed(() => {
-  return props.messages.length > 0 || !!slots.icon
+  return props.messages.length > 0 || (!props.hideIcon && !!slots.icon)
 })
 
 const classes = computed(() => alertStyles({
@@ -116,7 +121,10 @@ const handleDismiss = () => {
     :class="cx(classes.root, classRoot ? css(classRoot) : undefined)"
     :role="ariaRole"
   >
-    <slot name="icon">
+    <slot
+      v-if="!hideIcon"
+      name="icon"
+    >
       <span
         :class="[
           'icon',

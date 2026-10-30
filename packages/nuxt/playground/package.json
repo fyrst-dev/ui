@@ -13,7 +13,6 @@
   },
   "devDependencies": {
     "@pandacss/dev": "^2.4.0",
-    "@pandacss/preset-base": "^2.4.0",
     "reka-ui": "^2.10.3",
     "vue": "^3.5.41"
   }

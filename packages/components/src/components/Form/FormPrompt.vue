@@ -81,6 +81,7 @@ const handleSubmit = (event: Event) => {
           name="message"
           :class="css({
             flexGrow: '1',
+            fontFamily: 'inherit',
             color: 'neutral',
             padding: 'xs',
             resize: 'none',

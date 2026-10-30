@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-10-30
+
+Additive release for apps already on 0.3.0 (`designSystem: '@fyrst/ui'`, Panda 2.4). No prop was removed or renamed.
+
+### Added
+
+- `Button` `fullWidth` (boolean, default `false`). The button keeps `inline-flex` sizing until `fullWidth` sets `width: 100%` and `box-sizing: border-box`.
+- `AlertRoot` `hideIcon` (boolean, default `false`). The icon, including a custom `#icon` slot, is not rendered, so the flex gap collapses.
+- Font tokens: `fonts.sans` (Figtree, then the system sans), `fonts.serif`, `fonts.mono`, and semantic `fonts.body` → `{fonts.sans}`. The package does not ship font files. Load the Figtree face in the app (see the root README).
+- `primary.subtle`, `primary.subtle.light`, and `primary.text`, matching the other status colors.
+- Restored semantic tokens that 0.3.0 still did not ship: `brand.pale.lucid`, and `primary` / `danger` / `success` / `warning` / `info` `.lucid.700` and `.lucid.900`. Values match the definitions from before the muted `*.subtle` mixes. `*.subtle` stays the preferred muted fill for new UI. `brand.pale` itself is unchanged (`{colors.brand.100}`).
+
+### Fixed
+
+- `Button`, field inputs, textareas, and select triggers set `font-family: inherit`, so with preflight off they follow the app font instead of the user-agent face. The same inherit is set on the prompt textarea, the flyout trigger, and the carousel's default prev/next buttons. Field URL already used `font: inherit`.
+- The required-field asterisk uses `color: 'danger'` again (solid red). It had been switched to `danger.subtle`, which reads as a grey wash in dark mode.
+- `@pandacss/preset-base` is a dependency of `@fyrst/ui`, and the published design-system preset inlines that module. Apps on `designSystem: '@fyrst/ui'` no longer add `@pandacss/preset-base` themselves. `@pandacss/dev` stays a peer. [Publishing](https://panda-css.com/docs/design-systems/publishing) keeps Panda itself as a peer; a string preset name is resolved from the app, so the library passes the module through `panda lib` instead.
+
+### Token mapping
+
+If a local patch recreated the old washes, you can drop it and use the restored tokens, or move to the muted mixes:
+
+| Previous token | Restored in 0.4.0 | Preferred muted fill |
+| --- | --- | --- |
+| `brand.pale.lucid` | `brand.pale.lucid` (`brand.100` at 25%) | — |
+| `primary.lucid.700` / `.900` | same paths | `primary.subtle` |
+| `danger.lucid.700` / `.900` | same paths | `danger.subtle` |
+| `success.lucid.700` / `.900` | same paths | `success.subtle` |
+| `warning.lucid.700` / `.900` | same paths | `warning.subtle` |
+| `info.lucid.700` / `.900` | same paths | `info.subtle` |
+
+`*.lucid.700` is a 25% wash in dark mode and 40% in light mode. `*.lucid.900` is 10% / 25%. `*.subtle` is a grey mix, not the same wash.
+
 ## [0.3.0] - 2026-10-30
 
 Official Panda 2 **library** consumption (`panda lib` / `designSystem`) plus CSP-safe SSR. This is a **breaking** upgrade from 0.2.0 for consuming apps. Follow [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md) and the official [Build a design system](https://panda-css.com/docs/design-systems/build-a-design-system) guide.
@@ -60,7 +93,8 @@ Public export names are unchanged: `preset`, `breakpoints`, `@fyrst/ui/design-pr
 
 - Initial `@fyrst/ui` design system: Panda CSS preset, Vue 3 components, and Nuxt module.
 
-[unreleased]: https://github.com/fyrst-dev/ui/compare/v0.3.0...HEAD
+[unreleased]: https://github.com/fyrst-dev/ui/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/fyrst-dev/ui/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/fyrst-dev/ui/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/fyrst-dev/ui/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/fyrst-dev/ui/releases/tag/v0.1.0
