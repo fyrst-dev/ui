@@ -85,14 +85,12 @@ const handleSubmit = (event: Event) => {
             padding: 'xs',
             resize: 'none',
             fieldSizing: 'content',
+            minHeight: 'var(--textarea-min-h, 120px)',
+            maxHeight: 'var(--textarea-max-h, 300px)',
             _focus: {
               outline: 'none',
             },
           })"
-          :style="{
-            minHeight: 'var(--textarea-min-h, 120px)',
-            maxHeight: 'var(--textarea-max-h, 300px)',
-          }"
           :placeholder="placeholder"
         />
       </slot>
