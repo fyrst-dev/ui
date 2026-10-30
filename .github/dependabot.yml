@@ -1,35 +1,29 @@
 # GitHub Dependabot configuration
-# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+# https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference
+# https://docs.github.com/en/code-security/reference/supply-chain-security/supported-ecosystems-and-repositories
 
 version: 2
 updates:
-  # Monitor npm dependencies in the root directory
-  - package-ecosystem: "npm"
+  # One root Bun entry covers this workspace. Dependabot's bun FileFetcher
+  # reads workspaces from the root package.json, fetches member manifests,
+  # and updates the single root bun.lock. The npm ecosystem does not update
+  # bun.lock, so `bun install --frozen-lockfile` fails.
+  #
+  # Extra per-package directories would overlap this scan. GitHub requires
+  # unique, non-overlapping directories for the same ecosystem.
+  - package-ecosystem: "bun"
     directory: "/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
-
-  # Monitor npm dependencies in the preset package
-  - package-ecosystem: "npm"
-    directory: "/packages/preset"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 10
-
-  # Monitor npm dependencies in the components package
-  - package-ecosystem: "npm"
-    directory: "/packages/components"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 10
-
-  # Monitor npm dependencies in the Nuxt package
-  - package-ecosystem: "npm"
-    directory: "/packages/nuxt"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 10
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
 
   # Monitor GitHub Actions
   - package-ecosystem: "github-actions"
