@@ -9,6 +9,8 @@ Workspace packages (private, not published):
 
 Uses Bun as package manager and build tool, full TypeScript support.
 
+First-party agent skills live in `.agents/skills/<name>/SKILL.md`. Consumer apps still on Panda CSS 1.x should follow [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md) when upgrading to Panda 2 and this preset.
+
 ## Package Structure
 
 ```

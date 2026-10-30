@@ -24,3 +24,5 @@ export default defineConfig({
 ```
 
 See the [root README](../../README.md) for install and publishing.
+
+Consumers still on Panda CSS 1.x: follow the [Panda 2 migration skill](../../.agents/skills/panda-v2-migration/SKILL.md).

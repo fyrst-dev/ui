@@ -126,6 +126,8 @@ bun run dev:nuxt
 
 See `AGENTS.md` for lint, test, and package scripts.
 
+Apps still on Panda CSS 1.x should follow [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md) when upgrading to Panda 2 with this package. That skill lives in the git repository (not in the npm tarball).
+
 ## Publishing
 
 Publish the root package only. The GitHub Action uses [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/) (OIDC). There is no `NPM_TOKEN`.
