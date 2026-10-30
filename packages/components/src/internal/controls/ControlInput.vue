@@ -6,10 +6,10 @@
 import { computed, inject } from 'vue'
 import { controlStyles } from './controlStyles'
 import { fieldContextKey } from './context'
-import type { ControlSize, ControlValid } from './types'
+import type { ControlInputType, ControlSize, ControlValid } from './types'
 
 const props = withDefaults(defineProps<{
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date' | 'url'
+  type?: ControlInputType
   modelValue?: string | null
   id?: string
   name?: string

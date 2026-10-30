@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { loaderStyles } from './styles'
+import { loaderSizeValues, loaderStyles, type LoaderSizeValue } from './styles'
 import { css } from 'styled-system/css'
 
 defineOptions({ name: 'FyLoader' })
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   size?: number
   label?: string
 }>(), {
@@ -13,7 +13,21 @@ withDefaults(defineProps<{
   label: 'Loading',
 })
 
-const loaderClass = computed(() => css(loaderStyles.raw()))
+function resolveLoaderSize(value: number): LoaderSizeValue {
+  if ((loaderSizeValues as readonly number[]).includes(value)) {
+    return value as LoaderSizeValue
+  }
+
+  return loaderSizeValues.reduce((closest, candidate) => {
+    return Math.abs(candidate - value) < Math.abs(closest - value)
+      ? candidate
+      : closest
+  }, 40 as LoaderSizeValue)
+}
+
+const loaderClass = computed(() => css(loaderStyles.raw({
+  size: resolveLoaderSize(props.size),
+})))
 </script>
 
 <template>
@@ -25,8 +39,5 @@ const loaderClass = computed(() => css(loaderStyles.raw()))
     role="status"
     aria-live="polite"
     :aria-label="label"
-    :style="{
-      '--loader-size': `${size}px`,
-    }"
   />
 </template>

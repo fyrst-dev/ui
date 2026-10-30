@@ -1,6 +1,6 @@
 {
     "name": "@fyrst/ui-nuxt",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "private": true,
     "description": "Nuxt module for the fyrst.dev Vue UI components",
     "license": "MIT",

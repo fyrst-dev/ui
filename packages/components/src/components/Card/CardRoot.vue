@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { css } from 'styled-system/css'
 import type { SystemStyleObject } from 'styled-system/types'
-import { cardStyles, CardStylesKey } from './styles'
+import { cardBorderSizes, cardStyles, CardStylesKey, type CardBorderSize } from './styles'
 import { computed, provide } from 'vue'
 import CardHeader, { type CardHeaderProps } from './CardHeader.vue'
 
@@ -21,6 +21,10 @@ export interface Props {
     | 'lucid-deep'
   borderSize?: number
   borderRadius?: BorderRadius
+  /**
+   * @deprecated Arbitrary CSS colors cannot be applied without inline styles.
+   * Use the `color` variant instead. Kept so existing call sites type-check.
+   */
   borderColor?: string
   classRoot?: SystemStyleObject
   header?: CardHeaderProps
@@ -34,25 +38,22 @@ const props = withDefaults(defineProps<Props>(), {
   borderSize: 1,
 })
 
+function resolveBorderSize(value: number): CardBorderSize {
+  const rounded = Math.round(value)
+  if ((cardBorderSizes as readonly number[]).includes(rounded)) {
+    return rounded as CardBorderSize
+  }
+  return 1
+}
+
 const styles = computed(() =>
   cardStyles.raw({
     borderRadius: props.borderRadius,
+    borderSize: resolveBorderSize(props.borderSize),
     colorStrategy: props.colorStrategy,
     color: props.color,
   }),
 )
-
-const inlineStyles = computed(() => {
-  const styles: Record<string, string> = {
-    '--card-border-size': `${props.borderSize}px`,
-  }
-
-  if (typeof props.borderColor === 'string') {
-    styles['--card-border-color'] = props.borderColor
-  }
-
-  return styles
-})
 
 provide(CardStylesKey, styles)
 </script>
@@ -61,7 +62,6 @@ provide(CardStylesKey, styles)
   <component
     :is="props.as"
     :class="css(styles.root, props.classRoot)"
-    :style="inlineStyles"
   >
     <slot name="before" />
     <slot name="header">

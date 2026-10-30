@@ -9,6 +9,12 @@ import { css as pandaCss } from 'styled-system/css'
 import { progressStyles } from './styles'
 import type { ProgressColor, ProgressCss, ProgressSize } from './types'
 
+type ProgressPercent = NonNullable<NonNullable<Parameters<typeof progressStyles.raw>[0]>['percent']>
+
+function resolvePercent(value: number): ProgressPercent {
+  return Math.min(100, Math.max(0, Math.round(value))) as ProgressPercent
+}
+
 const props = withDefaults(defineProps<{
   modelValue?: number | null
   max?: number
@@ -27,11 +33,6 @@ const props = withDefaults(defineProps<{
   showValue: false,
 })
 
-const styles = computed(() => progressStyles.raw({
-  size: props.size,
-  color: props.color,
-}))
-
 const isIndeterminate = computed(() => props.modelValue == null)
 
 const percentage = computed(() => {
@@ -39,6 +40,12 @@ const percentage = computed(() => {
     return 0
   return Math.min(100, Math.max(0, Math.round((props.modelValue / props.max) * 100)))
 })
+
+const styles = computed(() => progressStyles.raw({
+  size: props.size,
+  color: props.color,
+  percent: resolvePercent(isIndeterminate.value ? 0 : percentage.value),
+}))
 
 const displayValue = computed(() => {
   if (isIndeterminate.value)
@@ -71,9 +78,6 @@ const displayValue = computed(() => {
       :get-value-label="getValueLabel"
       :get-value-text="getValueText"
       :class="pandaCss(styles.track, props.css?.track)"
-      :style="{
-        '--progress-value': isIndeterminate ? undefined : `${percentage}%`,
-      }"
     >
       <ProgressIndicator :class="pandaCss(styles.indicator, props.css?.indicator)" />
       <slot
