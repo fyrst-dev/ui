@@ -46,7 +46,7 @@
     },
     "packages/components": {
       "name": "@fyrst/ui-components",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "devDependencies": {
         "@fyrst/design-preset": "workspace:*",
         "@iconify/json": "^2.2.548",
@@ -61,7 +61,7 @@
         "vitest": "^5.0.5",
       },
       "peerDependencies": {
-        "@fyrst/design-preset": "^0.1.0",
+        "@fyrst/design-preset": "^0.2.0",
         "@pandacss/dev": "^2.4.0",
         "@pandacss/preset-base": "^2.4.0",
         "reka-ui": "^2.10.3",
@@ -70,7 +70,7 @@
     },
     "packages/nuxt": {
       "name": "@fyrst/ui-nuxt",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@nuxt/kit": "^4.6.3",
       },
@@ -84,7 +84,7 @@
     },
     "packages/preset": {
       "name": "@fyrst/design-preset",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "devDependencies": {
         "@pandacss/dev": "^2.4.0",
         "@pandacss/preset-base": "^2.4.0",

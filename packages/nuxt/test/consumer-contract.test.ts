@@ -457,7 +457,8 @@ describe('packed install exports', () => {
         stdio: ['ignore', 'pipe', 'pipe'],
       })
 
-      const tarball = join(dir, 'fyrst-ui-0.1.0.tgz')
+      const { version: packedVersion } = JSON.parse(readFileSync(rootPackagePath, 'utf8')) as { version: string }
+      const tarball = join(dir, `fyrst-ui-${packedVersion}.tgz`)
       expect(existsSync(tarball)).toBe(true)
 
       const packedFiles = execFileSync('tar', ['-tzf', tarball], { encoding: 'utf8' })
