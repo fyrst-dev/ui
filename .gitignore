@@ -22,6 +22,10 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 /packages/preset/patterns
 /packages/preset/tokens
 /packages/preset/types
+/packages/preset/recipes
+/packages/preset/helpers.js
+/packages/preset/helpers.d.ts
+/packages/preset/helpers.mjs
 
 # dotenv environment variable files
 .env

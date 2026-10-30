@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, useSlots, type PropType, provide } from 'vue'
-import { css, type Styles } from 'styled-system/css'
+import { css } from 'styled-system/css'
+import type { SystemStyleObject } from 'styled-system/types'
 import { useCarousel } from '../../composables/carousel'
 
 /** Props */
@@ -11,11 +12,11 @@ const props = defineProps({
     validator: (value: string) => ['item', 'viewport'].includes(value),
   },
   classWrapper: {
-    type: Object as PropType<Styles>,
+    type: Object as PropType<SystemStyleObject>,
     default: null,
   },
   classCarousel: {
-    type: Object as PropType<Styles>,
+    type: Object as PropType<SystemStyleObject>,
     default: null,
   },
 })

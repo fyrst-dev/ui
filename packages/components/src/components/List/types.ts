@@ -1,5 +1,5 @@
 import type { ComputedRef } from 'vue'
-import type { Styles } from 'styled-system/css'
+import type { SystemStyleObject } from 'styled-system/types'
 import { createInjectionKey } from '../../composables/injection-key'
 import type { ListStyles } from './styles'
 
@@ -13,7 +13,7 @@ export const ListStylesKey = createInjectionKey<ComputedRef<ListStyles>>('ListSt
  * Each component exposes its own narrow type so only the slots it actually
  * renders are accepted as keys.
  */
-export type ListCss<K extends string> = Partial<Record<K, Styles>>
+export type ListCss<K extends string> = Partial<Record<K, SystemStyleObject>>
 
 export type ListRootCss = ListCss<'root'>
 export type ListItemCss = ListCss<'root' | 'marker'>

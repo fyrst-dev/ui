@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { resolve } from 'node:path'
 
 const packageRoot = process.cwd()
-const styledSystemCss = resolve(packageRoot, 'styled-system/css/index.mjs')
+const styledSystemCss = resolve(packageRoot, 'styled-system/css/index.js')
 
 if (!existsSync(styledSystemCss)) {
   execFileSync('bun', ['run', 'codegen'], {

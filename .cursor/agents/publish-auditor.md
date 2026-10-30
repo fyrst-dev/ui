@@ -16,7 +16,7 @@ Treat `packages/nuxt/test/consumer-contract.test.ts` as the source of truth. Do 
 ## What this repo publishes
 
 - **One** public package: `@fyrst/ui` (root). Workspace packages (`@fyrst/design-preset`, `@fyrst/ui-components`, `@fyrst/ui-nuxt`) stay `private`.
-- Consumers depend on `@pandacss/dev`, keep their own `panda.config.ts` (`import { preset } from '@fyrst/ui/design-preset'`), and include `@fyrst/ui/panda.buildinfo.json` from `panda ship`.
+- Consumers depend on `@pandacss/dev`, keep their own `panda.config.ts` (`import { preset } from '@fyrst/ui/design-preset'`), and include `@fyrst/ui/panda.buildinfo.json` from `panda buildinfo`.
 - `@fyrst/ui/style.css` is **Iconify icons only**, not compiled Panda.
 
 ## Checklist

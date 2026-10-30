@@ -3,12 +3,13 @@ import { resolve } from 'node:path'
 import { defineConfig } from '@pandacss/dev'
 import { preset } from '@fyrst/ui/design-preset'
 
-// Panda 1.x bundles this file as CJS, so import.meta is empty.
+// Resolve package exports from cwd so this works if Panda loads the config as ESM or CJS.
 const require = createRequire(resolve(process.cwd(), 'panda.config.ts'))
 
 export default defineConfig({
   preflight: true,
   presets: [
+    '@pandacss/preset-base',
     preset,
   ],
   include: [

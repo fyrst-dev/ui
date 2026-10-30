@@ -9,10 +9,10 @@
  * @prop {AlertMessage[]} [messages=[]] - Array of message objects to display.
  * @prop {boolean} [dismissible=false] - Whether the alert can be dismissed.
  * @prop {'alert'|'status'} [role] - ARIA role. Defaults to 'alert' for danger/warning, 'status' for info/success.
- * @prop {Styles|null} [classRoot] - Custom classes for the root element.
- * @prop {Styles|null} [classIcon] - Custom classes for the icon wrapper.
- * @prop {Styles|null} [classContent] - Custom classes for the content wrapper.
- * @prop {Styles|null} [classClose] - Custom classes for the close button.
+ * @prop {SystemStyleObject|null} [classRoot] - Custom classes for the root element.
+ * @prop {SystemStyleObject|null} [classIcon] - Custom classes for the icon wrapper.
+ * @prop {SystemStyleObject|null} [classContent] - Custom classes for the content wrapper.
+ * @prop {SystemStyleObject|null} [classClose] - Custom classes for the close button.
  *
  * @slot icon - Override the default variant icon.
  *
@@ -37,7 +37,8 @@
  * </Alert.Root>
  */
 import { computed, useSlots } from 'vue'
-import { css, cx, type Styles } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
+import type { SystemStyleObject } from 'styled-system/types'
 import { alertStyles } from './styles'
 import type { AlertMessage } from './types'
 
@@ -52,10 +53,10 @@ export interface Props {
   messages?: AlertMessage[]
   dismissible?: boolean
   role?: 'alert' | 'status'
-  classRoot?: Styles | null
-  classIcon?: Styles | null
-  classContent?: Styles | null
-  classClose?: Styles | null
+  classRoot?: SystemStyleObject | null
+  classIcon?: SystemStyleObject | null
+  classContent?: SystemStyleObject | null
+  classClose?: SystemStyleObject | null
 }
 
 const props = withDefaults(defineProps<Props>(), {

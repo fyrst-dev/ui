@@ -3,9 +3,9 @@ import { preset } from "./src/index";
 
 export default defineConfig({
   preflight: true,
-  presets: [preset],
+  presets: ["@pandacss/preset-base", preset],
   include: [],
   exclude: [],
-  outdir: ".",
+  outdir: "styled-system",
   jsxFramework: "vue"
 });

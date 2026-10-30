@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { css, type Styles } from 'styled-system/css'
+import { css } from 'styled-system/css'
+import type { SystemStyleObject } from 'styled-system/types'
 import { cardStyles, CardStylesKey } from './styles'
 import { computed, provide } from 'vue'
 import CardHeader, { type CardHeaderProps } from './CardHeader.vue'
@@ -21,7 +22,7 @@ export interface Props {
   borderSize?: number
   borderRadius?: BorderRadius
   borderColor?: string
-  classRoot?: Styles
+  classRoot?: SystemStyleObject
   header?: CardHeaderProps
 }
 

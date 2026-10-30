@@ -31,10 +31,12 @@ function readBuiltVueModule(entryName: string): string {
 describe('consumer styling contract', () => {
   it('exports panda.buildinfo.json for the consuming app to include', () => {
     const buildinfo = JSON.parse(readFileSync(buildinfoPath, 'utf8')) as {
+      atoms?: unknown[]
       styles?: { atomic?: unknown[] }
     }
 
-    expect(buildinfo.styles?.atomic?.length).toBeGreaterThan(0)
+    const atomCount = buildinfo.atoms?.length ?? buildinfo.styles?.atomic?.length ?? 0
+    expect(atomCount).toBeGreaterThan(0)
   })
 
   it('ships icon CSS only, not compiled Panda styles or preflight', () => {

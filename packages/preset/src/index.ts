@@ -1,10 +1,12 @@
+import type { Preset } from '@pandacss/dev'
 import { definePreset } from '@pandacss/dev'
 import { colors, spacing, radii, fontSizes, breakpoints } from './tokens/tokens'
 import { colors as semanticColors, opacity as semanticOpacity } from './tokens/semantic-tokens'
 import { keyframes, animationStyles } from './animation'
 
-const preset = definePreset({
+const preset: Preset = definePreset({
   name: 'fyrst-design-preset',
+  presets: ['@pandacss/preset-base'],
   theme: {
     tokens: {
       colors: colors,
@@ -27,7 +29,7 @@ const preset = definePreset({
     },
     extend: {
       breakpoints: breakpoints,
-      containerSizes: {
+      containers: {
         'xs': '320px',
         'sm': '384px',
         'md': '448px',

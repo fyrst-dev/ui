@@ -26,6 +26,9 @@ export default createConfigForNuxt({
       'packages/preset/patterns/**',
       'packages/preset/tokens/**',
       'packages/preset/types/**',
+      'packages/preset/recipes/**',
+      'packages/preset/helpers.*',
+      'packages/preset/styled-system/**',
     ],
   })
   .append({
