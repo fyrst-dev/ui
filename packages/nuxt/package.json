@@ -55,7 +55,7 @@
         "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
     },
     "dependencies": {
-        "@nuxt/kit": "^4.5.2"
+        "@nuxt/kit": "^4.6.3"
     },
     "peerDependencies": {
         "nuxt": "^4.5.2",
