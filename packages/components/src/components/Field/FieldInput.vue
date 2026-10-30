@@ -10,11 +10,13 @@ import FieldMessage from './FieldMessage.vue'
 import FieldError from './FieldError.vue'
 import { fieldFooterStyles } from './fieldFooterStyles'
 import ControlInput from '../../internal/controls/ControlInput.vue'
-import type { ControlSize } from '../../internal/controls/types'
+import type { ControlInputType, ControlSize } from '../../internal/controls/types'
+
+defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
   name?: string
-  type?: 'text' | 'email' | 'tel' | 'number' | 'date' | 'url'
+  type?: ControlInputType
   label?: string | null
   placeholder?: string | null
   modelValue?: string | null
@@ -68,6 +70,7 @@ const handleInput = (value: string) => {
     />
 
     <ControlInput
+      v-bind="$attrs"
       :name="name"
       :type="type"
       :placeholder="placeholder"

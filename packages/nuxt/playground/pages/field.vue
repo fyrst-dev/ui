@@ -11,6 +11,17 @@
     />
 
     <FyrstFieldInput
+      id="login-password"
+      name="password"
+      label="Password"
+      type="password"
+      autocomplete="current-password"
+      maxlength="64"
+      placeholder="Enter a password"
+      :required="true"
+    />
+
+    <FyrstFieldInput
       v-model="numberValue"
       name="quantity"
       label="Quantity"

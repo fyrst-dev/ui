@@ -6,7 +6,7 @@ import ControlRadioGroup from './ControlRadioGroup.vue'
 import ControlSwitch from './ControlSwitch.vue'
 import ControlUrl from './ControlUrl.vue'
 
-export type { ControlSize, ControlValid, FieldOption } from './types'
+export type { ControlInputType, ControlSize, ControlValid, FieldOption } from './types'
 export type { UrlProtocol } from './urlUtils'
 export { fieldContextKey } from './context'
 export type { FieldContext } from './context'
