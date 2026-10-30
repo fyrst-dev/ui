@@ -14,7 +14,7 @@ const require = createRequire(resolve(process.cwd(), 'panda.config.ts'))
 
 export default defineConfig({
   preflight: true,
-  presets: [preset],
+  presets: ['@pandacss/preset-base', preset],
   include: [
     require.resolve('@fyrst/ui/panda.buildinfo.json'),
     './src/**/*.{js,jsx,ts,tsx,vue}',

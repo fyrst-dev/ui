@@ -1,6 +1,7 @@
+import type { AnimationStyles, CssKeyframes } from '@pandacss/types'
 import { defineAnimationStyles, defineKeyframes } from '@pandacss/dev'
 
-export const animationStyles: ReturnType<typeof defineAnimationStyles> = defineAnimationStyles({
+export const animationStyles: AnimationStyles = defineAnimationStyles({
   slideDown: {
     value: {
       animationName: 'slideDown',
@@ -23,7 +24,7 @@ export const animationStyles: ReturnType<typeof defineAnimationStyles> = defineA
   },
 })
 
-export const keyframes = defineKeyframes({
+export const keyframes: CssKeyframes = defineKeyframes({
   slideDown: {
     '0%': {
       height: '0',

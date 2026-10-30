@@ -1,11 +1,11 @@
-import type { Styles } from 'styled-system/css'
+import type { SystemStyleObject } from 'styled-system/types'
 
 /**
  * Per-component `css` prop map. Keys are the component's public slot names,
  * where `root` always refers to the component's outermost element (regardless
  * of the underlying SVA slot name). Inner slots keep their SVA names.
  */
-export type ProgressCssMap<K extends string> = Partial<Record<K, Styles>>
+export type ProgressCssMap<K extends string> = Partial<Record<K, SystemStyleObject>>
 
 export type ProgressCss = ProgressCssMap<'root' | 'track' | 'indicator' | 'value'>
 

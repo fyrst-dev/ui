@@ -7,19 +7,19 @@ fyrst.dev design system. One npm package with subpath exports:
 | `@fyrst/ui` / `@fyrst/ui/components` | Vue 3 UI components |
 | `@fyrst/ui/design-preset` | Panda CSS preset with design tokens |
 | `@fyrst/ui/nuxt` | Nuxt module |
-| `@fyrst/ui/panda.buildinfo.json` | Panda `ship` output for component styles |
+| `@fyrst/ui/panda.buildinfo.json` | Panda `buildinfo` output for component styles |
 | `@fyrst/ui/style.css` | Iconify stylesheet only |
 
 This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pandacss/dev`, keep their own `panda.config.ts`, and generate styles locally.
 
 ## Install
 
-Required peers: `vue`, `reka-ui`, `@pandacss/dev`. `nuxt` and `@nuxt/kit` are optional and only needed for `@fyrst/ui/nuxt` (a Nuxt app already provides both).
+Required peers: `vue`, `reka-ui`, `@pandacss/dev`, `@pandacss/preset-base`. `nuxt` and `@nuxt/kit` are optional and only needed for `@fyrst/ui/nuxt` (a Nuxt app already provides both).
 
 **Nuxt**
 
 ```bash
-bun add @fyrst/ui reka-ui @pandacss/dev
+bun add @fyrst/ui reka-ui @pandacss/dev @pandacss/preset-base
 ```
 
 ```ts
@@ -49,7 +49,7 @@ const require = createRequire(resolve(process.cwd(), 'panda.config.ts'))
 
 export default defineConfig({
   preflight: true,
-  presets: [preset],
+  presets: ['@pandacss/preset-base', preset],
   include: [
     require.resolve('@fyrst/ui/panda.buildinfo.json'),
     './app/**/*.{js,ts,vue}',
@@ -63,7 +63,7 @@ Components are auto-imported with a `Fyrst` prefix (`FyrstButton`, `FyrstAlertRo
 **Vue (Vite)**
 
 ```bash
-bun add @fyrst/ui vue reka-ui @pandacss/dev
+bun add @fyrst/ui vue reka-ui @pandacss/dev @pandacss/preset-base
 ```
 
 ```ts
@@ -85,7 +85,7 @@ const require = createRequire(resolve(process.cwd(), 'panda.config.ts'))
 
 export default defineConfig({
   preflight: true,
-  presets: [preset],
+  presets: ['@pandacss/preset-base', preset],
   include: [
     require.resolve('@fyrst/ui/panda.buildinfo.json'),
     './src/**/*.{js,ts,vue}',

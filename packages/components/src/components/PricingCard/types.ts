@@ -1,5 +1,5 @@
 import type { ComputedRef } from 'vue'
-import type { Styles } from 'styled-system/css'
+import type { SystemStyleObject } from 'styled-system/types'
 import { createInjectionKey } from '../../composables/injection-key'
 import type { PricingCardStyles } from './styles'
 import type { ListItemProps } from '../List/ListItem.vue'
@@ -26,7 +26,7 @@ export const PricingCardDataKey = createInjectionKey<ComputedRef<PricingCardData
  * Each component exposes its own narrow type so only the slots it actually
  * renders are accepted as keys.
  */
-export type PricingCardCss<K extends string> = Partial<Record<K, Styles>>
+export type PricingCardCss<K extends string> = Partial<Record<K, SystemStyleObject>>
 
 export type PricingCardRootCss = PricingCardCss<'root'>
 export type PricingCardHeaderCss = PricingCardCss<'root' | 'headerPackage' | 'title' | 'subtitle'>
