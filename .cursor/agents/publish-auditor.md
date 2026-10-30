@@ -16,8 +16,9 @@ Treat `packages/nuxt/test/consumer-contract.test.ts` as the source of truth. Do 
 ## What this repo publishes
 
 - **One** public package: `@fyrst/ui` (root). Workspace packages (`@fyrst/design-preset`, `@fyrst/ui-components`, `@fyrst/ui-nuxt`) stay `private`.
-- Consumers depend on `@pandacss/dev`, keep their own `panda.config.ts` (`import { preset } from '@fyrst/ui/design-preset'`), and include `@fyrst/ui/panda.buildinfo.json` from `panda buildinfo`.
+- Consumers depend on `@pandacss/dev`, keep their own `panda.config.ts`, and set `designSystem: '@fyrst/ui'`. Do not include `@fyrst/ui/panda.buildinfo.json` (removed) or add the fyrst preset when using `designSystem`.
 - `@fyrst/ui/style.css` is **Iconify icons only**, not compiled Panda.
+- `panda lib` writes `dist/panda/{lib.json,preset.mjs,buildinfo.json}` and syncs generated `package.json` exports (`./panda/*`, `./css`, …). Do not hand-edit those generated subpaths.
 
 ## Checklist
 
@@ -28,21 +29,21 @@ Treat `packages/nuxt/test/consumer-contract.test.ts` as the source of truth. Do 
 - `dependencies` must **not** include `@nuxt/kit`.
 - Peers: `vue`, `reka-ui`, `@pandacss/dev` required (not optional). `nuxt` and `@nuxt/kit` optional.
 - `build:nuxt` is module `prepack` only (not playground `dev:build` / `dev:prepare`).
-- `build` runs `scripts/assemble-dist.ts` so published files live under root `dist/` (`preset/`, `nuxt/`, `vue/`, `index.js`).
-- `build:components` copies `dist/style.css` and `dist/panda.buildinfo.json` to the **root** `dist/` and must not leave those files as the published copies under `packages/components/dist/`.
+- `build` wipes root `dist/`, runs `scripts/assemble-dist.ts`, then `panda:lib`.
+- `build:components` copies `dist/style.css` to the **root** `dist/` and must not leave `packages/components/dist/ui-components.css` as the published copy.
 
 ### Dist / tarball (if `dist/` exists)
 
 Confirm, or say build is needed:
 
 - Root `dist/style.css` contains `.icon` and does **not** contain `@layer reset|tokens|recipes|utilities`.
-- Root `dist/panda.buildinfo.json` exists and has atomic styles.
-- Packed tarball (do not pack unless artifacts already exist; you may read test expectations): include `package/dist/style.css`, `package/dist/panda.buildinfo.json`, `package/dist/preset/index.js`, `package/dist/nuxt/module.mjs`, `package/dist/vue/Button.js`, `package/dist/nuxt-entries.json`.
-- Must **not** include `package/packages/**`, `packages/components/dist/panda.buildinfo.json`, `packages/components/dist/ui-components.css`, `packages/preset/css/`, `*.d.ts.map`, or `dist/nuxt/runtime/server/tsconfig.json`.
+- Root `dist/panda/lib.json`, `preset.mjs`, and `buildinfo.json` exist. `lib.json` `files` globs must be present in the tarball.
+- Packed tarball (do not pack unless artifacts already exist; you may read test expectations): include `package/dist/style.css`, `package/dist/panda/lib.json`, `package/dist/panda/preset.mjs`, `package/dist/panda/buildinfo.json`, `package/dist/styled-system/css/index.js`, `package/dist/preset/index.js`, `package/dist/nuxt/module.mjs`, `package/dist/vue/Button.js`, `package/dist/nuxt-entries.json`.
+- Must **not** include `package/packages/**`, `package/dist/panda.buildinfo.json`, `packages/components/dist/ui-components.css`, `packages/preset/css/`, `*.d.ts.map`, or `dist/nuxt/runtime/server/tsconfig.json`.
 
-Public subpaths that must resolve: `@fyrst/ui`, `@fyrst/ui/components`, `@fyrst/ui/design-preset`, `@fyrst/ui/preset`, `@fyrst/ui/nuxt`, `@fyrst/ui/nuxt-entries.json`, `@fyrst/ui/vue/Button`, `@fyrst/ui/style.css`, `@fyrst/ui/panda.buildinfo.json`.
+Public subpaths that must resolve: `@fyrst/ui`, `@fyrst/ui/components`, `@fyrst/ui/design-preset`, `@fyrst/ui/preset`, `@fyrst/ui/nuxt`, `@fyrst/ui/nuxt-entries.json`, `@fyrst/ui/vue/Button`, `@fyrst/ui/style.css`, `@fyrst/ui/panda/lib.json`, `@fyrst/ui/css`.
 
-Playground `panda.config.ts` must import `@fyrst/ui/design-preset`, not `@fyrst/design-preset`.
+Playground `panda.config.ts` must set `designSystem: '@fyrst/ui'` and must not import `@fyrst/ui/design-preset` or `@fyrst/design-preset`.
 
 Vue lib entries stay unminified (`minify: false` in `packages/components/vite.config.ts`) so identifiers do not collide with Vue auto-imports.
 

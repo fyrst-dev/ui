@@ -1,6 +1,6 @@
 {
     "name": "@fyrst/ui-components",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "private": true,
     "description": "Vue 3 UI components for the fyrst.dev design system",
     "license": "MIT",
@@ -40,13 +40,11 @@
             "import": "./dist/index.js",
             "require": "./dist/index.cjs"
         },
-        "./style.css": "./dist/ui-components.css",
-        "./panda.buildinfo.json": "./dist/panda.buildinfo.json"
+        "./style.css": "./dist/ui-components.css"
     },
     "scripts": {
         "codegen": "panda codegen --clean",
-        "panda:buildinfo": "panda buildinfo --outfile dist/panda.buildinfo.json",
-        "build": "bun run clean && bun run codegen && bun run build:icons && bun run generate:vue-entries && vite build && vue-tsc --emitDeclarationOnly && bun run panda:buildinfo",
+        "build": "bun run clean && bun run codegen && bun run build:icons && bun run generate:vue-entries && vite build && vue-tsc --emitDeclarationOnly",
         "build:icons": "bun run build.icons",
         "generate:vue-entries": "bun write-vue-entry-modules.ts",
         "dev": "vite dev",
@@ -69,7 +67,7 @@
     },
     "peerDependencies": {
         "vue": "^3.5.41",
-        "@fyrst/design-preset": "^0.2.0",
+        "@fyrst/design-preset": "^0.3.0",
         "@pandacss/dev": "^2.4.0",
         "@pandacss/preset-base": "^2.4.0",
         "reka-ui": "^2.10.3"

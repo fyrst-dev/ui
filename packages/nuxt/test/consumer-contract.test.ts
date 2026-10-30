@@ -8,9 +8,30 @@ import ts from 'typescript'
 import { describe, it, expect } from 'vitest'
 
 const styleCssPath = fileURLToPath(new URL('../../../dist/style.css', import.meta.url))
-const buildinfoPath = fileURLToPath(new URL('../../../dist/panda.buildinfo.json', import.meta.url))
+const pandaLibPath = fileURLToPath(new URL('../../../dist/panda/lib.json', import.meta.url))
+const pandaBuildinfoPath = fileURLToPath(new URL('../../../dist/panda/buildinfo.json', import.meta.url))
 const rootDir = fileURLToPath(new URL('../../..', import.meta.url))
 const rootPackagePath = join(rootDir, 'package.json')
+
+function libFallbackInTarball(file: string, packedFiles: string[]): boolean {
+  const packed = new Set(packedFiles)
+  const normalized = file.replace(/^\.\//, '')
+  const exact = [
+    `package/${normalized}`,
+    `package/dist/${normalized}`,
+    `package/dist/panda/${normalized}`,
+  ]
+  if (!file.includes('*')) {
+    return exact.some(path => packed.has(path))
+  }
+
+  return packedFiles.some((entry) => {
+    if (!entry.startsWith('package/dist/')) {
+      return false
+    }
+    return entry.endsWith('.js') || entry.endsWith('.mjs')
+  })
+}
 
 function readBuiltVueModule(entryName: string): string {
   const entryDir = join(rootDir, 'packages/components/dist/vue')
@@ -29,11 +50,25 @@ function readBuiltVueModule(entryName: string): string {
 }
 
 describe('consumer styling contract', () => {
-  it('exports panda.buildinfo.json for the consuming app to include', () => {
-    const buildinfo = JSON.parse(readFileSync(buildinfoPath, 'utf8')) as {
+  it('ships a panda lib manifest for designSystem consumers', () => {
+    const manifest = JSON.parse(readFileSync(pandaLibPath, 'utf8')) as {
+      name?: string
+      schemaVersion?: number
+      buildInfo?: string
+      preset?: string
+      files?: string[]
+    }
+    const buildinfo = JSON.parse(readFileSync(pandaBuildinfoPath, 'utf8')) as {
       atoms?: unknown[]
       styles?: { atomic?: unknown[] }
     }
+
+    expect(manifest.name).toBe('@fyrst/ui')
+    expect(manifest.schemaVersion).toBe(1)
+    expect(manifest.buildInfo).toBe('./buildinfo.json')
+    expect(manifest.preset).toBe('./preset.mjs')
+    expect(manifest.files?.length).toBeGreaterThan(0)
+    expect(existsSync(join(rootDir, 'dist/panda/preset.mjs'))).toBe(true)
 
     const atomCount = buildinfo.atoms?.length ?? buildinfo.styles?.atomic?.length ?? 0
     expect(atomCount).toBeGreaterThan(0)
@@ -82,6 +117,7 @@ describe('published package contract', () => {
       'build:preset',
       'build:components',
       'build:nuxt',
+      'panda:lib',
       'link:package',
       'watch:preset',
       'dev:components',
@@ -121,8 +157,20 @@ describe('published package contract', () => {
     expect(pkg.scripts['build:nuxt']).not.toContain('dev:prepare')
     expect(pkg.scripts['dev:nuxt:build']).toContain('dev:build')
     expect(pkg.scripts['build:components']).toContain('dist/style.css')
-    expect(pkg.scripts['build:components']).toContain('dist/panda.buildinfo.json')
+    expect(pkg.scripts['build:components']).not.toContain('dist/panda.buildinfo.json')
+    expect(pkg.scripts['panda:lib']).toContain('panda lib')
+    expect(pkg.scripts['panda:lib']).toContain("--files './**/*.{js,mjs}'")
+    expect(pkg.scripts.build).toContain('rm -rf dist')
     expect(pkg.scripts.build).toContain('assemble-dist.ts')
+    expect(pkg.scripts.build).toContain('panda:lib')
+
+    const componentsPkg = JSON.parse(readFileSync(join(rootDir, 'packages/components/package.json'), 'utf8')) as {
+      scripts: Record<string, string>
+      exports: Record<string, unknown>
+    }
+    expect(componentsPkg.scripts['panda:buildinfo']).toBeUndefined()
+    expect(componentsPkg.scripts.build).not.toContain('panda:buildinfo')
+    expect(componentsPkg.exports['./panda.buildinfo.json']).toBeUndefined()
 
     const assembleDist = readFileSync(join(rootDir, 'scripts/assemble-dist.ts'), 'utf8')
     expect(assembleDist).toContain('rmSync(dest, { recursive: true, force: true })')
@@ -138,19 +186,25 @@ describe('published package contract', () => {
     expect(nuxtPkg.dependencies?.['@fyrst/ui-components']).toBeUndefined()
   })
 
-  it('playground dogfoods the public preset import', () => {
+  it('playground dogfoods designSystem: \'@fyrst/ui\'', () => {
     const pandaConfig = readFileSync(
       join(rootDir, 'packages/nuxt/playground/panda.config.ts'),
       'utf8',
     )
+    const rootPandaConfig = readFileSync(join(rootDir, 'panda.config.ts'), 'utf8')
 
-    expect(pandaConfig).toContain('@fyrst/ui/design-preset')
-    expect(pandaConfig).toContain('@fyrst/ui/panda.buildinfo.json')
-    expect(pandaConfig).toContain('require.resolve')
-    expect(pandaConfig).toContain("resolve(process.cwd(), 'panda.config.ts')")
-    expect(pandaConfig).not.toContain('createRequire(import.meta.url)')
+    expect(pandaConfig).toContain("designSystem: '@fyrst/ui'")
+    expect(pandaConfig).not.toContain('presets:')
+    expect(pandaConfig).not.toContain('@fyrst/ui/panda.buildinfo.json')
+    expect(pandaConfig).not.toContain('@fyrst/ui/design-preset')
+    expect(pandaConfig).not.toContain('@fyrst/ui/preset')
+    expect(pandaConfig).not.toContain('require.resolve')
     expect(pandaConfig).not.toContain('@fyrst/design-preset')
     expect(pandaConfig).not.toContain('node_modules/@fyrst/ui/dist/panda.buildinfo.json')
+
+    expect(rootPandaConfig).toContain("outdir: 'dist/styled-system'")
+    expect(rootPandaConfig).toContain('./packages/preset/src/index.ts')
+    expect(rootPandaConfig).not.toContain('designSystem:')
   })
 
   it('resolves Nuxt vue entries through public package exports', () => {
@@ -179,11 +233,20 @@ describe('published package contract', () => {
       import: './dist/nuxt/module.mjs',
       default: './dist/nuxt/module.mjs',
     })
+    expect(pkg.exports['./preset']).toEqual({
+      types: './dist/preset/index.d.ts',
+      import: './dist/preset/index.js',
+      require: './dist/preset/index.cjs',
+    })
+    expect(pkg.exports['./panda.buildinfo.json']).toBeUndefined()
+    expect(pkg.exports['./panda/*']).toBe('./dist/panda/*')
+    expect(pkg.exports['./css']).toBeDefined()
     expect(moduleSrc).toContain('@fyrst/ui/nuxt-entries.json')
     expect(moduleSrc).toContain("filePath: '@fyrst/ui'")
     expect(moduleSrc).toContain("from: '@fyrst/ui'")
     expect(moduleSrc).not.toContain('@fyrst/ui/vue/')
-    expect(moduleSrc).toContain('@fyrst/ui/panda.buildinfo.json')
+    expect(moduleSrc).toContain('@fyrst/ui/panda/lib.json')
+    expect(moduleSrc).not.toContain('@fyrst/ui/panda.buildinfo.json')
     expect(moduleSrc).toContain('warnIfPandaSetupLooksMissing')
     expect(moduleSrc).toContain('@pandacss/dev/postcss')
     expect(moduleSrc).not.toContain('findFileFromModule')
@@ -204,7 +267,10 @@ describe('published package contract', () => {
     expect(existsSync(join(rootDir, 'dist/vue/useFormData.d.ts'))).toBe(true)
 
     const buttonJs = readFileSync(buttonPath, 'utf8')
+    const buttonModule = readBuiltVueModule('Button')
     expect(buttonJs).not.toContain('AccordionRoot')
+    expect(buttonModule).toContain('@fyrst/ui/css')
+    expect(buttonModule).not.toContain('styled-system/')
 
     const entries = JSON.parse(readFileSync(entriesPath, 'utf8')) as {
       components: Record<string, string>
@@ -466,7 +532,22 @@ describe('packed install exports', () => {
         .filter(Boolean)
 
       expect(packedFiles).toContain('package/dist/style.css')
-      expect(packedFiles).toContain('package/dist/panda.buildinfo.json')
+      expect(packedFiles).toContain('package/dist/panda/lib.json')
+      expect(packedFiles).toContain('package/dist/panda/preset.mjs')
+      expect(packedFiles).toContain('package/dist/panda/buildinfo.json')
+      expect(packedFiles).toContain('package/dist/styled-system/css/index.js')
+      expect(packedFiles).not.toContain('package/dist/panda.buildinfo.json')
+
+      const packedLib = JSON.parse(execFileSync('tar', ['-xOf', tarball, 'package/dist/panda/lib.json'], {
+        encoding: 'utf8',
+      })) as { files?: string[] }
+      expect(packedLib.files?.length).toBeGreaterThan(0)
+      for (const file of packedLib.files ?? []) {
+        expect(
+          libFallbackInTarball(file, packedFiles),
+          `packed tarball must contain panda lib fallback file ${file}`,
+        ).toBe(true)
+      }
       expect(packedFiles).toContain('package/dist/preset/index.js')
       expect(packedFiles).toContain('package/dist/nuxt/module.mjs')
       expect(packedFiles).toContain('package/dist/vue/Button.js')
@@ -512,7 +593,8 @@ describe('packed install exports', () => {
         '@fyrst/ui/nuxt-entries.json',
         '@fyrst/ui/vue/Button',
         '@fyrst/ui/style.css',
-        '@fyrst/ui/panda.buildinfo.json',
+        '@fyrst/ui/panda/lib.json',
+        '@fyrst/ui/css',
       ]
       writeFileSync(
         join(consumer, 'resolve.mjs'),
@@ -540,7 +622,8 @@ describe('packed install exports', () => {
       expect(resolved['@fyrst/ui/nuxt-entries.json']).toMatch(/nuxt-entries\.json$/)
       expect(resolved['@fyrst/ui/vue/Button']).toMatch(/vue\/Button\.js$/)
       expect(resolved['@fyrst/ui/style.css']).toMatch(/style\.css$/)
-      expect(resolved['@fyrst/ui/panda.buildinfo.json']).toMatch(/panda\.buildinfo\.json$/)
+      expect(resolved['@fyrst/ui/panda/lib.json']).toMatch(/panda\/lib\.json$/)
+      expect(resolved['@fyrst/ui/css']).toMatch(/styled-system\/css/)
     }
     finally {
       rmSync(dir, { recursive: true, force: true })

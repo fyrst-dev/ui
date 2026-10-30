@@ -1,12 +1,18 @@
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { nuxtComponents, nuxtComposables, vueLibEntries } from './vue-entries.ts'
 import { writeVueEntryModules } from './write-vue-entry-modules.ts'
 
 const root = import.meta.dirname
-const libExternals = ['vue', '@pandacss/dev', 'reka-ui']
+const libExternals = [
+  'vue',
+  '@pandacss/dev',
+  'reka-ui',
+  /^styled-system(?:\/|$)/,
+  /^@fyrst\/ui\/(?:css|helpers|tokens|patterns|types)(?:\/|$)/,
+]
 const libOutput = {
   exports: 'named' as const,
   globals: {
@@ -23,9 +29,30 @@ const entry = {
   ),
 }
 
-export default defineConfig({
+function fyrstStyledSystemPackageImports(): Plugin {
+  const specifier = /(?:from|require\()\s*(['"])styled-system\/([^'"]+)\1/g
+
+  return {
+    name: 'fyrst-styled-system-package-imports',
+    renderChunk(code) {
+      if (!code.includes('styled-system/')) {
+        return null
+      }
+
+      const next = code.replace(
+        specifier,
+        (full, _quote: string, subpath: string) => full.replace(`styled-system/${subpath}`, `@fyrst/ui/${subpath}`),
+      )
+
+      return next === code ? null : { code: next, map: null }
+    },
+  }
+}
+
+export default defineConfig(({ command }) => ({
   plugins: [
     vue(),
+    fyrstStyledSystemPackageImports(),
     {
       name: 'fyrst-nuxt-entries',
       closeBundle() {
@@ -66,7 +93,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(root, 'src'),
-      'styled-system': resolve(root, 'styled-system'),
+      ...(command === 'serve'
+        ? { 'styled-system': resolve(root, 'styled-system') }
+        : {}),
     },
   },
-})
+}))

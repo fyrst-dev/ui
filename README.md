@@ -5,12 +5,12 @@ fyrst.dev design system. One npm package with subpath exports:
 | Import | What you get |
 | --- | --- |
 | `@fyrst/ui` / `@fyrst/ui/components` | Vue 3 UI components |
-| `@fyrst/ui/design-preset` | Panda CSS preset with design tokens |
+| `@fyrst/ui/design-preset` / `@fyrst/ui/preset` | Panda CSS preset (token-only consumers; not used with `designSystem`) |
 | `@fyrst/ui/nuxt` | Nuxt module |
-| `@fyrst/ui/panda.buildinfo.json` | Panda `buildinfo` output for component styles |
+| `@fyrst/ui/vue/*` | Per-component Vue entries (for example `@fyrst/ui/vue/Button`) |
 | `@fyrst/ui/style.css` | Iconify stylesheet only |
 
-This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pandacss/dev`, keep their own `panda.config.ts`, and generate styles locally.
+This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pandacss/dev`, keep their own `panda.config.ts`, and set `designSystem: '@fyrst/ui'`. `panda lib` writes `@fyrst/ui/panda/*` (`lib.json`, `preset.mjs`, `buildinfo.json`) and the generated `./css`, `./tokens`, `./types`, … subpaths. Do not hand-edit those generated exports.
 
 ## Install
 
@@ -40,23 +40,19 @@ export default defineNuxtConfig({
 ```
 
 ```ts
-import { createRequire } from 'node:module'
-import { resolve } from 'node:path'
 import { defineConfig } from '@pandacss/dev'
-import { preset } from '@fyrst/ui/design-preset'
-
-const require = createRequire(resolve(process.cwd(), 'panda.config.ts'))
 
 export default defineConfig({
   preflight: true,
-  presets: ['@pandacss/preset-base', preset],
+  designSystem: '@fyrst/ui',
   include: [
-    require.resolve('@fyrst/ui/panda.buildinfo.json'),
     './app/**/*.{js,ts,vue}',
   ],
   outdir: 'styled-system',
 })
 ```
+
+Do not add `@fyrst/ui/preset`, `@fyrst/ui/design-preset`, or `@fyrst/ui` to `presets` / `include`. `designSystem` already loads the theme and component styles. Listing the package in `include` errors with `design_system_in_include`.
 
 Components are auto-imported with a `Fyrst` prefix (`FyrstButton`, `FyrstAlertRoot`, `FyrstCardRoot`, …).
 
@@ -76,18 +72,12 @@ app.use(FyrstUI)
 ```
 
 ```ts
-import { createRequire } from 'node:module'
-import { resolve } from 'node:path'
 import { defineConfig } from '@pandacss/dev'
-import { preset } from '@fyrst/ui/design-preset'
-
-const require = createRequire(resolve(process.cwd(), 'panda.config.ts'))
 
 export default defineConfig({
   preflight: true,
-  presets: ['@pandacss/preset-base', preset],
+  designSystem: '@fyrst/ui',
   include: [
-    require.resolve('@fyrst/ui/panda.buildinfo.json'),
     './src/**/*.{js,ts,vue}',
   ],
   outdir: 'styled-system',
@@ -122,11 +112,11 @@ bun run build
 bun run dev:nuxt
 ```
 
-`bun run build` and `bun run dev:nuxt` link the root package at `node_modules/@fyrst/ui` so the playground can import `@fyrst/ui/design-preset` the same way consumers do.
+`bun run build` and `bun run dev:nuxt` link the root package at `node_modules/@fyrst/ui` and run `panda lib`, so the playground can set `designSystem: '@fyrst/ui'` the same way consumers do.
 
 See `AGENTS.md` for lint, test, and package scripts.
 
-Apps still on Panda CSS 1.x should follow [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md) when upgrading to Panda 2 with this package. That skill lives in the git repository (not in the npm tarball).
+Apps on `@fyrst/ui` 0.2.x (`panda.buildinfo.json` in `include`) or still on Panda CSS 1.x should follow [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md). That skill lives in the git repository (not in the npm tarball).
 
 ## Publishing
 

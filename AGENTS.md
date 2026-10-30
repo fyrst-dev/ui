@@ -9,7 +9,7 @@ Workspace packages (private, not published):
 
 Uses Bun as package manager and build tool, full TypeScript support.
 
-First-party agent skills live in `.agents/skills/<name>/SKILL.md`. Consumer apps still on Panda CSS 1.x should follow [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md) when upgrading to Panda 2 and this preset.
+First-party agent skills live in `.agents/skills/<name>/SKILL.md`. Consumer apps on `@fyrst/ui` 0.2.x (`panda.buildinfo.json` in `include`) or still on Panda CSS 1.x should follow [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md).
 
 ## Package Structure
 
@@ -28,15 +28,16 @@ packages/
 ## Build Commands
 
 ```bash
-bun run build              # Link @fyrst/ui, then build preset, components, nuxt prepack
+bun run build              # Clean root dist, link @fyrst/ui, build preset/components/nuxt, assemble dist, panda lib
 bun run build:preset        # Panda CSS preset
 bun run build:components    # Vue components + root dist exports
 bun run build:nuxt          # Nuxt module (prepack only; does not build playground)
+bun run panda:lib           # panda codegen + panda lib (manifest under dist/panda/, syncs generated exports)
 bun run link:package        # Symlink the root package to node_modules/@fyrst/ui (dev only)
 bun run watch:preset        # Preset watch mode
 bun run dev:components      # Components dev server
-bun run dev:nuxt            # Link @fyrst/ui, then Nuxt module playground
-bun run dev:nuxt:prepare    # Link @fyrst/ui, then stub/prepare the Nuxt module + playground
+bun run dev:nuxt            # Link @fyrst/ui, panda lib, then Nuxt module playground
+bun run dev:nuxt:prepare    # Link @fyrst/ui, panda lib, then stub/prepare the Nuxt module + playground
 bun run dev:nuxt:build      # Link @fyrst/ui, then build the Nuxt playground (dev check, not publish)
 bun run clean               # Clean all dist folders
 ```
@@ -51,10 +52,11 @@ bun run --filter='@fyrst/ui-nuxt' lint   # Lint specific package
 
 ## Test Commands
 
-Only `@fyrst/ui-nuxt` has tests (Vitest with `@nuxt/test-utils`).
+`@fyrst/ui-components` has Vitest unit/SSR tests. `@fyrst/ui-nuxt` has Vitest tests with `@nuxt/test-utils` (needs a prior `bun run build` for dist + `panda lib` artifacts).
 
 ```bash
 bun run test                              # Link @fyrst/ui, then run all tests
+bun run --filter='@fyrst/ui-components' test   # Component unit + SSR tests
 bun run --filter='@fyrst/ui-nuxt' test    # Nuxt package tests (needs `bun run link:package`)
 bun run --filter='@fyrst/ui-nuxt' test:watch   # Watch mode
 bun run --filter='@fyrst/ui-nuxt' test -- basic.test.ts   # Single file
@@ -234,4 +236,4 @@ describe('ssr', async () => {
 3. Build order: Nuxt module requires preset built first (automatic)
 4. Peer dependencies: `vue`, `reka-ui`, `@pandacss/dev`, and `@pandacss/preset-base` are required. `nuxt` and `@nuxt/kit` are optional (only `@fyrst/ui/nuxt`). Do not put `@nuxt/kit` in published `dependencies`.
 5. No Prettier: ESLint used for formatting (stylistic rules)
-6. Do not ship compiled Panda CSS (`panda cssgen`, `styles.css`, `panda.css`). Publish only the root `@fyrst/ui` package. Consuming apps must depend on `@pandacss/dev`, keep their own `panda.config.ts` (`import { preset } from '@fyrst/ui/design-preset'`), and include `@fyrst/ui/panda.buildinfo.json` from `panda buildinfo`. `@fyrst/ui/style.css` is Iconify icons only. Pack root `dist/` only (assembled from workspace build outputs) — do not include Panda codegen folders (`css`, `tokens`, `types`, `patterns`, `jsx`) or nested `packages/*/dist`.
+6. Do not ship compiled Panda CSS (`panda cssgen`, `styles.css`, `panda.css`). Publish only the root `@fyrst/ui` package. Consuming apps must depend on `@pandacss/dev`, keep their own `panda.config.ts`, and set `designSystem: '@fyrst/ui'` (no fyrst preset, no `include` into the package). The library build runs `panda lib --outdir dist --files './**/*.{js,mjs}' --panda '^2.4.0'` after assembling `dist/`. That command owns `./panda/*`, `./css`, `./tokens`, `./types`, and other generated subpaths — do not hand-edit them. Custom exports (`./design-preset`, `./preset`, `./nuxt`, `./vue/*`, `./style.css`) stay in `package.json`. `@fyrst/ui/style.css` is Iconify icons only. Pack root `dist/` only (assembled from workspace build outputs, including `dist/panda/` and `dist/styled-system/`) — do not include nested `packages/*/dist`.
