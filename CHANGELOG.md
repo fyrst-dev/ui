@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-10-31
+
+Patch on 0.4.0. Font tokens, `font-family: inherit`, `Button` `fullWidth`, `AlertRoot` `hideIcon`, the required-field asterisk (`color: 'danger'`), and the inlined `@pandacss/preset-base` dependency are unchanged.
+
+### Removed
+
+- Color tokens added in 0.4.0 by mistake: `brand.pale.lucid`, `primary.subtle`, `primary.subtle.light`, `primary.text`, and `primary` / `danger` / `success` / `warning` / `info` `.lucid.700` and `.lucid.900`. Color tokens match v0.2.0 again. Consumers should use `*.subtle`.
+
 ## [0.4.0] - 2026-10-30
 
 Additive release for apps already on 0.3.0 (`designSystem: '@fyrst/ui'`, Panda 2.4). No prop was removed or renamed.
@@ -24,21 +32,6 @@ Additive release for apps already on 0.3.0 (`designSystem: '@fyrst/ui'`, Panda 2
 - `Button`, field inputs, textareas, and select triggers set `font-family: inherit`, so with preflight off they follow the app font instead of the user-agent face. The same inherit is set on the prompt textarea, the flyout trigger, and the carousel's default prev/next buttons. Field URL already used `font: inherit`.
 - The required-field asterisk uses `color: 'danger'` again (solid red). It had been switched to `danger.subtle`, which reads as a grey wash in dark mode.
 - `@pandacss/preset-base` is a dependency of `@fyrst/ui`, and the published design-system preset inlines that module. Apps on `designSystem: '@fyrst/ui'` no longer add `@pandacss/preset-base` themselves. `@pandacss/dev` stays a peer. [Publishing](https://panda-css.com/docs/design-systems/publishing) keeps Panda itself as a peer; a string preset name is resolved from the app, so the library passes the module through `panda lib` instead.
-
-### Token mapping
-
-If a local patch recreated the old washes, you can drop it and use the restored tokens, or move to the muted mixes:
-
-| Previous token | Restored in 0.4.0 | Preferred muted fill |
-| --- | --- | --- |
-| `brand.pale.lucid` | `brand.pale.lucid` (`brand.100` at 25%) | — |
-| `primary.lucid.700` / `.900` | same paths | `primary.subtle` |
-| `danger.lucid.700` / `.900` | same paths | `danger.subtle` |
-| `success.lucid.700` / `.900` | same paths | `success.subtle` |
-| `warning.lucid.700` / `.900` | same paths | `warning.subtle` |
-| `info.lucid.700` / `.900` | same paths | `info.subtle` |
-
-`*.lucid.700` is a 25% wash in dark mode and 40% in light mode. `*.lucid.900` is 10% / 25%. `*.subtle` is a grey mix, not the same wash.
 
 ## [0.3.0] - 2026-10-30
 
@@ -93,7 +86,8 @@ Public export names are unchanged: `preset`, `breakpoints`, `@fyrst/ui/design-pr
 
 - Initial `@fyrst/ui` design system: Panda CSS preset, Vue 3 components, and Nuxt module.
 
-[unreleased]: https://github.com/fyrst-dev/ui/compare/v0.4.0...HEAD
+[unreleased]: https://github.com/fyrst-dev/ui/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/fyrst-dev/ui/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/fyrst-dev/ui/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/fyrst-dev/ui/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/fyrst-dev/ui/compare/v0.1.0...v0.2.0

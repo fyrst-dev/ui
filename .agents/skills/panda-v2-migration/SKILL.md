@@ -80,16 +80,16 @@ v2 keeps `css()`, recipes, tokens, conditions, and JSX props. It rewrites the co
 | Vue entry CSS imports | `styled-system/css` (bundled or aliased) | published JS imports `@fyrst/ui/css` so stale-buildinfo fallback can re-extract |
 | Inline `style=` | Card/Loader/Progress/FormPrompt used CSS variables on `style=` | variants are classes; SSR HTML has no `style=` from those components |
 
-### 0.4.0 (consumer patches) — additive on 0.3.x
+### 0.4.x (consumer patches) — additive on 0.3.x
 
-| Area | 0.3.x | 0.4.0 |
+| Area | 0.3.x | 0.4.x |
 | --- | --- | --- |
 | `@pandacss/preset-base` | peer; `designSystem` apps still installed it so Panda could resolve the string from the app | dependency of `@fyrst/ui`; inlined into `dist/panda/preset.mjs`. Do not add it on a `designSystem` app |
 | `Button` | `size` `sm` \| `md` \| `lg` only; no `font-family` | `fullWidth` boolean (default `false`); `fontFamily: 'inherit'` |
 | Fields | input / textarea / select trigger used the user-agent font when preflight was off | `fontFamily: 'inherit'` on those controls. Field URL already had `font: inherit` |
 | `AlertRoot` | `#icon` only replaces the default icon | `hideIcon` omits the icon and its gap |
 | Fonts | no `fonts.sans` / `serif` / `mono` on this preset | Figtree sans stack, system serif and mono, semantic `fonts.body`. Load the face in the app (root README). The package does not ship font files |
-| `*.lucid.700`, `*.lucid.900`, `brand.pale.lucid` | absent (dropped when `*.subtle` was added, still absent in 0.3.0) | restored with the previous values. `*.subtle` remains the muted fill. `primary.subtle` / `primary.subtle.light` / `primary.text` added |
+| Status washes | `danger` / `success` / `warning` / `info` use `*.subtle`. `primary` is a single color | unchanged in 0.4.1. 0.4.0 added `*.lucid.700`, `*.lucid.900`, `brand.pale.lucid`, `primary.subtle`, `primary.subtle.light`, and `primary.text` by mistake; 0.4.1 removes them. Use `*.subtle` |
 | Required asterisk | `danger.subtle` (grey wash in dark mode) | `danger` again |
 
 No props were removed. `fullWidth` and `hideIcon` default to `false`.
