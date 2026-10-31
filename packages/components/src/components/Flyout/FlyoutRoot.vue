@@ -41,6 +41,7 @@ const { open, toggle } = useFlyout({ el })
           css(
             css.raw({
               cursor: 'pointer',
+              fontFamily: 'inherit',
             }),
             props.classTrigger,
           ),

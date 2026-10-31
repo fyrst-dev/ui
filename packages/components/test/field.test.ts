@@ -1,9 +1,23 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import FieldInput from '../src/components/Field/FieldInput.vue'
 import ControlInput from '../src/internal/controls/ControlInput.vue'
+import { controlStyles } from '../src/internal/controls/controlStyles'
 
 const textLikeTypes = ['text', 'email', 'url', 'tel', 'search', 'password', 'number'] as const
+
+describe('form control font', () => {
+  it('inherits the app font on input, textarea, and select triggers', () => {
+    expect(controlStyles.raw()).toMatchObject({ fontFamily: 'inherit' })
+  })
+
+  it('inherits the app font on the prompt textarea', () => {
+    const source = readFileSync(join(import.meta.dirname, '../src/components/Form/FormPrompt.vue'), 'utf8')
+    expect(source).toContain("fontFamily: 'inherit'")
+  })
+})
 
 describe('Field', () => {
   it('associates the label with the named input', () => {
@@ -22,6 +36,22 @@ describe('Field', () => {
     expect(inputId).toBeTruthy()
     expect(label.attributes('for')).toBe(inputId)
     expect(label.text()).toContain('Email')
+  })
+
+  it('renders the required mark in the solid danger color', () => {
+    const wrapper = mount(FieldInput, {
+      props: {
+        name: 'email',
+        label: 'Email',
+        required: true,
+      },
+    })
+
+    expect(wrapper.get('label').text()).toContain('*')
+
+    const source = readFileSync(join(import.meta.dirname, '../src/components/Field/FieldRequired.vue'), 'utf8')
+    expect(source).toMatch(/color:\s*'danger'/)
+    expect(source).not.toMatch(/color:\s*'danger\.subtle'/)
   })
 
   it.each(textLikeTypes)('renders type="%s" on the native input', (type) => {

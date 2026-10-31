@@ -6,6 +6,7 @@ export const buttonStyles = cva({
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: '600',
+    fontFamily: 'inherit',
     lineHeight: '1.5',
     borderRadius: 'lg',
     borderStyle: 'solid',
@@ -115,6 +116,13 @@ export const buttonStyles = cva({
         paddingInline: 'xl',
       },
     },
+    fullWidth: {
+      true: {
+        width: '100%',
+        boxSizing: 'border-box',
+      },
+      false: {},
+    },
     order: {
       regular: {
         '& .btn-icon': {
@@ -138,5 +146,6 @@ export const buttonStyles = cva({
     color: 'secondary',
     size: 'md',
     order: 'regular',
+    fullWidth: false,
   },
 })

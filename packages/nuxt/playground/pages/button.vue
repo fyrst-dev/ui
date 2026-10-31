@@ -197,7 +197,7 @@
                         label="Continue to Payment" 
                         color="primary" 
                         size="lg"
-                        :class="css({ width: '100%' })"
+                        full-width
                     />
                 </div>
             </div>

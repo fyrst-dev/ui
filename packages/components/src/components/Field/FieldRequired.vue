@@ -5,7 +5,7 @@ import { css } from 'styled-system/css'
 <template>
   <span
     :class="css({
-      color: 'danger.subtle',
+      color: 'danger',
       fontWeight: '800',
     })"
   >

@@ -25,9 +25,19 @@ export const opacity = defineSemanticTokens.opacity({
   },
 })
 
+export const fonts = defineSemanticTokens.fonts({
+  body: {
+    value: '{fonts.sans}',
+    description: 'Document face. Alias of the Figtree sans stack.',
+  },
+})
+
 export const colors = defineSemanticTokens.colors({
   brand: {
-    pale: { value: '{colors.brand.100}' },
+    pale: {
+      DEFAULT: { value: '{colors.brand.100}' },
+      lucid: { value: '{colors.brand.100/25}' },
+    },
     day: { value: '{colors.brand.300}' },
     brand: { value: '{colors.brand.400}' },
     dawn: { value: '{colors.brand.600}' },
@@ -40,7 +50,16 @@ export const colors = defineSemanticTokens.colors({
     black: { value: '{colors.grey.950}' },
   },
   primary: {
-    value: { base: '{colors.brand.pale}', _light: '{colors.brand.day}' },
+    DEFAULT: { value: { base: '{colors.brand.pale}', _light: '{colors.brand.day}' } },
+    subtle: {
+      DEFAULT: subtleMix('brand.100', 'brand.300'),
+      light: subtleMix('brand.100', 'brand.100', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
+    },
+    text: { value: { base: '{colors.brand.600}' } },
+    lucid: {
+      700: { value: { base: '{colors.brand.pale/25}', _light: '{colors.brand.pale/40}' } },
+      900: { value: { base: '{colors.brand.pale/10}', _light: '{colors.brand.pale/25}' } },
+    },
   },
   danger: {
     DEFAULT: { value: { base: '{colors.red.400}', _light: '{colors.red.600}' } },
@@ -49,6 +68,10 @@ export const colors = defineSemanticTokens.colors({
       light: subtleMix('red.200', 'red.400', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
     },
     text: { value: { base: '{colors.red.900}' } },
+    lucid: {
+      700: { value: { base: '{colors.red.400/25}', _light: '{colors.red.600/40}' } },
+      900: { value: { base: '{colors.red.400/10}', _light: '{colors.red.600/25}' } },
+    },
   },
   success: {
     DEFAULT: { value: { base: '{colors.green.400}', _light: '{colors.green.600}' } },
@@ -57,6 +80,10 @@ export const colors = defineSemanticTokens.colors({
       light: subtleMix('green.200', 'green.400', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
     },
     text: { value: { base: '{colors.green.900}' } },
+    lucid: {
+      700: { value: { base: '{colors.green.400/25}', _light: '{colors.green.600/40}' } },
+      900: { value: { base: '{colors.green.400/10}', _light: '{colors.green.600/25}' } },
+    },
   },
   warning: {
     DEFAULT: { value: { base: '{colors.yellow.400}', _light: '{colors.yellow.600}' } },
@@ -65,6 +92,10 @@ export const colors = defineSemanticTokens.colors({
       light: subtleMix('yellow.200', 'yellow.400', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
     },
     text: { value: { base: '{colors.yellow.900}' } },
+    lucid: {
+      700: { value: { base: '{colors.yellow.400/25}', _light: '{colors.yellow.600/40}' } },
+      900: { value: { base: '{colors.yellow.400/10}', _light: '{colors.yellow.600/25}' } },
+    },
   },
   info: {
     DEFAULT: { value: { base: '{colors.blue.400}', _light: '{colors.blue.600}' } },
@@ -73,6 +104,10 @@ export const colors = defineSemanticTokens.colors({
       light: subtleMix('blue.200', 'blue.400', '{opacity.color.status.lighter}', '{opacity.color.neutral.lighter}'),
     },
     text: { value: { base: '{colors.blue.900}' } },
+    lucid: {
+      700: { value: { base: '{colors.blue.400/25}', _light: '{colors.blue.600/40}' } },
+      900: { value: { base: '{colors.blue.400/10}', _light: '{colors.blue.600/25}' } },
+    },
   },
   neutral: {
     DEFAULT: { value: { base: '{colors.white}', _light: '{colors.grey.night}' } },

@@ -28,5 +28,13 @@
                 description: 'this is a test alert'
             }]"
         />
+        <FyrstAlertRoot
+            hide-icon
+            variant="info"
+            :messages="[{
+                title: 'No icon',
+                description: 'The icon slot is omitted, including its gap.'
+            }]"
+        />
     </ShowcaseContainer>
 </template>
