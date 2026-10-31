@@ -1,30 +1,9 @@
-<template>
-  <div :class="cssClasses.root">
-    <slot name="prepend" />
-    <slot name="headline">
-      <component
-        :is="headlineTag"
-        v-if="headline"
-        :class="cssClasses.headline"
-      >
-        <span v-html="headline" />
-      </component>
-    </slot>
-    <slot name="description">
-      <div
-        v-if="description"
-        :class="cssClasses.description"
-        v-html="description"
-      />
-    </slot>
-    <slot name="actions" />
-    <slot name="append" />
-  </div>
-</template>
-
 <script setup lang="ts">
-import { heroLead } from './styles'
 import { computed } from 'vue'
+import { heroLeadStyles } from './styles'
+import { withCss, type CssMap } from '../../internal/css'
+
+export type HeroLeadCss = CssMap<'root' | 'headline' | 'description'>
 
 export interface Props {
   headline?: string
@@ -34,6 +13,7 @@ export interface Props {
   alignSelf?: 'start' | 'center' | 'end'
   size?: 'sm' | 'md' | 'lg'
   gap?: 'sm' | 'md' | 'lg' | 'xl'
+  css?: HeroLeadCss
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -44,12 +24,36 @@ const props = withDefaults(defineProps<Props>(), {
   gap: 'md',
 })
 
-const cssClasses = computed(() => {
-  return heroLead({
-    alignItems: props.alignItems || 'start',
-    alignSelf: props.alignSelf || 'start',
-    size: props.size || 'md',
-    gap: props.gap || 'md',
-  })
-})
+const styles = computed(() => heroLeadStyles.raw({
+  alignItems: props.alignItems,
+  alignSelf: props.alignSelf,
+  size: props.size,
+  gap: props.gap,
+}))
 </script>
+
+<template>
+  <div :class="withCss(styles.root, props.css?.root)">
+    <slot name="prepend" />
+    <slot name="headline">
+      <component
+        :is="headlineTag"
+        v-if="headline"
+        :class="withCss(styles.headline, props.css?.headline)"
+      >
+        <span
+          v-html="headline"
+        />
+      </component>
+    </slot>
+    <slot name="description">
+      <div
+        v-if="description"
+        :class="withCss(styles.description, props.css?.description)"
+        v-html="description"
+      />
+    </slot>
+    <slot name="actions" />
+    <slot name="append" />
+  </div>
+</template>

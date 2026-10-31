@@ -26,7 +26,8 @@ export {
   FieldRequired,
 }
 
-export type { FieldOption } from '../../internal/controls/types'
+export type { FieldOption, UrlCss } from '../../internal/controls/types'
+export type { FieldSharedProps } from './types'
 
 export default {
   Input: FieldInput,

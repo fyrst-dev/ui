@@ -1,6 +1,6 @@
 {
     "name": "@fyrst/ui-nuxt",
-    "version": "0.4.1",
+    "version": "0.5.0",
     "private": true,
     "description": "Nuxt module for the fyrst.dev Vue UI components",
     "license": "MIT",
@@ -48,7 +48,6 @@
         "dev": "bun run dev:prepare && cd playground && bun run dev",
         "dev:build": "cd playground && bun run prepare && nuxi build",
         "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-        "release": "bun run lint && bun run test && bun run prepack && changelogen --release && git push --follow-tags",
         "lint": "eslint src",
         "test": "vitest run",
         "test:watch": "vitest watch",
@@ -58,9 +57,9 @@
         "@nuxt/kit": "^4.6.3"
     },
     "peerDependencies": {
-        "nuxt": "^4.5.2",
-        "vue": "^3.5.41",
+        "nuxt": "^4.6.3",
+        "vue": "^3.5.44",
         "@pandacss/dev": "^2.4.0",
-        "reka-ui": "^2.10.3"
+        "reka-ui": "^2.11.0"
     }
 }

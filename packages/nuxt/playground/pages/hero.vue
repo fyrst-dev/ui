@@ -186,7 +186,7 @@
                 Hero component can be composed with other components like Card for enhanced layouts.
             </p>
             
-            <FyrstCardRoot border-color="primary">
+            <FyrstCardRoot>
                 <FyrstCardBody>
                     <FyrstHeroLead
                         size="sm"

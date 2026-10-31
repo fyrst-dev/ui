@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { css } from 'styled-system/css'
+import { formPromptStyles } from './styles'
+import { withCss, type CssMap } from '../../internal/css'
+
+export type FormPromptCss = CssMap<'root' | 'form' | 'textarea'>
 
 export interface FormPromptProps {
   /** Action URL for the form submission */
@@ -15,9 +18,11 @@ export interface FormPromptProps {
   ariaLabel?: string
   /** Placeholder text for the textarea */
   placeholder?: string
+  /** Style overrides per slot. Wrap values in `css.raw()`. */
+  css?: FormPromptCss
 }
 
-withDefaults(defineProps<FormPromptProps>(), {
+const props = withDefaults(defineProps<FormPromptProps>(), {
   method: 'post',
 })
 
@@ -28,6 +33,8 @@ const emit = defineEmits<{
 
 const promptForm = ref<HTMLFormElement | null>(null)
 
+const styles = formPromptStyles.raw()
+
 const handleSubmit = (event: Event) => {
   event.preventDefault()
   emit('submit', promptForm.value)
@@ -35,13 +42,7 @@ const handleSubmit = (event: Event) => {
 </script>
 
 <template>
-  <div
-    :class="css({
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'lg',
-    })"
-  >
+  <div :class="withCss(styles.root, props.css?.root)">
     <slot name="alert" />
     <form
       :id="id"
@@ -50,48 +51,14 @@ const handleSubmit = (event: Event) => {
       :method="method"
       :name="name"
       :aria-label="ariaLabel"
-      :class="css({
-        flexGrow: '1',
-        containerType: 'inline-size',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'xl',
-        width: '100%',
-        bgColor: 'grey.night',
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        borderColor: 'grey.600',
-        borderRadius: '2xl',
-        padding: 'xl',
-        outlineWidth: '3px',
-        outlineStyle: 'solid',
-        outlineOffset: '0px',
-        outlineColor: 'transparent',
-        transition: 'all 200ms',
-        _light: {
-          bgColor: 'white',
-          borderColor: 'grey.200',
-        },
-      })"
+      :class="withCss(styles.form, props.css?.form)"
       @submit="handleSubmit"
     >
       <slot name="parameter" />
       <slot name="textarea">
         <textarea
           name="message"
-          :class="css({
-            flexGrow: '1',
-            fontFamily: 'inherit',
-            color: 'neutral',
-            padding: 'xs',
-            resize: 'none',
-            fieldSizing: 'content',
-            minHeight: 'var(--textarea-min-h, 120px)',
-            maxHeight: 'var(--textarea-max-h, 300px)',
-            _focus: {
-              outline: 'none',
-            },
-          })"
+          :class="withCss(styles.textarea, props.css?.textarea)"
           :placeholder="placeholder"
         />
       </slot>

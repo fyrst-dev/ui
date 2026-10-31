@@ -1,18 +1,7 @@
 import { sva } from 'styled-system/css'
 
-export type PricingCardStyles = ReturnType<typeof pricingCardStyles.raw>
-
 export const pricingCardStyles = sva({
-  slots: [
-    'root',
-    'header',
-    'headerPackage',
-    'title',
-    'subtitle',
-    'pricing',
-    'price',
-    'badge',
-  ],
+  slots: ['root', 'header', 'headerPackage', 'title', 'subtitle', 'pricing', 'price', 'badge'],
   base: {
     root: {
       display: 'flex',
@@ -40,7 +29,9 @@ export const pricingCardStyles = sva({
       gap: 'sm',
       padding: 'lg',
       _hasNext: {
-        borderBottom: '1px solid {colors.grey.700}',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'grey.700',
       },
     },
     headerPackage: {

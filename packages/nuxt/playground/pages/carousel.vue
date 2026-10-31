@@ -11,7 +11,7 @@
             
             <FyrstCarouselRoot>
                 <FyrstCarouselItem v-for="i in 6" :key="i">
-                    <FyrstCardRoot border-color="primary">
+                    <FyrstCardRoot>
                         <FyrstCardBody>
                             <div :class="css({ 
                                 minWidth: '250px',
@@ -128,20 +128,19 @@
                 Custom Styled Carousel
             </h2>
             <p :class="css({ marginBottom: 'lg', color: 'grey.300', _light: { color: 'grey.700' } })">
-                Carousel with custom wrapper and carousel styles using classWrapper and classCarousel props.
+                Carousel with custom styles through the <code>css</code> prop (<code>root</code> and <code>viewport</code> slots).
             </p>
             
             <FyrstCarouselRoot 
-                :class-wrapper="css.raw({ 
+                :css="{ root: css.raw({ 
                     padding: 'xl', 
                     bg: 'lucid.50',
                     borderRadius: 'xl',
                     _light: { bg: 'lucid.100' }
-                })"
-                :class-carousel="css.raw({ 
+                }), viewport: css.raw({
                     gap: 'xl',
                     padding: 'lg'
-                })">
+                }) }">
                 <FyrstCarouselItem v-for="i in 5" :key="i">
                     <div :class="css({ 
                         minWidth: '300px',

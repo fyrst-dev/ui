@@ -1,44 +1,47 @@
 <script setup lang="ts">
-import { inject, watch, ref, type Ref } from 'vue'
-import { css } from 'styled-system/css'
+import { computed, inject } from 'vue'
+import { carouselStyles } from './styles'
+import { withCss } from '../../internal/css'
+import { CarouselContextKey, type CarouselNavigationCss } from './types'
 
-const prevDisabled = ref(true)
-const nextDisabled = ref(true)
-const handlePrev = inject<(() => void)>('handlePrev')
-const handleNext = inject<(() => void)>('handleNext')
-const allItemsVisible = inject<Ref<boolean>>('allItemsVisible', ref(false))
-const carouselItems = inject<Ref<NodeListOf<HTMLElement> | null>>('carouselItems', ref(null))
-const carouselIndex = inject<Ref<number>>('currentCarouselItemIndex', ref(0))
+const props = withDefaults(defineProps<{
+  prevLabel?: string
+  nextLabel?: string
+  css?: CarouselNavigationCss
+}>(), {
+  prevLabel: 'Prev',
+  nextLabel: 'Next',
+})
 
-watch(
-  [carouselItems, carouselIndex, allItemsVisible],
-  ([items, index, allItemsVisible]) => {
-    if (allItemsVisible) {
-      prevDisabled.value = true
-      nextDisabled.value = true
-    }
-    else if (items !== null && items.length > 0) {
-      prevDisabled.value = index === 0
-      nextDisabled.value = index === items.length - 1
-    }
-  },
-  { immediate: true },
-)
+const carousel = inject(CarouselContextKey, null)
+
+const itemCount = computed(() => carousel?.carouselItems.value.length ?? 0)
+const index = computed(() => carousel?.currentCarouselItemIndex.value ?? 0)
+const allVisible = computed(() => carousel?.allItemsVisible.value ?? false)
+
+const prevDisabled = computed(() => allVisible.value || itemCount.value === 0 || index.value === 0)
+const nextDisabled = computed(() => allVisible.value || itemCount.value === 0 || index.value === itemCount.value - 1)
+
+const handlePrev = () => carousel?.handlePrev()
+const handleNext = () => carousel?.handleNext()
+
+const styles = carouselStyles.raw()
 </script>
 
 <template>
-  <div>
+  <div :class="withCss(styles.navigation, props.css?.root)">
     <slot
       name="action-prev"
       :handle-prev="handlePrev"
       :disabled="prevDisabled"
     >
       <button
-        :class="css({ fontFamily: 'inherit' })"
+        type="button"
+        :class="withCss(styles.button, props.css?.button)"
         :disabled="prevDisabled"
         @click="handlePrev"
       >
-        Prev
+        {{ prevLabel }}
       </button>
     </slot>
     <slot
@@ -47,11 +50,12 @@ watch(
       :disabled="nextDisabled"
     >
       <button
-        :class="css({ fontFamily: 'inherit' })"
+        type="button"
+        :class="withCss(styles.button, props.css?.button)"
         :disabled="nextDisabled"
         @click="handleNext"
       >
-        Next
+        {{ nextLabel }}
       </button>
     </slot>
   </div>

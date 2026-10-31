@@ -1,14 +1,13 @@
 <script setup lang="ts">
 /**
  * @component ControlUrl
- * @description URL input group with clickable http(s) protocol prefix and paste sanitization.
+ * @description URL input group with a clickable http(s) prefix and paste sanitization.
  */
-import { computed, inject, ref, watch } from 'vue'
-import { css as pandaCss } from 'styled-system/css'
-import { fieldContextKey } from './context'
+import { computed, ref, watch } from 'vue'
 import { urlStyles } from './urlStyles'
-import type { UrlCss } from './urlStyles'
-import type { ControlSize, ControlValid } from './types'
+import { withCss } from '../css'
+import { useFieldControl } from './useFieldControl'
+import type { UrlCss, ControlSize, ControlValid } from './types'
 import {
   type UrlProtocol,
   joinUrl,
@@ -17,7 +16,6 @@ import {
 } from './urlUtils'
 
 const props = withDefaults(defineProps<{
-  modelValue?: string | null
   id?: string
   name?: string
   placeholder?: string | null
@@ -30,32 +28,23 @@ const props = withDefaults(defineProps<{
   css?: UrlCss
   class?: unknown
 }>(), {
-  modelValue: null as string | null,
-  id: '',
-  name: '',
-  placeholder: null as string | null,
-  disabled: false,
-  required: false,
   autocomplete: 'url',
   size: 'md',
   valid: 'none',
   defaultProtocol: 'https',
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
+const model = defineModel<string | null>()
 
-const fieldContext = inject(fieldContextKey, null)
+const { id, describedBy, valid, invalid } = useFieldControl(props)
 
 const protocol = ref<UrlProtocol>(props.defaultProtocol)
 const hostPath = ref('')
 
 watch(
-  () => props.modelValue,
+  model,
   (value) => {
-    const raw = (value ?? '').trim()
-    if (!raw) {
+    if (!(value ?? '').trim()) {
       hostPath.value = ''
       return
     }
@@ -67,36 +56,17 @@ watch(
 )
 
 const fullUrl = computed(() => joinUrl(protocol.value, hostPath.value))
-
-const inputId = computed(() => props.id || fieldContext?.fieldId.value || undefined)
-
-const ariaDescribedBy = computed(() => {
-  if (!fieldContext) return undefined
-
-  const ids: string[] = []
-  if (fieldContext.errorId.value) ids.push(fieldContext.errorId.value)
-  if (fieldContext.messageId.value) ids.push(fieldContext.messageId.value)
-
-  return ids.length > 0 ? ids.join(' ') : undefined
-})
-
-const isInvalid = computed(() => {
-  if (props.valid === true) return false
-  if (props.valid === false) return true
-  return fieldContext?.hasError.value ?? false
-})
-
 const protocolLabel = computed(() => `${protocol.value}://`)
 const isSecure = computed(() => protocol.value === 'https')
 
 const styles = computed(() => urlStyles.raw({
   size: props.size,
-  valid: props.valid,
+  valid: valid.value,
   secure: isSecure.value,
 }))
 
 const emitJoined = () => {
-  emit('update:modelValue', joinUrl(protocol.value, hostPath.value))
+  model.value = fullUrl.value
 }
 
 const toggleProtocol = () => {
@@ -106,8 +76,7 @@ const toggleProtocol = () => {
 }
 
 const handleInput = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const sanitized = sanitizeHostPathInput(target.value)
+  const sanitized = sanitizeHostPathInput((event.target as HTMLInputElement).value)
   if (sanitized.protocol) {
     protocol.value = sanitized.protocol
   }
@@ -117,7 +86,7 @@ const handleInput = (event: Event) => {
 </script>
 
 <template>
-  <div :class="[pandaCss(styles.root, props.css?.root), props.class]">
+  <div :class="[withCss(styles.root, props.css?.root), props.class]">
     <input
       v-if="name"
       type="hidden"
@@ -127,7 +96,7 @@ const handleInput = (event: Event) => {
 
     <button
       type="button"
-      :class="pandaCss(styles.protocol, props.css?.protocol)"
+      :class="withCss(styles.protocol, props.css?.protocol)"
       :disabled="disabled"
       :aria-label="`Toggle protocol, currently ${protocolLabel}`"
       @click="toggleProtocol"
@@ -141,17 +110,17 @@ const handleInput = (event: Event) => {
     </button>
 
     <input
-      :id="inputId"
+      :id="id"
       type="text"
       inputmode="url"
-      :class="pandaCss(styles.input, props.css?.input)"
+      :class="withCss(styles.input, props.css?.input)"
       :placeholder="placeholder || undefined"
       :value="hostPath"
       :disabled="disabled"
       :required="required"
       :autocomplete="autocomplete || undefined"
-      :aria-invalid="isInvalid"
-      :aria-describedby="ariaDescribedBy"
+      :aria-invalid="invalid"
+      :aria-describedby="describedBy"
       @input="handleInput"
     >
   </div>

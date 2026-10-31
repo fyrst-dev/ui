@@ -1,19 +1,17 @@
 import type { ComputedRef } from 'vue'
-import type { SystemStyleObject } from 'styled-system/types'
 import { createInjectionKey } from '../../composables/injection-key'
-import type { ListStyles } from './styles'
+import type { CssMap } from '../../internal/css'
 
-export const ListStylesKey = createInjectionKey<ComputedRef<ListStyles>>('ListStyles')
+export type ListSize = 'sm' | 'md' | 'lg'
+export type ListState = 'default' | 'primary' | 'success' | 'danger' | 'info'
 
-/**
- * Per-component `css` prop map. Keys are the component's public slot names,
- * where `root` always refers to the component's outermost element (regardless
- * of the underlying SVA slot name). Inner slots keep their SVA names.
- *
- * Each component exposes its own narrow type so only the slots it actually
- * renders are accepted as keys.
- */
-export type ListCss<K extends string> = Partial<Record<K, SystemStyleObject>>
+/** Defaults a `ListRoot` hands to its items. An item's own props win. */
+export interface ListContext {
+  size: ListSize
+  state: ListState
+}
 
-export type ListRootCss = ListCss<'root'>
-export type ListItemCss = ListCss<'root' | 'marker'>
+export const ListContextKey = createInjectionKey<ComputedRef<ListContext>>('ListContext')
+
+export type ListRootCss = CssMap<'root'>
+export type ListItemCss = CssMap<'root' | 'marker'>

@@ -1,24 +1,37 @@
+<script setup lang="ts">
+import { inject, computed } from 'vue'
+import { cardStyles } from './styles'
+import { withCss } from '../../internal/css'
+import { CardStylesKey, type CardHeaderCss } from './types'
+
+export interface CardHeaderProps {
+  title?: string | null
+  subtitle?: string | null
+  css?: CardHeaderCss
+}
+
+const props = defineProps<CardHeaderProps>()
+
+const styles = inject(CardStylesKey, computed(() => cardStyles.raw()))
+</script>
+
 <template>
-  <header
-    :class="css(styles.header)"
-  >
+  <header :class="withCss(styles.header, props.css?.root)">
     <slot name="icon" />
 
     <slot>
-      <div
-        :class="css(styles.headerBody)"
-      >
+      <div :class="withCss(styles.headerBody, props.css?.body)">
         <slot name="title">
           <div
             v-if="title"
-            :class="css(styles.headerTitle)"
+            :class="withCss(styles.headerTitle, props.css?.title)"
             v-html="title"
           />
         </slot>
         <slot name="subtitle">
           <div
             v-if="subtitle"
-            :class="css(styles.headerSubtitle)"
+            :class="withCss(styles.headerSubtitle, props.css?.subtitle)"
             v-html="subtitle"
           />
         </slot>
@@ -26,21 +39,3 @@
     </slot>
   </header>
 </template>
-
-<script setup lang="ts">
-import { inject, computed } from 'vue'
-import { css } from 'styled-system/css'
-import { cardStyles, CardStylesKey } from './styles'
-
-export interface CardHeaderProps {
-  title?: string | null
-  subtitle?: string | null
-}
-
-defineProps<CardHeaderProps>()
-
-const styles = inject(
-  CardStylesKey,
-  computed(() => cardStyles.raw({})),
-)
-</script>

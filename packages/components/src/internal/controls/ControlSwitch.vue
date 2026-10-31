@@ -1,18 +1,17 @@
 <script setup lang="ts">
 /**
  * @component ControlSwitch
- * @description Switch control built on reka-ui Switch primitives.
+ * @description Switch built on reka-ui Switch primitives.
  */
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
-import { css as pandaCss } from 'styled-system/css'
-import { fieldContextKey } from './context'
 import { switchStyles } from './switchStyles'
+import { withCss } from '../css'
+import { useFieldControl } from './useFieldControl'
 import type { SwitchCss } from '../../components/Switch/types'
 import type { ControlSize } from './types'
 
-export interface Props {
-  modelValue?: boolean | null
+const props = withDefaults(defineProps<{
   id?: string
   name?: string
   label?: string | null
@@ -21,69 +20,44 @@ export interface Props {
   size?: ControlSize
   css?: SwitchCss
   class?: unknown
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
-  id: '',
-  name: '',
-  label: null as string | null,
-  disabled: false,
-  required: false,
+}>(), {
   size: 'md',
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-}>()
+const model = defineModel<boolean | null>({ default: false })
 
-const fieldContext = inject(fieldContextKey, null)
-
-const inputId = computed(() => props.id || fieldContext?.fieldId.value || undefined)
-
-const ariaDescribedBy = computed(() => {
-  if (!fieldContext) return undefined
-
-  const ids: string[] = []
-  if (fieldContext.errorId.value) ids.push(fieldContext.errorId.value)
-  if (fieldContext.messageId.value) ids.push(fieldContext.messageId.value)
-
-  return ids.length > 0 ? ids.join(' ') : undefined
-})
-
-const checked = computed(() => Boolean(props.modelValue))
-const hasError = computed(() => fieldContext?.hasError.value ?? false)
+const { id, describedBy, invalid } = useFieldControl(props)
 
 const styles = computed(() => switchStyles.raw({ size: props.size }))
 
 const handleUpdate = (value: boolean) => {
-  emit('update:modelValue', value)
+  model.value = value
 }
 </script>
 
 <template>
   <component
     :is="label ? 'label' : 'div'"
-    :class="[pandaCss(styles.root, props.css?.root), props.class]"
+    :class="[withCss(styles.root, props.css?.root), props.class]"
     :data-disabled="disabled ? '' : undefined"
   >
     <SwitchRoot
-      :id="inputId"
-      :name="name"
+      :id="id"
+      :name="name || undefined"
       :required="required"
       :disabled="disabled"
-      :model-value="checked"
-      :aria-invalid="hasError"
-      :aria-describedby="ariaDescribedBy"
-      :data-invalid="hasError ? '' : undefined"
-      :class="pandaCss(styles.track, props.css?.track)"
+      :model-value="Boolean(model)"
+      :aria-invalid="invalid"
+      :aria-describedby="describedBy"
+      :data-invalid="invalid ? '' : undefined"
+      :class="withCss(styles.track, props.css?.track)"
       @update:model-value="handleUpdate"
     >
-      <SwitchThumb :class="pandaCss(styles.thumb, props.css?.thumb)" />
+      <SwitchThumb :class="withCss(styles.thumb, props.css?.thumb)" />
     </SwitchRoot>
     <span
       v-if="label"
-      :class="pandaCss(styles.label, props.css?.label)"
+      :class="withCss(styles.label, props.css?.label)"
     >{{ label }}</span>
   </component>
 </template>

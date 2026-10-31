@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import { css } from 'styled-system/css'
-import { cardStyles, CardStylesKey } from './styles'
+import { cardStyles } from './styles'
+import { withCss } from '../../internal/css'
+import { CardStylesKey, type CardBodyCss } from './types'
 
-const styles = inject(
-  CardStylesKey,
-  computed(() => cardStyles.raw({})),
-)
+const props = defineProps<{
+  css?: CardBodyCss
+}>()
+
+const styles = inject(CardStylesKey, computed(() => cardStyles.raw()))
 </script>
 
 <template>
-  <div
-    :class="css(styles.body)"
-  >
+  <div :class="withCss(styles.body, props.css?.root)">
     <slot />
   </div>
 </template>

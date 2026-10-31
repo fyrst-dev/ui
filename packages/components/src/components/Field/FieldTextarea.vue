@@ -1,55 +1,23 @@
 <script setup lang="ts">
 /**
  * @component FieldTextarea
- * @description Composed textarea field with label, message, and error support.
+ * @description Textarea with label, helper text, and error.
  */
-import { computed } from 'vue'
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
-import FieldMessage from './FieldMessage.vue'
-import FieldError from './FieldError.vue'
-import { fieldFooterStyles } from './fieldFooterStyles'
+import FieldFooter from './FieldFooter.vue'
 import ControlTextarea from '../../internal/controls/ControlTextarea.vue'
-import type { ControlSize } from '../../internal/controls/types'
+import type { FieldSharedProps } from './types'
 
-const props = withDefaults(defineProps<{
-  name?: string
-  label?: string | null
+const props = withDefaults(defineProps<FieldSharedProps & {
   placeholder?: string | null
-  modelValue?: string | null
-  id?: string
-  disabled?: boolean
-  required?: boolean
   rows?: number
-  size?: ControlSize
-  message?: string | null
-  error?: string | null
-  class?: unknown
 }>(), {
-  label: null as string | null,
-  placeholder: null as string | null,
-  modelValue: null as string | null,
-  id: '',
-  disabled: false,
-  required: false,
-  rows: 5,
   size: 'md',
-  message: null as string | null,
-  error: null as string | null,
+  rows: 5,
 })
 
-const isValid = computed(() => {
-  if (props.error) return false
-  return 'none' as const
-})
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
-
-const handleInput = (value: string) => {
-  emit('update:modelValue', value)
-}
+const model = defineModel<string | null>()
 </script>
 
 <template>
@@ -66,24 +34,16 @@ const handleInput = (value: string) => {
     />
 
     <ControlTextarea
-      :name="name"
+      v-model="model"
       :placeholder="placeholder"
-      :model-value="modelValue"
+      :rows="rows"
+      :name="name"
       :disabled="disabled"
       :required="required"
-      :rows="rows"
       :size="size"
-      :valid="isValid"
       :class="props.class"
-      @update:model-value="handleInput"
     />
 
-    <div
-      v-if="message || error"
-      :class="fieldFooterStyles"
-    >
-      <FieldMessage />
-      <FieldError />
-    </div>
+    <FieldFooter />
   </FieldBase>
 </template>

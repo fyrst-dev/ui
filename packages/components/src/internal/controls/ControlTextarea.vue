@@ -1,16 +1,13 @@
 <script setup lang="ts">
 /**
  * @component ControlTextarea
- * @description Standalone textarea control. Supports Field.Base composition via field context.
+ * @description Textarea. Reads id, ARIA links, and validity from Field.Base.
  */
-import { computed, inject } from 'vue'
-import { css } from 'styled-system/css'
 import { controlStyles } from './controlStyles'
-import { fieldContextKey } from './context'
+import { useFieldControl } from './useFieldControl'
 import type { ControlSize, ControlValid } from './types'
 
 const props = withDefaults(defineProps<{
-  modelValue?: string | null
   id?: string
   name?: string
   placeholder?: string | null
@@ -21,69 +18,32 @@ const props = withDefaults(defineProps<{
   valid?: ControlValid
   class?: unknown
 }>(), {
-  modelValue: null as string | null,
-  id: '',
-  name: '',
-  placeholder: null as string | null,
-  disabled: false,
-  required: false,
   rows: 5,
   size: 'md',
   valid: 'none',
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
+const model = defineModel<string | null>()
 
-const fieldContext = inject(fieldContextKey, null)
-
-const inputId = computed(() => props.id || fieldContext?.fieldId.value || undefined)
-
-const ariaDescribedBy = computed(() => {
-  if (!fieldContext) return undefined
-
-  const ids: string[] = []
-  if (fieldContext.errorId.value) ids.push(fieldContext.errorId.value)
-  if (fieldContext.messageId.value) ids.push(fieldContext.messageId.value)
-
-  return ids.length > 0 ? ids.join(' ') : undefined
-})
-
-const isInvalid = computed(() => {
-  if (props.valid === true) return false
-  if (props.valid === false) return true
-  return fieldContext?.hasError.value ?? false
-})
-
-const textareaClass = computed(() => [
-  controlStyles({ size: props.size, valid: props.valid }),
-  css({
-    alignItems: 'flex-start',
-    resize: 'vertical',
-    minHeight: '6rem',
-  }),
-  props.class,
-])
+const { id, describedBy, valid, invalid } = useFieldControl(props)
 
 const handleInput = (event: Event) => {
-  const target = event.target as HTMLTextAreaElement
-  emit('update:modelValue', target.value)
+  model.value = (event.target as HTMLTextAreaElement).value
 }
 </script>
 
 <template>
   <textarea
-    :id="inputId"
-    :name="name"
-    :class="textareaClass"
+    :id="id"
+    :name="name || undefined"
+    :class="[controlStyles({ element: 'textarea', size, valid }), props.class]"
     :placeholder="placeholder || undefined"
-    :value="modelValue || ''"
+    :value="model ?? ''"
     :disabled="disabled"
     :required="required"
     :rows="rows"
-    :aria-invalid="isInvalid"
-    :aria-describedby="ariaDescribedBy"
+    :aria-invalid="invalid"
+    :aria-describedby="describedBy"
     @input="handleInput"
   />
 </template>

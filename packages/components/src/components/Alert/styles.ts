@@ -9,8 +9,7 @@ export const alertStyles = sva({
       borderWidth: '1px',
       borderStyle: 'solid',
     },
-    icon: {
-    },
+    icon: {},
     content: {
       display: 'flex',
       flexDirection: 'column',

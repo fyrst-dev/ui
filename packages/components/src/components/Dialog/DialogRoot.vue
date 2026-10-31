@@ -7,6 +7,7 @@
  * @prop {string} [title] - Dialog title text.
  * @prop {string} [description] - Dialog description text.
  * @prop {string} [closeLabel='Close'] - Accessible label for the close button.
+ * @prop {DialogCss} [css] - Style overrides per slot. Wrap values in `css.raw()`.
  *
  * @slot default - Dialog body content.
  * @slot title - Override the title region.
@@ -23,8 +24,10 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'reka-ui'
-import { computed } from 'vue'
 import { dialogStyles } from './styles'
+import { withCss, type CssMap } from '../../internal/css'
+
+export type DialogCss = CssMap<'overlay' | 'content' | 'header' | 'titleWrap' | 'title' | 'description' | 'close' | 'body'>
 
 const open = defineModel<boolean>('open', { default: false })
 
@@ -32,25 +35,26 @@ const props = withDefaults(defineProps<{
   title?: string
   description?: string
   closeLabel?: string
+  css?: DialogCss
 }>(), {
   closeLabel: 'Close',
 })
 
-const classes = computed(() => dialogStyles())
+const styles = dialogStyles.raw()
 </script>
 
 <template>
   <DialogRoot v-model:open="open">
     <DialogPortal>
-      <DialogOverlay :class="classes.overlay" />
-      <DialogContent :class="classes.content">
+      <DialogOverlay :class="withCss(styles.overlay, props.css?.overlay)" />
+      <DialogContent :class="withCss(styles.content, props.css?.content)">
         <slot name="header">
-          <div :class="classes.header">
-            <div :class="classes.titleWrap">
+          <div :class="withCss(styles.header, props.css?.header)">
+            <div :class="withCss(styles.titleWrap, props.css?.titleWrap)">
               <slot name="title">
                 <DialogTitle
                   v-if="props.title"
-                  :class="classes.title"
+                  :class="withCss(styles.title, props.css?.title)"
                 >
                   {{ props.title }}
                 </DialogTitle>
@@ -58,7 +62,7 @@ const classes = computed(() => dialogStyles())
               <slot name="description">
                 <DialogDescription
                   v-if="props.description"
-                  :class="classes.description"
+                  :class="withCss(styles.description, props.css?.description)"
                 >
                   {{ props.description }}
                 </DialogDescription>
@@ -67,7 +71,7 @@ const classes = computed(() => dialogStyles())
             <DialogClose
               type="button"
               :aria-label="props.closeLabel"
-              :class="classes.close"
+              :class="withCss(styles.close, props.css?.close)"
             >
               <slot name="close-icon">
                 <span
@@ -78,7 +82,7 @@ const classes = computed(() => dialogStyles())
             </DialogClose>
           </div>
         </slot>
-        <div :class="classes.body">
+        <div :class="withCss(styles.body, props.css?.body)">
           <slot />
         </div>
       </DialogContent>

@@ -45,6 +45,14 @@ export const keyframes: CssKeyframes = defineKeyframes({
       visibility: 'hidden',
     },
   },
+  flyoutIn: {
+    '0%': { opacity: '0' },
+    '100%': { opacity: '1' },
+  },
+  flyoutOut: {
+    '0%': { opacity: '1' },
+    '100%': { opacity: '0' },
+  },
   progressIndeterminate: {
     '0%': {
       transform: 'translateX(-100%)',

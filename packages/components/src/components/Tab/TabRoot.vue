@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TabsList, TabsRoot } from 'reka-ui'
-import { computed, provide, ref, watch } from 'vue'
-import { css } from 'styled-system/css'
-import TabItem from './TabItem.vue'
+import { ref, watch } from 'vue'
 import { tabStyles } from './styles'
-import { TabContextKey, type TabChangePayload, type TabItemData } from './types'
+import { withCss } from '../../internal/css'
+import TabItem from './TabItem.vue'
+import type { TabChangePayload, TabItemData, TabRootCss } from './types'
 
 const props = withDefaults(defineProps<{
   modelValue?: string
@@ -12,6 +12,7 @@ const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   loop?: boolean
   items?: TabItemData[]
+  css?: TabRootCss
 }>(), {
   orientation: 'horizontal',
   loop: true,
@@ -29,11 +30,7 @@ watch(() => props.modelValue, (value) => {
   internalValue.value = value
 })
 
-const styles = computed(() => tabStyles.raw({ state: 'inactive' }))
-
-provide(TabContextKey, {
-  modelValue: computed(() => internalValue.value),
-})
+const styles = tabStyles.raw()
 
 const handleUpdate = (value: string | number) => {
   const stringValue = String(value)
@@ -55,7 +52,7 @@ const handleUpdate = (value: string | number) => {
     @update:model-value="handleUpdate"
   >
     <TabsList
-      :class="css(styles.root)"
+      :class="withCss(styles.root, props.css?.root)"
       :loop="loop"
     >
       <TabItem

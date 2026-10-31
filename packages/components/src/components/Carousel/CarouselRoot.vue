@@ -1,87 +1,44 @@
 <script setup lang="ts">
-import { ref, useSlots, type PropType, provide } from 'vue'
-import { css } from 'styled-system/css'
-import type { SystemStyleObject } from 'styled-system/types'
-import { useCarousel } from '../../composables/carousel'
+import { provide, ref } from 'vue'
+import { carouselStyles } from './styles'
+import { useCarousel, type CarouselScrollMode } from '../../composables/carousel'
+import { withCss } from '../../internal/css'
+import { CarouselContextKey, type CarouselRootCss } from './types'
 
-/** Props */
-const props = defineProps({
-  scrollMode: {
-    type: String as PropType<'item' | 'viewport'>,
-    default: 'item',
-    validator: (value: string) => ['item', 'viewport'].includes(value),
-  },
-  classWrapper: {
-    type: Object as PropType<SystemStyleObject>,
-    default: null,
-  },
-  classCarousel: {
-    type: Object as PropType<SystemStyleObject>,
-    default: null,
-  },
+const props = withDefaults(defineProps<{
+  scrollMode?: CarouselScrollMode
+  /**
+   * Move between items with the mouse wheel. Off by default: when on, the
+   * carousel captures wheel events, so the page does not scroll over it.
+   */
+  wheelNavigation?: boolean
+  css?: CarouselRootCss
+}>(), {
+  scrollMode: 'item',
 })
 
-/** Reactive data */
-const slots = useSlots()
 const carousel = ref<HTMLElement | null>(null)
 
-/** composable */
-const {
-  handleNext,
-  handlePrev,
-  handleWheel,
-  carouselItems,
-  carouselItem,
-  visibleCarouselItems,
-  currentCarouselItemIndex,
-  scrollDirection,
-  allItemsVisible,
-} = useCarousel(props, carousel, slots)
+const state = useCarousel({ scrollMode: () => props.scrollMode }, carousel)
 
-provide('carousel', carousel)
-provide('handleNext', handleNext)
-provide('handlePrev', handlePrev)
-provide('carouselItems', carouselItems)
-provide('carouselItem', carouselItem)
-provide('visibleCarouselItems', visibleCarouselItems)
-provide('currentCarouselItemIndex', currentCarouselItemIndex)
-provide('scrollDirection', scrollDirection)
-provide('allItemsVisible', allItemsVisible)
+provide(CarouselContextKey, { ...state, carousel })
+
+const styles = carouselStyles.raw()
+
+const onWheel = (event: WheelEvent) => {
+  if (props.wheelNavigation) {
+    state.handleWheel(event)
+  }
+}
 </script>
 
 <template>
-  <div
-    :class="css(
-      css.raw({
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        maxWidth: '100%',
-      }),
-      props.classWrapper,
-    )"
-  >
+  <div :class="withCss(styles.root, props.css?.root)">
     <slot name="carousel-before" />
     <ul
       ref="carousel"
-      :class="css(
-        css.raw({
-          'display': 'flex',
-          'flexDirection': 'row',
-          'width': '100%',
-          'overflowX': 'scroll',
-          'scrollSnapType': 'x mandatory',
-          'scrollBehavior': 'smooth',
-          'scrollbarWidth': 'none',
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
-          'gap': '16px',
-          'padding': '16px 0px',
-        }),
-        props.classCarousel,
-      )"
-      @wheel.prevent="handleWheel"
+      :class="withCss(styles.viewport, props.css?.viewport)"
+      @wheel="onWheel"
     >
       <slot />
     </ul>

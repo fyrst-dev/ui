@@ -1,8 +1,10 @@
 import type { ComputedRef } from 'vue'
-import type { SystemStyleObject } from 'styled-system/types'
 import { createInjectionKey } from '../../composables/injection-key'
-import type { PricingCardStyles } from './styles'
-import type { ListItemProps } from '../List/ListItem.vue'
+import type { CssMap } from '../../internal/css'
+import type { ListSize, ListState } from '../List/types'
+import type { pricingCardStyles } from './styles'
+
+export type PricingCardStyles = ReturnType<typeof pricingCardStyles.raw>
 
 export const PricingCardStylesKey = createInjectionKey<ComputedRef<PricingCardStyles>>('PricingCardStyles')
 
@@ -12,24 +14,14 @@ export interface PricingCardData {
   subtitle?: string
   price?: string
   features?: string[]
-  featuresState?: ListItemProps['state']
-  featuresSize?: ListItemProps['size']
+  featuresState?: ListState
+  featuresSize?: ListSize
 }
 
 export const PricingCardDataKey = createInjectionKey<ComputedRef<PricingCardData>>('PricingCardData')
 
-/**
- * Per-component `css` prop map. Keys are the component's public slot names,
- * where `root` always refers to the component's outermost element (regardless
- * of the underlying SVA slot name). Inner slots keep their SVA names.
- *
- * Each component exposes its own narrow type so only the slots it actually
- * renders are accepted as keys.
- */
-export type PricingCardCss<K extends string> = Partial<Record<K, SystemStyleObject>>
-
-export type PricingCardRootCss = PricingCardCss<'root'>
-export type PricingCardHeaderCss = PricingCardCss<'root' | 'headerPackage' | 'title' | 'subtitle'>
-export type PricingCardPricingCss = PricingCardCss<'root' | 'price'>
-export type PricingCardBodyCss = PricingCardCss<'root' | 'feature' | 'featureIcon'>
-export type PricingCardBadgeCss = PricingCardCss<'root'>
+export type PricingCardRootCss = CssMap<'root'>
+export type PricingCardHeaderCss = CssMap<'root' | 'headerPackage' | 'title' | 'subtitle'>
+export type PricingCardPricingCss = CssMap<'root' | 'price'>
+export type PricingCardBodyCss = CssMap<'root' | 'feature' | 'featureIcon'>
+export type PricingCardBadgeCss = CssMap<'root'>

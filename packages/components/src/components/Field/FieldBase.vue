@@ -1,26 +1,17 @@
 <script setup lang="ts">
 /**
  * @component FieldBase
- * @description Wrapper for composing form fields with labels, controls, errors, and helper text.
- * Provides reactive context for automatic ID generation and ARIA linking.
- *
- * @prop {string} [id] - Base ID for the field. Auto-generated if not provided.
- * @prop {string|null} [error=null] - Error message. Available to Field.Error via context.
- * @prop {string|null} [message=null] - Helper text. Available to Field.Message via context.
- * @prop {any} [class] - Additional CSS classes for the wrapper.
+ * @description Wrapper for composing a field from a label, a control, a message, and an error.
+ * Provides the field context: generated ids, ARIA links, and validity.
  *
  * @example
- * <Field.Input
- *   name="email"
- *   label="Email"
- *   type="email"
- *   v-model="email"
- *   :error="emailError"
- *   message="We'll never share your email"
- * />
+ * <Field.Base :error="emailError" message="We'll never share your email">
+ *   <Field.Label label="Email" />
+ *   <Field.Input name="email" v-model="email" />
+ * </Field.Base>
  */
 import { provide, computed, useId } from 'vue'
-import { css } from 'styled-system/css'
+import { fieldStyles } from './styles'
 import { fieldContextKey } from '../../internal/controls/context'
 
 const props = withDefaults(defineProps<{
@@ -29,36 +20,27 @@ const props = withDefaults(defineProps<{
   message?: string | null
   class?: unknown
 }>(), {
-  error: null as string | null,
-  message: null as string | null,
+  error: null,
+  message: null,
 })
 
 const autoId = useId()
 const fieldId = computed(() => props.id || `field-${autoId}`)
-const errorId = computed(() => props.error ? `${fieldId.value}-error` : null)
-const messageId = computed(() => props.message ? `${fieldId.value}-message` : null)
-const hasError = computed(() => !!props.error)
-const errorMessage = computed(() => props.error ?? null)
-const message = computed(() => props.message ?? null)
 
 provide(fieldContextKey, {
   fieldId,
-  errorId,
-  messageId,
-  hasError,
-  errorMessage,
-  message,
+  errorId: computed(() => props.error ? `${fieldId.value}-error` : null),
+  messageId: computed(() => props.message ? `${fieldId.value}-message` : null),
+  hasError: computed(() => !!props.error),
+  errorMessage: computed(() => props.error ?? null),
+  message: computed(() => props.message ?? null),
 })
 
-const baseStyles = css({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 'xs',
-})
+const classes = fieldStyles()
 </script>
 
 <template>
-  <div :class="[baseStyles, props.class]">
+  <div :class="[classes.root, props.class]">
     <slot />
   </div>
 </template>

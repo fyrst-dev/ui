@@ -1,3 +1,5 @@
+import type { CssMap } from '../css'
+
 export type ControlSize = 'sm' | 'md' | 'lg'
 export type ControlValid = true | false | 'none'
 
@@ -16,3 +18,5 @@ export type FieldOption = {
   value: string
   disabled?: boolean
 }
+
+export type UrlCss = CssMap<'root' | 'protocol' | 'input'>

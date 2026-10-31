@@ -1,7 +1,5 @@
 import { sva } from 'styled-system/css'
 
-export type ListStyles = ReturnType<typeof listStyles.raw>
-
 export const listStyles = sva({
   slots: ['list', 'item', 'marker'],
   base: {
@@ -9,7 +7,6 @@ export const listStyles = sva({
       display: 'flex',
       flexDirection: 'column',
       flexWrap: 'wrap',
-
     },
     item: {
       display: 'inline-flex',

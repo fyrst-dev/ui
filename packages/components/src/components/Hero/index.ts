@@ -1,9 +1,9 @@
 import HeroLead from './HeroLead.vue'
 
-// Named exports for direct imports
 export { HeroLead }
 
-// Default export for namespaced usage: <Hero.Lead />
+export type { HeroLeadCss } from './HeroLead.vue'
+
 export default {
   Lead: HeroLead,
 }

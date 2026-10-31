@@ -6,15 +6,11 @@ import ControlRadioGroup from './ControlRadioGroup.vue'
 import ControlSwitch from './ControlSwitch.vue'
 import ControlUrl from './ControlUrl.vue'
 
-export type { ControlInputType, ControlSize, ControlValid, FieldOption } from './types'
+export type { ControlInputType, ControlSize, ControlValid, FieldOption, UrlCss } from './types'
 export type { UrlProtocol } from './urlUtils'
 export { fieldContextKey } from './context'
 export type { FieldContext } from './context'
-export { controlStyles } from './controlStyles'
-export { switchStyles } from './switchStyles'
-export type { SwitchStyles } from './switchStyles'
-export { urlStyles } from './urlStyles'
-export type { UrlStyles, UrlCss, UrlCssMap } from './urlStyles'
+export { useFieldControl } from './useFieldControl'
 export { parseUrlValue, sanitizeHostPathInput, joinUrl } from './urlUtils'
 
 export {
@@ -25,14 +21,4 @@ export {
   ControlRadioGroup,
   ControlSwitch,
   ControlUrl,
-}
-
-export default {
-  Input: ControlInput,
-  Textarea: ControlTextarea,
-  Select: ControlSelect,
-  Checkbox: ControlCheckbox,
-  RadioGroup: ControlRadioGroup,
-  Switch: ControlSwitch,
-  Url: ControlUrl,
 }

@@ -8,4 +8,7 @@ export default defineConfig({
   presets: [preset],
   include: ['./packages/components/src/**/*.{js,jsx,ts,tsx,vue}'],
   outdir: 'dist/styled-system',
+  // Emit `./css.js` instead of `./css` so plain Node (SSR without a bundler,
+  // Vitest in a node environment) can load the published runtime.
+  forceImportExtension: true,
 })

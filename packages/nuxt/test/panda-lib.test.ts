@@ -73,18 +73,18 @@ describe('panda lib consumer fixture', () => {
     const appSrc = readFileSync(join(consumer, 'src/app.ts'), 'utf8')
     const pandaConfig = readFileSync(join(consumer, 'panda.config.ts'), 'utf8')
 
-    expect(appSrc).toContain("@fyrst/ui/vue/Button")
-    expect(appSrc).toContain("@fyrst/ui/vue/CardRoot")
-    expect(appSrc).toContain("@fyrst/ui/vue/FieldInput")
+    expect(appSrc).toContain('@fyrst/ui/vue/Button')
+    expect(appSrc).toContain('@fyrst/ui/vue/CardRoot')
+    expect(appSrc).toContain('@fyrst/ui/vue/FieldInput')
     expect(appSrc).not.toMatch(/\bcva\s*\(/)
     expect(appSrc).not.toMatch(/\bsva\s*\(/)
     expect(appSrc).not.toMatch(/\bcss\s*\(/)
-    expect(pandaConfig).toContain("designSystem: '@fyrst/ui'")
+    expect(pandaConfig).toContain('designSystem: \'@fyrst/ui\'')
     expect(pandaConfig).not.toContain('presets:')
     expect(pandaConfig).not.toContain('@fyrst/ui/preset')
     expect(pandaConfig).not.toContain('@fyrst/ui/design-preset')
     expect(pandaConfig).not.toContain('panda.buildinfo')
-    expect(pandaConfig).not.toContain("include: ['@fyrst/ui")
+    expect(pandaConfig).not.toContain('include: [\'@fyrst/ui')
 
     const result = runPanda(['cssgen', '--outfile', 'styles.css'], consumer)
     const output = `${result.stdout}\n${result.stderr}`
@@ -96,7 +96,12 @@ describe('panda lib consumer fixture', () => {
     const css = readFileSync(join(consumer, 'styles.css'), 'utf8')
     expect(css.length).toBeGreaterThan(1000)
     expect(css).toMatch(/d_inline[-_]flex/)
-    expect(css).toMatch(/bg_primary/)
+    expect(css).toMatch(/bg-c_primary/)
+    // Every cva variant is extracted from the published JS, including ones
+    // the app never renders.
+    expect(css).toContain('w_37\\%')
+    expect(css).toMatch(/\.bd-c_danger\\\.subtle/)
+    expect(css).toMatch(/--colors-surface/)
   }, 120_000)
 
   it('re-extracts published JS when buildinfo is stale', () => {
@@ -113,6 +118,24 @@ describe('panda lib consumer fixture', () => {
     const css = readFileSync(join(consumer, 'styles.stale.css'), 'utf8')
     expect(css.length).toBeGreaterThan(1000)
     expect(css).toMatch(/d_inline[-_]flex/)
-    expect(css).toMatch(/bg_primary/)
+    expect(css).toMatch(/bg-c_primary/)
+  }, 120_000)
+
+  it('generates css overrides passed through css.raw, not bare objects', () => {
+    writeFileSync(join(consumer, 'src/overrides.ts'), `import { css } from '../styled-system/css'
+
+export const alertCss = { root: css.raw({ letterSpacing: '0.37em' }) }
+export const plainObject = { root: { letterSpacing: '0.41em' } }
+`)
+    expect(runPanda(['codegen'], consumer).status).toBe(0)
+
+    const result = runPanda(['cssgen', '--outfile', 'styles.overrides.css'], consumer)
+    const output = `${result.stdout}\n${result.stderr}`
+    expect(result.status, output).toBe(0)
+
+    const css = readFileSync(join(consumer, 'styles.overrides.css'), 'utf8')
+    // This is why the docs require css.raw() for `css` prop values.
+    expect(css).toContain('letter-spacing: 0.37em')
+    expect(css).not.toContain('letter-spacing: 0.41em')
   }, 120_000)
 })

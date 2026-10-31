@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { css } from 'styled-system/css'
-import type { SystemStyleObject } from 'styled-system/types'
-import { cardBorderSizes, cardStyles, CardStylesKey, type CardBorderSize } from './styles'
 import { computed, provide } from 'vue'
+import { cardBorderSizes, cardStyles, type CardBorderSize } from './styles'
+import { withCss } from '../../internal/css'
 import CardHeader, { type CardHeaderProps } from './CardHeader.vue'
-
-type BorderRadius = 'sm' | 'md' | 'lg' | 'xl'
+import { CardStylesKey, type CardRootCss } from './types'
 
 export interface Props {
   as?: 'div' | 'li'
@@ -19,15 +17,11 @@ export interface Props {
     | 'info'
     | 'none'
     | 'lucid-deep'
+  /** Border width in px, `0`–`8`. Other values snap to `1`. */
   borderSize?: number
-  borderRadius?: BorderRadius
-  /**
-   * @deprecated Arbitrary CSS colors cannot be applied without inline styles.
-   * Use the `color` variant instead. Kept so existing call sites type-check.
-   */
-  borderColor?: string
-  classRoot?: SystemStyleObject
+  borderRadius?: 'sm' | 'md' | 'lg' | 'xl'
   header?: CardHeaderProps
+  css?: CardRootCss
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -40,20 +34,15 @@ const props = withDefaults(defineProps<Props>(), {
 
 function resolveBorderSize(value: number): CardBorderSize {
   const rounded = Math.round(value)
-  if ((cardBorderSizes as readonly number[]).includes(rounded)) {
-    return rounded as CardBorderSize
-  }
-  return 1
+  return (cardBorderSizes as readonly number[]).includes(rounded) ? rounded as CardBorderSize : 1
 }
 
-const styles = computed(() =>
-  cardStyles.raw({
-    borderRadius: props.borderRadius,
-    borderSize: resolveBorderSize(props.borderSize),
-    colorStrategy: props.colorStrategy,
-    color: props.color,
-  }),
-)
+const styles = computed(() => cardStyles.raw({
+  borderRadius: props.borderRadius,
+  borderSize: resolveBorderSize(props.borderSize),
+  colorStrategy: props.colorStrategy,
+  color: props.color,
+}))
 
 provide(CardStylesKey, styles)
 </script>
@@ -61,7 +50,7 @@ provide(CardStylesKey, styles)
 <template>
   <component
     :is="props.as"
-    :class="css(styles.root, props.classRoot)"
+    :class="withCss(styles.root, props.css?.root)"
   >
     <slot name="before" />
     <slot name="header">

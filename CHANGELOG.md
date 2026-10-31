@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-31
+
+Breaking minor (0.x semver) for apps on 0.3.x / 0.4.x. The Panda contract is unchanged (`designSystem: '@fyrst/ui'`, Panda `^2.4`). Follow [`.agents/skills/fyrst-ui-0.5-migration/SKILL.md`](.agents/skills/fyrst-ui-0.5-migration/SKILL.md). Details: [`changelog/2026-10-31-0.5.0-overrides-and-cleanup.md`](changelog/2026-10-31-0.5.0-overrides-and-cleanup.md).
+
+### Breaking
+
+- **One `css` override prop.** `AlertRoot` `classRoot` / `classIcon` / `classContent` / `classClose`, `CardRoot` `classRoot`, `AccordionRoot` `classes`, `CarouselRoot` `classWrapper` / `classCarousel`, and `FlyoutRoot` `classTrigger` are replaced by `css` (slot-keyed style objects; `root` is the outermost element). Every component now accepts `css`, and merges it into its own style object, so an overridden property gets one class and the override wins (`classRoot` and friends were appended as extra classes and could lose). Values must go through `css.raw()`; bare objects never generated CSS.
+- `CardRoot` `borderColor` (no-op since 0.3.0) is removed.
+- `useFormData` returns `getFormData()` / `getJson()` (read on each call) instead of cached `formData` / `jsonData` refs, and accepts an element, ref, or getter.
+- `useCarousel(options, carousel)` drops the `slots` argument; `carouselItems` is `HTMLElement[]`.
+- Carousel children use `inject(CarouselContextKey)` instead of string keys.
+- Carousel wheel navigation is off by default (`wheel-navigation` turns it on). It used to block page scrolling.
+- `FlyoutRoot` is built on Reka Popover: Escape and outside click close it, a click while hover-open pins it, and focus moves correctly. The `#trigger` slot must render one element (it becomes the trigger). Keep `#dropdown` content inside `FlyoutDropdown`; the `flyout-enter` / `flyout-leave` transition classes are gone.
+- Removed types: `SwitchCssMap`, `ProgressCssMap`, `SwitchStyles`, `ProgressStyles`, `ListStyles`, `PricingCardStyles`. Use `CssMap<K>` and the per-component `*Css` types.
+- Component `name` options: `FyButton` / `FyLoader` → `FyrstButton` / `FyrstLoader`.
+- A disabled `Button` link renders without `href` and with `aria-disabled="true"`.
+
+### Added
+
+- Semantic colors `surface`, `surface.raised`, `border`, `border.hover`, `border.subtle`, `text.muted`; base `brand.50` and `brand.200` (replacing hex literals in `Button`).
+- `CssMap` and `*Css` types for every component, `CarouselContextKey`, `CarouselContext`, `FieldSharedProps`.
+- `FlyoutRoot` `direction` and `openOnHover`; `CarouselNavigation` `prevLabel` / `nextLabel`.
+- Migration skill `.agents/skills/fyrst-ui-0.5-migration`.
+
+### Fixed
+
+- The package loads in plain Node (ESM and CJS). The published Panda runtime used extensionless imports (`forceImportExtension: true`).
+- `require('@fyrst/ui/vue/<Name>')` resolves the `.cjs` build.
+- `useFormData` no longer returns stale or `null` data.
+- `@fyrst/ui/style.css` is icons only again (Flyout's transition CSS had leaked into it).
+- Overrides passed to `PricingCardBody` and similar now produce CSS when passed through `css.raw()`; the body's default padding is generated.
+- `ListItem` `size` / `state` / `icon` are respected inside `ListRoot`.
+- `FieldError` no longer sets both `role="alert"` and `aria-live="polite"`; the required asterisk is `aria-hidden`.
+- `Button` `title` is the label without HTML tags (it showed raw markup before).
+- Carousel no longer logs `console.warn` at either end; its default buttons have `type="button"`.
+
+### Changed
+
+- Field helper text in light mode uses `text.muted` (`grey.600`, was `grey.500`). Checkbox and radio hover borders in light mode use `border.hover` (`grey.300`, was `grey.400`). Everything else measures identical to 0.4.1 in the playground (dark and light, rest / hover / focus).
+- Component styles stay atomic `cva` / `sva`; class names only change where a color now uses a semantic token (for example `bg-c_surface` instead of `bg-c_grey.black` plus `light:bg-c_white`). Styles that lived inline in controls, the prompt form, the carousel, and the flyout moved into `styles.ts` definitions, so runtime ternaries inside `css()` are gone.
+- Panda build warnings dropped from 50 to 14. The remaining `imported_recipe_raw_dynamic` warnings are expected (see the Panda v2 skill). Lint now covers tests and build scripts; `bun run typecheck` runs in CI. Component tests no longer need a prior preset build.
+
 ## [0.4.1] - 2026-10-31
 
 Patch on 0.4.0. Font tokens, `font-family: inherit`, `Button` `fullWidth`, `AlertRoot` `hideIcon`, the required-field asterisk (`color: 'danger'`), and the inlined `@pandacss/preset-base` dependency are unchanged.

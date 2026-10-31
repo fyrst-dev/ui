@@ -1,7 +1,7 @@
 import { sva } from 'styled-system/css'
 
-export const accordion = sva({
-  slots: ['root', 'item', 'trigger', 'content'],
+export const accordionStyles = sva({
+  slots: ['root', 'item', 'trigger', 'icon', 'title', 'indicator', 'content'],
   base: {
     root: {
       width: '100%',
@@ -16,9 +16,6 @@ export const accordion = sva({
       borderColor: 'grey.dusk',
       transition: 'all 300ms',
       overflow: 'clip',
-      _open: {
-        // bg: 'grey.night'
-      },
       _closed: {
         _hover: {
           borderColor: 'grey.400',
@@ -46,6 +43,14 @@ export const accordion = sva({
         transition: 'transform 0.2s ease-in-out',
       },
     },
+    icon: {},
+    title: {
+      flex: '1 0%',
+      whiteSpace: 'normal',
+      wordBreak: 'break-word',
+      textAlign: 'start',
+    },
+    indicator: {},
     content: {
       display: 'block !important',
       interpolateSize: 'allow-keywords',
@@ -88,10 +93,7 @@ export const accordion = sva({
           'paddingY': 'md',
           'paddingX': 'lg',
           'gap': 'md',
-          'fontSize': {
-            base: 'md',
-            // md: 'lg'
-          },
+          'fontSize': 'md',
           '& [data-trigger="icon"]': {
             fontSize: {
               base: 'sm',

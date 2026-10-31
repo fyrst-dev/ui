@@ -1,11 +1,9 @@
 import { sva } from 'styled-system/css'
-import type { InjectionKey, ComputedRef } from 'vue'
 
+/** Discrete border widths in px. `CardRoot` snaps other values to `1`. */
 export const cardBorderSizes = [0, 1, 2, 3, 4, 5, 6, 7, 8] as const
-export type CardBorderSize = typeof cardBorderSizes[number]
 
-export type CardStyles = ReturnType<typeof cardStyles.raw>
-export const CardStylesKey: InjectionKey<ComputedRef<CardStyles>> = Symbol('CardStyles')
+export type CardBorderSize = typeof cardBorderSizes[number]
 
 export const cardStyles = sva({
   slots: ['root', 'header', 'headerBody', 'headerTitle', 'headerSubtitle', 'body', 'footer'],
@@ -56,8 +54,7 @@ export const cardStyles = sva({
       },
       image: {
         root: {
-          background:
-            'var(--card-bg-overlay) padding-box, var(--card-bg) padding-box, var(--card-border-color) border-box',
+          background: 'var(--card-bg-overlay) padding-box, var(--card-bg) padding-box, var(--card-border-color) border-box',
         },
       },
     },

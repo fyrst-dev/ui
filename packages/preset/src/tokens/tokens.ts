@@ -14,21 +14,29 @@ export const colors = defineTokens.colors({
     description: 'This is the transparent color used in our design system',
   },
   brand: {
+    50: {
+      value: '#C5F6CB',
+      description: 'Lightest brand tint. Hover fill for pale brand surfaces',
+    },
     100: {
       value: '#A3EFAC',
-      description: 'This is a light, pale brand color and is references as pale-brand',
+      description: 'Light, pale brand color, referenced as brand.pale',
+    },
+    200: {
+      value: '#78E284',
+      description: 'Pressed fill for pale brand surfaces',
     },
     300: {
       value: '#19bf56',
-      description: 'This is the fyrst brand color and is referenced as brand',
+      description: 'Brand color on light backgrounds, referenced as brand.day',
     },
     400: {
       value: '#05C260',
-      description: 'This is the fyrst brand color and is referenced as brand',
+      description: 'The fyrst brand color, referenced as brand.brand',
     },
     600: {
       value: '#0E8543',
-      description: 'This is a darker, bolder brand color and is referenced as dawn-brand',
+      description: 'Darker, bolder brand color, referenced as brand.dawn',
     },
   },
   red: {

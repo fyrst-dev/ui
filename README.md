@@ -12,6 +12,8 @@ fyrst.dev design system. One npm package with subpath exports:
 
 This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pandacss/dev`, keep their own `panda.config.ts`, and set `designSystem: '@fyrst/ui'`. `panda lib` writes `@fyrst/ui/panda/*` (`lib.json`, `preset.mjs`, `buildinfo.json`) and the generated `./css`, `./tokens`, `./types`, … subpaths. Do not hand-edit those generated exports.
 
+Upgrading from 0.4.x? 0.5.0 has breaking changes. Follow [`.agents/skills/fyrst-ui-0.5-migration/SKILL.md`](.agents/skills/fyrst-ui-0.5-migration/SKILL.md) (it is in the git repository, not in the npm tarball).
+
 ## Install
 
 Required peers: `vue`, `reka-ui`, `@pandacss/dev`. `@pandacss/preset-base` is a normal dependency: `panda lib` inlines it into the design-system preset, so apps that set `designSystem: '@fyrst/ui'` do not install it. `nuxt` and `@nuxt/kit` are optional and only needed for `@fyrst/ui/nuxt` (a Nuxt app already provides both).
@@ -88,6 +90,35 @@ You can also import from `@fyrst/ui/components` if you want the subpath to be ex
 
 `createInjectionKey` is exported from `@fyrst/ui` but is not auto-imported by the Nuxt module.
 
+## Styling components
+
+Component styles are atomic Panda classes from `cva` / `sva` definitions inside the package. They reach the app through `designSystem: '@fyrst/ui'`; Panda generates every variant of each definition, so the app does not need to render a variant for its CSS to exist.
+
+**Per-instance overrides.** Every component takes a `css` prop: style objects keyed by slot, where `root` is always the outermost element. Wrap each value in `css.raw()` from the app's own `styled-system/css`. Panda only generates CSS for objects it can see at build time; a bare object literal compiles but produces no CSS.
+
+```vue
+<script setup lang="ts">
+import { css } from 'styled-system/css'
+</script>
+
+<template>
+  <FyrstAlertRoot
+    :messages="messages"
+    :css="{ root: css.raw({ maxWidth: 'md' }), title: css.raw({ fontSize: 'xl' }) }"
+  />
+</template>
+```
+
+The component merges the override into its own style object before generating classes, so an overridden property gets one class and the override wins.
+
+**Semantic colors.** Besides `primary`, `neutral`, and the status colors, the preset has `surface`, `surface.raised`, `border`, `border.hover`, `border.subtle`, and `text.muted`. They switch between dark (default) and `.light` on their own, so app styles rarely need `_light`.
+
+## Text and HTML content
+
+Content props render as **HTML** (`v-html`): `Button` `label`, `CardHeader` `title` / `subtitle`, `HeroLead` `headline` / `description`, list items and `PricingCard` features, accordion item `title` / `content`, tab labels, `FlyoutRoot` `label`, and field `message` / `error`. Markup such as `Build <mark>faster</mark>` works as written.
+
+The library does not sanitize these strings. **The app is responsible**: sanitize anything that can contain user input, server responses (including validation messages), CMS content, or external translations before passing it, for example with [DOMPurify](https://github.com/cure53/DOMPurify). Where a component has a slot for the same content (`CardHeader` `#title` / `#subtitle`, `HeroLead` `#headline` / `#description`, `AccordionRoot` `#content`, `ListItem` and `TabItem` default slots, `FlyoutRoot` `#trigger-label`), text passed through the slot is escaped by Vue. `Button` `label`, accordion item `title`, and field `message` / `error` have no slot; sanitize those strings.
+
 ## Component names
 
 Nuxt auto-imports Vue components with a `Fyrst` prefix (`FyrstButton`, `FyrstAlertRoot`, `FyrstCardRoot`) as named exports of `@fyrst/ui`. Per-component files remain available at `@fyrst/ui/vue/*` for direct imports (for example `@fyrst/ui/vue/Button`).
@@ -137,6 +168,8 @@ This repo is a Bun workspace. Internal package names (`@fyrst/design-preset`, `@
 ```bash
 bun install
 bun run build
+bun run typecheck
+bun run test
 bun run dev:nuxt
 ```
 
@@ -144,7 +177,10 @@ bun run dev:nuxt
 
 See `AGENTS.md` for lint, test, and package scripts.
 
-Apps on `@fyrst/ui` 0.2.x (`panda.buildinfo.json` in `include`) or still on Panda CSS 1.x should follow [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md). That skill lives in the git repository (not in the npm tarball).
+Migration skills live in the git repository (not in the npm tarball):
+
+- Apps on `@fyrst/ui` 0.2.x (`panda.buildinfo.json` in `include`) or still on Panda CSS 1.x: [`.agents/skills/panda-v2-migration/SKILL.md`](.agents/skills/panda-v2-migration/SKILL.md).
+- Apps on `@fyrst/ui` 0.3.x / 0.4.x: [`.agents/skills/fyrst-ui-0.5-migration/SKILL.md`](.agents/skills/fyrst-ui-0.5-migration/SKILL.md).
 
 ## Publishing
 

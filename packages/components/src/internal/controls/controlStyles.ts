@@ -1,15 +1,16 @@
 import { cva } from 'styled-system/css'
 
+/** Text-like field controls: input, textarea, and the select trigger. */
 export const controlStyles = cva({
   base: {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
     minWidth: '200px',
-    backgroundColor: 'grey.black',
+    backgroundColor: 'surface',
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: 'grey.dusk',
+    borderColor: 'border',
     borderRadius: 'lg',
     outlineWidth: '3px',
     outlineColor: 'transparent',
@@ -24,26 +25,35 @@ export const controlStyles = cva({
       color: 'lucid.600',
     },
     _hover: {
-      borderColor: 'grey.400',
+      borderColor: 'border.hover',
     },
     _focus: {
       outlineColor: 'primary/50',
-      borderColor: 'primary !important',
+      borderColor: 'primary',
     },
     _disabled: {
       opacity: '0.5',
       cursor: 'not-allowed',
     },
-    _light: {
-      backgroundColor: 'white',
-      borderColor: 'grey.200',
-      color: 'grey.night',
-      _hover: {
-        borderColor: 'grey.300',
-      },
-    },
   },
   variants: {
+    element: {
+      input: {},
+      textarea: {
+        alignItems: 'flex-start',
+        resize: 'vertical',
+        minHeight: '6rem',
+      },
+      select: {
+        justifyContent: 'space-between',
+        gap: 'md',
+        cursor: 'pointer',
+        textAlign: 'left',
+        _disabled: {
+          cursor: 'not-allowed',
+        },
+      },
+    },
     size: {
       sm: {
         paddingX: 'md',
@@ -80,6 +90,7 @@ export const controlStyles = cva({
     },
   },
   defaultVariants: {
+    element: 'input',
     size: 'md',
     valid: 'none',
   },

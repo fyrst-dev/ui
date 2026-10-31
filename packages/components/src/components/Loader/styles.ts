@@ -1,5 +1,6 @@
 import { cva } from 'styled-system/css'
 
+/** Diameters with a `size` variant. `Loader` snaps other sizes to the closest one. */
 export const loaderSizeValues = [16, 20, 24, 32, 40, 48, 56, 64, 80, 96, 120] as const
 
 export type LoaderSizeValue = typeof loaderSizeValues[number]

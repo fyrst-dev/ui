@@ -1,17 +1,6 @@
 import { sva } from 'styled-system/css'
-import type { SystemStyleObject } from 'styled-system/types'
 
-/**
- * Per-component `css` prop map. Keys are the component's public slot names,
- * where `root` always refers to the component's outermost element (regardless
- * of the underlying SVA slot name). Inner slots keep their SVA names.
- */
-export type UrlCssMap<K extends string> = Partial<Record<K, SystemStyleObject>>
-
-export type UrlCss = UrlCssMap<'root' | 'protocol' | 'input'>
-
-export type UrlStyles = ReturnType<typeof urlStyles.raw>
-
+/** URL field: clickable protocol prefix plus host/path input. */
 export const urlStyles = sva({
   slots: ['root', 'protocol', 'input'],
   base: {
@@ -24,10 +13,10 @@ export const urlStyles = sva({
       paddingY: '0',
       gap: '0',
       overflow: 'hidden',
-      backgroundColor: 'grey.black',
+      backgroundColor: 'surface',
       borderWidth: '1px',
       borderStyle: 'solid',
-      borderColor: 'grey.dusk',
+      borderColor: 'border',
       borderRadius: 'lg',
       outlineWidth: '3px',
       outlineColor: 'transparent',
@@ -38,26 +27,18 @@ export const urlStyles = sva({
       color: 'neutral',
       transition: 'all 300ms',
       _hover: {
-        borderColor: 'grey.400',
+        borderColor: 'border.hover',
       },
       _focus: {
         outlineColor: 'transparent',
       },
       _focusWithin: {
         outlineColor: 'primary/50',
-        borderColor: 'primary !important',
+        borderColor: 'primary',
       },
       _disabled: {
         opacity: '0.5',
         cursor: 'not-allowed',
-      },
-      _light: {
-        backgroundColor: 'white',
-        borderColor: 'grey.200',
-        color: 'grey.night',
-        _hover: {
-          borderColor: 'grey.300',
-        },
       },
     },
     protocol: {
@@ -120,8 +101,6 @@ export const urlStyles = sva({
           fontSize: 'sm',
         },
         protocol: {
-          // paddingInlineStart: 'md',
-          // paddingInlineEnd: 'sm',
           paddingInline: 'sm',
           paddingBlock: 'xs',
         },
@@ -136,8 +115,6 @@ export const urlStyles = sva({
           fontSize: 'md',
         },
         protocol: {
-          // paddingInlineStart: 'lg',
-          // paddingInlineEnd: 'sm',
           paddingInline: 'sm',
           paddingBlock: 'sm',
         },
@@ -152,8 +129,6 @@ export const urlStyles = sva({
           fontSize: 'lg',
         },
         protocol: {
-          // paddingInlineStart: 'xl',
-          // paddingInlineEnd: 'md',
           paddingInline: 'md',
           paddingBlock: 'md',
         },

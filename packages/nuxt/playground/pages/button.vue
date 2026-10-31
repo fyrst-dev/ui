@@ -136,7 +136,7 @@
                 Buttons composed with other components in real-world scenarios.
             </p>
             
-            <FyrstCardRoot border-color="primary">
+            <FyrstCardRoot>
                 <FyrstCardBody>
                     <div :class="css({ display: 'flex', flexDirection: 'column', gap: 'md' })">
                         <h3 :class="css({ fontSize: 'xl', fontWeight: 'bold' })">

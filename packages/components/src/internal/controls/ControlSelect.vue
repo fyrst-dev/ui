@@ -1,9 +1,8 @@
 <script setup lang="ts">
 /**
  * @component ControlSelect
- * @description Select control built on reka-ui Select primitives.
+ * @description Select built on reka-ui Select primitives.
  */
-import { computed, inject } from 'vue'
 import {
   SelectContent,
   SelectIcon,
@@ -16,13 +15,12 @@ import {
   SelectValue,
   SelectViewport,
 } from 'reka-ui'
-import { css } from 'styled-system/css'
 import { controlStyles } from './controlStyles'
-import { fieldContextKey } from './context'
+import { selectStyles } from './selectStyles'
+import { useFieldControl } from './useFieldControl'
 import type { ControlSize, ControlValid, FieldOption } from './types'
 
 const props = withDefaults(defineProps<{
-  modelValue?: string | null
   id?: string
   name?: string
   options?: FieldOption[]
@@ -33,122 +31,36 @@ const props = withDefaults(defineProps<{
   valid?: ControlValid
   class?: unknown
 }>(), {
-  modelValue: null as string | null,
-  id: '',
-  name: '',
-  options: () => [] as FieldOption[],
-  placeholder: null as string | null,
-  disabled: false,
-  required: false,
+  options: () => [],
   size: 'md',
   valid: 'none',
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
+const model = defineModel<string | null>()
 
-const fieldContext = inject(fieldContextKey, null)
+const { id, describedBy, valid, invalid } = useFieldControl(props)
 
-const inputId = computed(() => props.id || fieldContext?.fieldId.value || undefined)
-
-const ariaDescribedBy = computed(() => {
-  if (!fieldContext) return undefined
-
-  const ids: string[] = []
-  if (fieldContext.errorId.value) ids.push(fieldContext.errorId.value)
-  if (fieldContext.messageId.value) ids.push(fieldContext.messageId.value)
-
-  return ids.length > 0 ? ids.join(' ') : undefined
-})
-
-const isInvalid = computed(() => {
-  if (props.valid === true) return false
-  if (props.valid === false) return true
-  return fieldContext?.hasError.value ?? false
-})
-
-const triggerClass = computed(() => [
-  controlStyles({ size: props.size, valid: props.valid }),
-  css({
-    justifyContent: 'space-between',
-    gap: 'md',
-    cursor: props.disabled ? 'not-allowed' : 'pointer',
-    textAlign: 'left',
-  }),
-  props.class,
-])
-
-const contentClass = css({
-  zIndex: '50',
-  overflow: 'hidden',
-  backgroundColor: 'grey.black',
-  borderWidth: '1px',
-  borderStyle: 'solid',
-  borderColor: 'grey.dusk',
-  borderRadius: 'lg',
-  boxShadow: 'lg',
-  minWidth: 'var(--reka-select-trigger-width)',
-  maxHeight: '18rem',
-  _light: {
-    backgroundColor: 'white',
-    borderColor: 'grey.200',
-  },
-})
-
-const viewportClass = css({
-  p: 'xs',
-})
-
-const itemClass = css({
-  'display': 'flex',
-  'alignItems': 'center',
-  'gap': 'sm',
-  'borderRadius': 'md',
-  'paddingX': 'md',
-  'paddingY': 'sm',
-  'paddingLeft': '2rem',
-  'fontSize': 'md',
-  'fontWeight': '450',
-  'color': 'neutral',
-  'cursor': 'pointer',
-  'outline': 'none',
-  'userSelect': 'none',
-  'position': 'relative',
-  '&[data-highlighted]': {
-    backgroundColor: 'grey.night',
-  },
-  '&[data-disabled]': {
-    opacity: '0.5',
-    cursor: 'not-allowed',
-  },
-  '_light': {
-    'color': 'grey.night',
-    '&[data-highlighted]': {
-      backgroundColor: 'grey.100',
-    },
-  },
-})
+const classes = selectStyles()
 
 const handleUpdate = (value: unknown) => {
   if (value == null) return
-  emit('update:modelValue', String(value))
+  model.value = String(value)
 }
 </script>
 
 <template>
   <SelectRoot
-    :model-value="modelValue || undefined"
-    :name="name"
+    :model-value="model || undefined"
+    :name="name || undefined"
     :required="required"
     :disabled="disabled"
     @update:model-value="handleUpdate"
   >
     <SelectTrigger
-      :id="inputId"
-      :class="triggerClass"
-      :aria-invalid="isInvalid"
-      :aria-describedby="ariaDescribedBy"
+      :id="id"
+      :class="[controlStyles({ element: 'select', size, valid }), props.class]"
+      :aria-invalid="invalid"
+      :aria-describedby="describedBy"
     >
       <SelectValue :placeholder="placeholder || undefined" />
       <SelectIcon as-child>
@@ -160,25 +72,17 @@ const handleUpdate = (value: unknown) => {
       <SelectContent
         position="popper"
         :side-offset="4"
-        :class="contentClass"
+        :class="classes.content"
       >
-        <SelectViewport :class="viewportClass">
+        <SelectViewport :class="classes.viewport">
           <SelectItem
             v-for="option in options"
             :key="option.value"
             :value="option.value"
             :disabled="option.disabled"
-            :class="itemClass"
+            :class="classes.item"
           >
-            <span
-              :class="css({
-                position: 'absolute',
-                left: 'md',
-                display: 'inline-flex',
-                width: '1em',
-                color: 'primary',
-              })"
-            >
+            <span :class="classes.itemIndicator">
               <SelectItemIndicator>
                 <span class="icon icon-check-bold" />
               </SelectItemIndicator>

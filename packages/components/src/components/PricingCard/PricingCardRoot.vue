@@ -1,35 +1,25 @@
 <script setup lang="ts">
-import { css as pandaCss } from 'styled-system/css'
-import { pricingCardStyles } from './styles'
-import { PricingCardStylesKey, PricingCardDataKey, type PricingCardRootCss } from './types'
-import type { ListItemProps } from '../List/ListItem.vue'
 import { computed, provide } from 'vue'
+import { pricingCardStyles } from './styles'
+import { withCss } from '../../internal/css'
+import { PricingCardStylesKey, PricingCardDataKey, type PricingCardData, type PricingCardRootCss } from './types'
 
-export interface Props {
-  title?: string
-  titleTag?: string
-  subtitle?: string
-  price?: string
-  features?: string[]
-  featuresState?: ListItemProps['state']
-  featuresSize?: ListItemProps['size']
+export interface Props extends PricingCardData {
   highlight?: boolean
   css?: PricingCardRootCss
 }
 
 const props = withDefaults(defineProps<Props>(), {
   titleTag: 'div',
-  features: () => [] as string[],
+  features: () => [],
   featuresState: 'success',
   featuresSize: 'md',
-  highlight: false,
 })
 
-const styles = computed(() =>
-  pricingCardStyles.raw({ highlight: props.highlight }),
-)
+const styles = computed(() => pricingCardStyles.raw({ highlight: props.highlight }))
 
-const data = computed(() => ({
+provide(PricingCardStylesKey, styles)
+provide(PricingCardDataKey, computed(() => ({
   title: props.title,
   titleTag: props.titleTag,
   subtitle: props.subtitle,
@@ -37,14 +27,11 @@ const data = computed(() => ({
   features: props.features,
   featuresState: props.featuresState,
   featuresSize: props.featuresSize,
-}))
-
-provide(PricingCardStylesKey, styles)
-provide(PricingCardDataKey, data)
+})))
 </script>
 
 <template>
-  <article :class="pandaCss(styles.root, props.css?.root)">
+  <article :class="withCss(styles.root, props.css?.root)">
     <slot name="before" />
     <slot />
     <slot name="after" />

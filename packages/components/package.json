@@ -1,6 +1,6 @@
 {
     "name": "@fyrst/ui-components",
-    "version": "0.4.1",
+    "version": "0.5.0",
     "private": true,
     "description": "Vue 3 UI components for the fyrst.dev design system",
     "license": "MIT",
@@ -26,9 +26,6 @@
         "fyrst",
         "pandacss"
     ],
-    "sideEffects": [
-        "**/*.css"
-    ],
     "files": [
         "dist",
         "LICENSE",
@@ -39,37 +36,32 @@
             "types": "./dist/index.d.ts",
             "import": "./dist/index.js",
             "require": "./dist/index.cjs"
-        },
-        "./style.css": "./dist/ui-components.css"
+        }
     },
     "scripts": {
         "codegen": "panda codegen --clean",
         "build": "bun run clean && bun run codegen && bun run build:icons && bun run generate:vue-entries && vite build && vue-tsc --emitDeclarationOnly",
-        "build:icons": "bun run build.icons",
+        "build:icons": "bun build.icons.mts",
         "generate:vue-entries": "bun write-vue-entry-modules.ts",
         "dev": "vite dev",
         "test": "vitest run",
         "test:watch": "vitest",
-        "clean": "rm -rf dist src/vue"
+        "clean": "rm -rf dist src/vue",
+        "typecheck": "bun run codegen && bun run generate:vue-entries && vue-tsc --noEmit"
     },
     "devDependencies": {
-        "@fyrst/design-preset": "workspace:*",
-        "@pandacss/dev": "^2.4.0",
-        "@pandacss/preset-base": "^2.4.0",
         "@iconify/json": "^2.2.548",
+        "@iconify/types": "^2.0.0",
         "@iconify/utils": "^3.1.7",
+        "@pandacss/dev": "^2.4.0",
         "@vitejs/plugin-vue": "^6.0.10",
         "@vue/test-utils": "^2.5.1",
         "happy-dom": "^21.0.4",
-        "sass-embedded": "^1.106.1",
         "vite": "^8.2.1",
         "vitest": "^5.0.5"
     },
     "peerDependencies": {
-        "vue": "^3.5.41",
-        "@fyrst/design-preset": "^0.4.1",
-        "@pandacss/dev": "^2.4.0",
-        "@pandacss/preset-base": "^2.4.0",
-        "reka-ui": "^2.10.3"
+        "vue": "^3.5.44",
+        "reka-ui": "^2.11.0"
     }
 }

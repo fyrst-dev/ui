@@ -26,10 +26,10 @@ export const buttonStyles = cva({
         color: 'grey.night',
         borderColor: 'primary',
         _hover: {
-          backgroundColor: '#C5F6CB', // @todo replace with token
+          backgroundColor: 'brand.50',
         },
         _active: {
-          backgroundColor: '#78E284', // @todo replace with token
+          backgroundColor: 'brand.200',
         },
         _light: {
           color: 'white',
@@ -56,11 +56,11 @@ export const buttonStyles = cva({
             color: 'grey.night',
           },
           '_hover': {
-            backgroundColor: '#C5F6CB', // @todo replace with token
+            backgroundColor: 'brand.50',
           },
           '_active': {
-            backgroundColor: '#78E284', // @todo replace with token
-            borderColor: '#78E284', // @todo replace with token
+            backgroundColor: 'brand.200',
+            borderColor: 'brand.200',
           },
         },
       },

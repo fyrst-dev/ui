@@ -21,17 +21,17 @@ export const dialogStyles = sva({
       maxHeight: 'min(90vh, 900px)',
       display: 'flex',
       flexDirection: 'column',
-      bg: 'grey.black',
-      border: '1px solid token(colors.grey.700)',
+      bg: 'surface',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderColor: 'border.subtle',
       borderRadius: 'lg',
-      boxShadow: '0 0 24px rgba(0, 0, 0, .45)',
+      boxShadow: {
+        base: '0 0 24px rgba(0, 0, 0, .45)',
+        _light: '0 0 24px rgba(0, 0, 0, .12)',
+      },
       outline: 'none',
       overflow: 'hidden',
-      _light: {
-        bg: 'white',
-        borderColor: 'grey.200',
-        boxShadow: '0 0 24px rgba(0, 0, 0, .12)',
-      },
     },
     header: {
       display: 'flex',
@@ -39,10 +39,9 @@ export const dialogStyles = sva({
       justifyContent: 'space-between',
       gap: 'md',
       p: 'xl',
-      borderBottom: '1px solid token(colors.grey.700)',
-      _light: {
-        borderBottomColor: 'grey.200',
-      },
+      borderBottomWidth: '1px',
+      borderBottomStyle: 'solid',
+      borderBottomColor: 'border.subtle',
     },
     titleWrap: {
       display: 'flex',
@@ -55,27 +54,21 @@ export const dialogStyles = sva({
       fontWeight: '700',
       textWrap: 'balance',
       color: 'neutral',
-      _light: {
-        color: 'grey.night',
-      },
     },
     description: {
       fontSize: 'sm',
-      color: 'grey.dawn',
-      _light: {
-        color: 'grey.600',
-      },
+      color: 'text.muted',
     },
     close: {
       display: 'inline-flex',
       alignItems: 'center',
       cursor: 'pointer',
       flexShrink: 0,
-      color: 'brand.pale',
-      fontSize: 'lg',
-      _light: {
-        color: 'grey.night',
+      color: {
+        base: 'brand.pale',
+        _light: 'grey.night',
       },
+      fontSize: 'lg',
     },
     body: {
       p: 'xl',

@@ -1,6 +1,6 @@
 import { sva } from 'styled-system/css'
 
-export const heroLead = sva({
+export const heroLeadStyles = sva({
   slots: ['root', 'headline', 'description', 'actions'],
   base: {
     root: {
@@ -18,14 +18,14 @@ export const heroLead = sva({
       },
     },
     description: {
-      'color': 'grey.dawn',
+      'color': {
+        base: 'grey.dawn',
+        _light: 'grey.400',
+      },
       'textWrap': 'balance',
       'transition': 'all 200ms',
       '& mark, & strong, & a': {
         color: 'neutral',
-      },
-      '_light': {
-        color: 'grey.400',
       },
     },
   },

@@ -64,7 +64,4 @@ export const tabStyles = sva({
       fontSize: 'lg',
     },
   },
-  defaultVariants: {
-    state: 'inactive',
-  },
 })

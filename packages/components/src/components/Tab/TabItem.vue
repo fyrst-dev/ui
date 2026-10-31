@@ -1,29 +1,33 @@
 <script setup lang="ts">
 import { TabsTrigger } from 'reka-ui'
-import { computed } from 'vue'
-import { css } from 'styled-system/css'
 import { tabStyles } from './styles'
-import type { TabItemData } from './types'
+import { withCss } from '../../internal/css'
+import type { TabItemCss, TabItemData } from './types'
 
-defineProps<TabItemData>()
+const props = defineProps<TabItemData & {
+  css?: TabItemCss
+}>()
 
-const styles = computed(() =>
-  tabStyles.raw({}),
-)
+const styles = tabStyles.raw()
 </script>
 
 <template>
   <TabsTrigger
     :value="value"
     :disabled="disabled"
-    :class="css(styles.item)"
+    :class="withCss(styles.item, props.css?.root)"
   >
     <slot name="icon">
       <span
         v-if="icon"
-        :class="[`icon icon-${icon}`, css(styles.icon)]"
+        :class="[`icon icon-${icon}`, withCss(styles.icon, props.css?.icon)]"
+        aria-hidden="true"
       />
     </slot>
-    <slot><span v-html="label" /></slot>
+    <slot>
+      <span
+        v-html="label"
+      />
+    </slot>
   </TabsTrigger>
 </template>

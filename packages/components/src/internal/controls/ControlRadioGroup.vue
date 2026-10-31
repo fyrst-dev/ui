@@ -1,16 +1,15 @@
 <script setup lang="ts">
 /**
  * @component ControlRadioGroup
- * @description Radio group control built on reka-ui RadioGroup primitives.
+ * @description Radio group built on reka-ui RadioGroup primitives.
  */
-import { computed, inject } from 'vue'
+import { computed } from 'vue'
 import { RadioGroupIndicator, RadioGroupItem, RadioGroupRoot } from 'reka-ui'
-import { css } from 'styled-system/css'
-import { fieldContextKey } from './context'
+import { radioGroupStyles } from './choiceStyles'
+import { useFieldControl } from './useFieldControl'
 import type { ControlSize, FieldOption } from './types'
 
 const props = withDefaults(defineProps<{
-  modelValue?: string | null
   id?: string
   name?: string
   options?: FieldOption[]
@@ -19,140 +18,49 @@ const props = withDefaults(defineProps<{
   size?: ControlSize
   class?: unknown
 }>(), {
-  modelValue: null as string | null,
-  id: '',
-  name: '',
-  options: () => [] as FieldOption[],
-  disabled: false,
-  required: false,
+  options: () => [],
   size: 'md',
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
+const model = defineModel<string | null>()
 
-const fieldContext = inject(fieldContextKey, null)
+const { id, describedBy, invalid } = useFieldControl(props)
 
-const inputId = computed(() => props.id || fieldContext?.fieldId.value || undefined)
-
-const ariaDescribedBy = computed(() => {
-  if (!fieldContext) return undefined
-
-  const ids: string[] = []
-  if (fieldContext.errorId.value) ids.push(fieldContext.errorId.value)
-  if (fieldContext.messageId.value) ids.push(fieldContext.messageId.value)
-
-  return ids.length > 0 ? ids.join(' ') : undefined
-})
-
-const hasError = computed(() => fieldContext?.hasError.value ?? false)
-
-const rootClass = computed(() => [
-  css({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 'sm',
-    border: 'none',
-    p: 0,
-    m: 0,
-    minWidth: '0',
-  }),
-  props.class,
-])
-
-const itemLabelClass = computed(() =>
-  css({
-    display: 'flex',
-    alignItems: 'center',
-    gap: 'sm',
-    cursor: props.disabled ? 'not-allowed' : 'pointer',
-    userSelect: 'none',
-    opacity: props.disabled ? '0.5' : '1',
-  }),
-)
-
-const itemClass = computed(() =>
-  css({
-    'display': 'inline-flex',
-    'alignItems': 'center',
-    'justifyContent': 'center',
-    'width': props.size === 'sm' ? '1rem' : props.size === 'lg' ? '1.375rem' : '1.125rem',
-    'height': props.size === 'sm' ? '1rem' : props.size === 'lg' ? '1.375rem' : '1.125rem',
-    'borderWidth': '1px',
-    'borderStyle': 'solid',
-    'borderColor': hasError.value ? 'danger.subtle' : 'grey.dusk',
-    'borderRadius': 'full',
-    'backgroundColor': 'grey.black',
-    'transition': 'all 200ms',
-    'flexShrink': '0',
-    '_hover': {
-      borderColor: props.disabled ? undefined : 'grey.400',
-    },
-    '&[data-state="checked"]': {
-      borderColor: 'primary',
-    },
-    '_light': {
-      'backgroundColor': 'white',
-      'borderColor': hasError.value ? 'danger.subtle' : 'grey.200',
-      '&[data-state="checked"]': {
-        borderColor: 'primary',
-      },
-    },
-  }),
-)
-
-const indicatorClass = css({
-  display: 'block',
-  width: '55%',
-  height: '55%',
-  borderRadius: 'full',
-  backgroundColor: 'primary',
-})
-
-const textClass = computed(() =>
-  css({
-    fontWeight: '500',
-    fontSize: props.size === 'sm' ? 'sm' : props.size === 'lg' ? 'lg' : 'md',
-    color: 'neutral',
-    lineHeight: '1.4',
-    _light: {
-      color: 'grey.night',
-    },
-  }),
-)
+const classes = computed(() => radioGroupStyles({ size: props.size }))
 
 const handleUpdate = (value: unknown) => {
   if (value == null) return
-  emit('update:modelValue', String(value))
+  model.value = String(value)
 }
 </script>
 
 <template>
   <RadioGroupRoot
-    :id="inputId"
-    :name="name"
+    :id="id"
+    :name="name || undefined"
     :required="required"
     :disabled="disabled"
-    :model-value="modelValue || undefined"
-    :aria-invalid="hasError"
-    :aria-describedby="ariaDescribedBy"
-    :class="rootClass"
+    :model-value="model || undefined"
+    :aria-invalid="invalid"
+    :aria-describedby="describedBy"
+    :class="[classes.root, props.class]"
     @update:model-value="handleUpdate"
   >
     <label
       v-for="option in options"
       :key="option.value"
-      :class="itemLabelClass"
+      :class="classes.item"
+      :data-disabled="disabled || option.disabled ? '' : undefined"
     >
       <RadioGroupItem
         :value="option.value"
         :disabled="disabled || option.disabled"
-        :class="itemClass"
+        :aria-invalid="invalid"
+        :class="classes.control"
       >
-        <RadioGroupIndicator :class="indicatorClass" />
+        <RadioGroupIndicator :class="classes.indicator" />
       </RadioGroupItem>
-      <span :class="textClass">{{ option.label }}</span>
+      <span :class="classes.label">{{ option.label }}</span>
     </label>
   </RadioGroupRoot>
 </template>

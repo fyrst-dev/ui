@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { badgeStyles } from './styles'
-import { css } from 'styled-system/css'
+import { withCss, type CssMap } from '../../internal/css'
 
-const props = defineProps<{
+export type BadgeCss = CssMap<'root'>
+
+const props = withDefaults(defineProps<{
   label: string
   color?: 'default' | 'primary' | 'success' | 'info' | 'danger' | null
   size?: 'sm' | 'md' | 'lg'
-}>()
+  css?: BadgeCss
+}>(), {
+  color: 'default',
+  size: 'md',
+})
 
-const badgeClass = computed(() => css(
-  badgeStyles.raw({ color: props.color ?? undefined, size: props.size ?? undefined }),
+const badgeClass = computed(() => withCss(
+  badgeStyles.raw({ color: props.color ?? 'default', size: props.size }),
+  props.css?.root,
 ))
 </script>
 

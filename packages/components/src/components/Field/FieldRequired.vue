@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { css } from 'styled-system/css'
+import { fieldStyles } from './styles'
+
+const classes = fieldStyles()
 </script>
 
 <template>
   <span
-    :class="css({
-      color: 'danger',
-      fontWeight: '800',
-    })"
-  >
-    *
-  </span>
+    :class="classes.required"
+    aria-hidden="true"
+  >*</span>
 </template>
