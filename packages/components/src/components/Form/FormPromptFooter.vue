@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { fyFormPrompt } from 'styled-system/recipes'
+import { formPromptStyles } from './styles'
 import { withCss, type CssMap } from '../../internal/css'
 
 export type FormPromptFooterCss = CssMap<'root' | 'inputs' | 'action'>
@@ -8,16 +8,16 @@ const props = defineProps<{
   css?: FormPromptFooterCss
 }>()
 
-const classes = fyFormPrompt()
+const styles = formPromptStyles.raw()
 </script>
 
 <template>
-  <div :class="withCss(classes.footer, props.css?.root)">
-    <div :class="withCss(classes.inputs, props.css?.inputs)">
+  <div :class="withCss(styles.footer, props.css?.root)">
+    <div :class="withCss(styles.inputs, props.css?.inputs)">
       <slot name="inputs" />
     </div>
 
-    <div :class="withCss(classes.action, props.css?.action)">
+    <div :class="withCss(styles.action, props.css?.action)">
       <slot name="action" />
     </div>
   </div>

@@ -22,7 +22,7 @@
  * <Button color="primary" size="lg" label="Large Primary Button" />
  */
 import { computed } from 'vue'
-import { fyButton } from 'styled-system/recipes'
+import { buttonStyles } from './styles'
 import RichText from '../../internal/RichText.vue'
 import { withCss, type CssMap } from '../../internal/css'
 
@@ -81,7 +81,7 @@ const attrs = computed(() => {
 })
 
 const buttonClass = computed(() => withCss(
-  fyButton({
+  buttonStyles.raw({
     color: props.color,
     size: props.size,
     order: props.order,

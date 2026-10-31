@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import { fyCard } from 'styled-system/recipes'
+import { cardStyles } from './styles'
 import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
-import { CardClassesKey, type CardHeaderCss } from './types'
+import { CardStylesKey, type CardHeaderCss } from './types'
 
 export interface CardHeaderProps {
   title?: string | null
@@ -15,20 +15,20 @@ export interface CardHeaderProps {
 
 const props = defineProps<CardHeaderProps>()
 
-const classes = inject(CardClassesKey, computed(() => fyCard()))
+const styles = inject(CardStylesKey, computed(() => cardStyles.raw()))
 </script>
 
 <template>
-  <header :class="withCss(classes.header, props.css?.root)">
+  <header :class="withCss(styles.header, props.css?.root)">
     <slot name="icon" />
 
     <slot>
-      <div :class="withCss(classes.headerBody, props.css?.body)">
+      <div :class="withCss(styles.headerBody, props.css?.body)">
         <slot name="title">
           <RichText
             v-if="title"
             as="div"
-            :class="withCss(classes.headerTitle, props.css?.title)"
+            :class="withCss(styles.headerTitle, props.css?.title)"
             :text="title"
             :html="html"
           />
@@ -37,7 +37,7 @@ const classes = inject(CardClassesKey, computed(() => fyCard()))
           <RichText
             v-if="subtitle"
             as="div"
-            :class="withCss(classes.headerSubtitle, props.css?.subtitle)"
+            :class="withCss(styles.headerSubtitle, props.css?.subtitle)"
             :text="subtitle"
             :html="html"
           />

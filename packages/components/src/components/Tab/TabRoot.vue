@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TabsList, TabsRoot } from 'reka-ui'
 import { ref, watch } from 'vue'
-import { fyTab } from 'styled-system/recipes'
+import { tabStyles } from './styles'
 import { withCss } from '../../internal/css'
 import TabItem from './TabItem.vue'
 import type { TabChangePayload, TabItemData, TabRootCss } from './types'
@@ -32,7 +32,7 @@ watch(() => props.modelValue, (value) => {
   internalValue.value = value
 })
 
-const classes = fyTab()
+const styles = tabStyles.raw()
 
 const handleUpdate = (value: string | number) => {
   const stringValue = String(value)
@@ -54,7 +54,7 @@ const handleUpdate = (value: string | number) => {
     @update:model-value="handleUpdate"
   >
     <TabsList
-      :class="withCss(classes.root, props.css?.root)"
+      :class="withCss(styles.root, props.css?.root)"
       :loop="loop"
     >
       <TabItem

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { fyLoader } from 'styled-system/recipes'
+import { loaderSizeValues, loaderStyles, type LoaderSizeValue } from './styles'
 import { withCss, type CssMap } from '../../internal/css'
 
 export type LoaderCss = CssMap<'root'>
@@ -17,19 +17,14 @@ const props = withDefaults(defineProps<{
   label: 'Loading',
 })
 
-// Keep in sync with `loaderSizes` in the preset's loader recipe.
-const loaderSizes = [16, 20, 24, 32, 40, 48, 56, 64, 80, 96, 120] as const
-type LoaderSize = `${typeof loaderSizes[number]}`
-
-function resolveLoaderSize(value: number): LoaderSize {
-  const closest = loaderSizes.reduce((best, candidate) =>
+function resolveLoaderSize(value: number): LoaderSizeValue {
+  return loaderSizeValues.reduce((best, candidate) =>
     Math.abs(candidate - value) < Math.abs(best - value) ? candidate : best,
   )
-  return String(closest) as LoaderSize
 }
 
 const loaderClass = computed(() => withCss(
-  fyLoader({ size: resolveLoaderSize(props.size) }),
+  loaderStyles.raw({ size: resolveLoaderSize(props.size) }),
   props.css?.root,
 ))
 </script>

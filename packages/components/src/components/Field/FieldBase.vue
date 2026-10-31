@@ -11,7 +11,7 @@
  * </Field.Base>
  */
 import { provide, computed, useId } from 'vue'
-import { fyField } from 'styled-system/recipes'
+import { fieldStyles } from './styles'
 import { fieldContextKey } from '../../internal/controls/context'
 
 const props = withDefaults(defineProps<{
@@ -40,7 +40,7 @@ provide(fieldContextKey, {
   html: computed(() => props.html),
 })
 
-const classes = fyField()
+const classes = fieldStyles()
 </script>
 
 <template>

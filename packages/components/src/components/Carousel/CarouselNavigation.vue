@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
-import { fyCarousel } from 'styled-system/recipes'
+import { carouselStyles } from './styles'
 import { withCss } from '../../internal/css'
 import { CarouselContextKey, type CarouselNavigationCss } from './types'
 
@@ -25,11 +25,11 @@ const nextDisabled = computed(() => allVisible.value || itemCount.value === 0 ||
 const handlePrev = () => carousel?.handlePrev()
 const handleNext = () => carousel?.handleNext()
 
-const classes = fyCarousel()
+const styles = carouselStyles.raw()
 </script>
 
 <template>
-  <div :class="withCss(classes.navigation, props.css?.root)">
+  <div :class="withCss(styles.navigation, props.css?.root)">
     <slot
       name="action-prev"
       :handle-prev="handlePrev"
@@ -37,7 +37,7 @@ const classes = fyCarousel()
     >
       <button
         type="button"
-        :class="withCss(classes.button, props.css?.button)"
+        :class="withCss(styles.button, props.css?.button)"
         :disabled="prevDisabled"
         @click="handlePrev"
       >
@@ -51,7 +51,7 @@ const classes = fyCarousel()
     >
       <button
         type="button"
-        :class="withCss(classes.button, props.css?.button)"
+        :class="withCss(styles.button, props.css?.button)"
         :disabled="nextDisabled"
         @click="handleNext"
       >

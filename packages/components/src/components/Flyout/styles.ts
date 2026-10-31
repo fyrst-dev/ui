@@ -1,7 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyFlyout = defineSlotRecipe({
-  className: 'fy-flyout',
+export const flyoutStyles = sva({
   slots: ['root', 'trigger', 'content'],
   base: {
     root: {

@@ -1,11 +1,11 @@
 import type { ComputedRef } from 'vue'
-import type { fyCard } from 'styled-system/recipes'
 import { createInjectionKey } from '../../composables/injection-key'
 import type { CssMap } from '../../internal/css'
+import type { cardStyles } from './styles'
 
-export type CardClasses = ReturnType<typeof fyCard>
+export type CardStyles = ReturnType<typeof cardStyles.raw>
 
-export const CardClassesKey = createInjectionKey<ComputedRef<CardClasses>>('CardClasses')
+export const CardStylesKey = createInjectionKey<ComputedRef<CardStyles>>('CardStyles')
 
 export type CardRootCss = CssMap<'root'>
 export type CardHeaderCss = CssMap<'root' | 'body' | 'title' | 'subtitle'>

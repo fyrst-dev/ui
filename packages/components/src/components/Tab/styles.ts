@@ -1,7 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyTab = defineSlotRecipe({
-  className: 'fy-tab',
+export const tabStyles = sva({
   slots: ['root', 'item', 'icon'],
   base: {
     root: {

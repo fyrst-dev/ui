@@ -1,8 +1,7 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-/** Select menu. The trigger uses `fyControl` with `element: 'select'`. */
-export const fySelect = defineSlotRecipe({
-  className: 'fy-select',
+/** Select menu. The trigger uses `controlStyles` with `element: 'select'`. */
+export const selectStyles = sva({
   slots: ['content', 'viewport', 'item', 'itemIndicator'],
   base: {
     content: {
@@ -36,7 +35,10 @@ export const fySelect = defineSlotRecipe({
       'userSelect': 'none',
       'position': 'relative',
       '&[data-highlighted]': {
-        backgroundColor: { base: 'grey.night', _light: 'grey.100' },
+        backgroundColor: {
+          base: 'grey.night',
+          _light: 'grey.100',
+        },
       },
       '&[data-disabled]': {
         opacity: '0.5',

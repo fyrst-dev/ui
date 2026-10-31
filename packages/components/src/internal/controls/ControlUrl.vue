@@ -4,7 +4,7 @@
  * @description URL input group with a clickable http(s) prefix and paste sanitization.
  */
 import { computed, ref, watch } from 'vue'
-import { fyUrl } from 'styled-system/recipes'
+import { urlStyles } from './urlStyles'
 import { withCss } from '../css'
 import { useFieldControl } from './useFieldControl'
 import type { UrlCss, ControlSize, ControlValid } from './types'
@@ -59,7 +59,7 @@ const fullUrl = computed(() => joinUrl(protocol.value, hostPath.value))
 const protocolLabel = computed(() => `${protocol.value}://`)
 const isSecure = computed(() => protocol.value === 'https')
 
-const classes = computed(() => fyUrl({
+const styles = computed(() => urlStyles.raw({
   size: props.size,
   valid: valid.value,
   secure: isSecure.value,
@@ -86,7 +86,7 @@ const handleInput = (event: Event) => {
 </script>
 
 <template>
-  <div :class="[withCss(classes.root, props.css?.root), props.class]">
+  <div :class="[withCss(styles.root, props.css?.root), props.class]">
     <input
       v-if="name"
       type="hidden"
@@ -96,7 +96,7 @@ const handleInput = (event: Event) => {
 
     <button
       type="button"
-      :class="withCss(classes.protocol, props.css?.protocol)"
+      :class="withCss(styles.protocol, props.css?.protocol)"
       :disabled="disabled"
       :aria-label="`Toggle protocol, currently ${protocolLabel}`"
       @click="toggleProtocol"
@@ -113,7 +113,7 @@ const handleInput = (event: Event) => {
       :id="id"
       type="text"
       inputmode="url"
-      :class="withCss(classes.input, props.css?.input)"
+      :class="withCss(styles.input, props.css?.input)"
       :placeholder="placeholder || undefined"
       :value="hostPath"
       :disabled="disabled"

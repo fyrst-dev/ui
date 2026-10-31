@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import { fyPricingCard } from 'styled-system/recipes'
+import { pricingCardStyles } from './styles'
 import { withCss } from '../../internal/css'
-import { PricingCardClassesKey, PricingCardDataKey, type PricingCardData, type PricingCardPricingCss } from './types'
+import { PricingCardStylesKey, PricingCardDataKey, type PricingCardData, type PricingCardPricingCss } from './types'
 
 export interface PricingCardPricingProps {
   price?: string
@@ -11,9 +11,9 @@ export interface PricingCardPricingProps {
 
 const props = defineProps<PricingCardPricingProps>()
 
-const classes = inject(
-  PricingCardClassesKey,
-  computed(() => fyPricingCard()),
+const styles = inject(
+  PricingCardStylesKey,
+  computed(() => pricingCardStyles.raw()),
 )
 
 const data = inject(
@@ -25,12 +25,12 @@ const price = computed(() => props.price ?? data.value.price)
 </script>
 
 <template>
-  <div :class="withCss(classes.pricing, props.css?.root)">
+  <div :class="withCss(styles.pricing, props.css?.root)">
     <slot>
       <slot name="price">
         <span
           v-if="price"
-          :class="withCss(classes.price, props.css?.price)"
+          :class="withCss(styles.price, props.css?.price)"
         >
           {{ price }}
         </span>

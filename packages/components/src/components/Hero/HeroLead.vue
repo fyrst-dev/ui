@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { fyHeroLead } from 'styled-system/recipes'
+import { heroLeadStyles } from './styles'
 import RichText from '../../internal/RichText.vue'
 import { withCss, type CssMap } from '../../internal/css'
 
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
   gap: 'md',
 })
 
-const classes = computed(() => fyHeroLead({
+const styles = computed(() => heroLeadStyles.raw({
   alignItems: props.alignItems,
   alignSelf: props.alignSelf,
   size: props.size,
@@ -36,13 +36,13 @@ const classes = computed(() => fyHeroLead({
 </script>
 
 <template>
-  <div :class="withCss(classes.root, props.css?.root)">
+  <div :class="withCss(styles.root, props.css?.root)">
     <slot name="prepend" />
     <slot name="headline">
       <component
         :is="headlineTag"
         v-if="headline"
-        :class="withCss(classes.headline, props.css?.headline)"
+        :class="withCss(styles.headline, props.css?.headline)"
       >
         <RichText
           :text="headline"
@@ -54,7 +54,7 @@ const classes = computed(() => fyHeroLead({
       <RichText
         v-if="description"
         as="div"
-        :class="withCss(classes.description, props.css?.description)"
+        :class="withCss(styles.description, props.css?.description)"
         :text="description"
         :html="html"
       />

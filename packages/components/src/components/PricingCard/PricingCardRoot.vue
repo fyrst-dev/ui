@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
-import { fyPricingCard } from 'styled-system/recipes'
+import { pricingCardStyles } from './styles'
 import { withCss } from '../../internal/css'
-import { PricingCardClassesKey, PricingCardDataKey, type PricingCardData, type PricingCardRootCss } from './types'
+import { PricingCardStylesKey, PricingCardDataKey, type PricingCardData, type PricingCardRootCss } from './types'
 
 export interface Props extends PricingCardData {
   highlight?: boolean
@@ -16,9 +16,9 @@ const props = withDefaults(defineProps<Props>(), {
   featuresSize: 'md',
 })
 
-const classes = computed(() => fyPricingCard({ highlight: props.highlight }))
+const styles = computed(() => pricingCardStyles.raw({ highlight: props.highlight }))
 
-provide(PricingCardClassesKey, classes)
+provide(PricingCardStylesKey, styles)
 provide(PricingCardDataKey, computed(() => ({
   title: props.title,
   titleTag: props.titleTag,
@@ -32,7 +32,7 @@ provide(PricingCardDataKey, computed(() => ({
 </script>
 
 <template>
-  <article :class="withCss(classes.root, props.css?.root)">
+  <article :class="withCss(styles.root, props.css?.root)">
     <slot name="before" />
     <slot />
     <slot name="after" />

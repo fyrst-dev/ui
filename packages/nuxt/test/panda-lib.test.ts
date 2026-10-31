@@ -95,13 +95,12 @@ describe('panda lib consumer fixture', () => {
 
     const css = readFileSync(join(consumer, 'styles.css'), 'utf8')
     expect(css.length).toBeGreaterThan(1000)
-    // Component styles are config recipes from the design system. Variants come
-    // from props at runtime, so every variant must be generated.
-    expect(css).toContain('.fy-button')
-    expect(css).toContain('.fy-button--size_lg')
-    expect(css).toContain('.fy-control--valid_false')
-    expect(css).toContain('.fy-progress__indicator--percent_37')
-    expect(css).toContain('.fy-loader--size_120')
+    expect(css).toMatch(/d_inline[-_]flex/)
+    expect(css).toMatch(/bg-c_primary/)
+    // Every cva variant is extracted from the published JS, including ones
+    // the app never renders.
+    expect(css).toContain('w_37\\%')
+    expect(css).toMatch(/\.bd-c_danger\\\.subtle/)
     expect(css).toMatch(/--colors-surface/)
   }, 120_000)
 
@@ -118,27 +117,11 @@ describe('panda lib consumer fixture', () => {
 
     const css = readFileSync(join(consumer, 'styles.stale.css'), 'utf8')
     expect(css.length).toBeGreaterThan(1000)
-    expect(css).toContain('.fy-button')
-    expect(css).toContain('.fy-card__root')
+    expect(css).toMatch(/d_inline[-_]flex/)
+    expect(css).toMatch(/bg-c_primary/)
   }, 120_000)
 
-  it('lets the app extend a component recipe and override slots with css.raw', () => {
-    writeFileSync(join(consumer, 'panda.config.ts'), `import { defineConfig } from '@pandacss/dev'
-
-export default defineConfig({
-  preflight: true,
-  designSystem: '@fyrst/ui',
-  include: ['./src/**/*.{js,ts,vue}'],
-  outdir: 'styled-system',
-  theme: {
-    extend: {
-      recipes: {
-        fyButton: { variants: { size: { xl: { fontSize: '2xl' } } } },
-      },
-    },
-  },
-})
-`)
+  it('generates css overrides passed through css.raw, not bare objects', () => {
     writeFileSync(join(consumer, 'src/overrides.ts'), `import { css } from '../styled-system/css'
 
 export const alertCss = { root: css.raw({ letterSpacing: '0.37em' }) }
@@ -146,15 +129,12 @@ export const plainObject = { root: { letterSpacing: '0.41em' } }
 `)
     expect(runPanda(['codegen'], consumer).status).toBe(0)
 
-    const result = runPanda(['cssgen', '--outfile', 'styles.extended.css'], consumer)
+    const result = runPanda(['cssgen', '--outfile', 'styles.overrides.css'], consumer)
     const output = `${result.stdout}\n${result.stderr}`
     expect(result.status, output).toBe(0)
 
-    const css = readFileSync(join(consumer, 'styles.extended.css'), 'utf8')
-    expect(css).toContain('.fy-button--size_xl')
-    expect(css).toContain('.fy-button--size_md')
-    // css.raw() is extracted; a bare object literal is not. This is why the
-    // docs require css.raw() for `css` prop values.
+    const css = readFileSync(join(consumer, 'styles.overrides.css'), 'utf8')
+    // This is why the docs require css.raw() for `css` prop values.
     expect(css).toContain('letter-spacing: 0.37em')
     expect(css).not.toContain('letter-spacing: 0.41em')
   }, 120_000)

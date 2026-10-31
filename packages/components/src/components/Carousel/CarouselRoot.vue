@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { provide, ref } from 'vue'
-import { fyCarousel } from 'styled-system/recipes'
+import { carouselStyles } from './styles'
 import { useCarousel, type CarouselScrollMode } from '../../composables/carousel'
 import { withCss } from '../../internal/css'
 import { CarouselContextKey, type CarouselRootCss } from './types'
@@ -23,7 +23,7 @@ const state = useCarousel({ scrollMode: () => props.scrollMode }, carousel)
 
 provide(CarouselContextKey, { ...state, carousel })
 
-const classes = fyCarousel()
+const styles = carouselStyles.raw()
 
 const onWheel = (event: WheelEvent) => {
   if (props.wheelNavigation) {
@@ -33,11 +33,11 @@ const onWheel = (event: WheelEvent) => {
 </script>
 
 <template>
-  <div :class="withCss(classes.root, props.css?.root)">
+  <div :class="withCss(styles.root, props.css?.root)">
     <slot name="carousel-before" />
     <ul
       ref="carousel"
-      :class="withCss(classes.viewport, props.css?.viewport)"
+      :class="withCss(styles.viewport, props.css?.viewport)"
       @wheel="onWheel"
     >
       <slot />

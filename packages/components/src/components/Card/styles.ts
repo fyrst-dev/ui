@@ -1,10 +1,11 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
 /** Discrete border widths in px. `CardRoot` snaps other values to `1`. */
 export const cardBorderSizes = [0, 1, 2, 3, 4, 5, 6, 7, 8] as const
 
-export const fyCard = defineSlotRecipe({
-  className: 'fy-card',
+export type CardBorderSize = typeof cardBorderSizes[number]
+
+export const cardStyles = sva({
   slots: ['root', 'header', 'headerBody', 'headerTitle', 'headerSubtitle', 'body', 'footer'],
   base: {
     root: {
@@ -53,8 +54,7 @@ export const fyCard = defineSlotRecipe({
       },
       image: {
         root: {
-          background:
-            'var(--card-bg-overlay) padding-box, var(--card-bg) padding-box, var(--card-border-color) border-box',
+          background: 'var(--card-bg-overlay) padding-box, var(--card-bg) padding-box, var(--card-border-color) border-box',
         },
       },
     },
@@ -117,12 +117,80 @@ export const fyCard = defineSlotRecipe({
         },
       },
     },
-    borderSize: Object.fromEntries(
-      cardBorderSizes.map(size => [size, {
-        root: { borderWidth: `${size}px` },
-        header: { borderBottomWidth: `${size}px` },
-      }]),
-    ),
+    borderSize: {
+      0: {
+        root: {
+          borderWidth: '0px',
+        },
+        header: {
+          borderBottomWidth: '0px',
+        },
+      },
+      1: {
+        root: {
+          borderWidth: '1px',
+        },
+        header: {
+          borderBottomWidth: '1px',
+        },
+      },
+      2: {
+        root: {
+          borderWidth: '2px',
+        },
+        header: {
+          borderBottomWidth: '2px',
+        },
+      },
+      3: {
+        root: {
+          borderWidth: '3px',
+        },
+        header: {
+          borderBottomWidth: '3px',
+        },
+      },
+      4: {
+        root: {
+          borderWidth: '4px',
+        },
+        header: {
+          borderBottomWidth: '4px',
+        },
+      },
+      5: {
+        root: {
+          borderWidth: '5px',
+        },
+        header: {
+          borderBottomWidth: '5px',
+        },
+      },
+      6: {
+        root: {
+          borderWidth: '6px',
+        },
+        header: {
+          borderBottomWidth: '6px',
+        },
+      },
+      7: {
+        root: {
+          borderWidth: '7px',
+        },
+        header: {
+          borderBottomWidth: '7px',
+        },
+      },
+      8: {
+        root: {
+          borderWidth: '8px',
+        },
+        header: {
+          borderBottomWidth: '8px',
+        },
+      },
+    },
     borderRadius: {
       sm: {
         root: {
@@ -148,7 +216,7 @@ export const fyCard = defineSlotRecipe({
   },
   defaultVariants: {
     borderRadius: 'md',
-    borderSize: '1',
+    borderSize: 1,
     color: 'default',
     padding: 'md',
     colorStrategy: 'default',

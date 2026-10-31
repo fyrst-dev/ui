@@ -1,7 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyAccordion = defineSlotRecipe({
-  className: 'fy-accordion',
+export const accordionStyles = sva({
   slots: ['root', 'item', 'trigger', 'icon', 'title', 'indicator', 'content'],
   base: {
     root: {

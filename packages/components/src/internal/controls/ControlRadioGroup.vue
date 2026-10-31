@@ -5,7 +5,7 @@
  */
 import { computed } from 'vue'
 import { RadioGroupIndicator, RadioGroupItem, RadioGroupRoot } from 'reka-ui'
-import { fyRadioGroup } from 'styled-system/recipes'
+import { radioGroupStyles } from './choiceStyles'
 import { useFieldControl } from './useFieldControl'
 import type { ControlSize, FieldOption } from './types'
 
@@ -26,7 +26,7 @@ const model = defineModel<string | null>()
 
 const { id, describedBy, invalid } = useFieldControl(props)
 
-const classes = computed(() => fyRadioGroup({ size: props.size }))
+const classes = computed(() => radioGroupStyles({ size: props.size }))
 
 const handleUpdate = (value: unknown) => {
   if (value == null) return

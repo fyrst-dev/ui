@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
-import { fyCard } from 'styled-system/recipes'
+import { cardBorderSizes, cardStyles, type CardBorderSize } from './styles'
 import { withCss } from '../../internal/css'
 import CardHeader, { type CardHeaderProps } from './CardHeader.vue'
-import { CardClassesKey, type CardRootCss } from './types'
-
-type CardBorderSize = NonNullable<NonNullable<Parameters<typeof fyCard>[0]>['borderSize']>
+import { CardStylesKey, type CardRootCss } from './types'
 
 export interface Props {
   as?: 'div' | 'li'
@@ -36,23 +34,23 @@ const props = withDefaults(defineProps<Props>(), {
 
 function resolveBorderSize(value: number): CardBorderSize {
   const rounded = Math.round(value)
-  return (rounded >= 0 && rounded <= 8 ? String(rounded) : '1') as CardBorderSize
+  return (cardBorderSizes as readonly number[]).includes(rounded) ? rounded as CardBorderSize : 1
 }
 
-const classes = computed(() => fyCard({
+const styles = computed(() => cardStyles.raw({
   borderRadius: props.borderRadius,
   borderSize: resolveBorderSize(props.borderSize),
   colorStrategy: props.colorStrategy,
   color: props.color,
 }))
 
-provide(CardClassesKey, classes)
+provide(CardStylesKey, styles)
 </script>
 
 <template>
   <component
     :is="props.as"
-    :class="withCss(classes.root, props.css?.root)"
+    :class="withCss(styles.root, props.css?.root)"
   >
     <slot name="before" />
     <slot name="header">

@@ -14,7 +14,7 @@
  */
 import { computed, provide, toRef, useId, useSlots } from 'vue'
 import { PopoverRoot, PopoverTrigger } from 'reka-ui'
-import { fyFlyout } from 'styled-system/recipes'
+import { flyoutStyles } from './styles'
 import { useFlyout } from '../../composables/flyout'
 import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
@@ -70,7 +70,7 @@ const onOpenChange = (value: boolean) => {
   setOpen(value, 'click')
 }
 
-const classes = computed(() => fyFlyout())
+const styles = computed(() => flyoutStyles.raw())
 const hasCustomTrigger = computed(() => Boolean(slots.trigger))
 </script>
 
@@ -80,7 +80,7 @@ const hasCustomTrigger = computed(() => Boolean(slots.trigger))
     @update:open="onOpenChange"
   >
     <div
-      :class="withCss(classes.root, props.css?.root)"
+      :class="withCss(styles.root, props.css?.root)"
       @pointerenter="onPointerEnter"
       @pointerleave="onPointerLeave"
       @click.capture="onClickCapture"
@@ -99,7 +99,7 @@ const hasCustomTrigger = computed(() => Boolean(slots.trigger))
       <PopoverTrigger
         v-else
         :data-flyout-trigger="triggerId"
-        :class="[withCss(classes.trigger, props.css?.trigger), open ? 'active' : null]"
+        :class="[withCss(styles.trigger, props.css?.trigger), open ? 'active' : null]"
         :aria-label="ariaLabel || label"
       >
         <span

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot as AccordionPrimitive, AccordionTrigger } from 'reka-ui'
-import { fyAccordion } from 'styled-system/recipes'
+import { accordionStyles } from './styles'
 import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
 import type { AccordionCss, AccordionItem as AccordionItemData } from './types'
@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
   size: 'md',
 })
 
-const classes = computed(() => fyAccordion({
+const styles = computed(() => accordionStyles.raw({
   orientation: props.orientation,
   size: props.size,
 }))
@@ -30,40 +30,40 @@ const classes = computed(() => fyAccordion({
   <AccordionPrimitive
     :type="type"
     :orientation="orientation"
-    :class="withCss(classes.root, props.css?.root)"
+    :class="withCss(styles.root, props.css?.root)"
   >
     <AccordionItem
       v-for="item in items"
       :key="item.id"
       :value="item.id"
-      :class="withCss(classes.item, props.css?.item)"
+      :class="withCss(styles.item, props.css?.item)"
     >
       <AccordionHeader>
-        <AccordionTrigger :class="withCss(classes.trigger, props.css?.trigger)">
+        <AccordionTrigger :class="withCss(styles.trigger, props.css?.trigger)">
           <slot
             name="icon"
             :item="item"
           >
             <span
               v-if="item.icon"
-              :class="[`icon icon-${item.icon}`, withCss(classes.icon, props.css?.icon)]"
+              :class="[`icon icon-${item.icon}`, withCss(styles.icon, props.css?.icon)]"
               aria-hidden="true"
             />
           </slot>
           <RichText
-            :class="withCss(classes.title, props.css?.title)"
+            :class="withCss(styles.title, props.css?.title)"
             :text="item.title"
             :html="html"
           />
           <span
-            :class="['icon icon-caret-down-bold', withCss(classes.indicator, props.css?.indicator)]"
+            :class="['icon icon-caret-down-bold', withCss(styles.indicator, props.css?.indicator)]"
             data-trigger="icon"
             aria-hidden="true"
           />
         </AccordionTrigger>
       </AccordionHeader>
 
-      <AccordionContent :class="withCss(classes.content, props.css?.content)">
+      <AccordionContent :class="withCss(styles.content, props.css?.content)">
         <slot
           name="content"
           :item="item"

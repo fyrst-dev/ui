@@ -5,7 +5,7 @@
  * Renders text unless `html` is set (here or on Field.Base).
  */
 import { inject, computed } from 'vue'
-import { fyField } from 'styled-system/recipes'
+import { fieldStyles } from './styles'
 import RichText from '../../internal/RichText.vue'
 import { fieldContextKey } from '../../internal/controls/context'
 
@@ -26,7 +26,7 @@ const displayMessage = computed(() => props.message || fieldContext?.message.val
 const messageId = computed(() => props.id || fieldContext?.messageId.value || undefined)
 const isHtml = computed(() => props.html ?? fieldContext?.html.value ?? false)
 
-const classes = fyField()
+const classes = fieldStyles()
 </script>
 
 <template>

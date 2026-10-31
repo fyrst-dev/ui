@@ -276,7 +276,7 @@ describe('published package contract', () => {
     const buttonJs = readFileSync(buttonPath, 'utf8')
     const buttonModule = readBuiltVueModule('Button')
     expect(buttonJs).not.toContain('AccordionRoot')
-    expect(buttonModule).toContain('@fyrst/ui/recipes')
+    expect(buttonModule).toContain('@fyrst/ui/css')
     expect(buttonModule).not.toContain('styled-system/')
 
     const entries = JSON.parse(readFileSync(entriesPath, 'utf8')) as {

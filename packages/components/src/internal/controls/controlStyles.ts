@@ -1,8 +1,7 @@
-import { defineRecipe } from '@pandacss/dev'
+import { cva } from 'styled-system/css'
 
 /** Text-like field controls: input, textarea, and the select trigger. */
-export const fyControl = defineRecipe({
-  className: 'fy-control',
+export const controlStyles = cva({
   base: {
     display: 'flex',
     alignItems: 'center',
@@ -30,8 +29,6 @@ export const fyControl = defineRecipe({
     },
     _focus: {
       outlineColor: 'primary/50',
-      // No `!important` here: base styles sit in a lower sub-layer, where
-      // `!important` would beat the `valid` variants' borders.
       borderColor: 'primary',
     },
     _disabled: {

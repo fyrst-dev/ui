@@ -1,7 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fySwitch = defineSlotRecipe({
-  className: 'fy-switch',
+export const switchStyles = sva({
   slots: ['root', 'track', 'thumb', 'label'],
   base: {
     root: {
@@ -59,11 +58,17 @@ export const fySwitch = defineSlotRecipe({
       aspectRatio: '1',
       display: 'block',
       borderRadius: 'pill',
-      bgColor: { base: 'neutral', _light: 'white' },
+      bgColor: {
+        base: 'neutral',
+        _light: 'white',
+      },
       translate: 'auto',
       translateX: '0',
       shadow: '0 0 16px var(--shadow-color)',
-      shadowColor: { base: 'grey.black', _light: 'grey.400' },
+      shadowColor: {
+        base: 'grey.black',
+        _light: 'grey.400',
+      },
     },
     label: {
       fontWeight: '500',

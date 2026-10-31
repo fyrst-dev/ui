@@ -1,7 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyDialog = defineSlotRecipe({
-  className: 'fy-dialog',
+export const dialogStyles = sva({
   slots: ['overlay', 'content', 'header', 'titleWrap', 'title', 'description', 'close', 'body'],
   base: {
     overlay: {
@@ -27,7 +26,10 @@ export const fyDialog = defineSlotRecipe({
       borderStyle: 'solid',
       borderColor: 'border.subtle',
       borderRadius: 'lg',
-      boxShadow: { base: '0 0 24px rgba(0, 0, 0, .45)', _light: '0 0 24px rgba(0, 0, 0, .12)' },
+      boxShadow: {
+        base: '0 0 24px rgba(0, 0, 0, .45)',
+        _light: '0 0 24px rgba(0, 0, 0, .12)',
+      },
       outline: 'none',
       overflow: 'hidden',
     },
@@ -62,7 +64,10 @@ export const fyDialog = defineSlotRecipe({
       alignItems: 'center',
       cursor: 'pointer',
       flexShrink: 0,
-      color: { base: 'brand.pale', _light: 'grey.night' },
+      color: {
+        base: 'brand.pale',
+        _light: 'grey.night',
+      },
       fontSize: 'lg',
     },
     body: {

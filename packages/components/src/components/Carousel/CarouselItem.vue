@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { fyCarousel } from 'styled-system/recipes'
+import { carouselStyles } from './styles'
 import { withCss } from '../../internal/css'
 import type { CarouselItemCss } from './types'
 
@@ -7,11 +7,11 @@ const props = defineProps<{
   css?: CarouselItemCss
 }>()
 
-const classes = fyCarousel()
+const styles = carouselStyles.raw()
 </script>
 
 <template>
-  <li :class="withCss(classes.item, props.css?.root)">
+  <li :class="withCss(styles.item, props.css?.root)">
     <slot />
   </li>
 </template>

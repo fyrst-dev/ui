@@ -10,7 +10,7 @@ fyrst.dev design system. One npm package with subpath exports:
 | `@fyrst/ui/vue/*` | Per-component Vue entries (for example `@fyrst/ui/vue/Button`) |
 | `@fyrst/ui/style.css` | Iconify stylesheet only |
 
-This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pandacss/dev`, keep their own `panda.config.ts`, and set `designSystem: '@fyrst/ui'`. `panda lib` writes `@fyrst/ui/panda/*` (`lib.json`, `preset.mjs`, `buildinfo.json`) and the generated `./css`, `./recipes`, `./tokens`, `./types`, … subpaths. Do not hand-edit those generated exports.
+This library does **not** ship compiled Panda CSS. Consuming apps depend on `@pandacss/dev`, keep their own `panda.config.ts`, and set `designSystem: '@fyrst/ui'`. `panda lib` writes `@fyrst/ui/panda/*` (`lib.json`, `preset.mjs`, `buildinfo.json`) and the generated `./css`, `./tokens`, `./types`, … subpaths. Do not hand-edit those generated exports.
 
 Upgrading from 0.4.x? 0.5.0 has breaking changes. Follow [`.agents/skills/fyrst-ui-0.5-migration/SKILL.md`](.agents/skills/fyrst-ui-0.5-migration/SKILL.md) (it is in the git repository, not in the npm tarball).
 
@@ -92,7 +92,7 @@ You can also import from `@fyrst/ui/components` if you want the subpath to be ex
 
 ## Styling components
 
-Component styles are Panda **config recipes** named `fy*` (`fyButton`, `fyAlert`, `fyField`, …) with class names like `fy-button--size_md`. They reach the app through `designSystem: '@fyrst/ui'`, and every variant is generated because variants come from props at runtime.
+Component styles are atomic Panda classes from `cva` / `sva` definitions inside the package. They reach the app through `designSystem: '@fyrst/ui'`; Panda generates every variant of each definition, so the app does not need to render a variant for its CSS to exist.
 
 **Per-instance overrides.** Every component takes a `css` prop: style objects keyed by slot, where `root` is always the outermost element. Wrap each value in `css.raw()` from the app's own `styled-system/css`. Panda only generates CSS for objects it can see at build time; a bare object literal compiles but produces no CSS.
 
@@ -109,22 +109,7 @@ import { css } from 'styled-system/css'
 </template>
 ```
 
-Overrides land in Panda's `utilities` layer and recipes in `recipes`, so an override always wins over the component's own styles.
-
-**App-wide changes.** Extend a recipe in the app's `panda.config.ts`. Panda merges it over the design system's recipe and logs `design_system_artifact_conflict` as a reminder:
-
-```ts
-export default defineConfig({
-  designSystem: '@fyrst/ui',
-  theme: {
-    extend: {
-      recipes: {
-        fyButton: { variants: { size: { xl: { fontSize: '2xl', paddingInline: '2xl' } } } },
-      },
-    },
-  },
-})
-```
+The component merges the override into its own style object before generating classes, so an overridden property gets one class and the override wins.
 
 **Semantic colors.** Besides `primary`, `neutral`, and the status colors, the preset has `surface`, `surface.raised`, `border`, `border.hover`, `border.subtle`, and `text.muted`. They switch between dark (default) and `.light` on their own, so app styles rarely need `_light`.
 

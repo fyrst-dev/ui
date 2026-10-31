@@ -1,12 +1,12 @@
 import type { ComputedRef } from 'vue'
-import type { fyPricingCard } from 'styled-system/recipes'
 import { createInjectionKey } from '../../composables/injection-key'
 import type { CssMap } from '../../internal/css'
 import type { ListSize, ListState } from '../List/types'
+import type { pricingCardStyles } from './styles'
 
-export type PricingCardClasses = ReturnType<typeof fyPricingCard>
+export type PricingCardStyles = ReturnType<typeof pricingCardStyles.raw>
 
-export const PricingCardClassesKey = createInjectionKey<ComputedRef<PricingCardClasses>>('PricingCardClasses')
+export const PricingCardStylesKey = createInjectionKey<ComputedRef<PricingCardStyles>>('PricingCardStyles')
 
 export interface PricingCardData {
   title?: string

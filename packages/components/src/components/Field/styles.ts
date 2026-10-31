@@ -1,8 +1,7 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
 /** Field chrome around a control: wrapper, label, required mark, footer, message, error. */
-export const fyField = defineSlotRecipe({
-  className: 'fy-field',
+export const fieldStyles = sva({
   slots: ['root', 'label', 'required', 'footer', 'message', 'error'],
   base: {
     root: {
@@ -20,7 +19,10 @@ export const fyField = defineSlotRecipe({
       cursor: 'pointer',
       transition: 'color 0.2s ease-in-out',
       _disabled: {
-        color: { base: 'grey.600', _light: 'grey.400' },
+        color: {
+          base: 'grey.600',
+          _light: 'grey.400',
+        },
         cursor: 'not-allowed',
       },
     },
@@ -54,9 +56,21 @@ export const fyField = defineSlotRecipe({
   },
   variants: {
     size: {
-      sm: { label: { fontSize: 'sm' } },
-      md: { label: { fontSize: 'md' } },
-      lg: { label: { fontSize: 'lg' } },
+      sm: {
+        label: {
+          fontSize: 'sm',
+        },
+      },
+      md: {
+        label: {
+          fontSize: 'md',
+        },
+      },
+      lg: {
+        label: {
+          fontSize: 'lg',
+        },
+      },
     },
   },
   defaultVariants: {

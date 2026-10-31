@@ -37,7 +37,7 @@
  * <AlertRoot hide-icon :messages="[{ description: 'No icon.' }]" />
  */
 import { computed, useSlots } from 'vue'
-import { fyAlert } from 'styled-system/recipes'
+import { alertStyles } from './styles'
 import { withCss } from '../../internal/css'
 import type { AlertCss, AlertMessage } from './types'
 
@@ -89,7 +89,7 @@ const shouldRender = computed(() => {
   return props.messages.length > 0 || (!props.hideIcon && !!slots.icon)
 })
 
-const classes = computed(() => fyAlert({
+const styles = computed(() => alertStyles.raw({
   variant: props.variant,
   spacing: props.spacing,
   borderSize: props.borderSize,
@@ -105,7 +105,7 @@ const handleDismiss = () => {
 <template>
   <div
     v-if="shouldRender"
-    :class="withCss(classes.root, props.css?.root)"
+    :class="withCss(styles.root, props.css?.root)"
     :role="ariaRole"
   >
     <slot
@@ -116,27 +116,27 @@ const handleDismiss = () => {
         :class="[
           'icon',
           `icon-${variantIcons[props.variant]}`,
-          withCss(classes.icon, props.css?.icon),
+          withCss(styles.icon, props.css?.icon),
         ]"
         aria-hidden="true"
       />
     </slot>
 
     <!-- Content -->
-    <div :class="withCss(classes.content, props.css?.content)">
+    <div :class="withCss(styles.content, props.css?.content)">
       <!-- Messages -->
       <div
         v-for="(message, index) in messages"
         :key="`message-${index}`"
-        :class="withCss(classes.message, props.css?.message)"
+        :class="withCss(styles.message, props.css?.message)"
       >
         <div
           v-if="message.title"
-          :class="withCss(classes.title, props.css?.title)"
+          :class="withCss(styles.title, props.css?.title)"
         >
           {{ message.title }}
         </div>
-        <p :class="withCss(classes.description, props.css?.description)">
+        <p :class="withCss(styles.description, props.css?.description)">
           {{ message.description }}
         </p>
       </div>
@@ -146,7 +146,7 @@ const handleDismiss = () => {
     <button
       v-if="dismissible"
       type="button"
-      :class="withCss(classes.close, props.css?.close)"
+      :class="withCss(styles.close, props.css?.close)"
       aria-label="Dismiss alert"
       @click="handleDismiss"
     >

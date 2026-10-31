@@ -9,9 +9,8 @@ description: >-
   message / error / list or accordion item strings, useFormData(...).jsonData /
   .formData, useCarousel(props, el, slots), inject('handleNext') or other
   carousel string keys, Flyout #trigger / #dropdown slots, the flyout-enter /
-  flyout-leave transition classes, SwitchCssMap / ProgressCssMap /
-  SwitchStyles / ProgressStyles / ListStyles / PricingCardStyles types, or tests
-  and CSS that target @fyrst/ui atomic class names.
+  flyout-leave transition classes, or SwitchCssMap / ProgressCssMap /
+  SwitchStyles / ProgressStyles / ListStyles / PricingCardStyles types.
 ---
 
 # Migrate a @fyrst/ui consumer from 0.4.x to 0.5.x
@@ -24,9 +23,9 @@ Work through the sections in order. Each one says how to find affected code, wha
 
 ## Sources
 
-- Repo `CHANGELOG.md`, section `[0.5.0]`, and `changelog/2026-10-31-0.5.0-recipes-and-safe-content.md`.
+- Repo `CHANGELOG.md`, section `[0.5.0]`, and `changelog/2026-10-31-0.5.0-safe-content-and-overrides.md`.
 - Root `README.md`: "Styling components" and "Text and HTML content".
-- Panda: [Consume with Panda](https://panda-css.com/docs/design-systems/consume-with-panda), [Config recipes](https://panda-css.com/docs/concepts/recipes#config-recipe), [Cascade layers](https://panda-css.com/docs/concepts/cascade-layers).
+- Panda: [Consume with Panda](https://panda-css.com/docs/design-systems/consume-with-panda), [`cva` / `sva`](https://panda-css.com/docs/concepts/recipes).
 
 Do not invent `@fyrst/ui` props. If this skill and the installed package's `.d.ts` disagree, the `.d.ts` wins. Read them under `node_modules/@fyrst/ui/dist/`.
 
@@ -35,7 +34,7 @@ Do not invent `@fyrst/ui` props. If this skill and the installed package's `.d.t
 - Keep `designSystem: '@fyrst/ui'` in every `panda.config.*`. Do not add a fyrst preset to `presets`, do not `include` the package, and do not add `@pandacss/preset-base`.
 - Do **not** add `html` to silence a diff. Add it only where the string is authored by the app team and is meant to contain markup. Never for user input, API or server error text, CMS fields you do not sanitize, or translations from an external service.
 - Every value in a component `css` prop goes through `css.raw()` from the app's own `styled-system/css`. A bare object compiles and type-checks but produces **no CSS**.
-- Do not re-declare `@fyrst/ui` component styles (`cva`, `sva`, copied recipe objects) in the app. Extend the `fy*` recipe instead (section 4).
+- Do not re-declare `@fyrst/ui` component styles (`cva`, `sva`, copied style objects) in the app. Use the `css` prop (section 3).
 - Public-repo hygiene: no customer names, client domains, or screenshots of customer UIs in commits or PRs.
 
 ## What changed (summary)
@@ -44,8 +43,8 @@ Do not invent `@fyrst/ui` props. If this skill and the installed package's `.d.t
 | --- | --- | --- |
 | Content props | Rendered with `v-html` | Rendered as **text**. `html` prop opts into HTML |
 | Style overrides | `classRoot`, `classIcon`, `classContent`, `classClose`, `classes`, `classWrapper`, `classCarousel`, `classTrigger`, plus `css` on some components | One `css` prop on every component, keyed by slot (`root` = outermost element) |
-| Component CSS | Atomic classes from `cva` / `sva` (`d_inline-flex`, `bg_primary`, …) | Config recipes `fy*` with classes like `fy-button`, `fy-button--size_md`, `fy-alert__root` |
-| Override precedence | Merged into the same atomic classes; sometimes lost to compound variants | Recipes in the `recipes` layer, overrides in `utilities`: overrides always win |
+| Component CSS | Atomic classes from `cva` / `sva` | Still atomic `cva` / `sva`. Some color classes change where a semantic token replaced a `_light` override (section 4) |
+| Override precedence | `css` merged into the style object; `class*` props appended as extra classes and could lose | Every `css` slot is merged into the style object: one class per property, the override wins |
 | `CardRoot` `borderColor` | Deprecated no-op | Removed |
 | `useFormData` | `{ formData, jsonData }` readonly refs, cached at first read | `{ getFormData(), getJson() }`, read on each call; accepts element, ref, or getter |
 | `useCarousel` | `(props, carouselRef, slots)` | `(options, carouselRef)`; `carouselItems` is `HTMLElement[]` |
@@ -178,44 +177,24 @@ rg -n '\bcss:\s*\{' -g '*.ts' -g '*.vue'
 
 **Check.** `rg` from "Find" returns nothing for the old names. Overridden elements look as intended in light and dark.
 
-## 4. Component CSS is now `fy*` recipes
+## 4. Component class names (mostly unchanged)
 
-Component classes changed from atomic utilities to recipe classes (`fy-button`, `fy-button--color_primary`, `fy-field__label`, `fy-control--valid_false`, …). Styles look the same, apart from the visual notes in section 9.
+Component styles are still atomic Panda classes (`d_inline_flex`, `bg-c_primary`, …). Two kinds of class names change:
 
-**Find code that depended on the old classes.**
+- Colors that now use a semantic token: fields, select menus, checkboxes, radios, the dialog, and the prompt form use `surface`, `border`, `border.hover`, `border.subtle`, and `text.muted` (for example `bg-c_surface` instead of `bg-c_grey.black` plus `light:bg-c_white`). The rendered colors are the same, apart from the notes in section 9.
+- Styles that were inline `css()` calls in controls, the carousel, and the flyout are now `cva` / `sva` definitions. Values are unchanged, but class order and a few class names differ (for example a disabled checkbox uses a `_disabled` condition instead of a runtime `opacity` class).
+
+**Find code that depends on exact class names.**
 
 ```bash
-rg -n -e '\b(d|bg|c|bdr|bd[a-z]*|p[xytblr]?|m[xytblr]?|fs|fw|w|h|ff|gap|rounded)_[A-Za-z0-9.%\\-]+' \
+rg -n -e '\b(bg|bg-c|bd-c|c|d|op|cursor)_[A-Za-z0-9.%\\-]+' \
   -g '*.spec.*' -g '*.test.*' -g '*.css' -g '*.scss' -g '__snapshots__/**' -g '*.snap'
 ```
 
-- Unit / e2e selectors or snapshots that match `@fyrst/ui` atomic classes: select by role, label, `data-*`, or the stable recipe class (`.fy-button`, `.fy-alert__root`). Update snapshots once you have checked the diff.
-- Global CSS that targeted those classes: replace with a `css` override (section 3) or a recipe extension.
+- Snapshots or selectors that match `@fyrst/ui` classes: review the diff, then update. Prefer selecting by role, label, or `data-*` over atomic classes.
+- Global CSS that targeted library classes: replace it with a `css` override (section 3).
 
-**App-wide restyling: extend the recipe** instead of overriding every instance. Recipe keys: `fyAccordion`, `fyAlert`, `fyBadge`, `fyButton`, `fyCard`, `fyCarousel`, `fyCheckbox`, `fyControl` (input, textarea, select trigger), `fyDialog`, `fyField` (label, message, error, footer), `fyFlyout`, `fyFormPrompt`, `fyHeroLead`, `fyList`, `fyLoader`, `fyPricingCard`, `fyProgress`, `fyRadioGroup`, `fySelect`, `fySwitch`, `fyTab`, `fyUrl`.
-
-```ts
-// panda.config.ts
-export default defineConfig({
-  designSystem: '@fyrst/ui',
-  theme: {
-    extend: {
-      recipes: {
-        fyButton: { base: { borderRadius: 'pill' } },
-      },
-      slotRecipes: {
-        fyAlert: { variants: { spacing: { lg: { root: { padding: '2xl' } } } } },
-      },
-    },
-  },
-})
-```
-
-Panda logs `design_system_artifact_conflict … your definition is merged over the design system's`. That is expected. A **new** variant value (for example `size: { xl: … }`) is available as CSS, but the component's prop type does not include it; use it from the app's own recipe call or keep to existing values.
-
-Do not name an app recipe `fy*` unless you mean to extend the library's.
-
-**Precedence change.** In 0.4.x an override could lose to a compound variant or to `!important`. In 0.5.x anything passed through `css` wins over recipe styles except the few `!important` declarations kept on field validation borders. Re-check overrides that relied on losing.
+**Precedence.** `AlertRoot` `classRoot` and the other `class*` props were appended as separate classes, so overriding a property the component also set could lose, depending on stylesheet order. The `css` prop is merged into the component's style object first, so the override always replaces that property. Re-check places that worked around the old behavior with `!important`.
 
 ## 5. Composables
 
@@ -321,7 +300,7 @@ The flyout is a Reka Popover now. Behavior: mouse hover opens and leaving closes
   </template>
   ```
 
-- **Transition CSS:** delete app CSS for `.flyout-enter-*` / `.flyout-leave-*`. Restyle the animation with `css.content` or by extending `fyFlyout`.
+- **Transition CSS:** delete app CSS for `.flyout-enter-*` / `.flyout-leave-*`. Restyle the animation with `css.content`.
 - **Positioning:** the panel is positioned by Reka (floating-ui) and stays in the flyout's DOM, below the trigger, aligned `start` (`direction="left"`, default) or `end` (`"right"`). The positioning wrapper gets inline styles on the client while open. SSR HTML has none.
 - Hover-only menus that should only open on click: `:open-on-hover="false"`.
 
@@ -337,7 +316,7 @@ rg -n -B2 -A2 'border-color=|borderColor' -g '*.vue' | rg -i 'card'
 | --- | --- |
 | `CardRoot` `borderColor` (no-op since 0.3.0) | delete it; use `color` or `css.root` |
 | `SwitchCssMap<K>`, `ProgressCssMap<K>` | `CssMap<K>` |
-| `SwitchStyles`, `ProgressStyles`, `ListStyles`, `PricingCardStyles` | none. Style objects are no longer exposed. Use `css` or recipe extensions |
+| `SwitchStyles`, `ProgressStyles`, `ListStyles`, `PricingCardStyles` | none. Style objects are no longer exposed. Use `css` |
 | Component name `FyButton` / `FyLoader` (KeepAlive `include`, devtools filters, `findComponent({ name })`) | `FyrstButton` / `FyrstLoader` |
 
 ## 9. Behavior and visual notes (check, usually no code change)
@@ -349,7 +328,7 @@ rg -n -B2 -A2 'border-color=|borderColor' -g '*.vue' | rg -i 'card'
 - `Loader` dropped `aria-live` (it keeps `role="status"`).
 - Field helper text (`message`) in light mode is `grey.600` (was `grey.500`). Checkbox and radio hover borders in light mode are `grey.300` (was `grey.400`).
 - Radio options dim individually when `disabled` is set on the option.
-- `@fyrst/ui/style.css` is icons only (the flyout transition CSS moved into the recipe).
+- `@fyrst/ui/style.css` is icons only (the flyout transition CSS moved into its `sva` styles).
 - CommonJS `require('@fyrst/ui/vue/<Name>')` now loads the `.cjs` build.
 
 # Verification (required)
@@ -361,7 +340,7 @@ rg -n -e "inject\((['\"])(handleNext|handlePrev|carouselItems|currentCarouselIte
 
 panda codegen --clean
 panda cssgen --outfile /tmp/fyrst-check.css
-rg -c '\.fy-button' /tmp/fyrst-check.css   # > 0: component recipes reach the app
+rg -c 'd_inline_flex' /tmp/fyrst-check.css   # > 0: component styles reach the app
 
 <app lint> && <app typecheck> && <app build> && <app test>
 ```
@@ -388,8 +367,7 @@ Then check by hand, in light and dark:
 | Flyout opens and closes in one click | Extra `@click="toggle"` on the `#trigger` slot element | Remove it; the slot element is the trigger |
 | Flyout trigger slot warns about multiple root nodes / does nothing | Slot renders a fragment or text | Render exactly one element |
 | `FlyoutDropdown` throws ``Injection `Symbol(PopoverRootContext)` not found. Component must be used within `PopoverRoot` `` | Used outside `FlyoutRoot` | Keep it inside `FlyoutRoot` (`#dropdown` or default slot) |
-| Snapshot tests fail on class names | Atomic → `fy-*` recipe classes | Review the diff and update; select by role / label / recipe class |
-| `design_system_artifact_conflict` warning | App extends a `fy*` recipe | Expected when intentional. Rename the app recipe if it is unrelated |
+| Snapshot tests fail on class names | Token-based colors and moved inline styles (section 4) | Review the diff and update; select by role / label |
 | Token conflict warning for `surface`, `border`, or `text` | App already defines a semantic color with that name | Keep the app's if it is used app-wide; otherwise rename the app token. Library components use the library's values only through `designSystem` |
 | Page no longer scrolls into a carousel on wheel | That is the fix | Add `wheel-navigation` only if product requires it |
 
@@ -398,5 +376,5 @@ Then check by hand, in light and dark:
 - Do not add `html` to every component "to keep the old behavior". Decide per string.
 - Do not pass server or user-controlled strings with `html`.
 - Do not pass bare objects to `css`.
-- Do not copy `fy*` recipe definitions into the app; extend them by key.
+- Do not copy `@fyrst/ui` `cva` / `sva` definitions into the app; use the `css` prop.
 - Do not pin `@fyrst/ui` to 0.4.x "for now" while other packages in the same app use 0.5.x; the design-system manifest is per install.

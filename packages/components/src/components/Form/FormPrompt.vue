@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { fyFormPrompt } from 'styled-system/recipes'
+import { formPromptStyles } from './styles'
 import { withCss, type CssMap } from '../../internal/css'
 
 export type FormPromptCss = CssMap<'root' | 'form' | 'textarea'>
@@ -33,7 +33,7 @@ const emit = defineEmits<{
 
 const promptForm = ref<HTMLFormElement | null>(null)
 
-const classes = fyFormPrompt()
+const styles = formPromptStyles.raw()
 
 const handleSubmit = (event: Event) => {
   event.preventDefault()
@@ -42,7 +42,7 @@ const handleSubmit = (event: Event) => {
 </script>
 
 <template>
-  <div :class="withCss(classes.root, props.css?.root)">
+  <div :class="withCss(styles.root, props.css?.root)">
     <slot name="alert" />
     <form
       :id="id"
@@ -51,14 +51,14 @@ const handleSubmit = (event: Event) => {
       :method="method"
       :name="name"
       :aria-label="ariaLabel"
-      :class="withCss(classes.form, props.css?.form)"
+      :class="withCss(styles.form, props.css?.form)"
       @submit="handleSubmit"
     >
       <slot name="parameter" />
       <slot name="textarea">
         <textarea
           name="message"
-          :class="withCss(classes.textarea, props.css?.textarea)"
+          :class="withCss(styles.textarea, props.css?.textarea)"
           :placeholder="placeholder"
         />
       </slot>

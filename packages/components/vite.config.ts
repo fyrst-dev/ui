@@ -49,12 +49,12 @@ export default defineConfig(({ command }) => ({
         '@pandacss/dev',
         'reka-ui',
         styledSystem,
-        /^@fyrst\/ui\/(?:css|helpers|tokens|patterns|recipes|types)(?:\/|$)/,
+        /^@fyrst\/ui\/(?:css|helpers|tokens|patterns|types)(?:\/|$)/,
       ],
       output: {
         exports: 'named',
         // Published code imports the runtime `panda lib` ships with the package
-        // (`@fyrst/ui/css`, `@fyrst/ui/recipes`, …), not the local codegen folder.
+        // (`@fyrst/ui/css`, …), not the local codegen folder.
         paths: id => id.replace(styledSystem, '@fyrst/ui/$1'),
       },
     },

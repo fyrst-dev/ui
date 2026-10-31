@@ -1,7 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyCarousel = defineSlotRecipe({
-  className: 'fy-carousel',
+export const carouselStyles = sva({
   slots: ['root', 'viewport', 'item', 'navigation', 'button'],
   base: {
     root: {

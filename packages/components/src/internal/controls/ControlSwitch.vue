@@ -5,7 +5,7 @@
  */
 import { computed } from 'vue'
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
-import { fySwitch } from 'styled-system/recipes'
+import { switchStyles } from './switchStyles'
 import { withCss } from '../css'
 import { useFieldControl } from './useFieldControl'
 import type { SwitchCss } from '../../components/Switch/types'
@@ -28,7 +28,7 @@ const model = defineModel<boolean | null>({ default: false })
 
 const { id, describedBy, invalid } = useFieldControl(props)
 
-const classes = computed(() => fySwitch({ size: props.size }))
+const styles = computed(() => switchStyles.raw({ size: props.size }))
 
 const handleUpdate = (value: boolean) => {
   model.value = value
@@ -38,7 +38,7 @@ const handleUpdate = (value: boolean) => {
 <template>
   <component
     :is="label ? 'label' : 'div'"
-    :class="[withCss(classes.root, props.css?.root), props.class]"
+    :class="[withCss(styles.root, props.css?.root), props.class]"
     :data-disabled="disabled ? '' : undefined"
   >
     <SwitchRoot
@@ -50,14 +50,14 @@ const handleUpdate = (value: boolean) => {
       :aria-invalid="invalid"
       :aria-describedby="describedBy"
       :data-invalid="invalid ? '' : undefined"
-      :class="withCss(classes.track, props.css?.track)"
+      :class="withCss(styles.track, props.css?.track)"
       @update:model-value="handleUpdate"
     >
-      <SwitchThumb :class="withCss(classes.thumb, props.css?.thumb)" />
+      <SwitchThumb :class="withCss(styles.thumb, props.css?.thumb)" />
     </SwitchRoot>
     <span
       v-if="label"
-      :class="withCss(classes.label, props.css?.label)"
+      :class="withCss(styles.label, props.css?.label)"
     >{{ label }}</span>
   </component>
 </template>

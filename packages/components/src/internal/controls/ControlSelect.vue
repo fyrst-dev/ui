@@ -15,7 +15,8 @@ import {
   SelectValue,
   SelectViewport,
 } from 'reka-ui'
-import { fyControl, fySelect } from 'styled-system/recipes'
+import { controlStyles } from './controlStyles'
+import { selectStyles } from './selectStyles'
 import { useFieldControl } from './useFieldControl'
 import type { ControlSize, ControlValid, FieldOption } from './types'
 
@@ -39,7 +40,7 @@ const model = defineModel<string | null>()
 
 const { id, describedBy, valid, invalid } = useFieldControl(props)
 
-const classes = fySelect()
+const classes = selectStyles()
 
 const handleUpdate = (value: unknown) => {
   if (value == null) return
@@ -57,7 +58,7 @@ const handleUpdate = (value: unknown) => {
   >
     <SelectTrigger
       :id="id"
-      :class="[fyControl({ element: 'select', size, valid }), props.class]"
+      :class="[controlStyles({ element: 'select', size, valid }), props.class]"
       :aria-invalid="invalid"
       :aria-describedby="describedBy"
     >

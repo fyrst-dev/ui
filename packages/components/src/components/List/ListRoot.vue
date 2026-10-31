@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
-import { fyList } from 'styled-system/recipes'
+import { listStyles } from './styles'
 import { withCss } from '../../internal/css'
 import ListItem, { type ListItemProps } from './ListItem.vue'
 import { ListContextKey, type ListRootCss, type ListSize, type ListState } from './types'
@@ -25,11 +25,11 @@ provide(ListContextKey, computed(() => ({
   html: props.html,
 })))
 
-const classes = computed(() => fyList({ size: props.size, state: props.state }))
+const styles = computed(() => listStyles.raw({ size: props.size, state: props.state }))
 </script>
 
 <template>
-  <ul :class="withCss(classes.list, props.css?.root)">
+  <ul :class="withCss(styles.list, props.css?.root)">
     <slot>
       <ListItem
         v-for="(item, index) in items"

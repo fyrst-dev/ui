@@ -1,14 +1,12 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyList = defineSlotRecipe({
-  className: 'fy-list',
+export const listStyles = sva({
   slots: ['list', 'item', 'marker'],
   base: {
     list: {
       display: 'flex',
       flexDirection: 'column',
       flexWrap: 'wrap',
-
     },
     item: {
       display: 'inline-flex',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
-import { fyList } from 'styled-system/recipes'
+import { listStyles } from './styles'
 import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
 import { ListContextKey, type ListItemCss, type ListSize, type ListState } from './types'
@@ -26,7 +26,7 @@ const size = computed(() => props.size ?? list?.value.size ?? 'md')
 const state = computed(() => props.state ?? list?.value.state ?? 'default')
 const html = computed(() => props.html ?? list?.value.html ?? false)
 
-const classes = computed(() => fyList({ size: size.value, state: state.value }))
+const styles = computed(() => listStyles.raw({ size: size.value, state: state.value }))
 
 const stateIcons: Record<ListState, string> = {
   default: 'caret-right-bold',
@@ -44,9 +44,9 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <li :class="withCss(classes.item, props.css?.root)">
+  <li :class="withCss(styles.item, props.css?.root)">
     <slot name="marker">
-      <span :class="withCss(classes.marker, props.css?.marker)">
+      <span :class="withCss(styles.marker, props.css?.marker)">
         <span
           v-if="icon"
           :class="`icon icon-${icon}`"

@@ -1,8 +1,7 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
 /** URL field: clickable protocol prefix plus host/path input. */
-export const fyUrl = defineSlotRecipe({
-  className: 'fy-url',
+export const urlStyles = sva({
   slots: ['root', 'protocol', 'input'],
   base: {
     root: {
@@ -35,8 +34,6 @@ export const fyUrl = defineSlotRecipe({
       },
       _focusWithin: {
         outlineColor: 'primary/50',
-        // No `!important` here: base styles sit in a lower sub-layer, where
-        // `!important` would beat the `valid` variants' borders.
         borderColor: 'primary',
       },
       _disabled: {

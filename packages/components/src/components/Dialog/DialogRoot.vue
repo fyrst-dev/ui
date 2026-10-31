@@ -24,7 +24,7 @@ import {
   DialogRoot,
   DialogTitle,
 } from 'reka-ui'
-import { fyDialog } from 'styled-system/recipes'
+import { dialogStyles } from './styles'
 import { withCss, type CssMap } from '../../internal/css'
 
 export type DialogCss = CssMap<'overlay' | 'content' | 'header' | 'titleWrap' | 'title' | 'description' | 'close' | 'body'>
@@ -40,21 +40,21 @@ const props = withDefaults(defineProps<{
   closeLabel: 'Close',
 })
 
-const classes = fyDialog()
+const styles = dialogStyles.raw()
 </script>
 
 <template>
   <DialogRoot v-model:open="open">
     <DialogPortal>
-      <DialogOverlay :class="withCss(classes.overlay, props.css?.overlay)" />
-      <DialogContent :class="withCss(classes.content, props.css?.content)">
+      <DialogOverlay :class="withCss(styles.overlay, props.css?.overlay)" />
+      <DialogContent :class="withCss(styles.content, props.css?.content)">
         <slot name="header">
-          <div :class="withCss(classes.header, props.css?.header)">
-            <div :class="withCss(classes.titleWrap, props.css?.titleWrap)">
+          <div :class="withCss(styles.header, props.css?.header)">
+            <div :class="withCss(styles.titleWrap, props.css?.titleWrap)">
               <slot name="title">
                 <DialogTitle
                   v-if="props.title"
-                  :class="withCss(classes.title, props.css?.title)"
+                  :class="withCss(styles.title, props.css?.title)"
                 >
                   {{ props.title }}
                 </DialogTitle>
@@ -62,7 +62,7 @@ const classes = fyDialog()
               <slot name="description">
                 <DialogDescription
                   v-if="props.description"
-                  :class="withCss(classes.description, props.css?.description)"
+                  :class="withCss(styles.description, props.css?.description)"
                 >
                   {{ props.description }}
                 </DialogDescription>
@@ -71,7 +71,7 @@ const classes = fyDialog()
             <DialogClose
               type="button"
               :aria-label="props.closeLabel"
-              :class="withCss(classes.close, props.css?.close)"
+              :class="withCss(styles.close, props.css?.close)"
             >
               <slot name="close-icon">
                 <span
@@ -82,7 +82,7 @@ const classes = fyDialog()
             </DialogClose>
           </div>
         </slot>
-        <div :class="withCss(classes.body, props.css?.body)">
+        <div :class="withCss(styles.body, props.css?.body)">
           <slot />
         </div>
       </DialogContent>

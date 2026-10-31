@@ -6,7 +6,7 @@
  */
 import { computed, inject } from 'vue'
 import { PopoverContent } from 'reka-ui'
-import { fyFlyout } from 'styled-system/recipes'
+import { flyoutStyles } from './styles'
 import { withCss } from '../../internal/css'
 import { FlyoutContextKey, type FlyoutDropdownCss } from './types'
 
@@ -25,7 +25,7 @@ const onOpenAutoFocus = (event: Event) => {
   if (flyout?.openedBy.value === 'hover') event.preventDefault()
 }
 
-const classes = fyFlyout()
+const styles = flyoutStyles.raw()
 </script>
 
 <template>
@@ -34,7 +34,7 @@ const classes = fyFlyout()
     :align="align"
     :side-offset="0"
     :avoid-collisions="false"
-    :class="withCss(classes.content, props.css?.root)"
+    :class="withCss(styles.content, props.css?.root)"
     @open-auto-focus="onOpenAutoFocus"
   >
     <slot />

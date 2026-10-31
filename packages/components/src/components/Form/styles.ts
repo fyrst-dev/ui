@@ -1,7 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyFormPrompt = defineSlotRecipe({
-  className: 'fy-form-prompt',
+export const formPromptStyles = sva({
   slots: ['root', 'form', 'textarea', 'footer', 'inputs', 'action'],
   base: {
     root: {

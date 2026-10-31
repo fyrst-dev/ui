@@ -18,8 +18,6 @@ packages/
 ├── preset/              # @fyrst/design-preset - Panda CSS Preset
 │   └── src/
 │       ├── index.ts           # Token preset (`@fyrst/ui/design-preset`)
-│       ├── components.ts      # componentsPreset: recipes + staticCss (library build only)
-│       ├── recipes/           # fy* component recipes
 │       └── tokens/            # Base & semantic tokens
 ├── components/          # @fyrst/ui-components - Vue 3 UI Components
 └── nuxt/               # @fyrst/ui-nuxt - Nuxt Module
@@ -113,54 +111,58 @@ bun run --filter='@fyrst/ui-nuxt' test:types             # Type checking
 - Use Panda CSS for styling
 - Follow patterns in `packages/components/src/`
 
-### Component Styling (config recipes)
+### Component Styling (CVA/SVA)
 
-Component styles are Panda **config recipes** in the preset package, not `cva`/`sva` in the components package.
+Component styles are `cva` (one element) or `sva` (several slots) definitions in the component's folder. Panda extracts them from the published JS and generates every variant.
 
-**1. Recipe** in `packages/preset/src/recipes/<name>.ts`. Use `defineRecipe` (one element) or `defineSlotRecipe` (several). Prefix the key with `fy` and the class name with `fy-`:
+**1. Component folder** (e.g. `packages/components/src/components/Badge/`):
+```
+Badge/
+├── BadgeRoot.vue
+├── styles.ts
+└── index.ts
+```
+Standalone exceptions (`Button`, `Loader`) keep those public names (not `ButtonRoot` / `LoaderRoot`) but still use a folder + `styles.ts`. Internal controls keep their styles next to them in `src/internal/controls/` (`controlStyles.ts`, `choiceStyles.ts`, …).
+
+**2. styles.ts** — a static object literal. Panda reads it at build time, so do not build variants with loops, spreads of shared constants, or `Object.fromEntries`; write them out.
 ```typescript
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyBadge = defineSlotRecipe({
-  className: 'fy-badge',
+export const badgeStyles = sva({
   slots: ['root', 'icon'],
   base: { root: { ... } },
-  variants: { size: { sm: { ... } } },
+  variants: { size: { sm: { root: { ... } } } },
   defaultVariants: { size: 'md' },
 })
 ```
-Register it in `packages/preset/src/recipes/index.ts` (`recipes` or `slotRecipes`). `componentsPreset` (`packages/preset/src/components.ts`) adds every registered recipe to `staticCss`, because variants come from props at runtime and Panda cannot see them. Generate repetitive variants in code (see `progress.ts`, `loader.ts`, `card.ts`); a preset runs as code, it is not statically extracted.
 
-`componentsPreset` is only for the library build (root `panda.config.ts` and `packages/components/panda.config.ts`). It is **not** part of the token-only `@fyrst/ui/design-preset` export.
-
-**2. Component** folder `packages/components/src/components/Badge/` with `BadgeRoot.vue` and `index.ts` (plus `types.ts` when needed). Standalone exceptions (`Button`, `Loader`) keep those public names.
-
+**3. Component** — every component takes a `css` prop typed `CssMap<…>`; `root` is always the outermost element. For each slot that accepts an override, take the style object with `.raw()` and merge the override with `withCss`:
 ```vue
 <script setup lang="ts">
 import { computed } from 'vue'
-import { fyBadge } from 'styled-system/recipes'
 import { withCss, type CssMap } from '../../internal/css'
+import { badgeStyles } from './styles'
 
 export type BadgeCss = CssMap<'root' | 'icon'>
 
 const props = defineProps<{ size?: 'sm' | 'md' | 'lg', css?: BadgeCss }>()
-const classes = computed(() => fyBadge({ size: props.size }))
+const styles = computed(() => badgeStyles.raw({ size: props.size }))
 </script>
 
 <template>
-  <span :class="withCss(classes.root, props.css?.root)">…</span>
+  <span :class="withCss(styles.root, props.css?.root)">…</span>
 </template>
 ```
 
-- Call the recipe function directly. Do not call `.raw()` across files and do not wrap recipe output in `css()`.
-- Every component takes a `css` prop typed `CssMap<…>`; `root` is always the outermost element. `withCss` appends the override (utilities layer beats recipes layer).
-- Share recipe classes between parts through a typed `createInjectionKey` context (see `Card/types.ts`), never string keys.
-- Numeric variant keys are strings in the generated types (`String(size)`).
-- Prefer semantic tokens (`surface`, `border`, `text.muted`, `neutral`) over `_light` overrides. Keep a `_light` block only when state selectors must beat light-mode colors on specificity (see `switch.ts`).
+- `withCss(style, override)` is `css(style, override)`: one class per property, the override wins. Never append an override class to a finished class string; both atomic classes would stay on the element and stylesheet order would decide.
+- Parts without an override (internal chrome) may call the definition directly: `fieldStyles().footer`.
+- Share style objects between parts through a typed `createInjectionKey` context (see `Card/types.ts`), never string keys.
+- Calling `.raw()` with runtime variants in another file triggers Panda's `imported_recipe_raw_dynamic` warning. It is expected: the definition itself still generates every variant.
+- Prefer semantic tokens (`surface`, `border`, `text.muted`, `neutral`) over `_light` overrides. Keep a `_light` block only when state selectors must beat light-mode colors on specificity (see `switchStyles.ts`).
 
-**3. Content.** Render copy as text. When a prop may carry markup, add an `html?: boolean` prop and render through `internal/RichText.vue` (the only `v-html`; ESLint `vue/no-v-html` is on).
+**4. Content.** Render copy as text. When a prop may carry markup, add an `html?: boolean` prop and render through `internal/RichText.vue` (the only `v-html`; ESLint `vue/no-v-html` is on).
 
-**4. index.ts** — named parts plus default namespace `{ Root, … }`, and export the component's `*Css` types:
+**5. index.ts** — named parts plus default namespace `{ Root, … }`, and export the component's `*Css` types:
 ```typescript
 import BadgeRoot from './BadgeRoot.vue'
 export { BadgeRoot }
@@ -231,9 +233,9 @@ describe('ssr', async () => {
 
 ## Important Notes
 
-1. Token changes: add to both `tokens.ts` and `semantic-tokens.ts`. Recipe changes go in `packages/preset/src/recipes/`
+1. Token changes: add to both `tokens.ts` and `semantic-tokens.ts`
 2. New packages: register in root `package.json` under `workspaces`
 3. Build order: Nuxt module requires preset built first (automatic)
 4. Peer dependencies: `vue`, `reka-ui`, and `@pandacss/dev` are required. `@pandacss/preset-base` is a published `dependency` (the design-system preset inlines the module; apps on `designSystem` do not install it). `nuxt` and `@nuxt/kit` are optional (only `@fyrst/ui/nuxt`). Do not put `@nuxt/kit` in published `dependencies`.
 5. No Prettier: ESLint used for formatting (stylistic rules)
-6. Do not ship compiled Panda CSS (`panda cssgen`, `styles.css`, `panda.css`). Publish only the root `@fyrst/ui` package. Consuming apps must depend on `@pandacss/dev`, keep their own `panda.config.ts`, and set `designSystem: '@fyrst/ui'` (no fyrst preset, no `include` into the package). The library build runs `panda lib --outdir dist --files './**/*.{js,mjs}' --panda '^2.4.0'` after assembling `dist/`. That command owns `./panda/*`, `./css`, `./recipes`, `./tokens`, `./types`, and other generated subpaths — do not hand-edit them. Custom exports (`./design-preset`, `./preset`, `./nuxt`, `./vue/*`, `./style.css`) stay in `package.json`. `@fyrst/ui/style.css` is Iconify icons only: do not add `<style>` blocks to components. The root `panda.config.ts` sets `forceImportExtension: true` so the published runtime loads in plain Node. Pack root `dist/` only (assembled from workspace build outputs, including `dist/panda/` and `dist/styled-system/`) — do not include nested `packages/*/dist`.
+6. Do not ship compiled Panda CSS (`panda cssgen`, `styles.css`, `panda.css`). Publish only the root `@fyrst/ui` package. Consuming apps must depend on `@pandacss/dev`, keep their own `panda.config.ts`, and set `designSystem: '@fyrst/ui'` (no fyrst preset, no `include` into the package). The library build runs `panda lib --outdir dist --files './**/*.{js,mjs}' --panda '^2.4.0'` after assembling `dist/`. That command owns `./panda/*`, `./css`, `./tokens`, `./types`, and other generated subpaths — do not hand-edit them. Custom exports (`./design-preset`, `./preset`, `./nuxt`, `./vue/*`, `./style.css`) stay in `package.json`. `@fyrst/ui/style.css` is Iconify icons only: do not add `<style>` blocks to components. The root `panda.config.ts` sets `forceImportExtension: true` so the published runtime loads in plain Node. Pack root `dist/` only (assembled from workspace build outputs, including `dist/panda/` and `dist/styled-system/`) — do not include nested `packages/*/dist`.

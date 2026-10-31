@@ -1,4 +1,4 @@
-import { css, cx } from 'styled-system/css'
+import { css } from 'styled-system/css'
 import type { SystemStyleObject } from 'styled-system/types'
 
 /**
@@ -15,14 +15,15 @@ import type { SystemStyleObject } from 'styled-system/types'
 export type CssMap<K extends string> = Partial<Record<K, SystemStyleObject>>
 
 /**
- * Class for one slot: the recipe class plus the consumer's override.
+ * Class for one slot: the component's style object merged with the consumer's
+ * override.
  *
- * Recipes live in Panda's `recipes` layer and `css()` output in `utilities`,
- * so the override wins without merging style objects.
+ * Component styles are atomic classes, so appending an override class would
+ * leave both `bg_x` and `bg_y` on the element and let stylesheet order decide.
+ * Merging the objects first gives one class per property, and the override wins.
+ *
+ * Pass `styles.raw(…)` (or a slot of it), not the class string from `styles(…)`.
  */
-export function withCss(recipeClass: string | undefined, override?: SystemStyleObject | null): string {
-  if (!override) {
-    return recipeClass ?? ''
-  }
-  return cx(recipeClass, css(override))
+export function withCss(style: SystemStyleObject | undefined, override?: SystemStyleObject | null): string {
+  return css(style, override ?? undefined)
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { fyField } from 'styled-system/recipes'
+import { fieldStyles } from './styles'
 
-const classes = fyField()
+const classes = fieldStyles()
 </script>
 
 <template>

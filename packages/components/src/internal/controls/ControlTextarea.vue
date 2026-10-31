@@ -3,7 +3,7 @@
  * @component ControlTextarea
  * @description Textarea. Reads id, ARIA links, and validity from Field.Base.
  */
-import { fyControl } from 'styled-system/recipes'
+import { controlStyles } from './controlStyles'
 import { useFieldControl } from './useFieldControl'
 import type { ControlSize, ControlValid } from './types'
 
@@ -36,7 +36,7 @@ const handleInput = (event: Event) => {
   <textarea
     :id="id"
     :name="name || undefined"
-    :class="[fyControl({ element: 'textarea', size, valid }), props.class]"
+    :class="[controlStyles({ element: 'textarea', size, valid }), props.class]"
     :placeholder="placeholder || undefined"
     :value="model ?? ''"
     :disabled="disabled"

@@ -102,14 +102,6 @@
     },
     "./types": {
       "types": "./dist/styled-system/types/index.d.ts"
-    },
-    "./recipes": {
-      "types": "./dist/styled-system/recipes/index.d.ts",
-      "default": "./dist/styled-system/recipes/index.js"
-    },
-    "./recipes/*": {
-      "types": "./dist/styled-system/recipes/*.d.ts",
-      "default": "./dist/styled-system/recipes/*.js"
     }
   },
   "scripts": {

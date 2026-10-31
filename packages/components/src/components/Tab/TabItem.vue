@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TabsTrigger } from 'reka-ui'
-import { fyTab } from 'styled-system/recipes'
+import { tabStyles } from './styles'
 import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
 import type { TabItemCss, TabItemData } from './types'
@@ -11,19 +11,19 @@ const props = withDefaults(defineProps<TabItemData & {
   html: false,
 })
 
-const classes = fyTab()
+const styles = tabStyles.raw()
 </script>
 
 <template>
   <TabsTrigger
     :value="value"
     :disabled="disabled"
-    :class="withCss(classes.item, props.css?.root)"
+    :class="withCss(styles.item, props.css?.root)"
   >
     <slot name="icon">
       <span
         v-if="icon"
-        :class="[`icon icon-${icon}`, withCss(classes.icon, props.css?.icon)]"
+        :class="[`icon icon-${icon}`, withCss(styles.icon, props.css?.icon)]"
         aria-hidden="true"
       />
     </slot>

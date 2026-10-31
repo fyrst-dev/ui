@@ -50,8 +50,8 @@ describe('css overrides', () => {
         css: { root: { marginTop: '4px' }, title: { letterSpacing: '1px' } },
       },
     })
-    expect(wrapper.classes()).toContain('fy-alert__root')
-    expect(wrapper.classes().some(name => name.startsWith('mt_'))).toBe(true)
-    expect(wrapper.find('[class*="ls_"]').exists()).toBe(true)
+    expect(wrapper.classes()).toContain('d_flex')
+    expect(wrapper.classes()).toContain('mt_4px')
+    expect(wrapper.find('.ls_1px').exists()).toBe(true)
   })
 })

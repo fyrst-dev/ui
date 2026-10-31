@@ -3,7 +3,7 @@
  * @component ControlInput
  * @description Text input. Reads id, ARIA links, and validity from Field.Base.
  */
-import { fyControl } from 'styled-system/recipes'
+import { controlStyles } from './controlStyles'
 import { useFieldControl } from './useFieldControl'
 import type { ControlInputType, ControlSize, ControlValid } from './types'
 
@@ -37,7 +37,7 @@ const handleInput = (event: Event) => {
   <input
     :id="id"
     :name="name || undefined"
-    :class="[fyControl({ size, valid }), props.class]"
+    :class="[controlStyles({ size, valid }), props.class]"
     :type="type"
     :placeholder="placeholder || undefined"
     :value="model ?? ''"

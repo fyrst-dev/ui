@@ -5,7 +5,7 @@
  */
 import { computed } from 'vue'
 import { CheckboxIndicator, CheckboxRoot } from 'reka-ui'
-import { fyCheckbox } from 'styled-system/recipes'
+import { checkboxStyles } from './choiceStyles'
 import { useFieldControl } from './useFieldControl'
 import type { ControlSize } from './types'
 
@@ -25,7 +25,7 @@ const model = defineModel<boolean | null>({ default: false })
 
 const { id, describedBy, invalid } = useFieldControl(props)
 
-const classes = computed(() => fyCheckbox({ size: props.size }))
+const classes = computed(() => checkboxStyles({ size: props.size }))
 
 const handleUpdate = (value: boolean | 'indeterminate') => {
   model.value = value === true

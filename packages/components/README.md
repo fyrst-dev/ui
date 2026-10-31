@@ -9,6 +9,6 @@ import { Button } from '@fyrst/ui'
 import '@fyrst/ui/style.css'
 ```
 
-Component styles are not in this package: they are Panda config recipes in `packages/preset/src/recipes/`, registered by `componentsPreset`. Components import the generated runtime from `styled-system/recipes`, which the build rewrites to `@fyrst/ui/recipes`.
+Component styles are `cva` / `sva` definitions in each component's `styles.ts`. Components import `styled-system/css`, which the build rewrites to `@fyrst/ui/css`.
 
 See the [root README](../../README.md) for install, Panda config, and publishing.

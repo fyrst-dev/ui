@@ -5,19 +5,19 @@ import ControlInput from '../src/internal/controls/ControlInput.vue'
 import FieldError from '../src/components/Field/FieldError.vue'
 import FieldSelect from '../src/components/Field/FieldSelect.vue'
 import FieldTextarea from '../src/components/Field/FieldTextarea.vue'
-import { fyControl } from '../../preset/src/recipes/control'
-import { fyField } from '../../preset/src/recipes/field'
-import { fyFormPrompt } from '../../preset/src/recipes/form-prompt'
+import { fieldStyles } from '../src/components/Field/styles'
+import { formPromptStyles } from '../src/components/Form/styles'
+import { controlStyles } from '../src/internal/controls/controlStyles'
 
 const textLikeTypes = ['text', 'email', 'url', 'tel', 'search', 'password', 'number'] as const
 
 describe('form control font', () => {
   it('inherits the app font on input, textarea, and select triggers', () => {
-    expect(fyControl.base).toMatchObject({ fontFamily: 'inherit' })
+    expect(controlStyles.raw()).toMatchObject({ fontFamily: 'inherit' })
   })
 
   it('inherits the app font on the prompt textarea', () => {
-    expect(fyFormPrompt.base?.textarea).toMatchObject({ fontFamily: 'inherit' })
+    expect(formPromptStyles.raw().textarea).toMatchObject({ fontFamily: 'inherit' })
   })
 })
 
@@ -51,7 +51,7 @@ describe('Field', () => {
 
     expect(wrapper.get('label').text()).toContain('*')
     expect(wrapper.get('label [aria-hidden="true"]').text()).toBe('*')
-    expect(fyField.base?.required).toMatchObject({ color: 'danger' })
+    expect(fieldStyles.raw().required).toMatchObject({ color: 'danger' })
   })
 
   it.each(textLikeTypes)('renders type="%s" on the native input', (type) => {
@@ -155,7 +155,7 @@ describe('Field errors and messages', () => {
     const error = wrapper.get('[role="alert"]')
 
     expect(input.attributes('aria-invalid')).toBe('true')
-    expect(input.classes()).toContain('fy-control--valid_false')
+    expect(input.attributes('class')).toBe(controlStyles({ size: 'md', valid: false }))
     expect(describedBy).toContain(error.attributes('id'))
     expect(error.attributes('aria-live')).toBeUndefined()
     expect(wrapper.text()).toContain('We never share it')
@@ -184,6 +184,6 @@ describe('Field errors and messages', () => {
 
   it('renders the select trigger with the select control variant', () => {
     const wrapper = mount(FieldSelect, { props: { name: 'team', options: [{ label: 'A', value: 'a' }] } })
-    expect(wrapper.get('button').classes()).toContain('fy-control--element_select')
+    expect(wrapper.get('button').attributes('class')).toBe(controlStyles({ element: 'select', size: 'md', valid: 'none' }))
   })
 })

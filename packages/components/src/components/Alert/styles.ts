@@ -1,7 +1,6 @@
-import { defineSlotRecipe } from '@pandacss/dev'
+import { sva } from 'styled-system/css'
 
-export const fyAlert = defineSlotRecipe({
-  className: 'fy-alert',
+export const alertStyles = sva({
   slots: ['root', 'icon', 'content', 'message', 'title', 'description', 'close'],
   base: {
     root: {
@@ -10,8 +9,7 @@ export const fyAlert = defineSlotRecipe({
       borderWidth: '1px',
       borderStyle: 'solid',
     },
-    icon: {
-    },
+    icon: {},
     content: {
       display: 'flex',
       flexDirection: 'column',
