@@ -148,12 +148,12 @@
     "vue-tsc": "^3.3.13"
   },
   "peerDependencies": {
-    "vue": "^3.5.0",
+    "vue": "^3.5.44",
     "@pandacss/dev": "^2.4.0",
-    "reka-ui": "^2.6.0",
-    "nuxt": "^4.0.0",
-    "@nuxt/kit": "^4.0.0",
-    "typescript": "^5.0.0"
+    "reka-ui": "^2.11.0",
+    "nuxt": "^4.6.3",
+    "@nuxt/kit": "^4.6.3",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@pandacss/preset-base": "^2.4.0"

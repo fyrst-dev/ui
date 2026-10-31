@@ -50,7 +50,7 @@ Do not invent `@fyrst/ui` props. If this skill and the installed package's `.d.t
 | Removed types | `SwitchCssMap`, `ProgressCssMap`, `SwitchStyles`, `ProgressStyles`, `ListStyles`, `PricingCardStyles` | `CssMap<K>` and per-component `*Css` types |
 | Component `name` | `FyButton`, `FyLoader` | `FyrstButton`, `FyrstLoader` |
 | `@fyrst/ui/vue/*` `require` | Resolved the ESM `.js` | Resolves the `.cjs` build |
-| Peers | `vue ^3.5.44`, `reka-ui ^2.11`, `nuxt ^4.6.3` | `vue ^3.5.0`, `reka-ui ^2.6.0`, `nuxt ^4.0.0` (widened) |
+| Peers | `vue ^3.5.44`, `reka-ui ^2.11`, `nuxt ^4.6.3` | Unchanged |
 
 Additive, no action needed: semantic colors `surface`, `surface.raised`, `border`, `border.hover`, `border.subtle`, `text.muted`; base `brand.50`, `brand.200`; `CssMap` and `*Css` type exports; `CarouselContextKey`; `FieldSharedProps`; `FlyoutRoot` `direction` and `openOnHover`; `CarouselNavigation` `prevLabel` / `nextLabel`; plain Node can now import the package.
 
@@ -69,7 +69,7 @@ bun add @fyrst/ui@^0.5.0      # or npm / pnpm / yarn equivalent
 panda codegen --clean
 ```
 
-If the app pins `reka-ui` below `2.6.0`, raise it. `vue`, `nuxt`, and `@pandacss/dev` ranges from 0.4.x still satisfy the peers.
+Peer ranges are unchanged from 0.4.x (`vue ^3.5.44`, `reka-ui ^2.11.0`, `nuxt ^4.6.3`, `@pandacss/dev ^2.4.0`).
 
 ## 2. Content props: no change
 

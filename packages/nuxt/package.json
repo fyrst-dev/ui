@@ -57,9 +57,9 @@
         "@nuxt/kit": "^4.6.3"
     },
     "peerDependencies": {
-        "nuxt": "^4.0.0",
-        "vue": "^3.5.0",
+        "nuxt": "^4.6.3",
+        "vue": "^3.5.44",
         "@pandacss/dev": "^2.4.0",
-        "reka-ui": "^2.6.0"
+        "reka-ui": "^2.11.0"
     }
 }

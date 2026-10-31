@@ -45,7 +45,6 @@ Breaking minor (0.x semver) for apps on 0.3.x / 0.4.x. The Panda contract is unc
 
 ### Changed
 
-- Peer ranges widened: `vue ^3.5.0`, `reka-ui ^2.6.0`, `nuxt` / `@nuxt/kit ^4.0.0`.
 - Field helper text in light mode uses `text.muted` (`grey.600`, was `grey.500`). Checkbox and radio hover borders in light mode use `border.hover` (`grey.300`, was `grey.400`). Everything else measures identical to 0.4.1 in the playground (dark and light, rest / hover / focus).
 - Component styles stay atomic `cva` / `sva`; class names only change where a color now uses a semantic token (for example `bg-c_surface` instead of `bg-c_grey.black` plus `light:bg-c_white`). Styles that lived inline in controls, the prompt form, the carousel, and the flyout moved into `styles.ts` definitions, so runtime ternaries inside `css()` are gone.
 - Panda build warnings dropped from 50 to 14. The remaining `imported_recipe_raw_dynamic` warnings are expected (see the Panda v2 skill). Lint now covers tests and build scripts; `bun run typecheck` runs in CI. Component tests no longer need a prior preset build.

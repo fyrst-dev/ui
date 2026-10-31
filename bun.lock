@@ -32,12 +32,12 @@
         "vue-tsc": "^3.3.13",
       },
       "peerDependencies": {
-        "@nuxt/kit": "^4.0.0",
+        "@nuxt/kit": "^4.6.3",
         "@pandacss/dev": "^2.4.0",
-        "nuxt": "^4.0.0",
-        "reka-ui": "^2.6.0",
-        "typescript": "^5.0.0",
-        "vue": "^3.5.0",
+        "nuxt": "^4.6.3",
+        "reka-ui": "^2.11.0",
+        "typescript": "^5.9.3",
+        "vue": "^3.5.44",
       },
       "optionalPeers": [
         "@nuxt/kit",
@@ -60,8 +60,8 @@
         "vitest": "^5.0.5",
       },
       "peerDependencies": {
-        "reka-ui": "^2.6.0",
-        "vue": "^3.5.0",
+        "reka-ui": "^2.11.0",
+        "vue": "^3.5.44",
       },
     },
     "packages/nuxt": {
@@ -72,9 +72,9 @@
       },
       "peerDependencies": {
         "@pandacss/dev": "^2.4.0",
-        "nuxt": "^4.0.0",
-        "reka-ui": "^2.6.0",
-        "vue": "^3.5.0",
+        "nuxt": "^4.6.3",
+        "reka-ui": "^2.11.0",
+        "vue": "^3.5.44",
       },
     },
     "packages/preset": {
