@@ -1,6 +1,6 @@
 {
   "name": "@fyrst/ui",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "fyrst.dev design system: Panda CSS preset, Vue components, and Nuxt module",
   "license": "MIT",
   "author": "fyrst.dev",

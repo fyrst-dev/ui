@@ -1,6 +1,6 @@
 {
     "name": "@fyrst/ui-components",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "private": true,
     "description": "Vue 3 UI components for the fyrst.dev design system",
     "license": "MIT",
@@ -67,7 +67,7 @@
     },
     "peerDependencies": {
         "vue": "^3.5.41",
-        "@fyrst/design-preset": "^0.4.0",
+        "@fyrst/design-preset": "^0.4.1",
         "@pandacss/dev": "^2.4.0",
         "@pandacss/preset-base": "^2.4.0",
         "reka-ui": "^2.10.3"
