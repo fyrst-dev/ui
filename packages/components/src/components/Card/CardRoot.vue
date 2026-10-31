@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { css } from 'styled-system/css'
-import type { SystemStyleObject } from 'styled-system/types'
-import { cardBorderSizes, cardStyles, CardStylesKey, type CardBorderSize } from './styles'
 import { computed, provide } from 'vue'
+import { fyCard } from 'styled-system/recipes'
+import { withCss } from '../../internal/css'
 import CardHeader, { type CardHeaderProps } from './CardHeader.vue'
+import { CardClassesKey, type CardRootCss } from './types'
 
-type BorderRadius = 'sm' | 'md' | 'lg' | 'xl'
+type CardBorderSize = NonNullable<NonNullable<Parameters<typeof fyCard>[0]>['borderSize']>
 
 export interface Props {
   as?: 'div' | 'li'
@@ -19,15 +19,11 @@ export interface Props {
     | 'info'
     | 'none'
     | 'lucid-deep'
+  /** Border width in px, `0`–`8`. Other values snap to `1`. */
   borderSize?: number
-  borderRadius?: BorderRadius
-  /**
-   * @deprecated Arbitrary CSS colors cannot be applied without inline styles.
-   * Use the `color` variant instead. Kept so existing call sites type-check.
-   */
-  borderColor?: string
-  classRoot?: SystemStyleObject
+  borderRadius?: 'sm' | 'md' | 'lg' | 'xl'
   header?: CardHeaderProps
+  css?: CardRootCss
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -40,28 +36,23 @@ const props = withDefaults(defineProps<Props>(), {
 
 function resolveBorderSize(value: number): CardBorderSize {
   const rounded = Math.round(value)
-  if ((cardBorderSizes as readonly number[]).includes(rounded)) {
-    return rounded as CardBorderSize
-  }
-  return 1
+  return (rounded >= 0 && rounded <= 8 ? String(rounded) : '1') as CardBorderSize
 }
 
-const styles = computed(() =>
-  cardStyles.raw({
-    borderRadius: props.borderRadius,
-    borderSize: resolveBorderSize(props.borderSize),
-    colorStrategy: props.colorStrategy,
-    color: props.color,
-  }),
-)
+const classes = computed(() => fyCard({
+  borderRadius: props.borderRadius,
+  borderSize: resolveBorderSize(props.borderSize),
+  colorStrategy: props.colorStrategy,
+  color: props.color,
+}))
 
-provide(CardStylesKey, styles)
+provide(CardClassesKey, classes)
 </script>
 
 <template>
   <component
     :is="props.as"
-    :class="css(styles.root, props.classRoot)"
+    :class="withCss(classes.root, props.css?.root)"
   >
     <slot name="before" />
     <slot name="header">

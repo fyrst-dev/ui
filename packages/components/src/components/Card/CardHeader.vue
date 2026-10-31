@@ -1,46 +1,48 @@
+<script setup lang="ts">
+import { inject, computed } from 'vue'
+import { fyCard } from 'styled-system/recipes'
+import RichText from '../../internal/RichText.vue'
+import { withCss } from '../../internal/css'
+import { CardClassesKey, type CardHeaderCss } from './types'
+
+export interface CardHeaderProps {
+  title?: string | null
+  subtitle?: string | null
+  /** Render `title` and `subtitle` as HTML. Pass trusted strings only. */
+  html?: boolean
+  css?: CardHeaderCss
+}
+
+const props = defineProps<CardHeaderProps>()
+
+const classes = inject(CardClassesKey, computed(() => fyCard()))
+</script>
+
 <template>
-  <header
-    :class="css(styles.header)"
-  >
+  <header :class="withCss(classes.header, props.css?.root)">
     <slot name="icon" />
 
     <slot>
-      <div
-        :class="css(styles.headerBody)"
-      >
+      <div :class="withCss(classes.headerBody, props.css?.body)">
         <slot name="title">
-          <div
+          <RichText
             v-if="title"
-            :class="css(styles.headerTitle)"
-            v-html="title"
+            as="div"
+            :class="withCss(classes.headerTitle, props.css?.title)"
+            :text="title"
+            :html="html"
           />
         </slot>
         <slot name="subtitle">
-          <div
+          <RichText
             v-if="subtitle"
-            :class="css(styles.headerSubtitle)"
-            v-html="subtitle"
+            as="div"
+            :class="withCss(classes.headerSubtitle, props.css?.subtitle)"
+            :text="subtitle"
+            :html="html"
           />
         </slot>
       </div>
     </slot>
   </header>
 </template>
-
-<script setup lang="ts">
-import { inject, computed } from 'vue'
-import { css } from 'styled-system/css'
-import { cardStyles, CardStylesKey } from './styles'
-
-export interface CardHeaderProps {
-  title?: string | null
-  subtitle?: string | null
-}
-
-defineProps<CardHeaderProps>()
-
-const styles = inject(
-  CardStylesKey,
-  computed(() => cardStyles.raw({})),
-)
-</script>

@@ -1,6 +1,7 @@
-import { cva } from 'styled-system/css'
+import { defineRecipe } from '@pandacss/dev'
 
-export const badgeStyles = cva({
+export const fyBadge = defineRecipe({
+  className: 'fy-badge',
   base: {
     display: 'inline-flex',
     alignItems: 'center',

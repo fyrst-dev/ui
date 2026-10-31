@@ -1,8 +1,7 @@
-import { sva } from 'styled-system/css'
+import { defineSlotRecipe } from '@pandacss/dev'
 
-export type SwitchStyles = ReturnType<typeof switchStyles.raw>
-
-export const switchStyles = sva({
+export const fySwitch = defineSlotRecipe({
+  className: 'fy-switch',
   slots: ['root', 'track', 'thumb', 'label'],
   base: {
     root: {
@@ -42,6 +41,8 @@ export const switchStyles = sva({
       '&[data-invalid]': {
         borderColor: 'danger.subtle',
       },
+      // Repeat the state selectors inside `_light` so they still beat the
+      // light-mode track colors on specificity.
       '_light': {
         'borderColor': 'grey.300',
         'bgColor': 'grey.100',
@@ -58,23 +59,16 @@ export const switchStyles = sva({
       aspectRatio: '1',
       display: 'block',
       borderRadius: 'pill',
-      bgColor: 'neutral',
+      bgColor: { base: 'neutral', _light: 'white' },
       translate: 'auto',
       translateX: '0',
       shadow: '0 0 16px var(--shadow-color)',
-      shadowColor: 'grey.black',
-      _light: {
-        bgColor: 'white',
-        shadowColor: 'grey.400',
-      },
+      shadowColor: { base: 'grey.black', _light: 'grey.400' },
     },
     label: {
       fontWeight: '500',
       color: 'neutral',
       lineHeight: '1.4',
-      _light: {
-        color: 'grey.night',
-      },
     },
   },
   variants: {

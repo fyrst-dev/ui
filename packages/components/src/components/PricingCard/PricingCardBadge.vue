@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import { css as pandaCss } from 'styled-system/css'
-import { pricingCardStyles } from './styles'
-import { PricingCardStylesKey, type PricingCardBadgeCss } from './types'
+import { fyPricingCard } from 'styled-system/recipes'
+import { withCss } from '../../internal/css'
+import { PricingCardClassesKey, type PricingCardBadgeCss } from './types'
 
 export interface PricingCardBadgeProps {
   label?: string
@@ -13,14 +13,14 @@ const props = withDefaults(defineProps<PricingCardBadgeProps>(), {
   label: 'Featured',
 })
 
-const styles = inject(
-  PricingCardStylesKey,
-  computed(() => pricingCardStyles.raw({})),
+const classes = inject(
+  PricingCardClassesKey,
+  computed(() => fyPricingCard()),
 )
 </script>
 
 <template>
-  <div :class="pandaCss(styles.badge, props.css?.root)">
+  <div :class="withCss(classes.badge, props.css?.root)">
     <slot>
       <template v-if="props.label">
         {{ props.label }}

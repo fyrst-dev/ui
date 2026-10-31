@@ -1,46 +1,21 @@
 <script setup lang="ts">
 /**
  * @component FieldSwitch
- * @description Composed switch field with message and error support.
+ * @description Switch with helper text and error. The label sits next to the switch.
  */
 import FieldBase from './FieldBase.vue'
-import FieldMessage from './FieldMessage.vue'
-import FieldError from './FieldError.vue'
-import { fieldFooterStyles } from './fieldFooterStyles'
+import FieldFooter from './FieldFooter.vue'
 import ControlSwitch from '../../internal/controls/ControlSwitch.vue'
-import type { ControlSize } from '../../internal/controls/types'
+import type { FieldSharedProps } from './types'
 import type { SwitchCss } from '../Switch/types'
 
-const props = withDefaults(defineProps<{
-  name?: string
-  label?: string | null
-  modelValue?: boolean | null
-  id?: string
-  disabled?: boolean
-  required?: boolean
-  size?: ControlSize
-  message?: string | null
-  error?: string | null
+const props = withDefaults(defineProps<FieldSharedProps & {
   css?: SwitchCss
-  class?: unknown
 }>(), {
-  label: null as string | null,
-  modelValue: false,
-  id: '',
-  disabled: false,
-  required: false,
   size: 'md',
-  message: null as string | null,
-  error: null as string | null,
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-}>()
-
-const handleInput = (value: boolean) => {
-  emit('update:modelValue', value)
-}
+const model = defineModel<boolean | null>()
 </script>
 
 <template>
@@ -48,25 +23,19 @@ const handleInput = (value: boolean) => {
     :id="id || undefined"
     :error="error"
     :message="message"
+    :html="html"
   >
     <ControlSwitch
-      :name="name"
+      v-model="model"
       :label="label"
-      :model-value="modelValue"
+      :css="props.css"
+      :name="name"
       :disabled="disabled"
       :required="required"
       :size="size"
-      :css="props.css"
       :class="props.class"
-      @update:model-value="handleInput"
     />
 
-    <div
-      v-if="message || error"
-      :class="fieldFooterStyles"
-    >
-      <FieldMessage />
-      <FieldError />
-    </div>
+    <FieldFooter />
   </FieldBase>
 </template>

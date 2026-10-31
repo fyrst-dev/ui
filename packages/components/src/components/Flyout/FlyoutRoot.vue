@@ -1,90 +1,132 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+/**
+ * @component FlyoutRoot
+ * @description Dropdown panel built on reka-ui Popover. Opens on mouse hover and on click;
+ * Escape and an outside click close it. A click while it is hover-open pins it open.
+ *
+ * @slot trigger - Replaces the trigger button. Render exactly one element; it becomes
+ * the Popover trigger. Slot props: `{ open, toggle }`.
+ * @slot trigger-label - Replaces the label inside the default trigger.
+ * @slot trigger-icon - Appended inside the default trigger. Slot props: `{ open }`.
+ * @slot dropdown - Replaces the default `Flyout.Dropdown`. Keep the panel inside a
+ * `Flyout.Dropdown` so Escape, outside clicks, and positioning still work.
+ * @slot default - Panel content.
+ */
+import { computed, provide, toRef, useId, useSlots } from 'vue'
+import { PopoverRoot, PopoverTrigger } from 'reka-ui'
+import { fyFlyout } from 'styled-system/recipes'
 import { useFlyout } from '../../composables/flyout'
-import { css } from 'styled-system/css'
-import type { SystemStyleObject } from 'styled-system/types'
+import RichText from '../../internal/RichText.vue'
+import { withCss } from '../../internal/css'
 import FlyoutDropdown from './FlyoutDropdown.vue'
-
-const el = ref<HTMLElement>()
+import { FlyoutContextKey, type FlyoutRootCss } from './types'
 
 export interface Props {
+  /** Icon class(es) rendered before the label, e.g. `icon icon-caret-down`. */
   icon?: string
   label?: string
+  /** Render `label` as HTML. Pass trusted strings only. */
+  html?: boolean
   ariaLabel?: string
-  classTrigger?: SystemStyleObject | null
+  /** Side the panel aligns to. @default 'left' */
+  direction?: 'left' | 'right'
+  /** Open while a mouse hovers the flyout. @default true */
+  openOnHover?: boolean
+  css?: FlyoutRootCss
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  direction: 'left',
+  openOnHover: true,
+})
 
-const { open, toggle } = useFlyout({ el })
+const slots = useSlots()
+
+const { open, openedBy, setOpen, toggle, pin, onPointerEnter, onPointerLeave } = useFlyout({
+  openOnHover: () => props.openOnHover,
+})
+
+provide(FlyoutContextKey, {
+  openedBy,
+  direction: toRef(props, 'direction'),
+})
+
+const triggerId = useId()
+let clickOnTrigger = false
+
+/** Runs before PopoverTrigger's own click handler toggles the popover. */
+const onClickCapture = (event: MouseEvent) => {
+  const target = event.target as Element | null
+  clickOnTrigger = Boolean(target?.closest?.(`[data-flyout-trigger="${triggerId}"]`))
+}
+
+const onOpenChange = (value: boolean) => {
+  const fromTrigger = clickOnTrigger
+  clickOnTrigger = false
+  if (!value && fromTrigger && openedBy.value === 'hover') {
+    pin()
+    return
+  }
+  setOpen(value, 'click')
+}
+
+const classes = computed(() => fyFlyout())
+const hasCustomTrigger = computed(() => Boolean(slots.trigger))
 </script>
 
 <template>
-  <div
-    ref="el"
-    :class="
-      css(
-        css.raw({
-          position: 'relative',
-          zIndex: 20,
-        }),
-      )
-    "
+  <PopoverRoot
+    :open="open"
+    @update:open="onOpenChange"
   >
-    <slot
-      name="trigger"
-      v-bind="{ open }"
+    <div
+      :class="withCss(classes.root, props.css?.root)"
+      @pointerenter="onPointerEnter"
+      @pointerleave="onPointerLeave"
+      @click.capture="onClickCapture"
     >
-      <button
-        type="button"
-        :class="[
-          css(
-            css.raw({
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-            }),
-            props.classTrigger,
-          ),
-          open ? 'active' : null,
-        ]"
-        aria-haspopup="true"
+      <PopoverTrigger
+        v-if="hasCustomTrigger"
+        as-child
+        :data-flyout-trigger="triggerId"
+      >
+        <slot
+          name="trigger"
+          :open="open"
+          :toggle="toggle"
+        />
+      </PopoverTrigger>
+      <PopoverTrigger
+        v-else
+        :data-flyout-trigger="triggerId"
+        :class="[withCss(classes.trigger, props.css?.trigger), open ? 'active' : null]"
         :aria-label="ariaLabel || label"
-        :aria-expanded="open"
-        @click="toggle"
       >
         <span
           v-if="props.icon"
           :class="props.icon"
+          aria-hidden="true"
         />
         <slot name="trigger-label">
-          <span v-html="label" />
+          <RichText
+            :text="label"
+            :html="html"
+          />
         </slot>
         <slot
           name="trigger-icon"
-          v-bind="{ open }"
+          :open="open"
         />
-      </button>
-    </slot>
+      </PopoverTrigger>
 
-    <slot
-      name="dropdown"
-      v-bind="{ open }"
-    >
-      <Transition name="flyout">
-        <FlyoutDropdown v-if="open">
+      <slot
+        name="dropdown"
+        :open="open"
+      >
+        <FlyoutDropdown :css="{ root: props.css?.content }">
           <slot />
         </FlyoutDropdown>
-      </Transition>
-    </slot>
-  </div>
+      </slot>
+    </div>
+  </PopoverRoot>
 </template>
-
-<style scoped>
-.flyout-enter-active,
-.flyout-leave-active {
-  transition: all 200ms;
-}
-.flyout-enter-from, .flyout-leave-to /* .flyout-leave-active in <2.1.8 */ {
-  opacity: 0;
-}
-</style>

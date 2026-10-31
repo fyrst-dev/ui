@@ -1,43 +1,43 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { loaderSizeValues, loaderStyles, type LoaderSizeValue } from './styles'
-import { css } from 'styled-system/css'
+import { fyLoader } from 'styled-system/recipes'
+import { withCss, type CssMap } from '../../internal/css'
 
-defineOptions({ name: 'FyLoader' })
+export type LoaderCss = CssMap<'root'>
+
+defineOptions({ name: 'FyrstLoader' })
 
 const props = withDefaults(defineProps<{
+  /** Diameter in px. Snaps to the closest of 16, 20, 24, 32, 40, 48, 56, 64, 80, 96, 120. */
   size?: number
   label?: string
+  css?: LoaderCss
 }>(), {
   size: 40,
   label: 'Loading',
 })
 
-function resolveLoaderSize(value: number): LoaderSizeValue {
-  if ((loaderSizeValues as readonly number[]).includes(value)) {
-    return value as LoaderSizeValue
-  }
+// Keep in sync with `loaderSizes` in the preset's loader recipe.
+const loaderSizes = [16, 20, 24, 32, 40, 48, 56, 64, 80, 96, 120] as const
+type LoaderSize = `${typeof loaderSizes[number]}`
 
-  return loaderSizeValues.reduce((closest, candidate) => {
-    return Math.abs(candidate - value) < Math.abs(closest - value)
-      ? candidate
-      : closest
-  }, 40 as LoaderSizeValue)
+function resolveLoaderSize(value: number): LoaderSize {
+  const closest = loaderSizes.reduce((best, candidate) =>
+    Math.abs(candidate - value) < Math.abs(best - value) ? candidate : best,
+  )
+  return String(closest) as LoaderSize
 }
 
-const loaderClass = computed(() => css(loaderStyles.raw({
-  size: resolveLoaderSize(props.size),
-})))
+const loaderClass = computed(() => withCss(
+  fyLoader({ size: resolveLoaderSize(props.size) }),
+  props.css?.root,
+))
 </script>
 
 <template>
   <div
-    :class="[
-      'loader',
-      loaderClass,
-    ]"
+    :class="['loader', loaderClass]"
     role="status"
-    aria-live="polite"
     :aria-label="label"
   />
 </template>

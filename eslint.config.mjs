@@ -21,14 +21,7 @@ export default createConfigForNuxt({
       '**/dist/**',
       '**/*.d.ts',
       'packages/components/src/vue/**',
-      'packages/preset/jsx/**',
-      'packages/preset/css/**',
-      'packages/preset/patterns/**',
-      'packages/preset/tokens/**',
-      'packages/preset/types/**',
-      'packages/preset/recipes/**',
-      'packages/preset/helpers.*',
-      'packages/preset/styled-system/**',
+      'packages/nuxt/test/fixtures/**',
     ],
   })
   .append({
@@ -36,8 +29,9 @@ export default createConfigForNuxt({
       'unused-imports': unusedImports,
     },
     rules: {
-      // Design-system copy props are trusted HTML (labels, titles, list content).
-      'vue/no-v-html': 'off',
+      // Content renders as text. The one opt-in `v-html` lives in
+      // `internal/RichText.vue` behind each component's `html` prop.
+      'vue/no-v-html': 'error',
       '@stylistic/no-trailing-spaces': 'off',
       // Disable base rules that conflict with unused-imports plugin
       '@typescript-eslint/no-unused-vars': 'off',

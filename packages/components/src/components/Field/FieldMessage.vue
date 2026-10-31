@@ -1,48 +1,40 @@
 <script setup lang="ts">
 /**
  * @component FieldMessage
- * @description Helper/hint text for form fields. Reads from Field.Base context when message prop is omitted.
+ * @description Helper text. Reads the Field.Base context when `message` is omitted.
+ * Renders text unless `html` is set (here or on Field.Base).
  */
 import { inject, computed } from 'vue'
-import { css } from 'styled-system/css'
+import { fyField } from 'styled-system/recipes'
+import RichText from '../../internal/RichText.vue'
 import { fieldContextKey } from '../../internal/controls/context'
 
 const props = withDefaults(defineProps<{
   message?: string | null
   id?: string
+  /** Render the message as HTML. Pass trusted strings only. */
+  html?: boolean
   class?: unknown
 }>(), {
-  message: null as string | null,
+  message: null,
+  html: undefined,
 })
 
 const fieldContext = inject(fieldContextKey, null)
 
-const displayMessage = computed(() => {
-  return props.message || fieldContext?.message.value || null
-})
+const displayMessage = computed(() => props.message || fieldContext?.message.value || null)
+const messageId = computed(() => props.id || fieldContext?.messageId.value || undefined)
+const isHtml = computed(() => props.html ?? fieldContext?.html.value ?? false)
 
-const messageId = computed(() => {
-  return props.id || fieldContext?.messageId.value || undefined
-})
-
-const messageStyles = css({
-  display: 'block',
-  paddingX: 'xs',
-  fontSize: 'sm',
-  fontWeight: '400',
-  color: 'grey.300',
-  wordBreak: 'break-word',
-  _light: {
-    color: 'grey.500',
-  },
-})
+const classes = fyField()
 </script>
 
 <template>
-  <span
+  <RichText
     v-if="displayMessage"
     :id="messageId"
-    :class="[messageStyles, props.class]"
-    v-html="displayMessage"
+    :class="[classes.message, props.class]"
+    :text="displayMessage"
+    :html="isHtml"
   />
 </template>

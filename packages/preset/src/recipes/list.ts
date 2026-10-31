@@ -1,8 +1,7 @@
-import { sva } from 'styled-system/css'
+import { defineSlotRecipe } from '@pandacss/dev'
 
-export type ListStyles = ReturnType<typeof listStyles.raw>
-
-export const listStyles = sva({
+export const fyList = defineSlotRecipe({
+  className: 'fy-list',
   slots: ['list', 'item', 'marker'],
   base: {
     list: {

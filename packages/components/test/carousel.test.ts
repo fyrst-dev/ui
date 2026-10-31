@@ -118,3 +118,47 @@ describe('Carousel', () => {
     wrapper.unmount()
   })
 })
+
+describe('Carousel wheel navigation', () => {
+  const wheel = () => new WheelEvent('wheel', { deltaY: 100, cancelable: true })
+
+  it('lets the page scroll by default', async () => {
+    const wrapper = mount(Harness, { attachTo: document.body })
+    const scroller = wrapper.get('ul').element
+    layoutCarousel(scroller)
+    await nextTick()
+
+    const event = wheel()
+    scroller.dispatchEvent(event)
+    await nextTick()
+
+    expect(event.defaultPrevented).toBe(false)
+    expect(wrapper.findAll('li')[0]?.classes()).toContain('active')
+    wrapper.unmount()
+  })
+
+  it('moves one item per gesture when wheel-navigation is on', async () => {
+    const WheelHarness = defineComponent({
+      components: { CarouselRoot, CarouselItem },
+      template: `
+        <CarouselRoot wheel-navigation>
+          <CarouselItem v-for="n in 4" :key="n">{{ n }}</CarouselItem>
+        </CarouselRoot>
+      `,
+    })
+    const wrapper = mount(WheelHarness, { attachTo: document.body })
+    const scroller = wrapper.get('ul').element
+    layoutCarousel(scroller)
+    await nextTick()
+
+    const first = wheel()
+    scroller.dispatchEvent(first)
+    scroller.dispatchEvent(wheel())
+    await nextTick()
+
+    expect(first.defaultPrevented).toBe(true)
+    expect(wrapper.findAll('li')[1]?.classes()).toContain('active')
+    expect(wrapper.findAll('li')[2]?.classes()).not.toContain('active')
+    wrapper.unmount()
+  })
+})

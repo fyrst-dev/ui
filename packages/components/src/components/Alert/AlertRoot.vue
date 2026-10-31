@@ -10,10 +10,7 @@
  * @prop {boolean} [dismissible=false] - Whether the alert can be dismissed.
  * @prop {boolean} [hideIcon=false] - When true, the alert renders without an icon and without the icon gap.
  * @prop {'alert'|'status'} [role] - ARIA role. Defaults to 'alert' for danger/warning, 'status' for info/success.
- * @prop {SystemStyleObject|null} [classRoot] - Custom classes for the root element.
- * @prop {SystemStyleObject|null} [classIcon] - Custom classes for the icon wrapper.
- * @prop {SystemStyleObject|null} [classContent] - Custom classes for the content wrapper.
- * @prop {SystemStyleObject|null} [classClose] - Custom classes for the close button.
+ * @prop {AlertCss} [css] - Style overrides per slot: root, icon, content, message, title, description, close. Wrap values in `css.raw()`.
  *
  * @slot icon - Override the default variant icon.
  *
@@ -40,10 +37,9 @@
  * <AlertRoot hide-icon :messages="[{ description: 'No icon.' }]" />
  */
 import { computed, useSlots } from 'vue'
-import { css, cx } from 'styled-system/css'
-import type { SystemStyleObject } from 'styled-system/types'
-import { alertStyles } from './styles'
-import type { AlertMessage } from './types'
+import { fyAlert } from 'styled-system/recipes'
+import { withCss } from '../../internal/css'
+import type { AlertCss, AlertMessage } from './types'
 
 type Variant = 'danger' | 'success' | 'info' | 'warning'
 
@@ -57,10 +53,7 @@ export interface Props {
   dismissible?: boolean
   hideIcon?: boolean
   role?: 'alert' | 'status'
-  classRoot?: SystemStyleObject | null
-  classIcon?: SystemStyleObject | null
-  classContent?: SystemStyleObject | null
-  classClose?: SystemStyleObject | null
+  css?: AlertCss
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -69,9 +62,7 @@ const props = withDefaults(defineProps<Props>(), {
   borderSize: 'md',
   iconSize: 'xl',
   textSize: 'lg',
-  messages: () => [] as AlertMessage[],
-  dismissible: false,
-  hideIcon: false,
+  messages: () => [],
 })
 
 const emit = defineEmits<{
@@ -80,16 +71,12 @@ const emit = defineEmits<{
 
 const slots = useSlots()
 
-const iconName = computed(() => {
-  const mapping = {
-    danger: 'circle-wavy-warning-bold',
-    success: 'check-circle-bold',
-    info: 'info-bold',
-    warning: 'warning-bold',
-  }
-
-  return mapping[props.variant] || 'info-circle'
-})
+const variantIcons: Record<Variant, string> = {
+  danger: 'circle-wavy-warning-bold',
+  success: 'check-circle-bold',
+  info: 'info-bold',
+  warning: 'warning-bold',
+}
 
 // Determine ARIA role based on variant if not explicitly set
 const ariaRole = computed(() => {
@@ -102,7 +89,7 @@ const shouldRender = computed(() => {
   return props.messages.length > 0 || (!props.hideIcon && !!slots.icon)
 })
 
-const classes = computed(() => alertStyles({
+const classes = computed(() => fyAlert({
   variant: props.variant,
   spacing: props.spacing,
   borderSize: props.borderSize,
@@ -118,7 +105,7 @@ const handleDismiss = () => {
 <template>
   <div
     v-if="shouldRender"
-    :class="cx(classes.root, classRoot ? css(classRoot) : undefined)"
+    :class="withCss(classes.root, props.css?.root)"
     :role="ariaRole"
   >
     <slot
@@ -128,28 +115,28 @@ const handleDismiss = () => {
       <span
         :class="[
           'icon',
-          `icon-${iconName}`,
-          cx(classes.icon, classIcon ? css(classIcon) : undefined),
+          `icon-${variantIcons[props.variant]}`,
+          withCss(classes.icon, props.css?.icon),
         ]"
         aria-hidden="true"
       />
     </slot>
 
     <!-- Content -->
-    <div :class="cx(classes.content, classContent ? css(classContent) : undefined)">
+    <div :class="withCss(classes.content, props.css?.content)">
       <!-- Messages -->
       <div
         v-for="(message, index) in messages"
         :key="`message-${index}`"
-        :class="classes.message"
+        :class="withCss(classes.message, props.css?.message)"
       >
         <div
           v-if="message.title"
-          :class="classes.title"
+          :class="withCss(classes.title, props.css?.title)"
         >
           {{ message.title }}
         </div>
-        <p :class="classes.description">
+        <p :class="withCss(classes.description, props.css?.description)">
           {{ message.description }}
         </p>
       </div>
@@ -159,7 +146,7 @@ const handleDismiss = () => {
     <button
       v-if="dismissible"
       type="button"
-      :class="cx(classes.close, classClose ? css(classClose) : undefined)"
+      :class="withCss(classes.close, props.css?.close)"
       aria-label="Dismiss alert"
       @click="handleDismiss"
     >

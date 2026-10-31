@@ -1,11 +1,11 @@
 <script setup lang="ts">
 /**
  * @component FieldLabel
- * @description Label for form fields with size variants and required indicator.
- * Links to the control via prop `for` or Field.Base context fieldId.
+ * @description Field label with size variants and a required mark.
+ * Points at the control through `for` or the Field.Base context.
  */
 import { inject, computed } from 'vue'
-import { cva } from 'styled-system/css'
+import { fyField } from 'styled-system/recipes'
 import FieldRequired from './FieldRequired.vue'
 import { fieldContextKey } from '../../internal/controls/context'
 
@@ -18,66 +18,20 @@ const props = withDefaults(defineProps<{
   class?: unknown
 }>(), {
   size: 'md',
-  required: false,
-  disabled: false,
 })
 
 const fieldContext = inject(fieldContextKey, null)
 
-const htmlFor = computed(() => {
-  return props.for || fieldContext?.fieldId.value || undefined
-})
+const htmlFor = computed(() => props.for || fieldContext?.fieldId.value || undefined)
 
-const labelStyles = cva({
-  base: {
-    display: 'block',
-    fontWeight: '500',
-    paddingX: 'xs',
-    color: { base: 'neutral' },
-    lineHeight: '1',
-    userSelect: 'none',
-    cursor: 'pointer',
-    transition: 'color 0.2s ease-in-out',
-    _disabled: {
-      color: { base: 'grey.600', _light: 'grey.400' },
-      cursor: 'not-allowed',
-    },
-  },
-  variants: {
-    size: {
-      sm: {
-        fontSize: 'sm',
-      },
-      md: {
-        fontSize: 'md',
-      },
-      lg: {
-        fontSize: 'lg',
-      },
-    },
-    disabled: {
-      true: {},
-      false: {},
-    },
-  },
-  defaultVariants: {
-    size: 'md',
-    disabled: false,
-  },
-})
+const classes = computed(() => fyField({ size: props.size }))
 </script>
 
 <template>
   <label
     :for="htmlFor"
-    :class="[
-      labelStyles({
-        size: props.size,
-        disabled: props.disabled,
-      }),
-      props.class,
-    ]"
-    :aria-disabled="props.disabled"
+    :class="[classes.label, props.class]"
+    :aria-disabled="props.disabled || undefined"
   >
     {{ props.label }}
     <FieldRequired v-if="props.required" />

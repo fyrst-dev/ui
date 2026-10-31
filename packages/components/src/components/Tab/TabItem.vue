@@ -1,29 +1,37 @@
 <script setup lang="ts">
 import { TabsTrigger } from 'reka-ui'
-import { computed } from 'vue'
-import { css } from 'styled-system/css'
-import { tabStyles } from './styles'
-import type { TabItemData } from './types'
+import { fyTab } from 'styled-system/recipes'
+import RichText from '../../internal/RichText.vue'
+import { withCss } from '../../internal/css'
+import type { TabItemCss, TabItemData } from './types'
 
-defineProps<TabItemData>()
+const props = withDefaults(defineProps<TabItemData & {
+  css?: TabItemCss
+}>(), {
+  html: false,
+})
 
-const styles = computed(() =>
-  tabStyles.raw({}),
-)
+const classes = fyTab()
 </script>
 
 <template>
   <TabsTrigger
     :value="value"
     :disabled="disabled"
-    :class="css(styles.item)"
+    :class="withCss(classes.item, props.css?.root)"
   >
     <slot name="icon">
       <span
         v-if="icon"
-        :class="[`icon icon-${icon}`, css(styles.icon)]"
+        :class="[`icon icon-${icon}`, withCss(classes.icon, props.css?.icon)]"
+        aria-hidden="true"
       />
     </slot>
-    <slot><span v-html="label" /></slot>
+    <slot>
+      <RichText
+        :text="label"
+        :html="html"
+      />
+    </slot>
   </TabsTrigger>
 </template>

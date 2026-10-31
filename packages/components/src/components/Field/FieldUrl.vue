@@ -1,60 +1,28 @@
 <script setup lang="ts">
 /**
  * @component FieldUrl
- * @description Composed URL field with protocol toggle, label, message, and error support.
+ * @description URL field with a clickable protocol prefix, label, helper text, and error.
  */
-import { computed } from 'vue'
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
-import FieldMessage from './FieldMessage.vue'
-import FieldError from './FieldError.vue'
-import { fieldFooterStyles } from './fieldFooterStyles'
+import FieldFooter from './FieldFooter.vue'
 import ControlUrl from '../../internal/controls/ControlUrl.vue'
-import type { ControlSize } from '../../internal/controls/types'
-import type { UrlCss } from '../../internal/controls/urlStyles'
+import type { FieldSharedProps } from './types'
+import type { UrlCss } from '../../internal/controls/types'
 import type { UrlProtocol } from '../../internal/controls/urlUtils'
 
-const props = withDefaults(defineProps<{
-  name?: string
-  label?: string | null
+const props = withDefaults(defineProps<FieldSharedProps & {
   placeholder?: string | null
-  modelValue?: string | null
-  id?: string
-  disabled?: boolean
-  required?: boolean
   autocomplete?: string | null
-  size?: ControlSize
-  message?: string | null
-  error?: string | null
   defaultProtocol?: UrlProtocol
   css?: UrlCss
-  class?: unknown
 }>(), {
-  label: null as string | null,
-  placeholder: null as string | null,
-  modelValue: null as string | null,
-  id: '',
-  disabled: false,
-  required: false,
-  autocomplete: 'url',
   size: 'md',
-  message: null as string | null,
-  error: null as string | null,
+  autocomplete: 'url',
   defaultProtocol: 'https',
 })
 
-const isValid = computed(() => {
-  if (props.error) return false
-  return 'none' as const
-})
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
-
-const handleInput = (value: string) => {
-  emit('update:modelValue', value)
-}
+const model = defineModel<string | null>()
 </script>
 
 <template>
@@ -62,6 +30,7 @@ const handleInput = (value: string) => {
     :id="id || undefined"
     :error="error"
     :message="message"
+    :html="html"
   >
     <FieldLabel
       v-if="label"
@@ -71,26 +40,18 @@ const handleInput = (value: string) => {
     />
 
     <ControlUrl
-      :name="name"
+      v-model="model"
       :placeholder="placeholder"
-      :model-value="modelValue"
-      :disabled="disabled"
-      :required="required"
       :autocomplete="autocomplete"
-      :size="size"
-      :valid="isValid"
       :default-protocol="defaultProtocol"
       :css="props.css"
+      :name="name"
+      :disabled="disabled"
+      :required="required"
+      :size="size"
       :class="props.class"
-      @update:model-value="handleInput"
     />
 
-    <div
-      v-if="message || error"
-      :class="fieldFooterStyles"
-    >
-      <FieldMessage />
-      <FieldError />
-    </div>
+    <FieldFooter />
   </FieldBase>
 </template>

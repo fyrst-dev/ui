@@ -1,44 +1,34 @@
-<template>
-  <li :class="pandaCss(styles.item, props.css?.root)">
-    <slot name="marker">
-      <span :class="pandaCss(styles.marker, props.css?.marker)">
-        <span
-          v-if="typeof icon === 'string'"
-          :class="`icon icon-${icon}`"
-        />
-      </span>
-    </slot>
-    <slot>
-      <div
-        v-if="props.content"
-        v-html="props.content"
-      />
-    </slot>
-  </li>
-</template>
-
 <script setup lang="ts">
-import { css as pandaCss } from 'styled-system/css'
-import { inject, computed } from 'vue'
-import { listStyles } from './styles'
-import { ListStylesKey, type ListItemCss } from './types'
+import { computed, inject } from 'vue'
+import { fyList } from 'styled-system/recipes'
+import RichText from '../../internal/RichText.vue'
+import { withCss } from '../../internal/css'
+import { ListContextKey, type ListItemCss, type ListSize, type ListState } from './types'
 
 export interface ListItemProps {
   content?: string
-  size?: 'sm' | 'md' | 'lg'
-  state?: 'default' | 'primary' | 'success' | 'danger' | 'info'
+  size?: ListSize
+  state?: ListState
+  /** Icon name, `false` for no icon, `true`/unset for the state's default icon. */
   icon?: string | boolean
+  /** Render `content` as HTML. Pass trusted strings only. */
+  html?: boolean
   css?: ListItemCss
 }
 
-const props = defineProps<ListItemProps>()
+const props = withDefaults(defineProps<ListItemProps>(), {
+  html: undefined,
+})
 
-const styles = inject(
-  ListStylesKey,
-  computed(() => listStyles.raw({})),
-)
+const list = inject(ListContextKey, null)
 
-const iconMaps = {
+const size = computed(() => props.size ?? list?.value.size ?? 'md')
+const state = computed(() => props.state ?? list?.value.state ?? 'default')
+const html = computed(() => props.html ?? list?.value.html ?? false)
+
+const classes = computed(() => fyList({ size: size.value, state: state.value }))
+
+const stateIcons: Record<ListState, string> = {
   default: 'caret-right-bold',
   primary: 'caret-right-bold',
   success: 'check-bold',
@@ -47,18 +37,30 @@ const iconMaps = {
 }
 
 const icon = computed(() => {
-  if (props.icon === false) {
-    return null
-  }
-
-  if (typeof props.icon === 'string') {
-    return props.icon
-  }
-
-  if (props.state) {
-    return iconMaps[props.state] ?? iconMaps.default
-  }
-
-  return iconMaps.default
+  if (props.icon === false) return null
+  if (typeof props.icon === 'string') return props.icon
+  return stateIcons[state.value]
 })
 </script>
+
+<template>
+  <li :class="withCss(classes.item, props.css?.root)">
+    <slot name="marker">
+      <span :class="withCss(classes.marker, props.css?.marker)">
+        <span
+          v-if="icon"
+          :class="`icon icon-${icon}`"
+          aria-hidden="true"
+        />
+      </span>
+    </slot>
+    <slot>
+      <RichText
+        v-if="props.content"
+        as="div"
+        :text="props.content"
+        :html="html"
+      />
+    </slot>
+  </li>
+</template>

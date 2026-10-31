@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import { css as pandaCss } from 'styled-system/css'
-import { pricingCardStyles } from './styles'
-import { PricingCardStylesKey, PricingCardDataKey, type PricingCardData, type PricingCardHeaderCss } from './types'
+import { fyPricingCard } from 'styled-system/recipes'
+import { withCss } from '../../internal/css'
+import { PricingCardClassesKey, PricingCardDataKey, type PricingCardData, type PricingCardHeaderCss } from './types'
 
 export interface PricingCardHeaderProps {
   title?: string
@@ -13,9 +13,9 @@ export interface PricingCardHeaderProps {
 
 const props = defineProps<PricingCardHeaderProps>()
 
-const styles = inject(
-  PricingCardStylesKey,
-  computed(() => pricingCardStyles.raw({})),
+const classes = inject(
+  PricingCardClassesKey,
+  computed(() => fyPricingCard()),
 )
 
 const data = inject(
@@ -29,15 +29,15 @@ const subtitle = computed(() => props.subtitle ?? data.value.subtitle)
 </script>
 
 <template>
-  <header :class="pandaCss(styles.header, props.css?.root)">
+  <header :class="withCss(classes.header, props.css?.root)">
     <slot name="prepend" />
     <slot>
-      <div :class="pandaCss(styles.headerPackage, props.css?.headerPackage)">
+      <div :class="withCss(classes.headerPackage, props.css?.headerPackage)">
         <slot name="title">
           <component
             :is="titleTag"
             v-if="title"
-            :class="pandaCss(styles.title, props.css?.title)"
+            :class="withCss(classes.title, props.css?.title)"
           >
             {{ title }}
           </component>
@@ -45,7 +45,7 @@ const subtitle = computed(() => props.subtitle ?? data.value.subtitle)
         <slot name="subtitle">
           <p
             v-if="subtitle"
-            :class="pandaCss(styles.subtitle, props.css?.subtitle)"
+            :class="withCss(classes.subtitle, props.css?.subtitle)"
           >
             {{ subtitle }}
           </p>

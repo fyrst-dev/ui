@@ -1,8 +1,7 @@
-import { sva } from 'styled-system/css'
+import { defineSlotRecipe } from '@pandacss/dev'
 
-export type PricingCardStyles = ReturnType<typeof pricingCardStyles.raw>
-
-export const pricingCardStyles = sva({
+export const fyPricingCard = defineSlotRecipe({
+  className: 'fy-pricing-card',
   slots: [
     'root',
     'header',
@@ -40,7 +39,9 @@ export const pricingCardStyles = sva({
       gap: 'sm',
       padding: 'lg',
       _hasNext: {
-        borderBottom: '1px solid {colors.grey.700}',
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+        borderBottomColor: 'grey.700',
       },
     },
     headerPackage: {
@@ -87,6 +88,10 @@ export const pricingCardStyles = sva({
         root: {
           borderColor: 'primary',
           outlineColor: 'primary',
+          // Variants outrank base conditions, so repeat the base hover here.
+          _hover: {
+            borderColor: 'grey.400',
+          },
         },
       },
     },

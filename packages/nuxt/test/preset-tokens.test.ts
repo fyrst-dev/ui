@@ -7,7 +7,7 @@ import { colors, fonts as semanticFonts } from '../../preset/src/tokens/semantic
 describe('preset tokens', () => {
   it('nests preset-base as a module so designSystem apps do not resolve the package name', () => {
     expect(preset.presets).toEqual([presetBase])
-    expect(preset.presets?.some(entry => entry === '@pandacss/preset-base')).toBe(false)
+    expect(preset.presets?.includes('@pandacss/preset-base')).toBe(false)
   })
 
   it('defines Figtree sans plus system serif and mono', () => {

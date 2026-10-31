@@ -1,34 +1,38 @@
 <script setup lang="ts">
 /**
  * @component Button
- * @description A versatile button component that can render as either a button or anchor tag.
+ * @description Renders a `<button>`, or an `<a>` when `to` is set.
  *
- * @prop {string|null} label - The text content of the button. If null, no text will be displayed.
- * @prop {string|null} [icon] - Optional CSS class name for an icon to display within the button.
- * @prop {string|null} [to] - When provided, renders as an anchor (<a>) with this value as href. Otherwise renders as <button>.
- * @prop {'button'|'submit'|'reset'|null} [type] - HTML button type attribute (e.g. 'button', 'submit', 'reset'). Only applies when rendered as a button.
- * @prop {'secondary'|'primary'} [color='secondary'] - The color theme of the button.
- * @prop {'sm'|'md'|'lg'} [size='md'] - The size variant of the button.
- * @prop {boolean} [fullWidth=false] - When true, the button stretches to the width of its container.
- * @prop {boolean} [external=false] - When true and rendered as a link, opens in a new tab with appropriate security attributes.
- * @prop {boolean} [disabled=false] - When true, disables the button preventing user interaction.
+ * @prop {string|null} label - Button text. Rendered as text unless `html` is set.
+ * @prop {boolean} [html=false] - Render `label` as HTML. Pass trusted strings only.
+ * @prop {string|null} [icon] - Icon name, rendered as `icon icon-<name>`.
+ * @prop {string|null} [to] - Renders an anchor with this `href`.
+ * @prop {'button'|'submit'|'reset'|null} [type] - Button type. Defaults to `button`. Ignored for links.
+ * @prop {'secondary'|'primary'|'transparent'} [color='secondary'] - Color scheme.
+ * @prop {'sm'|'md'|'lg'} [size='md'] - Size.
+ * @prop {'regular'|'inverse'} [order='regular'] - Icon before or after the label.
+ * @prop {boolean} [fullWidth=false] - Stretch to the container width.
+ * @prop {boolean} [external=false] - For links: open in a new tab with `rel="noopener noreferrer"`.
+ * @prop {boolean} [disabled=false] - Disable the button. A disabled link loses its `href` and gets `aria-disabled`.
+ * @prop {ButtonCss} [css] - Style overrides (`root`). Wrap values in `css.raw()`.
  *
  * @example
  * <Button label="Click me" />
- * <Button label="Submit" type="submit" />
  * <Button label="Visit Site" to="https://example.com" external />
- * <Button icon="icon-class" label="Icon Button" />
  * <Button color="primary" size="lg" label="Large Primary Button" />
- * <Button label="Continue" full-width />
  */
 import { computed } from 'vue'
-import { buttonStyles } from './styles'
-import { css } from 'styled-system/css'
+import { fyButton } from 'styled-system/recipes'
+import RichText from '../../internal/RichText.vue'
+import { withCss, type CssMap } from '../../internal/css'
 
-defineOptions({ name: 'FyButton' })
+export type ButtonCss = CssMap<'root'>
+
+defineOptions({ name: 'FyrstButton' })
 
 const props = withDefaults(defineProps<{
   label?: string | null
+  html?: boolean
   icon?: string | null
   to?: string | null
   type?: 'button' | 'submit' | 'reset' | null
@@ -38,60 +42,61 @@ const props = withDefaults(defineProps<{
   order?: 'regular' | 'inverse'
   external?: boolean
   disabled?: boolean
+  css?: ButtonCss
 }>(), {
-  label: null as string | null,
-  icon: null as string | null,
-  to: null as string | null,
-  type: null as 'button' | 'submit' | 'reset' | null,
+  label: null,
+  icon: null,
+  to: null,
+  type: null,
   color: 'secondary',
   size: 'md',
-  fullWidth: false,
   order: 'regular',
-  external: false,
-  disabled: false,
-})
-const tag = computed(() => {
-  if (props.to) {
-    return 'a'
-  }
-  return 'button'
-})
-const type = computed(() => {
-  if (tag.value === 'button' && props.type) {
-    return props.type
-  }
-  else if (tag.value === 'button') {
-    return 'button'
-  }
-  return null
-})
-const target = computed(() => {
-  return props.external && tag.value === 'a' ? '_blank' : null
-})
-const rel = computed(() => {
-  return props.external && tag.value === 'a' ? 'noopener noreferrer' : null
 })
 
-const buttonClass = computed(() => css(
-  buttonStyles.raw({
+const isLink = computed(() => Boolean(props.to))
+
+/** `title` is an attribute, so an HTML label is reduced to its text. */
+const title = computed(() => {
+  if (!props.label) return undefined
+  return props.html ? props.label.replace(/<[^>]*>/g, '').trim() : props.label
+})
+
+const attrs = computed(() => {
+  if (!isLink.value) {
+    return {
+      type: props.type ?? 'button',
+      disabled: props.disabled || undefined,
+    }
+  }
+  if (props.disabled) {
+    // A link cannot be disabled natively: drop `href` so it does not navigate
+    // or take focus, and expose the state to assistive tech.
+    return { 'role': 'link', 'aria-disabled': 'true' }
+  }
+  return {
+    href: props.to,
+    target: props.external ? '_blank' : undefined,
+    rel: props.external ? 'noopener noreferrer' : undefined,
+  }
+})
+
+const buttonClass = computed(() => withCss(
+  fyButton({
     color: props.color,
     size: props.size,
     order: props.order,
     fullWidth: props.fullWidth,
   }),
+  props.css?.root,
 ))
 </script>
 
 <template>
   <component
-    :is="tag"
+    :is="isLink ? 'a' : 'button'"
     :class="['btn', buttonClass]"
-    :type="type"
-    :href="props.to"
-    :title="props.label"
-    :target="target"
-    :rel="rel"
-    :disabled="props.disabled === true ? true : null"
+    :title="title"
+    v-bind="attrs"
   >
     <span
       v-if="props.icon"
@@ -100,12 +105,14 @@ const buttonClass = computed(() => css(
         'icon',
         `icon-${props.icon}`,
       ]"
+      aria-hidden="true"
     />
 
-    <span
+    <RichText
       v-if="props.label"
       class="btn-label"
-      v-html="props.label"
+      :text="props.label"
+      :html="props.html"
     />
   </component>
 </template>

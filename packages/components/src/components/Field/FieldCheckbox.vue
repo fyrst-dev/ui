@@ -1,44 +1,18 @@
 <script setup lang="ts">
 /**
  * @component FieldCheckbox
- * @description Composed checkbox field with message and error support.
+ * @description Checkbox with helper text and error. The label sits next to the box.
  */
 import FieldBase from './FieldBase.vue'
-import FieldMessage from './FieldMessage.vue'
-import FieldError from './FieldError.vue'
-import { fieldFooterStyles } from './fieldFooterStyles'
+import FieldFooter from './FieldFooter.vue'
 import ControlCheckbox from '../../internal/controls/ControlCheckbox.vue'
-import type { ControlSize } from '../../internal/controls/types'
+import type { FieldSharedProps } from './types'
 
-const props = withDefaults(defineProps<{
-  name?: string
-  label?: string | null
-  modelValue?: boolean | null
-  id?: string
-  disabled?: boolean
-  required?: boolean
-  size?: ControlSize
-  message?: string | null
-  error?: string | null
-  class?: unknown
-}>(), {
-  label: null as string | null,
-  modelValue: false,
-  id: '',
-  disabled: false,
-  required: false,
+const props = withDefaults(defineProps<FieldSharedProps>(), {
   size: 'md',
-  message: null as string | null,
-  error: null as string | null,
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-}>()
-
-const handleInput = (value: boolean) => {
-  emit('update:modelValue', value)
-}
+const model = defineModel<boolean | null>()
 </script>
 
 <template>
@@ -46,24 +20,18 @@ const handleInput = (value: boolean) => {
     :id="id || undefined"
     :error="error"
     :message="message"
+    :html="html"
   >
     <ControlCheckbox
-      :name="name"
+      v-model="model"
       :label="label"
-      :model-value="modelValue"
+      :name="name"
       :disabled="disabled"
       :required="required"
       :size="size"
       :class="props.class"
-      @update:model-value="handleInput"
     />
 
-    <div
-      v-if="message || error"
-      :class="fieldFooterStyles"
-    >
-      <FieldMessage />
-      <FieldError />
-    </div>
+    <FieldFooter />
   </FieldBase>
 </template>

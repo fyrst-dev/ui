@@ -1,28 +1,42 @@
 <script setup lang="ts">
-import { css } from 'styled-system/css'
+/**
+ * @component FlyoutDropdown
+ * @description The flyout panel (reka-ui PopoverContent). Use it inside `Flyout.Root`,
+ * usually through the root's `dropdown` slot.
+ */
+import { computed, inject } from 'vue'
+import { PopoverContent } from 'reka-ui'
+import { fyFlyout } from 'styled-system/recipes'
+import { withCss } from '../../internal/css'
+import { FlyoutContextKey, type FlyoutDropdownCss } from './types'
 
-export interface Props {
+const props = defineProps<{
+  /** Side the panel aligns to. Defaults to the root's `direction`. */
   direction?: 'left' | 'right'
+  css?: FlyoutDropdownCss
+}>()
+
+const flyout = inject(FlyoutContextKey, null)
+
+const align = computed(() => (props.direction ?? flyout?.direction.value ?? 'left') === 'left' ? 'start' : 'end')
+
+// A hover opens the panel without moving focus; a click moves focus in, as usual.
+const onOpenAutoFocus = (event: Event) => {
+  if (flyout?.openedBy.value === 'hover') event.preventDefault()
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  direction: 'left',
-})
+const classes = fyFlyout()
 </script>
 
 <template>
-  <div
-    :class="css(
-      css.raw({
-        position: 'absolute',
-        zIndex: 50,
-        top: '100%',
-        left: props.direction === 'left' ? '0' : 'auto',
-        right: props.direction === 'right' ? '0' : 'auto',
-        paddingTop: 'sm',
-      }),
-    )"
+  <PopoverContent
+    side="bottom"
+    :align="align"
+    :side-offset="0"
+    :avoid-collisions="false"
+    :class="withCss(classes.content, props.css?.root)"
+    @open-auto-focus="onOpenAutoFocus"
   >
     <slot />
-  </div>
+  </PopoverContent>
 </template>

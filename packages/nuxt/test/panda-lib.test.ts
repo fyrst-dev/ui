@@ -73,18 +73,18 @@ describe('panda lib consumer fixture', () => {
     const appSrc = readFileSync(join(consumer, 'src/app.ts'), 'utf8')
     const pandaConfig = readFileSync(join(consumer, 'panda.config.ts'), 'utf8')
 
-    expect(appSrc).toContain("@fyrst/ui/vue/Button")
-    expect(appSrc).toContain("@fyrst/ui/vue/CardRoot")
-    expect(appSrc).toContain("@fyrst/ui/vue/FieldInput")
+    expect(appSrc).toContain('@fyrst/ui/vue/Button')
+    expect(appSrc).toContain('@fyrst/ui/vue/CardRoot')
+    expect(appSrc).toContain('@fyrst/ui/vue/FieldInput')
     expect(appSrc).not.toMatch(/\bcva\s*\(/)
     expect(appSrc).not.toMatch(/\bsva\s*\(/)
     expect(appSrc).not.toMatch(/\bcss\s*\(/)
-    expect(pandaConfig).toContain("designSystem: '@fyrst/ui'")
+    expect(pandaConfig).toContain('designSystem: \'@fyrst/ui\'')
     expect(pandaConfig).not.toContain('presets:')
     expect(pandaConfig).not.toContain('@fyrst/ui/preset')
     expect(pandaConfig).not.toContain('@fyrst/ui/design-preset')
     expect(pandaConfig).not.toContain('panda.buildinfo')
-    expect(pandaConfig).not.toContain("include: ['@fyrst/ui")
+    expect(pandaConfig).not.toContain('include: [\'@fyrst/ui')
 
     const result = runPanda(['cssgen', '--outfile', 'styles.css'], consumer)
     const output = `${result.stdout}\n${result.stderr}`
@@ -95,8 +95,14 @@ describe('panda lib consumer fixture', () => {
 
     const css = readFileSync(join(consumer, 'styles.css'), 'utf8')
     expect(css.length).toBeGreaterThan(1000)
-    expect(css).toMatch(/d_inline[-_]flex/)
-    expect(css).toMatch(/bg_primary/)
+    // Component styles are config recipes from the design system. Variants come
+    // from props at runtime, so every variant must be generated.
+    expect(css).toContain('.fy-button')
+    expect(css).toContain('.fy-button--size_lg')
+    expect(css).toContain('.fy-control--valid_false')
+    expect(css).toContain('.fy-progress__indicator--percent_37')
+    expect(css).toContain('.fy-loader--size_120')
+    expect(css).toMatch(/--colors-surface/)
   }, 120_000)
 
   it('re-extracts published JS when buildinfo is stale', () => {
@@ -112,7 +118,44 @@ describe('panda lib consumer fixture', () => {
 
     const css = readFileSync(join(consumer, 'styles.stale.css'), 'utf8')
     expect(css.length).toBeGreaterThan(1000)
-    expect(css).toMatch(/d_inline[-_]flex/)
-    expect(css).toMatch(/bg_primary/)
+    expect(css).toContain('.fy-button')
+    expect(css).toContain('.fy-card__root')
+  }, 120_000)
+
+  it('lets the app extend a component recipe and override slots with css.raw', () => {
+    writeFileSync(join(consumer, 'panda.config.ts'), `import { defineConfig } from '@pandacss/dev'
+
+export default defineConfig({
+  preflight: true,
+  designSystem: '@fyrst/ui',
+  include: ['./src/**/*.{js,ts,vue}'],
+  outdir: 'styled-system',
+  theme: {
+    extend: {
+      recipes: {
+        fyButton: { variants: { size: { xl: { fontSize: '2xl' } } } },
+      },
+    },
+  },
+})
+`)
+    writeFileSync(join(consumer, 'src/overrides.ts'), `import { css } from '../styled-system/css'
+
+export const alertCss = { root: css.raw({ letterSpacing: '0.37em' }) }
+export const plainObject = { root: { letterSpacing: '0.41em' } }
+`)
+    expect(runPanda(['codegen'], consumer).status).toBe(0)
+
+    const result = runPanda(['cssgen', '--outfile', 'styles.extended.css'], consumer)
+    const output = `${result.stdout}\n${result.stderr}`
+    expect(result.status, output).toBe(0)
+
+    const css = readFileSync(join(consumer, 'styles.extended.css'), 'utf8')
+    expect(css).toContain('.fy-button--size_xl')
+    expect(css).toContain('.fy-button--size_md')
+    // css.raw() is extracted; a bare object literal is not. This is why the
+    // docs require css.raw() for `css` prop values.
+    expect(css).toContain('letter-spacing: 0.37em')
+    expect(css).not.toContain('letter-spacing: 0.41em')
   }, 120_000)
 })

@@ -2,18 +2,15 @@
 /**
  * @component ProgressRoot
  * @description Progress bar built on reka-ui Progress primitives.
+ * A `null` value renders the indeterminate animation.
  */
 import { computed } from 'vue'
 import { ProgressIndicator, ProgressRoot } from 'reka-ui'
-import { css as pandaCss } from 'styled-system/css'
-import { progressStyles } from './styles'
+import { fyProgress } from 'styled-system/recipes'
+import { withCss } from '../../internal/css'
 import type { ProgressColor, ProgressCss, ProgressSize } from './types'
 
-type ProgressPercent = NonNullable<NonNullable<Parameters<typeof progressStyles.raw>[0]>['percent']>
-
-function resolvePercent(value: number): ProgressPercent {
-  return Math.min(100, Math.max(0, Math.round(value))) as ProgressPercent
-}
+type ProgressPercent = NonNullable<NonNullable<Parameters<typeof fyProgress>[0]>['percent']>
 
 const props = withDefaults(defineProps<{
   modelValue?: number | null
@@ -41,10 +38,13 @@ const percentage = computed(() => {
   return Math.min(100, Math.max(0, Math.round((props.modelValue / props.max) * 100)))
 })
 
-const styles = computed(() => progressStyles.raw({
+// Each whole percent is a static class, so SSR HTML carries no `style=`.
+// Indeterminate bars get no percent class: variants outrank the recipe's base
+// `[data-state="indeterminate"]` width.
+const classes = computed(() => fyProgress({
   size: props.size,
   color: props.color,
-  percent: resolvePercent(isIndeterminate.value ? 0 : percentage.value),
+  percent: isIndeterminate.value ? undefined : String(percentage.value) as ProgressPercent,
 }))
 
 const displayValue = computed(() => {
@@ -56,11 +56,11 @@ const displayValue = computed(() => {
 
 <template>
   <div
-    :class="[pandaCss(styles.root, props.css?.root), props.class]"
+    :class="[withCss(classes.root, props.css?.root), props.class]"
   >
     <div
       v-if="showValue"
-      :class="pandaCss(styles.value, props.css?.value)"
+      :class="withCss(classes.value, props.css?.value)"
     >
       <slot
         name="value"
@@ -77,9 +77,9 @@ const displayValue = computed(() => {
       :max="max"
       :get-value-label="getValueLabel"
       :get-value-text="getValueText"
-      :class="pandaCss(styles.track, props.css?.track)"
+      :class="withCss(classes.track, props.css?.track)"
     >
-      <ProgressIndicator :class="pandaCss(styles.indicator, props.css?.indicator)" />
+      <ProgressIndicator :class="withCss(classes.indicator, props.css?.indicator)" />
       <slot
         :model-value="modelValue"
         :max="max"

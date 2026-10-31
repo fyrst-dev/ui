@@ -43,7 +43,7 @@
                     />
                 </template>
 
-                <FyrstCardRoot border-color="primary">
+                <FyrstCardRoot>
                     <FyrstCardBody>
                         <div :class="css({ minWidth: '200px' })">
                             <ul :class="css({ listStyle: 'none', padding: 0 })">
@@ -89,9 +89,8 @@
                 </p>
                 
                 <FyrstFlyoutRoot label="Options ⚙">
-                    <template #dropdown="{ open }">
-                        <Transition name="flyout">
-                            <FyrstFlyoutDropdown v-if="open" direction="right">
+                    <template #dropdown>
+                        <FyrstFlyoutDropdown direction="right">
                                 <FyrstCardRoot>
                                     <FyrstCardBody>
                                         <div :class="css({ minWidth: '220px' })">
@@ -116,7 +115,6 @@
                                     </FyrstCardBody>
                                 </FyrstCardRoot>
                             </FyrstFlyoutDropdown>
-                        </Transition>
                     </template>
                 </FyrstFlyoutRoot>
             </div>
@@ -132,7 +130,7 @@
             </p>
             
             <FyrstFlyoutRoot label="Product Info">
-                <FyrstCardRoot border-color="primary">
+                <FyrstCardRoot>
                     <FyrstCardBody>
                         <div :class="css({ width: '300px' })">
                             <div :class="css({ 
@@ -296,7 +294,7 @@
                 </FyrstFlyoutRoot>
 
                 <FyrstFlyoutRoot label="Help">
-                    <FyrstCardRoot border-color="primary">
+                    <FyrstCardRoot>
                         <FyrstCardBody>
                             <div :class="css({ minWidth: '150px' })">
                                 <ul :class="css({ listStyle: 'none', padding: 0, fontSize: 'sm' })">
@@ -335,12 +333,12 @@
                 Custom Styled Trigger
             </h2>
             <p :class="css({ marginBottom: 'lg', color: 'grey.300', _light: { color: 'grey.700' } })">
-                Flyout with custom trigger styling using the classTrigger prop.
+                Flyout with custom trigger styling through the <code>css</code> prop (<code>trigger</code> slot).
             </p>
             
             <FyrstFlyoutRoot 
                 label="Styled Trigger"
-                :class-trigger="css.raw({
+                :css="{ trigger: css.raw({
                     padding: 'md lg',
                     bg: 'primary',
                     color: 'white',
@@ -351,7 +349,7 @@
                         bg: 'primary',
                         opacity: 0.9
                     }
-                })">
+                }) }">
                 <FyrstCardRoot>
                     <FyrstCardBody>
                         <div :class="css({ minWidth: '250px' })">

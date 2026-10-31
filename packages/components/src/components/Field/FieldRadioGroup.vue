@@ -1,47 +1,23 @@
 <script setup lang="ts">
 /**
  * @component FieldRadioGroup
- * @description Composed radio group field with label, message, and error support.
+ * @description Radio group with label, helper text, and error.
  */
 import FieldBase from './FieldBase.vue'
 import FieldLabel from './FieldLabel.vue'
-import FieldMessage from './FieldMessage.vue'
-import FieldError from './FieldError.vue'
-import { fieldFooterStyles } from './fieldFooterStyles'
+import FieldFooter from './FieldFooter.vue'
 import ControlRadioGroup from '../../internal/controls/ControlRadioGroup.vue'
-import type { ControlSize, FieldOption } from '../../internal/controls/types'
+import type { FieldSharedProps } from './types'
+import type { FieldOption } from '../../internal/controls/types'
 
-const props = withDefaults(defineProps<{
-  name?: string
-  label?: string | null
-  modelValue?: string | null
-  id?: string
+const props = withDefaults(defineProps<FieldSharedProps & {
   options?: FieldOption[]
-  disabled?: boolean
-  required?: boolean
-  size?: ControlSize
-  message?: string | null
-  error?: string | null
-  class?: unknown
 }>(), {
-  label: null as string | null,
-  modelValue: null as string | null,
-  id: '',
-  options: () => [] as FieldOption[],
-  disabled: false,
-  required: false,
   size: 'md',
-  message: null as string | null,
-  error: null as string | null,
+  options: () => [],
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: string): void
-}>()
-
-const handleInput = (value: string) => {
-  emit('update:modelValue', value)
-}
+const model = defineModel<string | null>()
 </script>
 
 <template>
@@ -49,6 +25,7 @@ const handleInput = (value: string) => {
     :id="id || undefined"
     :error="error"
     :message="message"
+    :html="html"
   >
     <FieldLabel
       v-if="label"
@@ -58,22 +35,15 @@ const handleInput = (value: string) => {
     />
 
     <ControlRadioGroup
-      :name="name"
-      :model-value="modelValue"
+      v-model="model"
       :options="options"
+      :name="name"
       :disabled="disabled"
       :required="required"
       :size="size"
       :class="props.class"
-      @update:model-value="handleInput"
     />
 
-    <div
-      v-if="message || error"
-      :class="fieldFooterStyles"
-    >
-      <FieldMessage />
-      <FieldError />
-    </div>
+    <FieldFooter />
   </FieldBase>
 </template>

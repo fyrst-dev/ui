@@ -1,10 +1,13 @@
-import { defineConfig } from "@pandacss/dev";
-import { preset } from "@fyrst/design-preset";
+import { defineConfig } from '@pandacss/dev'
+// Source import (not the workspace package) so codegen and tests do not need a
+// prior preset build. The preset already nests @pandacss/preset-base.
+import { preset } from '../preset/src/index.ts'
+import { componentsPreset } from '../preset/src/components.ts'
 
 export default defineConfig({
   preflight: true,
-  presets: ["@pandacss/preset-base", preset],
-  include: ["./src/**/*.{js,jsx,ts,tsx,vue}"],
-  outdir: "styled-system",
-  jsxFramework: "vue"
-});
+  presets: [preset, componentsPreset],
+  include: ['./src/**/*.{js,jsx,ts,tsx,vue}'],
+  outdir: 'styled-system',
+  jsxFramework: 'vue',
+})

@@ -1,21 +1,23 @@
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import FieldInput from '../src/components/Field/FieldInput.vue'
 import ControlInput from '../src/internal/controls/ControlInput.vue'
-import { controlStyles } from '../src/internal/controls/controlStyles'
+import FieldError from '../src/components/Field/FieldError.vue'
+import FieldSelect from '../src/components/Field/FieldSelect.vue'
+import FieldTextarea from '../src/components/Field/FieldTextarea.vue'
+import { fyControl } from '../../preset/src/recipes/control'
+import { fyField } from '../../preset/src/recipes/field'
+import { fyFormPrompt } from '../../preset/src/recipes/form-prompt'
 
 const textLikeTypes = ['text', 'email', 'url', 'tel', 'search', 'password', 'number'] as const
 
 describe('form control font', () => {
   it('inherits the app font on input, textarea, and select triggers', () => {
-    expect(controlStyles.raw()).toMatchObject({ fontFamily: 'inherit' })
+    expect(fyControl.base).toMatchObject({ fontFamily: 'inherit' })
   })
 
   it('inherits the app font on the prompt textarea', () => {
-    const source = readFileSync(join(import.meta.dirname, '../src/components/Form/FormPrompt.vue'), 'utf8')
-    expect(source).toContain("fontFamily: 'inherit'")
+    expect(fyFormPrompt.base?.textarea).toMatchObject({ fontFamily: 'inherit' })
   })
 })
 
@@ -48,10 +50,8 @@ describe('Field', () => {
     })
 
     expect(wrapper.get('label').text()).toContain('*')
-
-    const source = readFileSync(join(import.meta.dirname, '../src/components/Field/FieldRequired.vue'), 'utf8')
-    expect(source).toMatch(/color:\s*'danger'/)
-    expect(source).not.toMatch(/color:\s*'danger\.subtle'/)
+    expect(wrapper.get('label [aria-hidden="true"]').text()).toBe('*')
+    expect(fyField.base?.required).toMatchObject({ color: 'danger' })
   })
 
   it.each(textLikeTypes)('renders type="%s" on the native input', (type) => {
@@ -77,11 +77,11 @@ describe('Field', () => {
         required: true,
       },
       attrs: {
-        autofocus: true,
-        autocapitalize: 'off',
-        spellcheck: 'false',
-        inputmode: 'text',
-        maxlength: '64',
+        'autofocus': true,
+        'autocapitalize': 'off',
+        'spellcheck': 'false',
+        'inputmode': 'text',
+        'maxlength': '64',
         'data-testid': 'password-input',
       },
     })
@@ -141,5 +141,49 @@ describe('ControlInput', () => {
     expect(input.attributes('spellcheck')).toBe('false')
     expect(input.attributes('inputmode')).toBe('url')
     expect(input.attributes('placeholder')).toBe('https://example.com')
+  })
+})
+
+describe('Field errors and messages', () => {
+  it('links the control to the message and error and marks it invalid', () => {
+    const wrapper = mount(FieldInput, {
+      props: { name: 'email', label: 'Email', message: 'We never share it', error: 'Required' },
+    })
+
+    const input = wrapper.get('input')
+    const describedBy = input.attributes('aria-describedby')?.split(' ') ?? []
+    const error = wrapper.get('[role="alert"]')
+
+    expect(input.attributes('aria-invalid')).toBe('true')
+    expect(input.classes()).toContain('fy-control--valid_false')
+    expect(describedBy).toContain(error.attributes('id'))
+    expect(error.attributes('aria-live')).toBeUndefined()
+    expect(wrapper.text()).toContain('We never share it')
+  })
+
+  it('renders error text as text unless html is set', () => {
+    const payload = '<img src=x onerror="alert(1)">Bad'
+    const text = mount(FieldInput, { props: { name: 'a', error: payload } })
+    expect(text.find('img').exists()).toBe(false)
+    expect(text.get('[role="alert"]').text()).toBe(payload)
+
+    const html = mount(FieldInput, { props: { name: 'a', error: '<strong>Bad</strong>', html: true } })
+    expect(html.get('[role="alert"] strong').text()).toBe('Bad')
+  })
+
+  it('lets a standalone FieldError opt into html', () => {
+    const wrapper = mount(FieldError, { props: { message: '<em>x</em>', html: true } })
+    expect(wrapper.find('em').exists()).toBe(true)
+  })
+
+  it('updates v-model on textarea input', async () => {
+    const wrapper = mount(FieldTextarea, { props: { name: 'bio', modelValue: '' } })
+    await wrapper.get('textarea').setValue('Hello')
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual(['Hello'])
+  })
+
+  it('renders the select trigger with the select control variant', () => {
+    const wrapper = mount(FieldSelect, { props: { name: 'team', options: [{ label: 'A', value: 'a' }] } })
+    expect(wrapper.get('button').classes()).toContain('fy-control--element_select')
   })
 })

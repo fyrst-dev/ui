@@ -1,14 +1,13 @@
-import type { ComputedRef, InjectionKey } from 'vue'
+import type { CssMap } from '../../internal/css'
 
 export interface TabItemData {
   value: string
+  /** Tab text. HTML only when `html` is set. */
   label: string
   disabled?: boolean
   icon?: string
-}
-
-export interface TabContext {
-  modelValue: ComputedRef<string | undefined>
+  /** Render `label` as HTML. Pass trusted strings only. */
+  html?: boolean
 }
 
 export interface TabChangePayload {
@@ -16,4 +15,5 @@ export interface TabChangePayload {
   direction: 'prev' | 'next'
 }
 
-export const TabContextKey: InjectionKey<TabContext> = Symbol('TabContext')
+export type TabRootCss = CssMap<'root'>
+export type TabItemCss = CssMap<'root' | 'icon'>

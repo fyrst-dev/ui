@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { css } from 'styled-system/css'
+import { fyCarousel } from 'styled-system/recipes'
+import { withCss } from '../../internal/css'
+import type { CarouselItemCss } from './types'
+
+const props = defineProps<{
+  css?: CarouselItemCss
+}>()
+
+const classes = fyCarousel()
 </script>
 
 <template>
-  <li
-    :class="css({
-      scrollSnapAlign: 'start',
-      display: 'flex',
-    })"
-  >
+  <li :class="withCss(classes.item, props.css?.root)">
     <slot />
   </li>
 </template>

@@ -86,6 +86,36 @@ export const colors = defineSemanticTokens.colors({
     inverse: { value: { base: '{colors.grey.night}', _light: '{colors.white}' } },
     light: { value: { base: '{colors.grey.300}', _light: '{colors.grey.400}' } },
   },
+  surface: {
+    DEFAULT: {
+      value: { base: '{colors.grey.950}', _light: '{colors.white}' },
+      description: 'Background of fields, menus, and dialogs',
+    },
+    raised: {
+      value: { base: '{colors.grey.800}', _light: '{colors.white}' },
+      description: 'Background of panels that sit on the page, such as the prompt form',
+    },
+  },
+  border: {
+    DEFAULT: {
+      value: { base: '{colors.grey.600}', _light: '{colors.grey.200}' },
+      description: 'Border of fields and menus',
+    },
+    hover: {
+      value: { base: '{colors.grey.400}', _light: '{colors.grey.300}' },
+      description: 'Border of a hovered field',
+    },
+    subtle: {
+      value: { base: '{colors.grey.700}', _light: '{colors.grey.200}' },
+      description: 'Dividers and dialog borders',
+    },
+  },
+  text: {
+    muted: {
+      value: { base: '{colors.grey.300}', _light: '{colors.grey.600}' },
+      description: 'Secondary copy: descriptions and helper text',
+    },
+  },
   lucid: {
     50: { value: { base: 'rgba(255, 255, 255, 0.1)', _light: 'rgba(0, 0, 0, 0.1)' } },
     100: { value: { base: 'rgba(255, 255, 255, 0.175)', _light: 'rgba(0, 0, 0, 0.175)' } },

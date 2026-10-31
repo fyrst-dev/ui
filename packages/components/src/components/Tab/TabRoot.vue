@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TabsList, TabsRoot } from 'reka-ui'
-import { computed, provide, ref, watch } from 'vue'
-import { css } from 'styled-system/css'
+import { ref, watch } from 'vue'
+import { fyTab } from 'styled-system/recipes'
+import { withCss } from '../../internal/css'
 import TabItem from './TabItem.vue'
-import { tabStyles } from './styles'
-import { TabContextKey, type TabChangePayload, type TabItemData } from './types'
+import type { TabChangePayload, TabItemData, TabRootCss } from './types'
 
 const props = withDefaults(defineProps<{
   modelValue?: string
@@ -12,6 +12,9 @@ const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   loop?: boolean
   items?: TabItemData[]
+  /** Render item labels as HTML. Pass trusted strings only. An item's own `html` wins. */
+  html?: boolean
+  css?: TabRootCss
 }>(), {
   orientation: 'horizontal',
   loop: true,
@@ -29,11 +32,7 @@ watch(() => props.modelValue, (value) => {
   internalValue.value = value
 })
 
-const styles = computed(() => tabStyles.raw({ state: 'inactive' }))
-
-provide(TabContextKey, {
-  modelValue: computed(() => internalValue.value),
-})
+const classes = fyTab()
 
 const handleUpdate = (value: string | number) => {
   const stringValue = String(value)
@@ -55,7 +54,7 @@ const handleUpdate = (value: string | number) => {
     @update:model-value="handleUpdate"
   >
     <TabsList
-      :class="css(styles.root)"
+      :class="withCss(classes.root, props.css?.root)"
       :loop="loop"
     >
       <TabItem
@@ -65,6 +64,7 @@ const handleUpdate = (value: string | number) => {
         :label="item.label"
         :icon="item.icon"
         :disabled="item.disabled"
+        :html="item.html ?? props.html"
       />
       <slot />
     </TabsList>

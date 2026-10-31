@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
+import { css as pandaCss } from 'styled-system/css'
 import { ListRoot } from '../List'
 import type { ListItemProps } from '../List/ListItem.vue'
 import { PricingCardDataKey, type PricingCardData, type PricingCardBodyCss } from './types'
 
 export interface PricingCardBodyProps {
   features?: string[]
+  /** Render features as HTML. Pass trusted strings only. */
+  html?: boolean
   css?: PricingCardBodyCss
 }
 
-const props = defineProps<PricingCardBodyProps>()
+const props = withDefaults(defineProps<PricingCardBodyProps>(), {
+  features: undefined,
+  html: undefined,
+})
 
 const data = inject(
   PricingCardDataKey,
@@ -17,9 +23,7 @@ const data = inject(
 )
 
 const features = computed(() => props.features ?? data.value.features ?? [])
-
-const listState = computed(() => data.value.featuresState ?? 'success')
-const listSize = computed(() => data.value.featuresSize ?? 'md')
+const html = computed(() => props.html ?? data.value.html ?? false)
 
 const items = computed<ListItemProps[]>(() =>
   features.value.map(feature => ({
@@ -31,21 +35,21 @@ const items = computed<ListItemProps[]>(() =>
   })),
 )
 
-const rootStyles = computed(() => ({
-  paddingBlock: 'lg',
-  paddingInline: 'lg',
-  ...props.css?.root,
-}))
+const rootCss = computed(() => pandaCss.raw(
+  { paddingBlock: 'lg', paddingInline: 'lg' },
+  props.css?.root,
+))
 </script>
 
 <template>
   <slot>
     <ListRoot
       v-if="items.length > 0"
-      :state="listState"
-      :size="listSize"
+      :state="data.featuresState ?? 'success'"
+      :size="data.featuresSize ?? 'md'"
       :items="items"
-      :css="{ root: rootStyles }"
+      :html="html"
+      :css="{ root: rootCss }"
     />
   </slot>
 </template>

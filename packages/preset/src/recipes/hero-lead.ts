@@ -1,6 +1,7 @@
-import { sva } from 'styled-system/css'
+import { defineSlotRecipe } from '@pandacss/dev'
 
-export const heroLead = sva({
+export const fyHeroLead = defineSlotRecipe({
+  className: 'fy-hero-lead',
   slots: ['root', 'headline', 'description', 'actions'],
   base: {
     root: {
@@ -18,14 +19,11 @@ export const heroLead = sva({
       },
     },
     description: {
-      'color': 'grey.dawn',
+      'color': { base: 'grey.dawn', _light: 'grey.400' },
       'textWrap': 'balance',
       'transition': 'all 200ms',
       '& mark, & strong, & a': {
         color: 'neutral',
-      },
-      '_light': {
-        color: 'grey.400',
       },
     },
   },

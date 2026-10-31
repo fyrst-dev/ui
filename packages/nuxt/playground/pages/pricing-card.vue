@@ -71,7 +71,7 @@
         Per-component css map overrides
       </h2>
       <p :class="css({ marginBottom: 'lg', color: 'grey.300', _light: { color: 'grey.700' } })">
-        Each component accepts a <code>css</code> prop keyed by slot name. The outermost element is always <code>root</code>; inner slots keep their SVA names. Styles are scoped per component and never cross boundaries.
+        Each component accepts a <code>css</code> prop keyed by slot name. The outermost element is always <code>root</code>. Wrap each value in <code>css.raw()</code> so Panda generates the CSS.
       </p>
 
       <FyrstPricingCardRoot
@@ -79,12 +79,12 @@
         subtitle="For growing shops"
         price="$1,499"
         :features="features"
-        :css="{ root: { maxWidth: '420px', borderRadius: 'lg', boxShadow: '0 10px 30px {colors.grey.900}' } }"
+        :css="{ root: css.raw({ maxWidth: '420px', borderRadius: 'lg', boxShadow: '0 10px 30px {colors.grey.900}' }) }"
       >
-        <FyrstPricingCardBadge label="Best Value" :css="{ root: { bg: 'success', fontSize: 'xs', paddingInline: 'lg' } }" />
-        <FyrstPricingCardHeader :css="{ root: { padding: 'xl' }, headerPackage: { gap: 'xs' }, title: { fontSize: '2xl' } }" />
-        <FyrstPricingCardPricing :css="{ root: { paddingInline: 'xl', marginBottom: 'md' }, price: { color: 'primary', fontSize: '3xl' } }" />
-        <FyrstPricingCardBody :css="{ root: { paddingBlock: 'xl', paddingInline: 'xl' }, feature: { fontSize: 'sm' }, featureIcon: { color: 'success' } }" />
+        <FyrstPricingCardBadge label="Best Value" :css="{ root: css.raw({ bg: 'success', fontSize: 'xs', paddingInline: 'lg' }) }" />
+        <FyrstPricingCardHeader :css="{ root: css.raw({ padding: 'xl' }), headerPackage: css.raw({ gap: 'xs' }), title: css.raw({ fontSize: '2xl' }) }" />
+        <FyrstPricingCardPricing :css="{ root: css.raw({ paddingInline: 'xl', marginBottom: 'md' }), price: css.raw({ color: 'primary', fontSize: '3xl' }) }" />
+        <FyrstPricingCardBody :css="{ root: css.raw({ paddingBlock: 'xl', paddingInline: 'xl' }), feature: css.raw({ fontSize: 'sm' }), featureIcon: css.raw({ color: 'success' }) }" />
       </FyrstPricingCardRoot>
     </div>
   </ShowcaseContainer>

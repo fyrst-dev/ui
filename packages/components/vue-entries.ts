@@ -49,47 +49,13 @@ export const vueLibEntries = {
 
 export type VueLibEntryName = keyof typeof vueLibEntries
 
-export const nuxtComponents: Record<string, VueLibEntryName> = {
-  AccordionRoot: 'AccordionRoot',
-  AlertRoot: 'AlertRoot',
-  BadgeRoot: 'BadgeRoot',
-  Button: 'Button',
-  CardRoot: 'CardRoot',
-  CardBody: 'CardBody',
-  CardHeader: 'CardHeader',
-  CarouselRoot: 'CarouselRoot',
-  CarouselItem: 'CarouselItem',
-  CarouselNavigation: 'CarouselNavigation',
-  DialogRoot: 'DialogRoot',
-  FieldInput: 'FieldInput',
-  FieldTextarea: 'FieldTextarea',
-  FieldSelect: 'FieldSelect',
-  FieldCheckbox: 'FieldCheckbox',
-  FieldRadioGroup: 'FieldRadioGroup',
-  FieldSwitch: 'FieldSwitch',
-  FieldUrl: 'FieldUrl',
-  FieldBase: 'FieldBase',
-  FieldLabel: 'FieldLabel',
-  FieldError: 'FieldError',
-  FieldMessage: 'FieldMessage',
-  FieldRequired: 'FieldRequired',
-  FlyoutRoot: 'FlyoutRoot',
-  FlyoutDropdown: 'FlyoutDropdown',
-  FormPrompt: 'FormPrompt',
-  FormPromptFooter: 'FormPromptFooter',
-  HeroLead: 'HeroLead',
-  ListRoot: 'ListRoot',
-  ListItem: 'ListItem',
-  Loader: 'Loader',
-  PricingCardRoot: 'PricingCardRoot',
-  PricingCardHeader: 'PricingCardHeader',
-  PricingCardPricing: 'PricingCardPricing',
-  PricingCardBody: 'PricingCardBody',
-  PricingCardBadge: 'PricingCardBadge',
-  ProgressRoot: 'ProgressRoot',
-  SwitchRoot: 'SwitchRoot',
-  TabRoot: 'TabRoot',
-  TabItem: 'TabItem',
-}
+export const nuxtComposables = ['useCarousel', 'useFlyout', 'useFormData'] as const satisfies readonly VueLibEntryName[]
 
-export const nuxtComposables = ['useCarousel', 'useFlyout', 'useFormData'] as const
+const composableNames = new Set<string>(nuxtComposables)
+
+/** Nuxt registers every component entry under its own name (plus the module prefix). */
+export const nuxtComponents: Record<string, VueLibEntryName> = Object.fromEntries(
+  (Object.keys(vueLibEntries) as VueLibEntryName[])
+    .filter(name => !composableNames.has(name))
+    .map(name => [name, name]),
+)

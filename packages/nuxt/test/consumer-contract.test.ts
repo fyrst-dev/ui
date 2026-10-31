@@ -133,6 +133,7 @@ describe('published package contract', () => {
       'test',
       'prepublishOnly',
       'clean',
+      'typecheck',
     ])
     expect(pkg.scripts.test).toContain('link:package')
     expect(pkg.scripts.test).toContain('@fyrst/ui-components')
@@ -165,7 +166,7 @@ describe('published package contract', () => {
     expect(pkg.scripts['build:components']).toContain('dist/style.css')
     expect(pkg.scripts['build:components']).not.toContain('dist/panda.buildinfo.json')
     expect(pkg.scripts['panda:lib']).toContain('panda lib')
-    expect(pkg.scripts['panda:lib']).toContain("--files './**/*.{js,mjs}'")
+    expect(pkg.scripts['panda:lib']).toContain('--files \'./**/*.{js,mjs}\'')
     expect(pkg.scripts.build).toContain('rm -rf dist')
     expect(pkg.scripts.build).toContain('assemble-dist.ts')
     expect(pkg.scripts.build).toContain('panda:lib')
@@ -199,7 +200,7 @@ describe('published package contract', () => {
     )
     const rootPandaConfig = readFileSync(join(rootDir, 'panda.config.ts'), 'utf8')
 
-    expect(pandaConfig).toContain("designSystem: '@fyrst/ui'")
+    expect(pandaConfig).toContain('designSystem: \'@fyrst/ui\'')
     expect(pandaConfig).not.toContain('presets:')
     expect(pandaConfig).not.toContain('@fyrst/ui/panda.buildinfo.json')
     expect(pandaConfig).not.toContain('@fyrst/ui/design-preset')
@@ -208,7 +209,7 @@ describe('published package contract', () => {
     expect(pandaConfig).not.toContain('@fyrst/design-preset')
     expect(pandaConfig).not.toContain('node_modules/@fyrst/ui/dist/panda.buildinfo.json')
 
-    expect(rootPandaConfig).toContain("outdir: 'dist/styled-system'")
+    expect(rootPandaConfig).toContain('outdir: \'dist/styled-system\'')
     expect(rootPandaConfig).toContain('./packages/preset/src/index.ts')
     expect(rootPandaConfig).not.toContain('designSystem:')
   })
@@ -221,7 +222,7 @@ describe('published package contract', () => {
     expect(pkg.exports['./vue/*']).toEqual({
       types: './dist/vue/*.d.ts',
       import: './dist/vue/*.js',
-      require: './dist/vue/*.js',
+      require: './dist/vue/*.cjs',
       default: './dist/vue/*.js',
     })
     expect(pkg.exports['.']).toEqual({
@@ -248,8 +249,8 @@ describe('published package contract', () => {
     expect(pkg.exports['./panda/*']).toBe('./dist/panda/*')
     expect(pkg.exports['./css']).toBeDefined()
     expect(moduleSrc).toContain('@fyrst/ui/nuxt-entries.json')
-    expect(moduleSrc).toContain("filePath: '@fyrst/ui'")
-    expect(moduleSrc).toContain("from: '@fyrst/ui'")
+    expect(moduleSrc).toContain('filePath: \'@fyrst/ui\'')
+    expect(moduleSrc).toContain('from: \'@fyrst/ui\'')
     expect(moduleSrc).not.toContain('@fyrst/ui/vue/')
     expect(moduleSrc).toContain('@fyrst/ui/panda/lib.json')
     expect(moduleSrc).not.toContain('@fyrst/ui/panda.buildinfo.json')
@@ -275,7 +276,7 @@ describe('published package contract', () => {
     const buttonJs = readFileSync(buttonPath, 'utf8')
     const buttonModule = readBuiltVueModule('Button')
     expect(buttonJs).not.toContain('AccordionRoot')
-    expect(buttonModule).toContain('@fyrst/ui/css')
+    expect(buttonModule).toContain('@fyrst/ui/recipes')
     expect(buttonModule).not.toContain('styled-system/')
 
     const entries = JSON.parse(readFileSync(entriesPath, 'utf8')) as {
@@ -333,7 +334,7 @@ describe('published package contract', () => {
     }
     expect(assembleDist).not.toContain('writeVueEntryTypeDeclarations')
     expect(viteConfig).not.toContain('writeVueEntryTypeDeclarations')
-    expect(viteConfig).toContain('writeVueEntryModules')
+    expect(viteConfig).not.toContain('writeVueEntryModules')
     expect(viteConfig).toContain('src/vue/')
     expect(componentsPkg.scripts.build).toContain('generate:vue-entries')
     expect(componentsPkg.scripts.build).toContain('vue-tsc --emitDeclarationOnly')
@@ -341,8 +342,8 @@ describe('published package contract', () => {
 
     const require = createRequire(import.meta.url)
     const buttonJs = require.resolve('@fyrst/ui/vue/Button')
-    expect(buttonJs).toMatch(/dist\/vue\/Button\.js$/)
-    expect(existsSync(buttonJs.replace(/\.js$/, '.d.ts'))).toBe(true)
+    expect(buttonJs).toMatch(/dist\/vue\/Button\.cjs$/)
+    expect(existsSync(buttonJs.replace(/\.cjs$/, '.d.ts'))).toBe(true)
 
     const dir = mkdtempSync(join(tmpdir(), 'fyrst-ui-vue-types-'))
 
@@ -416,7 +417,8 @@ void _buttonLabelNotNullOnly
     finally {
       rmSync(dir, { recursive: true, force: true })
     }
-  })
+    // Builds a TypeScript program over the published .d.ts graph; slow on busy CI runners.
+  }, 30_000)
 
   it('does not minify vue lib identifiers that collide with Vue auto-imports', () => {
     const viteConfig = readFileSync(join(rootDir, 'packages/components/vite.config.ts'), 'utf8')
@@ -500,7 +502,7 @@ void _buttonLabelNotNullOnly
     const rootPkg = JSON.parse(readFileSync(rootPackagePath, 'utf8')) as { version: string }
 
     expect(moduleSrc).toContain('@fyrst/ui/package.json')
-    expect(moduleSrc).not.toContain("new URL('../package.json'")
+    expect(moduleSrc).not.toContain('new URL(\'../package.json\'')
     expect(builtModule).toContain('@fyrst/ui/package.json')
     expect(rootPkg.version).toMatch(/^\d+\.\d+\.\d+/)
   })

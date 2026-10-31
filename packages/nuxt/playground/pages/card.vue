@@ -17,6 +17,7 @@
                 <FyrstListRoot 
                     state="danger"
                     size="md"
+                    html
                     :items="[
                         { content: 'First item' },
                         { content: 'Second item' },

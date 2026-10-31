@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { css } from 'styled-system/css'
+import { fyField } from 'styled-system/recipes'
+
+const classes = fyField()
 </script>
 
 <template>
   <span
-    :class="css({
-      color: 'danger',
-      fontWeight: '800',
-    })"
-  >
-    *
-  </span>
+    :class="classes.required"
+    aria-hidden="true"
+  >*</span>
 </template>

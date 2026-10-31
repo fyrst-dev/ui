@@ -9,8 +9,8 @@
                 A simple accordion with multiple items that can be expanded and collapsed.
             </p>
             
-            <FyrstAccordionRoot :items="basicItems" :classes="{
-                    icon: css({ color: 'primary' })
+            <FyrstAccordionRoot :items="basicItems" :css="{
+                    icon: css.raw({ color: 'primary' })
                 }"/>
         </div>
 
@@ -20,12 +20,13 @@
                 Accordion with Rich Content
             </h2>
             <p :class="css({ marginBottom: 'lg', color: 'grey.300', _light: { color: 'grey.700' } })">
-                Accordion items can contain HTML content for more complex layouts.
+                With <code>html</code>, item titles and content render as HTML. Only pass trusted strings.
             </p>
             
             <FyrstAccordionRoot 
                 orientation="horizontal"
-                :items="richContentItems" 
+                :items="richContentItems"
+                html
                  />
         </div>
 

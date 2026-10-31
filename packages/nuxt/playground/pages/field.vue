@@ -169,7 +169,7 @@ const radioOptions = [
 const onSubmit = (form: HTMLFormElement | null) => {
   console.log('Form submitted:', form)
   if (form) {
-    console.log(useFormData(form))
+    console.log(useFormData(form).getJson())
   }
 }
 </script>
