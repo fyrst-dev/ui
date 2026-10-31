@@ -7,14 +7,11 @@ import { PricingCardDataKey, type PricingCardData, type PricingCardBodyCss } fro
 
 export interface PricingCardBodyProps {
   features?: string[]
-  /** Render features as HTML. Pass trusted strings only. */
-  html?: boolean
   css?: PricingCardBodyCss
 }
 
 const props = withDefaults(defineProps<PricingCardBodyProps>(), {
   features: undefined,
-  html: undefined,
 })
 
 const data = inject(
@@ -23,7 +20,6 @@ const data = inject(
 )
 
 const features = computed(() => props.features ?? data.value.features ?? [])
-const html = computed(() => props.html ?? data.value.html ?? false)
 
 const items = computed<ListItemProps[]>(() =>
   features.value.map(feature => ({
@@ -48,7 +44,6 @@ const rootCss = computed(() => pandaCss.raw(
       :state="data.featuresState ?? 'success'"
       :size="data.featuresSize ?? 'md'"
       :items="items"
-      :html="html"
       :css="{ root: rootCss }"
     />
   </slot>

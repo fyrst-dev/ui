@@ -20,7 +20,6 @@ const model = defineModel<boolean | null>()
     :id="id || undefined"
     :error="error"
     :message="message"
-    :html="html"
   >
     <ControlCheckbox
       v-model="model"

@@ -23,7 +23,6 @@ const model = defineModel<boolean | null>()
     :id="id || undefined"
     :error="error"
     :message="message"
-    :html="html"
   >
     <ControlSwitch
       v-model="model"

@@ -10,35 +10,31 @@ import TabRoot from '../src/components/Tab/TabRoot.vue'
 const markup = 'Hello <em>world</em>'
 
 /**
- * Every content prop renders text by default. `html` opts into HTML.
+ * Content props render as HTML (as in 0.4.x). Sanitizing untrusted strings is
+ * the consuming app's job.
  */
-describe('html opt-in', () => {
+describe('HTML content', () => {
   it('Accordion items', () => {
     const items = [{ id: 'a', title: markup, content: markup }]
-    expect(mount(AccordionRoot, { props: { items } }).find('em').exists()).toBe(false)
-    expect(mount(AccordionRoot, { props: { items, html: true } }).findAll('em').length).toBeGreaterThan(0)
+    // Closed items do not mount their content, so only the title is in the DOM.
+    expect(mount(AccordionRoot, { props: { items } }).findAll('em')).toHaveLength(1)
   })
 
   it('CardHeader title and subtitle', () => {
-    expect(mount(CardHeader, { props: { title: markup, subtitle: markup } }).find('em').exists()).toBe(false)
-    expect(mount(CardHeader, { props: { title: markup, subtitle: markup, html: true } }).findAll('em')).toHaveLength(2)
+    expect(mount(CardHeader, { props: { title: markup, subtitle: markup } }).findAll('em')).toHaveLength(2)
   })
 
   it('HeroLead headline and description', () => {
-    expect(mount(HeroLead, { props: { headline: markup, description: markup } }).find('em').exists()).toBe(false)
-    expect(mount(HeroLead, { props: { headline: markup, description: markup, html: true } }).findAll('em')).toHaveLength(2)
+    expect(mount(HeroLead, { props: { headline: markup, description: markup } }).findAll('em')).toHaveLength(2)
   })
 
-  it('List items, with a per-item override', () => {
-    const items = [{ content: markup }, { content: markup, html: false }]
-    expect(mount(ListRoot, { props: { items } }).find('em').exists()).toBe(false)
-    expect(mount(ListRoot, { props: { items, html: true } }).findAll('em')).toHaveLength(1)
+  it('List items', () => {
+    expect(mount(ListRoot, { props: { items: [{ content: markup }, { content: markup }] } }).findAll('em')).toHaveLength(2)
   })
 
-  it('Tab labels, with a per-item override', () => {
-    const items = [{ value: 'a', label: markup }, { value: 'b', label: markup, html: true }]
-    expect(mount(TabRoot, { props: { items } }).findAll('em')).toHaveLength(1)
-    expect(mount(TabRoot, { props: { items, html: true } }).findAll('em')).toHaveLength(2)
+  it('Tab labels', () => {
+    const items = [{ value: 'a', label: markup }, { value: 'b', label: markup }]
+    expect(mount(TabRoot, { props: { items } }).findAll('em')).toHaveLength(2)
   })
 })
 

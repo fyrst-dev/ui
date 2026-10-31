@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { TabsTrigger } from 'reka-ui'
 import { tabStyles } from './styles'
-import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
 import type { TabItemCss, TabItemData } from './types'
 
-const props = withDefaults(defineProps<TabItemData & {
+const props = defineProps<TabItemData & {
   css?: TabItemCss
-}>(), {
-  html: false,
-})
+}>()
 
 const styles = tabStyles.raw()
 </script>
@@ -28,9 +25,8 @@ const styles = tabStyles.raw()
       />
     </slot>
     <slot>
-      <RichText
-        :text="label"
-        :html="html"
+      <span
+        v-html="label"
       />
     </slot>
   </TabsTrigger>

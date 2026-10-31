@@ -9,12 +9,10 @@ export interface FieldSharedProps {
   disabled?: boolean
   required?: boolean
   size?: ControlSize
-  /** Helper text below the control. */
+  /** Helper text below the control, rendered as HTML. */
   message?: string | null
-  /** Error text below the control. Also marks the control invalid. */
+  /** Error text below the control, rendered as HTML. Also marks the control invalid. */
   error?: string | null
-  /** Render `message` and `error` as HTML. Pass trusted strings only. */
-  html?: boolean
   /** Extra classes for the control element. */
   class?: unknown
 }

@@ -9,7 +9,6 @@ export type ListState = 'default' | 'primary' | 'success' | 'danger' | 'info'
 export interface ListContext {
   size: ListSize
   state: ListState
-  html: boolean
 }
 
 export const ListContextKey = createInjectionKey<ComputedRef<ListContext>>('ListContext')

@@ -12,8 +12,6 @@ const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   loop?: boolean
   items?: TabItemData[]
-  /** Render item labels as HTML. Pass trusted strings only. An item's own `html` wins. */
-  html?: boolean
   css?: TabRootCss
 }>(), {
   orientation: 'horizontal',
@@ -64,7 +62,6 @@ const handleUpdate = (value: string | number) => {
         :label="item.label"
         :icon="item.icon"
         :disabled="item.disabled"
-        :html="item.html ?? props.html"
       />
       <slot />
     </TabsList>

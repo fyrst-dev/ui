@@ -2,12 +2,10 @@ import type { CssMap } from '../../internal/css'
 
 export interface TabItemData {
   value: string
-  /** Tab text. HTML only when `html` is set. */
+  /** Tab label, rendered as HTML. */
   label: string
   disabled?: boolean
   icon?: string
-  /** Render `label` as HTML. Pass trusted strings only. */
-  html?: boolean
 }
 
 export interface TabChangePayload {

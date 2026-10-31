@@ -16,8 +16,6 @@ export interface PricingCardData {
   features?: string[]
   featuresState?: ListState
   featuresSize?: ListSize
-  /** Render `features` as HTML. Pass trusted strings only. */
-  html?: boolean
 }
 
 export const PricingCardDataKey = createInjectionKey<ComputedRef<PricingCardData>>('PricingCardData')

@@ -3,8 +3,7 @@
  * @component Button
  * @description Renders a `<button>`, or an `<a>` when `to` is set.
  *
- * @prop {string|null} label - Button text. Rendered as text unless `html` is set.
- * @prop {boolean} [html=false] - Render `label` as HTML. Pass trusted strings only.
+ * @prop {string|null} label - Button text, rendered as HTML. Sanitize untrusted strings before passing them.
  * @prop {string|null} [icon] - Icon name, rendered as `icon icon-<name>`.
  * @prop {string|null} [to] - Renders an anchor with this `href`.
  * @prop {'button'|'submit'|'reset'|null} [type] - Button type. Defaults to `button`. Ignored for links.
@@ -23,7 +22,6 @@
  */
 import { computed } from 'vue'
 import { buttonStyles } from './styles'
-import RichText from '../../internal/RichText.vue'
 import { withCss, type CssMap } from '../../internal/css'
 
 export type ButtonCss = CssMap<'root'>
@@ -32,7 +30,6 @@ defineOptions({ name: 'FyrstButton' })
 
 const props = withDefaults(defineProps<{
   label?: string | null
-  html?: boolean
   icon?: string | null
   to?: string | null
   type?: 'button' | 'submit' | 'reset' | null
@@ -56,10 +53,7 @@ const props = withDefaults(defineProps<{
 const isLink = computed(() => Boolean(props.to))
 
 /** `title` is an attribute, so an HTML label is reduced to its text. */
-const title = computed(() => {
-  if (!props.label) return undefined
-  return props.html ? props.label.replace(/<[^>]*>/g, '').trim() : props.label
-})
+const title = computed(() => props.label ? props.label.replace(/<[^>]*>/g, '').trim() : undefined)
 
 const attrs = computed(() => {
   if (!isLink.value) {
@@ -108,11 +102,10 @@ const buttonClass = computed(() => withCss(
       aria-hidden="true"
     />
 
-    <RichText
+    <span
       v-if="props.label"
       class="btn-label"
-      :text="props.label"
-      :html="props.html"
+      v-html="props.label"
     />
   </component>
 </template>

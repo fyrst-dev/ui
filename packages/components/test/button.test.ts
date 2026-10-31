@@ -44,15 +44,10 @@ describe('Button', () => {
     expect(stretched.classes()).toContain('w_100%')
   })
 
-  it('renders the label as text unless html is set', () => {
-    const text = mount(Button, { props: { label: 'Save <b>now</b>' } })
-    expect(text.find('b').exists()).toBe(false)
-    expect(text.get('.btn-label').text()).toBe('Save <b>now</b>')
-    expect(text.attributes('title')).toBe('Save <b>now</b>')
-
-    const html = mount(Button, { props: { label: 'Save <b>now</b>', html: true } })
-    expect(html.get('.btn-label b').text()).toBe('now')
-    expect(html.attributes('title')).toBe('Save now')
+  it('renders the label as HTML and keeps the title plain', () => {
+    const wrapper = mount(Button, { props: { label: 'Save <b>now</b>' } })
+    expect(wrapper.get('.btn-label b').text()).toBe('now')
+    expect(wrapper.attributes('title')).toBe('Save now')
   })
 
   it('defaults to type="button" and honors type', () => {

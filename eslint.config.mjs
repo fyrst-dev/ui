@@ -29,9 +29,9 @@ export default createConfigForNuxt({
       'unused-imports': unusedImports,
     },
     rules: {
-      // Content renders as text. The one opt-in `v-html` lives in
-      // `internal/RichText.vue` behind each component's `html` prop.
-      'vue/no-v-html': 'error',
+      // Content props render as HTML on purpose. Sanitizing untrusted strings
+      // is the consuming app's job (see README "Text and HTML content").
+      'vue/no-v-html': 'off',
       '@stylistic/no-trailing-spaces': 'off',
       // Disable base rules that conflict with unused-imports plugin
       '@typescript-eslint/no-unused-vars': 'off',

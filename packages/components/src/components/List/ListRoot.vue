@@ -10,8 +10,6 @@ const props = withDefaults(defineProps<{
   size?: ListSize
   state?: ListState
   icon?: ListItemProps['icon']
-  /** Render item `content` as HTML. Pass trusted strings only. */
-  html?: boolean
   css?: ListRootCss
 }>(), {
   icon: true,
@@ -22,7 +20,6 @@ const props = withDefaults(defineProps<{
 provide(ListContextKey, computed(() => ({
   size: props.size,
   state: props.state,
-  html: props.html,
 })))
 
 const styles = computed(() => listStyles.raw({ size: props.size, state: props.state }))

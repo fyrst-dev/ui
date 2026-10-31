@@ -160,7 +160,7 @@ const styles = computed(() => badgeStyles.raw({ size: props.size }))
 - Calling `.raw()` with runtime variants in another file triggers Panda's `imported_recipe_raw_dynamic` warning. It is expected: the definition itself still generates every variant.
 - Prefer semantic tokens (`surface`, `border`, `text.muted`, `neutral`) over `_light` overrides. Keep a `_light` block only when state selectors must beat light-mode colors on specificity (see `switchStyles.ts`).
 
-**4. Content.** Render copy as text. When a prop may carry markup, add an `html?: boolean` prop and render through `internal/RichText.vue` (the only `v-html`; ESLint `vue/no-v-html` is on).
+**4. Content.** Content props (labels, titles, descriptions, item content, field message / error) render with `v-html`, as documented in the README. Sanitizing untrusted strings is the consuming app's job, not the library's; `vue/no-v-html` is off for that reason. Where practical, offer a slot for the same content so apps can pass escaped text or their own nodes.
 
 **5. index.ts** — named parts plus default namespace `{ Root, … }`, and export the component's `*Css` types:
 ```typescript

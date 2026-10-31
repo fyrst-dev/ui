@@ -16,7 +16,6 @@ import { computed, provide, toRef, useId, useSlots } from 'vue'
 import { PopoverRoot, PopoverTrigger } from 'reka-ui'
 import { flyoutStyles } from './styles'
 import { useFlyout } from '../../composables/flyout'
-import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
 import FlyoutDropdown from './FlyoutDropdown.vue'
 import { FlyoutContextKey, type FlyoutRootCss } from './types'
@@ -25,8 +24,6 @@ export interface Props {
   /** Icon class(es) rendered before the label, e.g. `icon icon-caret-down`. */
   icon?: string
   label?: string
-  /** Render `label` as HTML. Pass trusted strings only. */
-  html?: boolean
   ariaLabel?: string
   /** Side the panel aligns to. @default 'left' */
   direction?: 'left' | 'right'
@@ -108,9 +105,8 @@ const hasCustomTrigger = computed(() => Boolean(slots.trigger))
           aria-hidden="true"
         />
         <slot name="trigger-label">
-          <RichText
-            :text="label"
-            :html="html"
+          <span
+            v-html="label"
           />
         </slot>
         <slot

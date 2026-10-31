@@ -9,11 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.0] - 2026-10-31
 
-Breaking minor (0.x semver) for apps on 0.3.x / 0.4.x. The Panda contract is unchanged (`designSystem: '@fyrst/ui'`, Panda `^2.4`). Follow [`.agents/skills/fyrst-ui-0.5-migration/SKILL.md`](.agents/skills/fyrst-ui-0.5-migration/SKILL.md). Details: [`changelog/2026-10-31-0.5.0-safe-content-and-overrides.md`](changelog/2026-10-31-0.5.0-safe-content-and-overrides.md).
+Breaking minor (0.x semver) for apps on 0.3.x / 0.4.x. The Panda contract is unchanged (`designSystem: '@fyrst/ui'`, Panda `^2.4`). Follow [`.agents/skills/fyrst-ui-0.5-migration/SKILL.md`](.agents/skills/fyrst-ui-0.5-migration/SKILL.md). Details: [`changelog/2026-10-31-0.5.0-overrides-and-cleanup.md`](changelog/2026-10-31-0.5.0-overrides-and-cleanup.md).
 
 ### Breaking
 
-- **Content renders as text.** `Button` `label`, `CardHeader` `title` / `subtitle`, `HeroLead` `headline` / `description`, list items, `PricingCard` features, accordion items, tab labels, `FlyoutRoot` `label`, and field `message` / `error` no longer go through `v-html`. Set `html` on the component to render a trusted string as HTML. Field errors were an XSS path.
 - **One `css` override prop.** `AlertRoot` `classRoot` / `classIcon` / `classContent` / `classClose`, `CardRoot` `classRoot`, `AccordionRoot` `classes`, `CarouselRoot` `classWrapper` / `classCarousel`, and `FlyoutRoot` `classTrigger` are replaced by `css` (slot-keyed style objects; `root` is the outermost element). Every component now accepts `css`, and merges it into its own style object, so an overridden property gets one class and the override wins (`classRoot` and friends were appended as extra classes and could lose). Values must go through `css.raw()`; bare objects never generated CSS.
 - `CardRoot` `borderColor` (no-op since 0.3.0) is removed.
 - `useFormData` returns `getFormData()` / `getJson()` (read on each call) instead of cached `formData` / `jsonData` refs, and accepts an element, ref, or getter.
@@ -29,7 +28,7 @@ Breaking minor (0.x semver) for apps on 0.3.x / 0.4.x. The Panda contract is unc
 
 - Semantic colors `surface`, `surface.raised`, `border`, `border.hover`, `border.subtle`, `text.muted`; base `brand.50` and `brand.200` (replacing hex literals in `Button`).
 - `CssMap` and `*Css` types for every component, `CarouselContextKey`, `CarouselContext`, `FieldSharedProps`.
-- `FlyoutRoot` `direction` and `openOnHover`; `CarouselNavigation` `prevLabel` / `nextLabel`; `html` on content components.
+- `FlyoutRoot` `direction` and `openOnHover`; `CarouselNavigation` `prevLabel` / `nextLabel`.
 - Migration skill `.agents/skills/fyrst-ui-0.5-migration`.
 
 ### Fixed
@@ -41,6 +40,7 @@ Breaking minor (0.x semver) for apps on 0.3.x / 0.4.x. The Panda contract is unc
 - Overrides passed to `PricingCardBody` and similar now produce CSS when passed through `css.raw()`; the body's default padding is generated.
 - `ListItem` `size` / `state` / `icon` are respected inside `ListRoot`.
 - `FieldError` no longer sets both `role="alert"` and `aria-live="polite"`; the required asterisk is `aria-hidden`.
+- `Button` `title` is the label without HTML tags (it showed raw markup before).
 - Carousel no longer logs `console.warn` at either end; its default buttons have `type="button"`.
 
 ### Changed

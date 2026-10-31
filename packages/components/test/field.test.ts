@@ -161,18 +161,14 @@ describe('Field errors and messages', () => {
     expect(wrapper.text()).toContain('We never share it')
   })
 
-  it('renders error text as text unless html is set', () => {
-    const payload = '<img src=x onerror="alert(1)">Bad'
-    const text = mount(FieldInput, { props: { name: 'a', error: payload } })
-    expect(text.find('img').exists()).toBe(false)
-    expect(text.get('[role="alert"]').text()).toBe(payload)
-
-    const html = mount(FieldInput, { props: { name: 'a', error: '<strong>Bad</strong>', html: true } })
-    expect(html.get('[role="alert"] strong').text()).toBe('Bad')
+  it('renders the error and message as HTML', () => {
+    const wrapper = mount(FieldInput, { props: { name: 'a', error: '<strong>Bad</strong>', message: 'See <a href="#help">help</a>' } })
+    expect(wrapper.get('[role="alert"] strong').text()).toBe('Bad')
+    expect(wrapper.get('a[href="#help"]').text()).toBe('help')
   })
 
-  it('lets a standalone FieldError opt into html', () => {
-    const wrapper = mount(FieldError, { props: { message: '<em>x</em>', html: true } })
+  it('renders a standalone FieldError as HTML', () => {
+    const wrapper = mount(FieldError, { props: { message: '<em>x</em>' } })
     expect(wrapper.find('em').exists()).toBe(true)
   })
 

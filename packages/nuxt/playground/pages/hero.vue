@@ -10,7 +10,6 @@
             </p>
             
             <FyrstHeroLead
-                html
                 headline="Welcome to <mark>Fyrst</mark> UI"
                 description="A modern, type-safe design system built with Vue 3 and PandaCSS. Create beautiful interfaces with confidence."
             >
@@ -54,7 +53,6 @@
             
             <FyrstHeroLead
                 size="lg"
-                html
                 headline="Build <strong>Amazing</strong> Products"
                 description="The complete design system for modern web applications. Fully responsive, theme-aware, and built with developer experience in mind."
             >
@@ -78,7 +76,6 @@
             
             <FyrstHeroLead
                 align-items="center"
-                html
                 headline="Centered <mark>Hero</mark> Section"
                 description="Perfect for landing pages and marketing content where you want to draw attention to the center."
             >
@@ -122,7 +119,6 @@
             
             <FyrstHeroLead
                 headline-tag="h2"
-                html
                 headline="Semantic <mark>HTML</mark> Structure"
                 description="Control the headline tag for proper document structure and accessibility."
             >
@@ -195,7 +191,6 @@
                     <FyrstHeroLead
                         size="sm"
                         align-items="center"
-                        html
                         headline="Featured <strong>Announcement</strong>"
                         description="Important updates and news about our platform. Stay informed about the latest features and improvements."
                     >
@@ -230,7 +225,6 @@
                 <FyrstHeroLead
                     size="lg"
                     align-items="center"
-                    html
                     headline="Transform Your <mark>Development</mark> Experience"
                     description="Join thousands of developers building better products with our design system. Fast, flexible, and fully customizable."
                 >
@@ -254,7 +248,6 @@
             </p>
             
             <FyrstHeroLead
-                html
                 headline="Ready to <strong>Get Started</strong>?"
                 description="Choose the plan that's right for you and start building amazing products today."
             >

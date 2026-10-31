@@ -95,9 +95,7 @@ describe('Flyout', () => {
     expect(flyout.get('button').attributes('aria-expanded')).toBe('false')
   })
 
-  it('renders the label as text unless html is set', () => {
-    expect(mountFlyout({ label: 'A <b>B</b>' }).find('b').exists()).toBe(false)
-    wrapper?.unmount()
-    expect(mountFlyout({ label: 'A <b>B</b>', html: true }).find('b').exists()).toBe(true)
+  it('renders the label as HTML', () => {
+    expect(mountFlyout({ label: 'A <b>B</b>' }).find('b').exists()).toBe(true)
   })
 })

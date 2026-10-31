@@ -18,13 +18,10 @@ const props = withDefaults(defineProps<{
   id?: string
   error?: string | null
   message?: string | null
-  /** Render `message` and `error` as HTML. Pass trusted strings only. */
-  html?: boolean
   class?: unknown
 }>(), {
   error: null,
   message: null,
-  html: false,
 })
 
 const autoId = useId()
@@ -37,7 +34,6 @@ provide(fieldContextKey, {
   hasError: computed(() => !!props.error),
   errorMessage: computed(() => props.error ?? null),
   message: computed(() => props.message ?? null),
-  html: computed(() => props.html),
 })
 
 const classes = fieldStyles()

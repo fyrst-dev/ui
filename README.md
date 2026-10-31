@@ -115,13 +115,9 @@ The component merges the override into its own style object before generating cl
 
 ## Text and HTML content
 
-Content props (`label`, `title`, `headline`, `description`, list and accordion items, field `message` and `error`) render as **text**. To render a trusted string as HTML, set `html` on the component:
+Content props render as **HTML** (`v-html`): `Button` `label`, `CardHeader` `title` / `subtitle`, `HeroLead` `headline` / `description`, list items and `PricingCard` features, accordion item `title` / `content`, tab labels, `FlyoutRoot` `label`, and field `message` / `error`. Markup such as `Build <mark>faster</mark>` works as written.
 
-```vue
-<FyrstHeroLead html headline="Build <mark>faster</mark>" />
-```
-
-Never pass user input, server error messages, or translated strings you do not control with `html`.
+The library does not sanitize these strings. **The app is responsible**: sanitize anything that can contain user input, server responses (including validation messages), CMS content, or external translations before passing it, for example with [DOMPurify](https://github.com/cure53/DOMPurify). Where a component has a slot for the same content (`CardHeader` `#title` / `#subtitle`, `HeroLead` `#headline` / `#description`, `AccordionRoot` `#content`, `ListItem` and `TabItem` default slots, `FlyoutRoot` `#trigger-label`), text passed through the slot is escaped by Vue. `Button` `label`, accordion item `title`, and field `message` / `error` have no slot; sanitize those strings.
 
 ## Component names
 

@@ -20,13 +20,12 @@
                 Accordion with Rich Content
             </h2>
             <p :class="css({ marginBottom: 'lg', color: 'grey.300', _light: { color: 'grey.700' } })">
-                With <code>html</code>, item titles and content render as HTML. Only pass trusted strings.
+                Accordion items can contain HTML content for more complex layouts.
             </p>
             
             <FyrstAccordionRoot 
                 orientation="horizontal"
                 :items="richContentItems"
-                html
                  />
         </div>
 

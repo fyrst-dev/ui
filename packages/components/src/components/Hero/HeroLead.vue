@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { heroLeadStyles } from './styles'
-import RichText from '../../internal/RichText.vue'
 import { withCss, type CssMap } from '../../internal/css'
 
 export type HeroLeadCss = CssMap<'root' | 'headline' | 'description'>
@@ -10,8 +9,6 @@ export interface Props {
   headline?: string
   headlineTag?: string
   description?: string
-  /** Render `headline` and `description` as HTML. Pass trusted strings only. */
-  html?: boolean
   alignItems?: 'start' | 'center' | 'end'
   alignSelf?: 'start' | 'center' | 'end'
   size?: 'sm' | 'md' | 'lg'
@@ -44,19 +41,16 @@ const styles = computed(() => heroLeadStyles.raw({
         v-if="headline"
         :class="withCss(styles.headline, props.css?.headline)"
       >
-        <RichText
-          :text="headline"
-          :html="html"
+        <span
+          v-html="headline"
         />
       </component>
     </slot>
     <slot name="description">
-      <RichText
+      <div
         v-if="description"
-        as="div"
         :class="withCss(styles.description, props.css?.description)"
-        :text="description"
-        :html="html"
+        v-html="description"
       />
     </slot>
     <slot name="actions" />

@@ -6,9 +6,9 @@ import type { CssMap } from '../../internal/css'
 export interface AccordionItem {
   /** Unique identifier for the accordion item */
   id: string
-  /** Title text. HTML only when the accordion sets `html`. */
+  /** Title for the accordion item (supports HTML) */
   title: string
-  /** Content text. HTML only when the accordion sets `html`. */
+  /** Content for the accordion item (supports HTML) */
   content: string
   /** Optional icon identifier for the accordion item */
   icon?: string

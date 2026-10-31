@@ -8,8 +8,6 @@ export type FieldContext = {
   hasError: ComputedRef<boolean>
   errorMessage: ComputedRef<string | null>
   message: ComputedRef<string | null>
-  /** Render the message and error as HTML (trusted strings only). */
-  html: ComputedRef<boolean>
 }
 
 export const fieldContextKey: InjectionKey<FieldContext> = createInjectionKey<FieldContext>('fieldContext')

@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot as AccordionPrimitive, AccordionTrigger } from 'reka-ui'
 import { accordionStyles } from './styles'
-import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
 import type { AccordionCss, AccordionItem as AccordionItemData } from './types'
 
@@ -11,8 +10,6 @@ const props = withDefaults(defineProps<{
   orientation?: 'vertical' | 'horizontal'
   size?: 'md' | 'lg'
   items: AccordionItemData[]
-  /** Render item `title` and `content` as HTML. Pass trusted strings only. */
-  html?: boolean
   css?: AccordionCss
 }>(), {
   type: 'multiple',
@@ -50,10 +47,9 @@ const styles = computed(() => accordionStyles.raw({
               aria-hidden="true"
             />
           </slot>
-          <RichText
+          <span
             :class="withCss(styles.title, props.css?.title)"
-            :text="item.title"
-            :html="html"
+            v-html="item.title"
           />
           <span
             :class="['icon icon-caret-down-bold', withCss(styles.indicator, props.css?.indicator)]"
@@ -68,10 +64,8 @@ const styles = computed(() => accordionStyles.raw({
           name="content"
           :item="item"
         >
-          <RichText
-            as="div"
-            :text="item.content"
-            :html="html"
+          <div
+            v-html="item.content"
           />
         </slot>
       </AccordionContent>

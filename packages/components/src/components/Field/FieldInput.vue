@@ -29,7 +29,6 @@ const model = defineModel<string | null>()
     :id="id || undefined"
     :error="error"
     :message="message"
-    :html="html"
   >
     <FieldLabel
       v-if="label"

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
 import { listStyles } from './styles'
-import RichText from '../../internal/RichText.vue'
 import { withCss } from '../../internal/css'
 import { ListContextKey, type ListItemCss, type ListSize, type ListState } from './types'
 
@@ -11,20 +10,15 @@ export interface ListItemProps {
   state?: ListState
   /** Icon name, `false` for no icon, `true`/unset for the state's default icon. */
   icon?: string | boolean
-  /** Render `content` as HTML. Pass trusted strings only. */
-  html?: boolean
   css?: ListItemCss
 }
 
-const props = withDefaults(defineProps<ListItemProps>(), {
-  html: undefined,
-})
+const props = defineProps<ListItemProps>()
 
 const list = inject(ListContextKey, null)
 
 const size = computed(() => props.size ?? list?.value.size ?? 'md')
 const state = computed(() => props.state ?? list?.value.state ?? 'default')
-const html = computed(() => props.html ?? list?.value.html ?? false)
 
 const styles = computed(() => listStyles.raw({ size: size.value, state: state.value }))
 
@@ -55,11 +49,9 @@ const icon = computed(() => {
       </span>
     </slot>
     <slot>
-      <RichText
+      <div
         v-if="props.content"
-        as="div"
-        :text="props.content"
-        :html="html"
+        v-html="props.content"
       />
     </slot>
   </li>

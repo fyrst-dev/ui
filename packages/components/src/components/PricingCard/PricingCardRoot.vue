@@ -27,7 +27,6 @@ provide(PricingCardDataKey, computed(() => ({
   features: props.features,
   featuresState: props.featuresState,
   featuresSize: props.featuresSize,
-  html: props.html,
 })))
 </script>
 

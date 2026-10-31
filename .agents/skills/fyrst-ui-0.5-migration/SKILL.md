@@ -5,9 +5,7 @@ description: >-
   app bumps @fyrst/ui to 0.5, or still uses any of: classRoot / classIcon /
   classContent / classClose (AlertRoot, CardRoot), :classes on AccordionRoot,
   classWrapper / classCarousel (CarouselRoot), classTrigger (FlyoutRoot),
-  CardRoot borderColor, HTML inside label / title / headline / description /
-  message / error / list or accordion item strings, useFormData(...).jsonData /
-  .formData, useCarousel(props, el, slots), inject('handleNext') or other
+  CardRoot borderColor, useFormData(...).jsonData / .formData, useCarousel(props, el, slots), inject('handleNext') or other
   carousel string keys, Flyout #trigger / #dropdown slots, the flyout-enter /
   flyout-leave transition classes, or SwitchCssMap / ProgressCssMap /
   SwitchStyles / ProgressStyles / ListStyles / PricingCardStyles types.
@@ -23,8 +21,8 @@ Work through the sections in order. Each one says how to find affected code, wha
 
 ## Sources
 
-- Repo `CHANGELOG.md`, section `[0.5.0]`, and `changelog/2026-10-31-0.5.0-safe-content-and-overrides.md`.
-- Root `README.md`: "Styling components" and "Text and HTML content".
+- Repo `CHANGELOG.md`, section `[0.5.0]`, and `changelog/2026-10-31-0.5.0-overrides-and-cleanup.md`.
+- Root `README.md`: "Styling components".
 - Panda: [Consume with Panda](https://panda-css.com/docs/design-systems/consume-with-panda), [`cva` / `sva`](https://panda-css.com/docs/concepts/recipes).
 
 Do not invent `@fyrst/ui` props. If this skill and the installed package's `.d.ts` disagree, the `.d.ts` wins. Read them under `node_modules/@fyrst/ui/dist/`.
@@ -32,7 +30,6 @@ Do not invent `@fyrst/ui` props. If this skill and the installed package's `.d.t
 ## Hard rules
 
 - Keep `designSystem: '@fyrst/ui'` in every `panda.config.*`. Do not add a fyrst preset to `presets`, do not `include` the package, and do not add `@pandacss/preset-base`.
-- Do **not** add `html` to silence a diff. Add it only where the string is authored by the app team and is meant to contain markup. Never for user input, API or server error text, CMS fields you do not sanitize, or translations from an external service.
 - Every value in a component `css` prop goes through `css.raw()` from the app's own `styled-system/css`. A bare object compiles and type-checks but produces **no CSS**.
 - Do not re-declare `@fyrst/ui` component styles (`cva`, `sva`, copied style objects) in the app. Use the `css` prop (section 3).
 - Public-repo hygiene: no customer names, client domains, or screenshots of customer UIs in commits or PRs.
@@ -41,7 +38,6 @@ Do not invent `@fyrst/ui` props. If this skill and the installed package's `.d.t
 
 | Area | 0.4.x | 0.5.x |
 | --- | --- | --- |
-| Content props | Rendered with `v-html` | Rendered as **text**. `html` prop opts into HTML |
 | Style overrides | `classRoot`, `classIcon`, `classContent`, `classClose`, `classes`, `classWrapper`, `classCarousel`, `classTrigger`, plus `css` on some components | One `css` prop on every component, keyed by slot (`root` = outermost element) |
 | Component CSS | Atomic classes from `cva` / `sva` | Still atomic `cva` / `sva`. Some color classes change where a semantic token replaced a `_light` override (section 4) |
 | Override precedence | `css` merged into the style object; `class*` props appended as extra classes and could lose | Every `css` slot is merged into the style object: one class per property, the override wins |
@@ -75,48 +71,13 @@ panda codegen --clean
 
 If the app pins `reka-ui` below `2.6.0`, raise it. `vue`, `nuxt`, and `@pandacss/dev` ranges from 0.4.x still satisfy the peers.
 
-## 2. Content props: text by default, `html` to opt in
+## 2. Content props: no change
 
-**Find.** Every place a content prop may carry markup. Search templates and the data that feeds them:
+Content props still render as HTML (`v-html`), as in 0.4.x: `Button` `label`, `CardHeader` `title` / `subtitle`, `HeroLead` `headline` / `description`, list items and `PricingCard` features, accordion items, tab labels, `FlyoutRoot` `label`, and field `message` / `error`. There is no `html` prop. Nothing to migrate.
 
-```bash
-rg -n --type-add 'vue:*.vue' -t vue -t ts -t js \
-  -e '<(Fyrst)?(Button|HeroLead|CardHeader|CardRoot|ListRoot|ListItem|AccordionRoot|TabRoot|TabItem|FlyoutRoot|Field[A-Z]\w*|PricingCard\w*)\b' \
-  -e '(Button|Hero\.Lead|Card\.(Root|Header)|List\.(Root|Item)|Accordion\.Root|Tab\.(Root|Item)|Flyout\.Root|Field\.\w+|PricingCard\.\w+)\b'
-rg -n "<(b|strong|em|i|mark|code|br|a|span|small|sup|sub)\b|&[a-z]+;|&#" -g '*.vue' -g '*.ts' -g '*.js' -g '*.json' -g '*.yml' -g '*.yaml'
-```
+Sanitizing those strings is the app's job (README "Text and HTML content"). If the upgrade is a chance to check, look for props fed from user input, server responses (validation messages), CMS content, or external translations, and sanitize them, or pass them through the component's slot where one exists (see the README). Do not change these call sites as part of the 0.5 migration unless the app asks for it.
 
-Props that changed:
-
-| Component | Props |
-| --- | --- |
-| `Button` | `label` |
-| `CardHeader` (and `CardRoot` `header` object) | `title`, `subtitle` |
-| `HeroLead` | `headline`, `description` |
-| `ListRoot` / `ListItem` | item `content` |
-| `PricingCardRoot` / `PricingCardBody` | `features` |
-| `AccordionRoot` | item `title`, `content` |
-| `TabRoot` / `TabItem` | item `label` |
-| `FlyoutRoot` | `label` |
-| `FieldBase`, every `Field*`, `FieldMessage`, `FieldError` | `message`, `error` |
-
-**Decide per string.**
-
-- Plain text that happened to go through `v-html` (most labels): no change. If the string contained entities such as `&amp;` or `&nbsp;`, replace them with the literal characters, or they now show as typed.
-- App-authored markup (`'Build <mark>faster</mark>'`): add `html`:
-
-  ```vue
-  <!-- before -->
-  <FyrstHeroLead headline="Build <mark>faster</mark>" />
-  <!-- after -->
-  <FyrstHeroLead html headline="Build <mark>faster</mark>" />
-  ```
-
-  `html` sits on the component that owns the copy: `AccordionRoot`, `ListRoot`, `TabRoot` (all items), `ListItem` / `TabItem` (one item; an item's own `html` wins), `CardHeader`, `HeroLead`, `Button`, `FlyoutRoot`, `PricingCardRoot` or `PricingCardBody`, and `Field*` / `FieldBase` (message and error). A `TabRoot` / `ListRoot` item object can carry `html: true` / `false` itself.
-- Markup built from data you do not control (server validation messages, user names, CMS text): **keep it as text**. If the design needs formatting, use the component's slot (`#title`, `#content`, `#label`, `#description`, …) and render Vue nodes.
-- Field `error` / `message` from a backend: leave `html` off. That was an XSS path in 0.4.x.
-
-**Check.** Pages with markup render it; no visible `<mark>` / `&amp;` text appears; `rg -n ' html\b' -g '*.vue'` lists only app-authored strings.
+The one visible change: `Button`'s `title` attribute is now the label without tags (it showed raw markup before).
 
 ## 3. Style overrides: one `css` prop, values through `css.raw()`
 
@@ -322,7 +283,6 @@ rg -n -B2 -A2 'border-color=|borderColor' -g '*.vue' | rg -i 'card'
 ## 9. Behavior and visual notes (check, usually no code change)
 
 - `Button` with `to` and `disabled` renders `<a role="link" aria-disabled="true">` **without `href`**. It no longer navigates. Tests that expected an `href` on a disabled link need updating.
-- `Button` `title`: with `html`, tags are stripped.
 - `ListItem` `size` / `state` / `icon` now win over `ListRoot` (0.4.x ignored them inside a root).
 - `FieldError` dropped `aria-live` (it keeps `role="alert"`). `FieldRequired` is `aria-hidden`; `required` on the control already announces it.
 - `Loader` dropped `aria-live` (it keeps `role="status"`).
@@ -347,18 +307,17 @@ rg -c 'd_inline_flex' /tmp/fyrst-check.css   # > 0: component styles reach the a
 
 Then check by hand, in light and dark:
 
-1. Pages that used `html` content: markup renders; nothing shows literal tags or entities.
+1. Content with markup still renders as before.
 2. Every element with a `css` override: the override applies. If it does not, the value is missing `css.raw()`.
 3. Flyouts: hover, click, click-while-hovered (stays open), Escape, outside click, keyboard (Tab to trigger, Enter, Escape returns focus).
 4. Carousels: page scroll over the carousel works; buttons move; `wheel-navigation` only where intended.
-5. Forms: errors render as text, inputs get `aria-invalid="true"`, helper text is linked through `aria-describedby`.
+5. Forms: inputs with an error get `aria-invalid="true"`, and the error and helper text are linked through `aria-describedby`.
 6. CSP / SSR: server HTML from `@fyrst/ui` components has no `style=""` attributes.
 
 # Common errors and fixes
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| Literal `<mark>` / `<b>` / `&amp;` shows in a heading, button, list, or tab | Content is text by default | Add `html` for app-authored markup, or use the slot. Replace entities with characters |
 | Override has no effect | Bare object in `css`, or old `class*` prop name | `css.raw()`, new slot key (section 3) |
 | TS error: `Property 'classRoot' does not exist` / `'classes'` / `'classWrapper'` / `'classTrigger'` / `'borderColor'` | Removed props | Section 3 / 8 |
 | TS error: `Expected 2 arguments, but got 3` on `useCarousel` | `slots` argument removed | Section 5 |
@@ -373,8 +332,6 @@ Then check by hand, in light and dark:
 
 # Do not
 
-- Do not add `html` to every component "to keep the old behavior". Decide per string.
-- Do not pass server or user-controlled strings with `html`.
 - Do not pass bare objects to `css`.
 - Do not copy `@fyrst/ui` `cva` / `sva` definitions into the app; use the `css` prop.
 - Do not pin `@fyrst/ui` to 0.4.x "for now" while other packages in the same app use 0.5.x; the design-system manifest is per install.
